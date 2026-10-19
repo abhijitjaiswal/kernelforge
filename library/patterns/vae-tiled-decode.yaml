@@ -1,0 +1,14 @@
+id: vae-tiled-decode
+kind: memory-tiling
+numerics_changing: true
+tier: A
+matches:
+  graph: "conv decoder (resnet + upsample + optional mid-block attention) applied to a large spatial latent"
+preconditions:
+  - decoder is mostly local (convolutions); global ops (attention, group-norm statistics) break exact tiling
+rewrite: "decode overlapping latent tiles and blend the seams"
+justification: "approximate: group norm statistics and attention become per-tile, so output changes"
+results:
+  - {model: flux2-klein-4b, hw: apple_m5_8gpu_16gb, impl: "mflux TilingConfig defaults", vae_peak_gb: "9.5 -> 2.5", vae_s: "2.0 -> 2.6", psnr_db: 26.5, max_abs: 55, exps: [exp-006, exp-008, exp-010], lpips: pending}
+failure_cases:
+  - "global statistics shift tones (user reports slightly lighter/hazier output)"

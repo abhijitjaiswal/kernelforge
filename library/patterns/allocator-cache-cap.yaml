@@ -1,0 +1,14 @@
+id: allocator-cache-cap
+kind: memory-runtime
+numerics_changing: false
+tier: E
+matches:
+  graph: "any workload whose allocation sizes change across stages (freed buffers pile up in the framework cache)"
+preconditions:
+  - framework keeps freed device buffers for reuse (MLX buffer cache, PyTorch caching allocator)
+rewrite: "set the cache limit (MLX: mx.set_cache_limit) to a small bound; buffers above it return to the OS"
+justification: "allocator policy only; the computation is untouched"
+results:
+  - {model: flux2-klein-4b, hw: apple_m5_8gpu_16gb, cap_gb: 0.5, footprint_gb: "11.54 -> 10.26", time_s: "19.5 -> 19.6", error: identical, exps: [exp-007, exp-009]}
+failure_cases:
+  - "possible slowdown when the same large shapes are reallocated every step (not observed here)"

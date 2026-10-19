@@ -1,0 +1,18 @@
+id: lifecycle-free-after-last-use
+kind: scheduling
+numerics_changing: false
+tier: E
+matches:
+  # pipeline-level: a sequence of stages, each owning a weight set, where a stage's weights are not read after it ends
+  graph: "stage_i(weights_i) -> ... ; no reads of weights_i after stage_i"
+preconditions:
+  - stage outputs (e.g. embeddings) are materialized before the weights are released
+  - weights are lazily loaded (mmap) so a later stage never forces earlier weights resident
+rewrite: "release weights_i (drop refs, clear allocator cache) immediately after stage_i's last use"
+justification: "pure scheduling; identical ops in identical order, so outputs are bit-identical"
+results:
+  - {model: flux2-klein-4b, hw: apple_m5_8gpu_16gb, change: "free text encoder", mlx_peak_gb: "15.99 -> 9.51", footprint_gb: "14.12 -> 12.65", error: identical, exps: [exp-002, exp-001]}
+  - {model: flux2-klein-4b, hw: apple_m5_8gpu_16gb, change: "+ free transformer before VAE", mlx_peak_gb: "9.49 -> 9.49", footprint_gb: "11.92 -> 11.70", error: identical, exps: [exp-005, exp-006], note: "no gain: the decoder's activations dominate the peak"}
+failure_cases:
+  - "no benefit when the later stage's activations exceed the freed weights (Klein VAE decode)"
+  - "loses reuse when the same pipeline serves many requests: reload cost per image"
