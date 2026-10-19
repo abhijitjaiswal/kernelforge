@@ -17,6 +17,7 @@ opts:
              "staged"     free_te + drop the transformer before VAE decode (one image per process)
   tile_vae   bool         mflux TilingConfig() decode
   mem_limit_gb float|None mx.set_memory_limit (simulated smaller machine)
+  cache_limit_gb float|None mx.set_cache_limit (bounds MLX's freed-buffer cache, which macOS counts)
 """
 
 import gc
@@ -53,7 +54,10 @@ class Adapter:
     model_id = MODEL_ID
 
     def __init__(self, opts: dict):
-        self.opts = dict(weights="q8", quantize=None, lifecycle="stock", tile_vae=False, mem_limit_gb=None) | opts
+        self.opts = dict(weights="q8", quantize=None, lifecycle="stock", tile_vae=False, mem_limit_gb=None,
+                         cache_limit_gb=None) | opts
+        if self.opts["cache_limit_gb"] is not None:
+            mx.set_cache_limit(int(self.opts["cache_limit_gb"] * 1024**3))
         if self.opts["mem_limit_gb"]:
             mx.set_memory_limit(int(self.opts["mem_limit_gb"] * 1024**3))
         path = WEIGHT_PATHS[self.opts["weights"]]
