@@ -18,6 +18,8 @@ opts:
   tile_vae   bool         mflux TilingConfig() decode
   mem_limit_gb float|None mx.set_memory_limit (simulated smaller machine)
   cache_limit_gb float|None mx.set_cache_limit (bounds MLX's freed-buffer cache, which macOS counts)
+  vae_impl   "stock" | "barriers" | "chunked"   exact low-memory decode (vae_chunked.py)
+  vae_rows   int                                row chunk for vae_impl=chunked (default 128)
 """
 
 import gc
@@ -55,7 +57,7 @@ class Adapter:
 
     def __init__(self, opts: dict):
         self.opts = dict(weights="q8", quantize=None, lifecycle="stock", tile_vae=False, mem_limit_gb=None,
-                         cache_limit_gb=None) | opts
+                         cache_limit_gb=None, vae_impl="stock", vae_rows=128) | opts
         if self.opts["cache_limit_gb"] is not None:
             mx.set_cache_limit(int(self.opts["cache_limit_gb"] * 1024**3))
         if self.opts["mem_limit_gb"]:
@@ -76,6 +78,10 @@ class Adapter:
             self.model.tiling_config = TilingConfig()
         self._orig_encode = self.model._encode_prompt_pair
         self._orig_decode = self.model.vae.decode_packed_latents
+        if self.opts["vae_impl"] != "stock":
+            from adapters.flux2_klein.vae_chunked import decode_packed
+            vo = {"mode": self.opts["vae_impl"], "rows": self.opts["vae_rows"]}
+            self._orig_decode = lambda packed, tiling_config=None: decode_packed(self.model.vae, packed, vo)
         self.model._encode_prompt_pair = self._timed_encode
         self.model.vae.decode_packed_latents = self._timed_decode
         self._cache = {}

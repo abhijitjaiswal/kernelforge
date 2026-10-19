@@ -60,6 +60,7 @@ def main():
     ap.add_argument("--impl-opts", default="{}")
     ap.add_argument("--runs", type=int, default=3)
     ap.add_argument("--ref")
+    ap.add_argument("--prompt", default="p1")
     ap.add_argument("--cache-limit-gb", type=float, default=0.5)
     a = ap.parse_args()
     out = ROOT / "runs" / a.exp
@@ -83,7 +84,7 @@ def main():
     else:
         from adapters.flux2_klein.vae_chunked import decode_chunked
         opts = json.loads(a.impl_opts)
-        fn = (lambda z: vae.decoder(z)) if a.impl == "stock" else (lambda z: decode_chunked(vae.decoder, z, **opts))
+        fn = (lambda z: vae.decoder(z)) if a.impl == "stock" else (lambda z: decode_chunked(vae.decoder, z, mode=a.impl, **opts))
         mx.eval(fn(x))  # warm-up
         times, peaks = [], []
         for _ in range(a.runs):
@@ -98,11 +99,15 @@ def main():
                    weights_gb=sum(v.nbytes for _, v in __import__("mlx.utils").utils.tree_flatten(vae.parameters())) / G)
         img = to_image(dec)
     from PIL import Image
-    Image.fromarray(img).save(out / "p1.png")
+    pid = a.prompt
+    Image.fromarray(img).save(out / f"{pid}.png")
+    res["config"] = {"prompt_ids": [pid], "weights": a.weights, "cache_limit_gb": a.cache_limit_gb, "vae_impl": a.impl, **json.loads(a.impl_opts)}
+    res["ref"] = a.ref
     if a.ref:
         from bench.verify import compare
-        res["verify"] = {"p1": compare(img, np.asarray(Image.open(ROOT / a.ref / "p1.png").convert("RGB")), str(out / "p1_diff.png"))}
-        res["psnr_db_vs_baseline"] = res["verify"]["p1"]["psnr_db"]
+        res["verify"] = {pid: compare(img, np.asarray(Image.open(ROOT / a.ref / f"{pid}.png").convert("RGB")), str(out / f"{pid}_diff.png"))}
+        res["psnr_db_vs_baseline"] = res["verify"][pid]["psnr_db"]
+        res["max_abs_pixel_diff"] = res["verify"][pid]["max_abs_pixel_diff"]
     (out / "result.json").write_text(json.dumps(res, indent=2, default=str))
     summ = {k: res.get(k) for k in ("exp_id", "e2e", "time_s_median", "peak_mlx_gb", "psnr_db_vs_baseline")}
     print(json.dumps(summ, default=str))
