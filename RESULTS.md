@@ -1,5 +1,35 @@
 # RESULTS (newest first)
 
+## Summary
+
+<!-- summary:start -->
+Speedup vs **exp-011-bf16** = 18.92 s (median of 3). *memory-only* = swap grew, so the timing is invalid. PSNR is against the run's own quality reference (`=` means bit-identical). Stage-bench and VAE-only runs have no end-to-end total.
+
+| Exp | Config | Cache cap | Quality ref | Total s | Speedup | MLX peak GB | OS peak GB | PSNR dB per prompt | Swap |
+|---|---|---|---|---|---|---|---|---|---|
+| exp-000-smoke | q8 · free_te | none | – | 24.85 | memory-only | 9.49 | 12.40 | – | grew |
+| exp-001 | q8 · free_te | none | – | 25.42 | memory-only | 9.51 | 12.65 | – | grew |
+| exp-002 | q8 · stock | none | q8_free_te | 26.61 | memory-only | 15.99 | 14.12 | p1 = · p2 = · p3 = | grew |
+| exp-003 | bf16 · free_te | none | q8_free_te | 26.67 | memory-only | 9.51 | 12.32 | p1 29.4 · p2 27.5 · p3 20.7 | grew |
+| exp-004 | q8 · free_te · tiled VAE | none | q8_free_te | 39.70 | memory-only | 5.30 | 11.90 | p1 26.5 · p2 26.3 · p3 27.1 | grew |
+| exp-005 | q8 · free_te | none | q8_free_te | 21.65 | memory-only | 9.49 | 11.92 | p1 = | grew |
+| exp-006 | q8 · staged | none | q8_free_te | 20.88 | memory-only | 9.49 | 11.70 | p1 = | grew |
+| exp-007 | bf16 · staged | none | bf16_free_te | 19.50 | 0.97× | 9.49 | 11.54 | p1 = | flat |
+| exp-008 | q8 · staged · tiled VAE | none | q8_free_te | 21.10 | 0.90× | 5.19 | 8.71 | p1 26.5 | flat |
+| exp-009 | bf16 · staged | 0.5 GB | bf16_free_te | 19.57 | 0.97× | 9.49 | 10.26 | p1 = | flat |
+| exp-010 | q8 · staged · tiled VAE | 0.5 GB | q8_free_te | 20.66 | 0.92× | 5.19 | 6.04 | p1 26.5 | flat |
+| exp-011-bf16-1 | bf16 · staged | 0.5 GB | bf16_free_te | 19.20 | 0.99× | 9.49 | 10.08 | p1 = | flat |
+| exp-011-bf16-2 | bf16 · staged | 0.5 GB | bf16_free_te | 18.86 | 1.00× | 9.49 | 10.24 | p1 = | flat |
+| exp-011-bf16-3 | bf16 · staged | 0.5 GB | bf16_free_te | 18.92 | 1.00× | 9.49 | 9.74 | p1 = | flat |
+| exp-011-q8-1 | q8 · staged | 0.5 GB | q8_free_te | 20.02 | 0.95× | 9.49 | 9.80 | p1 = | flat |
+| exp-011-q8-2 | q8 · staged | 0.5 GB | q8_free_te | 20.00 | 0.95× | 9.49 | 9.80 | p1 = | flat |
+| exp-011-q8-3 | q8 · staged | 0.5 GB | q8_free_te | 20.04 | 0.94× | 9.49 | 9.80 | p1 = | flat |
+| exp-012-smoke | bf16 · staged | 0.5 GB | bf16_free_te | – | memory-only | – | 10.82 | p1 = | grew |
+| exp-014 | bf16 | none | – | – | – | – | – | p1 = | – |
+<!-- summary:end -->
+
+## Log
+
 ### exp-011-q8-3: A/B round 3: q8 staged, cache cap 0.5 GB
 - total 20.04 s (denoise 17.42, VAE 2.09, text 0.49); peak footprint 9.799 GB, MLX peak 9.492 GB; swap grew: False
 - vs exp-011-bf16-3: 0.9445x speed, -0.0059 memory reduction

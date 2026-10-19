@@ -82,6 +82,7 @@ def main():
     from PIL import Image
 
     from bench.memtrace import MemTrace
+    from bench.power import Power, thermal_now
     from bench.verify import compare
 
     prompts_all = json.loads((ROOT / "bench" / "prompts.json").read_text())
@@ -92,6 +93,8 @@ def main():
     started = datetime.now(timezone.utc).isoformat(timespec="seconds")
     print(f"[bench] {a.exp} adapter={a.adapter} opts={opts}", flush=True)
 
+    thermal_start = thermal_now()
+    power = Power(out / "power.txt").start()
     trace = MemTrace().start()
     trace.mark("load")
     Adapter = importlib.import_module(f"adapters.{a.adapter}.pipeline").Adapter
@@ -129,6 +132,11 @@ def main():
     trace.mark("done")
     trace.stop()
     trace.dump(out / "memtrace.json")
+    power.stop()
+    psum = power.summary()
+    (out / "power.json").write_text(json.dumps(psum))
+    psum.pop("series", None)
+    psum["thermal_at_start"] = thermal_start
 
     with open(out / "per_run.jsonl", "w") as f:
         for rec in per_run:
@@ -177,6 +185,7 @@ def main():
         "swap_grew": (swap1 or 0) - (swap0 or 0) > 32,
         "deterministic_across_runs": all(v["deterministic"] for v in per_prompt.values()),
         "memtrace": trace.summary(),
+        "power": psum,
         "ref": a.ref,
         "verify": verify,
         "psnr_db_vs_baseline": min(psnrs) if psnrs else None,

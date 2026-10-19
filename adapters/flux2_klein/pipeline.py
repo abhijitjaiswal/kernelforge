@@ -178,3 +178,89 @@ class Adapter:
 def _flat(tree):
     from mlx.utils import tree_flatten
     return tree_flatten(tree)
+
+
+# --- stage plan for bench/stages.py (load vs warm compute) ------------------------------------
+class _Stage:
+    steps = 0
+
+    def __init__(self, name, ad, component):
+        self.name, self.ad, self.component = name, ad, component
+
+    def load(self):
+        mx.eval(getattr(self.ad.model, self.component).parameters())
+
+    def reset(self, ctx):
+        pass
+
+    def free(self, ctx):
+        setattr(self.ad.model, self.component, None)
+        gc.collect()
+        mx.clear_cache()
+
+
+class _Encode(_Stage):
+    def run(self, ctx):
+        out = self.ad._orig_encode(prompt=ctx["prompt"], negative_prompt=" ", guidance=DEFAULTS["guidance"])
+        ctx["prompt_embeds"], ctx["text_ids"] = out[0], out[1]
+        return [out[0], out[1]]
+
+
+class _Denoise(_Stage):
+    def __init__(self, *a, n_steps):
+        super().__init__(*a)
+        self.steps = n_steps
+
+    def reset(self, ctx):
+        from mflux.models.common.config.config import Config
+
+        m = self.ad.model
+        ctx["config"] = Config(model_config=m.model_config, num_inference_steps=self.steps, height=ctx["res"],
+                               width=ctx["res"], guidance=DEFAULTS["guidance"], image_path=None, image_strength=None,
+                               scheduler="flow_match_euler_discrete")
+        ctx["latents"], ctx["latent_ids"], ctx["lh"], ctx["lw"] = m._prepare_generation_latents(seed=ctx["seed"], config=ctx["config"])
+        if "predict" not in ctx:
+            ctx["predict"] = m._predict(m.transformer)  # the same mx.compile'd closure mflux uses
+        mx.eval(ctx["latents"])
+
+    def run_step(self, ctx, i):
+        c = ctx["config"]
+        noise = ctx["predict"](latents=ctx["latents"], latent_ids=ctx["latent_ids"], prompt_embeds=ctx["prompt_embeds"],
+                               text_ids=ctx["text_ids"], negative_prompt_embeds=None, negative_text_ids=None,
+                               guidance=DEFAULTS["guidance"], timestep=c.scheduler.timesteps[i])
+        ctx["latents"] = c.scheduler.step(noise=noise, timestep=i, latents=ctx["latents"], sigmas=c.scheduler.sigmas)
+        return ctx["latents"]
+
+    def run(self, ctx):
+        for i in range(self.steps):
+            mx.eval(self.run_step(ctx, i))
+        return ctx["latents"]
+
+    def free(self, ctx):
+        ctx["final_latents"] = ctx["latents"]
+        ctx.setdefault("_save", {})["latents"] = ctx["latents"]
+        ctx.pop("predict", None)  # the compiled closure holds the transformer
+        super().free(ctx)
+
+
+class _Decode(_Stage):
+    def run(self, ctx):
+        from mflux.utils.image_util import ImageUtil
+
+        lat = ctx["final_latents"]
+        packed = lat.reshape(lat.shape[0], ctx["lh"], ctx["lw"], lat.shape[-1]).transpose(0, 3, 1, 2)
+        decoded = self.ad._orig_decode(packed, tiling_config=self.ad.model.tiling_config)
+        mx.eval(decoded)
+        ctx["image"] = np.array(ImageUtil.to_pil(decoded).convert("RGB"))
+        return decoded
+
+
+def _stage_plan(self, prompt, seed, steps, res):
+    """Text encode -> denoise (timed per step) -> VAE decode; each stage loaded, timed warm, then freed."""
+    self.stage_ctx_init = dict(prompt=prompt, seed=seed, res=res)
+    return [_Encode("text_encode", self, "text_encoder"),
+            _Denoise("denoise", self, "transformer", n_steps=steps),
+            _Decode("vae_decode", self, "vae")]
+
+
+Adapter.stage_plan = _stage_plan

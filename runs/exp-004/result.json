@@ -140,5 +140,7 @@
     "max_rss_gb": 3.411,
     "process_wall_s": 592.37
   },
-  "returncode": 0
+  "returncode": 0,
+  "ref": "baselines/q8_free_te",
+  "ref_backfilled_from": "scripts/phase0.sh"
 }

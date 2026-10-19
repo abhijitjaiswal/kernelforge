@@ -1,0 +1,1637 @@
+{
+  "exp_id": "exp-014",
+  "kind": "vae_profile",
+  "latents": "runs/exp-012-smoke/latents.safetensors",
+  "weights": "bf16",
+  "input_shape": [
+    1,
+    32,
+    128,
+    128
+  ],
+  "mlx_version": "0.32.4",
+  "e2e": {
+    "peak_gb": 9.552989134564996,
+    "delta_gb": 9.3944874368608,
+    "time_s": 2.0546885000076145,
+    "weights_gb": 0.09242296777665615
+  },
+  "records": [
+    {
+      "module": "conv_in",
+      "type": "Flux2ConvIn",
+      "depth": 1,
+      "peak_gb": 0.20882518589496613,
+      "delta_gb": 0.05032348819077015,
+      "out_gb": 0.015625,
+      "out_shape": [
+        1,
+        512,
+        128,
+        128
+      ],
+      "time_s": 0.005684708012267947
+    },
+    {
+      "module": "mid_block.resnets.0.norm1",
+      "type": "GroupNorm",
+      "depth": 3,
+      "peak_gb": 0.2678805198520422,
+      "delta_gb": 0.06250382214784622,
+      "out_gb": 0.03125,
+      "out_shape": [
+        1,
+        128,
+        128,
+        512
+      ],
+      "time_s": 0.004844625014811754
+    },
+    {
+      "module": "mid_block.resnets.0.conv1",
+      "type": "Conv2d",
+      "depth": 3,
+      "peak_gb": 0.3172388821840286,
+      "delta_gb": 0.09623718447983265,
+      "out_gb": 0.015625,
+      "out_shape": [
+        1,
+        128,
+        128,
+        512
+      ],
+      "time_s": 0.005762083979789168
+    },
+    {
+      "module": "mid_block.resnets.0.norm2",
+      "type": "GroupNorm",
+      "depth": 3,
+      "peak_gb": 0.2835055198520422,
+      "delta_gb": 0.06250382214784622,
+      "out_gb": 0.03125,
+      "out_shape": [
+        1,
+        128,
+        128,
+        512
+      ],
+      "time_s": 0.0030775420018471777
+    },
+    {
+      "module": "mid_block.resnets.0.conv2",
+      "type": "Conv2d",
+      "depth": 3,
+      "peak_gb": 0.3172388821840286,
+      "delta_gb": 0.09623718447983265,
+      "out_gb": 0.015625,
+      "out_shape": [
+        1,
+        128,
+        128,
+        512
+      ],
+      "time_s": 0.004094667034223676
+    },
+    {
+      "module": "mid_block.resnets.0",
+      "type": "Flux2ResnetBlock2D",
+      "depth": 2,
+      "peak_gb": 0.3172388821840286,
+      "delta_gb": 0.14311218447983265,
+      "out_gb": 0.015625,
+      "out_shape": [
+        1,
+        512,
+        128,
+        128
+      ],
+      "time_s": 0.022674790991004556
+    },
+    {
+      "module": "mid_block.attentions.0.group_norm",
+      "type": "GroupNorm",
+      "depth": 3,
+      "peak_gb": 0.2835055198520422,
+      "delta_gb": 0.06250382214784622,
+      "out_gb": 0.03125,
+      "out_shape": [
+        1,
+        128,
+        128,
+        512
+      ],
+      "time_s": 0.0030022080172784626
+    },
+    {
+      "module": "mid_block.attentions.0.to_q",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 0.22100169770419598,
+      "delta_gb": -0.015625,
+      "out_gb": 0.015625,
+      "out_shape": [
+        1,
+        128,
+        128,
+        512
+      ],
+      "time_s": 0.001454333949368447
+    },
+    {
+      "module": "mid_block.attentions.0.to_k",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 0.23662669770419598,
+      "delta_gb": 0.015625,
+      "out_gb": 0.015625,
+      "out_shape": [
+        1,
+        128,
+        128,
+        512
+      ],
+      "time_s": 0.001348000019788742
+    },
+    {
+      "module": "mid_block.attentions.0.to_v",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 0.252251697704196,
+      "delta_gb": 0.015625,
+      "out_gb": 0.015625,
+      "out_shape": [
+        1,
+        128,
+        128,
+        512
+      ],
+      "time_s": 0.0013733749510720372
+    },
+    {
+      "module": "mid_block.attentions.0.to_out",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 0.2835017014294863,
+      "delta_gb": -0.484375,
+      "out_gb": 0.015625,
+      "out_shape": [
+        1,
+        128,
+        128,
+        512
+      ],
+      "time_s": 0.0014432909665629268
+    },
+    {
+      "module": "mid_block.attentions.0",
+      "type": "Flux2AttentionBlock",
+      "depth": 2,
+      "peak_gb": 0.2835017014294863,
+      "delta_gb": 0.0937500037252903,
+      "out_gb": 0.015625,
+      "out_shape": [
+        1,
+        512,
+        128,
+        128
+      ],
+      "time_s": 0.07677404198329896
+    },
+    {
+      "module": "mid_block.resnets.1.norm1",
+      "type": "GroupNorm",
+      "depth": 3,
+      "peak_gb": 0.2835055198520422,
+      "delta_gb": 0.06250382214784622,
+      "out_gb": 0.03125,
+      "out_shape": [
+        1,
+        128,
+        128,
+        512
+      ],
+      "time_s": 0.004148875013925135
+    },
+    {
+      "module": "mid_block.resnets.1.conv1",
+      "type": "Conv2d",
+      "depth": 3,
+      "peak_gb": 0.3328638821840286,
+      "delta_gb": 0.09623718447983265,
+      "out_gb": 0.015625,
+      "out_shape": [
+        1,
+        128,
+        128,
+        512
+      ],
+      "time_s": 0.005962375027593225
+    },
+    {
+      "module": "mid_block.resnets.1.norm2",
+      "type": "GroupNorm",
+      "depth": 3,
+      "peak_gb": 0.2991305198520422,
+      "delta_gb": 0.06250382214784622,
+      "out_gb": 0.03125,
+      "out_shape": [
+        1,
+        128,
+        128,
+        512
+      ],
+      "time_s": 0.004136624978855252
+    },
+    {
+      "module": "mid_block.resnets.1.conv2",
+      "type": "Conv2d",
+      "depth": 3,
+      "peak_gb": 0.3328638821840286,
+      "delta_gb": 0.09623718447983265,
+      "out_gb": 0.015625,
+      "out_shape": [
+        1,
+        128,
+        128,
+        512
+      ],
+      "time_s": 0.006031541037373245
+    },
+    {
+      "module": "mid_block.resnets.1",
+      "type": "Flux2ResnetBlock2D",
+      "depth": 2,
+      "peak_gb": 0.3328638821840286,
+      "delta_gb": 0.12748718447983265,
+      "out_gb": 0.015625,
+      "out_shape": [
+        1,
+        512,
+        128,
+        128
+      ],
+      "time_s": 0.025994874944444746
+    },
+    {
+      "module": "mid_block",
+      "type": "Flux2UNetMidBlock2D",
+      "depth": 1,
+      "peak_gb": 0.3328638821840286,
+      "delta_gb": 0.15846252627670765,
+      "out_gb": 0.015625,
+      "out_shape": [
+        1,
+        512,
+        128,
+        128
+      ],
+      "time_s": 0.12546429096255451
+    },
+    {
+      "module": "up_blocks.0.resnets.0.norm1",
+      "type": "GroupNorm",
+      "depth": 3,
+      "peak_gb": 0.2678805198520422,
+      "delta_gb": 0.06250382214784622,
+      "out_gb": 0.03125,
+      "out_shape": [
+        1,
+        128,
+        128,
+        512
+      ],
+      "time_s": 0.004086500033736229
+    },
+    {
+      "module": "up_blocks.0.resnets.0.conv1",
+      "type": "Conv2d",
+      "depth": 3,
+      "peak_gb": 0.3172388821840286,
+      "delta_gb": 0.09623718447983265,
+      "out_gb": 0.015625,
+      "out_shape": [
+        1,
+        128,
+        128,
+        512
+      ],
+      "time_s": 0.005983333976473659
+    },
+    {
+      "module": "up_blocks.0.resnets.0.norm2",
+      "type": "GroupNorm",
+      "depth": 3,
+      "peak_gb": 0.2835055198520422,
+      "delta_gb": 0.06250382214784622,
+      "out_gb": 0.03125,
+      "out_shape": [
+        1,
+        128,
+        128,
+        512
+      ],
+      "time_s": 0.004094916977919638
+    },
+    {
+      "module": "up_blocks.0.resnets.0.conv2",
+      "type": "Conv2d",
+      "depth": 3,
+      "peak_gb": 0.3172388821840286,
+      "delta_gb": 0.09623718447983265,
+      "out_gb": 0.015625,
+      "out_shape": [
+        1,
+        128,
+        128,
+        512
+      ],
+      "time_s": 0.005938499991316348
+    },
+    {
+      "module": "up_blocks.0.resnets.0",
+      "type": "Flux2ResnetBlock2D",
+      "depth": 2,
+      "peak_gb": 0.3172388821840286,
+      "delta_gb": 0.14311218447983265,
+      "out_gb": 0.015625,
+      "out_shape": [
+        1,
+        512,
+        128,
+        128
+      ],
+      "time_s": 0.02580695803044364
+    },
+    {
+      "module": "up_blocks.0.resnets.1.norm1",
+      "type": "GroupNorm",
+      "depth": 3,
+      "peak_gb": 0.2835055198520422,
+      "delta_gb": 0.06250382214784622,
+      "out_gb": 0.03125,
+      "out_shape": [
+        1,
+        128,
+        128,
+        512
+      ],
+      "time_s": 0.004060250008478761
+    },
+    {
+      "module": "up_blocks.0.resnets.1.conv1",
+      "type": "Conv2d",
+      "depth": 3,
+      "peak_gb": 0.3328638821840286,
+      "delta_gb": 0.09623718447983265,
+      "out_gb": 0.015625,
+      "out_shape": [
+        1,
+        128,
+        128,
+        512
+      ],
+      "time_s": 0.005951875005848706
+    },
+    {
+      "module": "up_blocks.0.resnets.1.norm2",
+      "type": "GroupNorm",
+      "depth": 3,
+      "peak_gb": 0.2991305198520422,
+      "delta_gb": 0.06250382214784622,
+      "out_gb": 0.03125,
+      "out_shape": [
+        1,
+        128,
+        128,
+        512
+      ],
+      "time_s": 0.004065040964633226
+    },
+    {
+      "module": "up_blocks.0.resnets.1.conv2",
+      "type": "Conv2d",
+      "depth": 3,
+      "peak_gb": 0.3328638821840286,
+      "delta_gb": 0.09623718447983265,
+      "out_gb": 0.015625,
+      "out_shape": [
+        1,
+        128,
+        128,
+        512
+      ],
+      "time_s": 0.005955750006251037
+    },
+    {
+      "module": "up_blocks.0.resnets.1",
+      "type": "Flux2ResnetBlock2D",
+      "depth": 2,
+      "peak_gb": 0.3328638821840286,
+      "delta_gb": 0.14311218447983265,
+      "out_gb": 0.015625,
+      "out_shape": [
+        1,
+        512,
+        128,
+        128
+      ],
+      "time_s": 0.025661207968369126
+    },
+    {
+      "module": "up_blocks.0.resnets.2.norm1",
+      "type": "GroupNorm",
+      "depth": 3,
+      "peak_gb": 0.2835055198520422,
+      "delta_gb": 0.06250382214784622,
+      "out_gb": 0.03125,
+      "out_shape": [
+        1,
+        128,
+        128,
+        512
+      ],
+      "time_s": 0.004067458037752658
+    },
+    {
+      "module": "up_blocks.0.resnets.2.conv1",
+      "type": "Conv2d",
+      "depth": 3,
+      "peak_gb": 0.3328638821840286,
+      "delta_gb": 0.09623718447983265,
+      "out_gb": 0.015625,
+      "out_shape": [
+        1,
+        128,
+        128,
+        512
+      ],
+      "time_s": 0.005928249971475452
+    },
+    {
+      "module": "up_blocks.0.resnets.2.norm2",
+      "type": "GroupNorm",
+      "depth": 3,
+      "peak_gb": 0.2991305198520422,
+      "delta_gb": 0.06250382214784622,
+      "out_gb": 0.03125,
+      "out_shape": [
+        1,
+        128,
+        128,
+        512
+      ],
+      "time_s": 0.004138874995987862
+    },
+    {
+      "module": "up_blocks.0.resnets.2.conv2",
+      "type": "Conv2d",
+      "depth": 3,
+      "peak_gb": 0.3328638821840286,
+      "delta_gb": 0.09623718447983265,
+      "out_gb": 0.015625,
+      "out_shape": [
+        1,
+        128,
+        128,
+        512
+      ],
+      "time_s": 0.0059270840138196945
+    },
+    {
+      "module": "up_blocks.0.resnets.2",
+      "type": "Flux2ResnetBlock2D",
+      "depth": 2,
+      "peak_gb": 0.3328638821840286,
+      "delta_gb": 0.12748718447983265,
+      "out_gb": 0.015625,
+      "out_shape": [
+        1,
+        512,
+        128,
+        128
+      ],
+      "time_s": 0.025692750001326203
+    },
+    {
+      "module": "up_blocks.0.upsamplers.0.conv",
+      "type": "Conv2d",
+      "depth": 3,
+      "peak_gb": 0.7030726224184036,
+      "delta_gb": 0.41957092471420765,
+      "out_gb": 0.0625,
+      "out_shape": [
+        1,
+        256,
+        256,
+        512
+      ],
+      "time_s": 0.020391417026985437
+    },
+    {
+      "module": "up_blocks.0.upsamplers.0",
+      "type": "Flux2Upsample2D",
+      "depth": 2,
+      "peak_gb": 0.7030726224184036,
+      "delta_gb": 0.5133209247142076,
+      "out_gb": 0.0625,
+      "out_shape": [
+        1,
+        512,
+        256,
+        256
+      ],
+      "time_s": 0.024120166955981404
+    },
+    {
+      "module": "up_blocks.0",
+      "type": "Flux2UpDecoderBlock2D",
+      "depth": 1,
+      "peak_gb": 0.7030726224184036,
+      "delta_gb": 0.5289459247142076,
+      "out_gb": 0.0625,
+      "out_shape": [
+        1,
+        512,
+        256,
+        256
+      ],
+      "time_s": 0.1013329999987036
+    },
+    {
+      "module": "up_blocks.1.resnets.0.norm1",
+      "type": "GroupNorm",
+      "depth": 3,
+      "peak_gb": 0.5960055198520422,
+      "delta_gb": 0.2500038221478462,
+      "out_gb": 0.125,
+      "out_shape": [
+        1,
+        256,
+        256,
+        512
+      ],
+      "time_s": 0.015822165994904935
+    },
+    {
+      "module": "up_blocks.1.resnets.0.conv1",
+      "type": "Conv2d",
+      "depth": 3,
+      "peak_gb": 0.6718226224184036,
+      "delta_gb": 0.38832092471420765,
+      "out_gb": 0.0625,
+      "out_shape": [
+        1,
+        256,
+        256,
+        512
+      ],
+      "time_s": 0.019095916009973735
+    },
+    {
+      "module": "up_blocks.1.resnets.0.norm2",
+      "type": "GroupNorm",
+      "depth": 3,
+      "peak_gb": 0.6585055198520422,
+      "delta_gb": 0.2500038221478462,
+      "out_gb": 0.125,
+      "out_shape": [
+        1,
+        256,
+        256,
+        512
+      ],
+      "time_s": 0.01605916698463261
+    },
+    {
+      "module": "up_blocks.1.resnets.0.conv2",
+      "type": "Conv2d",
+      "depth": 3,
+      "peak_gb": 0.6718226224184036,
+      "delta_gb": 0.38832092471420765,
+      "out_gb": 0.0625,
+      "out_shape": [
+        1,
+        256,
+        256,
+        512
+      ],
+      "time_s": 0.01888466702075675
+    },
+    {
+      "module": "up_blocks.1.resnets.0",
+      "type": "Flux2ResnetBlock2D",
+      "depth": 2,
+      "peak_gb": 0.6718226224184036,
+      "delta_gb": 0.45082092471420765,
+      "out_gb": 0.0625,
+      "out_shape": [
+        1,
+        512,
+        256,
+        256
+      ],
+      "time_s": 0.09188441699370742
+    },
+    {
+      "module": "up_blocks.1.resnets.1.norm1",
+      "type": "GroupNorm",
+      "depth": 3,
+      "peak_gb": 0.6585055198520422,
+      "delta_gb": 0.2500038221478462,
+      "out_gb": 0.125,
+      "out_shape": [
+        1,
+        256,
+        256,
+        512
+      ],
+      "time_s": 0.016069291974417865
+    },
+    {
+      "module": "up_blocks.1.resnets.1.conv1",
+      "type": "Conv2d",
+      "depth": 3,
+      "peak_gb": 0.7343226224184036,
+      "delta_gb": 0.38832092471420765,
+      "out_gb": 0.0625,
+      "out_shape": [
+        1,
+        256,
+        256,
+        512
+      ],
+      "time_s": 0.019384583982173353
+    },
+    {
+      "module": "up_blocks.1.resnets.1.norm2",
+      "type": "GroupNorm",
+      "depth": 3,
+      "peak_gb": 0.7210055198520422,
+      "delta_gb": 0.2500038221478462,
+      "out_gb": 0.125,
+      "out_shape": [
+        1,
+        256,
+        256,
+        512
+      ],
+      "time_s": 0.01581316697411239
+    },
+    {
+      "module": "up_blocks.1.resnets.1.conv2",
+      "type": "Conv2d",
+      "depth": 3,
+      "peak_gb": 0.7343226224184036,
+      "delta_gb": 0.38832092471420765,
+      "out_gb": 0.0625,
+      "out_shape": [
+        1,
+        256,
+        256,
+        512
+      ],
+      "time_s": 0.018470417009666562
+    },
+    {
+      "module": "up_blocks.1.resnets.1",
+      "type": "Flux2ResnetBlock2D",
+      "depth": 2,
+      "peak_gb": 0.7343226224184036,
+      "delta_gb": 0.45082092471420765,
+      "out_gb": 0.0625,
+      "out_shape": [
+        1,
+        512,
+        256,
+        256
+      ],
+      "time_s": 0.08803908299887553
+    },
+    {
+      "module": "up_blocks.1.resnets.2.norm1",
+      "type": "GroupNorm",
+      "depth": 3,
+      "peak_gb": 0.6585055198520422,
+      "delta_gb": 0.2500038221478462,
+      "out_gb": 0.125,
+      "out_shape": [
+        1,
+        256,
+        256,
+        512
+      ],
+      "time_s": 0.016014124965295196
+    },
+    {
+      "module": "up_blocks.1.resnets.2.conv1",
+      "type": "Conv2d",
+      "depth": 3,
+      "peak_gb": 0.7343226224184036,
+      "delta_gb": 0.38832092471420765,
+      "out_gb": 0.0625,
+      "out_shape": [
+        1,
+        256,
+        256,
+        512
+      ],
+      "time_s": 0.019152500026393682
+    },
+    {
+      "module": "up_blocks.1.resnets.2.norm2",
+      "type": "GroupNorm",
+      "depth": 3,
+      "peak_gb": 0.7210055198520422,
+      "delta_gb": 0.2500038221478462,
+      "out_gb": 0.125,
+      "out_shape": [
+        1,
+        256,
+        256,
+        512
+      ],
+      "time_s": 0.01581766700837761
+    },
+    {
+      "module": "up_blocks.1.resnets.2.conv2",
+      "type": "Conv2d",
+      "depth": 3,
+      "peak_gb": 0.7343226224184036,
+      "delta_gb": 0.38832092471420765,
+      "out_gb": 0.0625,
+      "out_shape": [
+        1,
+        256,
+        256,
+        512
+      ],
+      "time_s": 0.01854937500320375
+    },
+    {
+      "module": "up_blocks.1.resnets.2",
+      "type": "Flux2ResnetBlock2D",
+      "depth": 2,
+      "peak_gb": 0.7343226224184036,
+      "delta_gb": 0.38832092471420765,
+      "out_gb": 0.0625,
+      "out_shape": [
+        1,
+        512,
+        256,
+        256
+      ],
+      "time_s": 0.08798995800316334
+    },
+    {
+      "module": "up_blocks.1.upsamplers.0.conv",
+      "type": "Conv2d",
+      "depth": 3,
+      "peak_gb": 2.2278834134340286,
+      "delta_gb": 1.5693817157298326,
+      "out_gb": 0.25,
+      "out_shape": [
+        1,
+        512,
+        512,
+        512
+      ],
+      "time_s": 0.07863262499449775
+    },
+    {
+      "module": "up_blocks.1.upsamplers.0",
+      "type": "Flux2Upsample2D",
+      "depth": 2,
+      "peak_gb": 2.2278834134340286,
+      "delta_gb": 1.8818817157298326,
+      "out_gb": 0.25,
+      "out_shape": [
+        1,
+        512,
+        512,
+        512
+      ],
+      "time_s": 0.09835450001992285
+    },
+    {
+      "module": "up_blocks.1",
+      "type": "Flux2UpDecoderBlock2D",
+      "depth": 1,
+      "peak_gb": 2.2278834134340286,
+      "delta_gb": 2.0068817157298326,
+      "out_gb": 0.25,
+      "out_shape": [
+        1,
+        512,
+        512,
+        512
+      ],
+      "time_s": 0.3662893330329098
+    },
+    {
+      "module": "up_blocks.2.resnets.0.norm1",
+      "type": "GroupNorm",
+      "depth": 3,
+      "peak_gb": 1.9085055198520422,
+      "delta_gb": 1.0000038221478462,
+      "out_gb": 0.5,
+      "out_shape": [
+        1,
+        512,
+        512,
+        512
+      ],
+      "time_s": 0.06345787498867139
+    },
+    {
+      "module": "up_blocks.2.resnets.0.conv1",
+      "type": "Conv2d",
+      "depth": 3,
+      "peak_gb": 1.7343531399965286,
+      "delta_gb": 1.0758514422923326,
+      "out_gb": 0.125,
+      "out_shape": [
+        1,
+        512,
+        512,
+        256
+      ],
+      "time_s": 0.05046795797534287
+    },
+    {
+      "module": "up_blocks.2.resnets.0.norm2",
+      "type": "GroupNorm",
+      "depth": 3,
+      "peak_gb": 1.2835036125034094,
+      "delta_gb": 0.5000019147992134,
+      "out_gb": 0.25,
+      "out_shape": [
+        1,
+        512,
+        512,
+        256
+      ],
+      "time_s": 0.03087100002449006
+    },
+    {
+      "module": "up_blocks.2.resnets.0.conv2",
+      "type": "Conv2d",
+      "depth": 3,
+      "peak_gb": 1.2467890530824661,
+      "delta_gb": 0.7132873553782701,
+      "out_gb": 0.125,
+      "out_shape": [
+        1,
+        512,
+        512,
+        256
+      ],
+      "time_s": 0.035757416975684464
+    },
+    {
+      "module": "up_blocks.2.resnets.0.conv_shortcut",
+      "type": "Conv2d",
+      "depth": 3,
+      "peak_gb": 0.658501697704196,
+      "delta_gb": 0.125,
+      "out_gb": 0.125,
+      "out_shape": [
+        1,
+        512,
+        512,
+        256
+      ],
+      "time_s": 0.027914291946217418
+    },
+    {
+      "module": "up_blocks.2.resnets.0",
+      "type": "Flux2ResnetBlock2D",
+      "depth": 2,
+      "peak_gb": 0.658501697704196,
+      "delta_gb": 0.25,
+      "out_gb": 0.125,
+      "out_shape": [
+        1,
+        256,
+        512,
+        512
+      ],
+      "time_s": 0.25935899995965883
+    },
+    {
+      "module": "up_blocks.2.resnets.1.norm1",
+      "type": "GroupNorm",
+      "depth": 3,
+      "peak_gb": 1.2835036125034094,
+      "delta_gb": 0.5000019147992134,
+      "out_gb": 0.25,
+      "out_shape": [
+        1,
+        512,
+        512,
+        256
+      ],
+      "time_s": 0.03001708403462544
+    },
+    {
+      "module": "up_blocks.2.resnets.1.conv1",
+      "type": "Conv2d",
+      "depth": 3,
+      "peak_gb": 1.3717890530824661,
+      "delta_gb": 0.7132873553782701,
+      "out_gb": 0.125,
+      "out_shape": [
+        1,
+        512,
+        512,
+        256
+      ],
+      "time_s": 0.034901709004770964
+    },
+    {
+      "module": "up_blocks.2.resnets.1.norm2",
+      "type": "GroupNorm",
+      "depth": 3,
+      "peak_gb": 1.4085036125034094,
+      "delta_gb": 0.5000019147992134,
+      "out_gb": 0.25,
+      "out_shape": [
+        1,
+        512,
+        512,
+        256
+      ],
+      "time_s": 0.030517707986291498
+    },
+    {
+      "module": "up_blocks.2.resnets.1.conv2",
+      "type": "Conv2d",
+      "depth": 3,
+      "peak_gb": 1.3717890530824661,
+      "delta_gb": 0.7132873553782701,
+      "out_gb": 0.125,
+      "out_shape": [
+        1,
+        512,
+        512,
+        256
+      ],
+      "time_s": 0.03534058399964124
+    },
+    {
+      "module": "up_blocks.2.resnets.1",
+      "type": "Flux2ResnetBlock2D",
+      "depth": 2,
+      "peak_gb": 1.3717890530824661,
+      "delta_gb": 0.7132873553782701,
+      "out_gb": 0.125,
+      "out_shape": [
+        1,
+        256,
+        512,
+        512
+      ],
+      "time_s": 0.16526370798237622
+    },
+    {
+      "module": "up_blocks.2.resnets.2.norm1",
+      "type": "GroupNorm",
+      "depth": 3,
+      "peak_gb": 1.2835036125034094,
+      "delta_gb": 0.5000019147992134,
+      "out_gb": 0.25,
+      "out_shape": [
+        1,
+        512,
+        512,
+        256
+      ],
+      "time_s": 0.031090624979697168
+    },
+    {
+      "module": "up_blocks.2.resnets.2.conv1",
+      "type": "Conv2d",
+      "depth": 3,
+      "peak_gb": 1.3717890530824661,
+      "delta_gb": 0.7132873553782701,
+      "out_gb": 0.125,
+      "out_shape": [
+        1,
+        512,
+        512,
+        256
+      ],
+      "time_s": 0.03505141701316461
+    },
+    {
+      "module": "up_blocks.2.resnets.2.norm2",
+      "type": "GroupNorm",
+      "depth": 3,
+      "peak_gb": 1.4085036125034094,
+      "delta_gb": 0.5000019147992134,
+      "out_gb": 0.25,
+      "out_shape": [
+        1,
+        512,
+        512,
+        256
+      ],
+      "time_s": 0.030474541999865323
+    },
+    {
+      "module": "up_blocks.2.resnets.2.conv2",
+      "type": "Conv2d",
+      "depth": 3,
+      "peak_gb": 1.3717890530824661,
+      "delta_gb": 0.7132873553782701,
+      "out_gb": 0.125,
+      "out_shape": [
+        1,
+        512,
+        512,
+        256
+      ],
+      "time_s": 0.03565712500130758
+    },
+    {
+      "module": "up_blocks.2.resnets.2",
+      "type": "Flux2ResnetBlock2D",
+      "depth": 2,
+      "peak_gb": 1.3717890530824661,
+      "delta_gb": 0.7132873553782701,
+      "out_gb": 0.125,
+      "out_shape": [
+        1,
+        256,
+        512,
+        512
+      ],
+      "time_s": 0.16753433301346377
+    },
+    {
+      "module": "up_blocks.2.upsamplers.0.conv",
+      "type": "Conv2d",
+      "depth": 3,
+      "peak_gb": 4.331063345074654,
+      "delta_gb": 3.0475616473704576,
+      "out_gb": 0.5,
+      "out_shape": [
+        1,
+        1024,
+        1024,
+        256
+      ],
+      "time_s": 0.15307975001633167
+    },
+    {
+      "module": "up_blocks.2.upsamplers.0",
+      "type": "Flux2Upsample2D",
+      "depth": 2,
+      "peak_gb": 4.331063345074654,
+      "delta_gb": 3.6725616473704576,
+      "out_gb": 0.5,
+      "out_shape": [
+        1,
+        256,
+        1024,
+        1024
+      ],
+      "time_s": 0.20847933401819319
+    },
+    {
+      "module": "up_blocks.2",
+      "type": "Flux2UpDecoderBlock2D",
+      "depth": 1,
+      "peak_gb": 4.331063345074654,
+      "delta_gb": 3.9225616473704576,
+      "out_gb": 0.5,
+      "out_shape": [
+        1,
+        256,
+        1024,
+        1024
+      ],
+      "time_s": 0.8006629999727011
+    },
+    {
+      "module": "up_blocks.3.resnets.0.norm1",
+      "type": "GroupNorm",
+      "depth": 3,
+      "peak_gb": 3.6585036125034094,
+      "delta_gb": 2.0000019147992134,
+      "out_gb": 1.0,
+      "out_shape": [
+        1,
+        1024,
+        1024,
+        256
+      ],
+      "time_s": 0.12361945799784735
+    },
+    {
+      "module": "up_blocks.3.resnets.0.conv1",
+      "type": "Conv2d",
+      "depth": 3,
+      "peak_gb": 3.255425527691841,
+      "delta_gb": 2.096923829987645,
+      "out_gb": 0.25,
+      "out_shape": [
+        1,
+        1024,
+        1024,
+        128
+      ],
+      "time_s": 0.09658133302582428
+    },
+    {
+      "module": "up_blocks.3.resnets.0.norm2",
+      "type": "GroupNorm",
+      "depth": 3,
+      "peak_gb": 2.408502658829093,
+      "delta_gb": 1.000000961124897,
+      "out_gb": 0.5,
+      "out_shape": [
+        1,
+        1024,
+        1024,
+        128
+      ],
+      "time_s": 0.06059870804892853
+    },
+    {
+      "module": "up_blocks.3.resnets.0.conv2",
+      "type": "Conv2d",
+      "depth": 3,
+      "peak_gb": 2.3050623685121536,
+      "delta_gb": 1.3965606708079576,
+      "out_gb": 0.25,
+      "out_shape": [
+        1,
+        1024,
+        1024,
+        128
+      ],
+      "time_s": 0.06128708302276209
+    },
+    {
+      "module": "up_blocks.3.resnets.0.conv_shortcut",
+      "type": "Conv2d",
+      "depth": 3,
+      "peak_gb": 1.158501697704196,
+      "delta_gb": 0.25,
+      "out_gb": 0.25,
+      "out_shape": [
+        1,
+        1024,
+        1024,
+        128
+      ],
+      "time_s": 0.03300020802998915
+    },
+    {
+      "module": "up_blocks.3.resnets.0",
+      "type": "Flux2ResnetBlock2D",
+      "depth": 2,
+      "peak_gb": 1.158501697704196,
+      "delta_gb": 0.5,
+      "out_gb": 0.25,
+      "out_shape": [
+        1,
+        128,
+        1024,
+        1024
+      ],
+      "time_s": 0.47949983400758356
+    },
+    {
+      "module": "up_blocks.3.resnets.1.norm1",
+      "type": "GroupNorm",
+      "depth": 3,
+      "peak_gb": 2.408502658829093,
+      "delta_gb": 1.000000961124897,
+      "out_gb": 0.5,
+      "out_shape": [
+        1,
+        1024,
+        1024,
+        128
+      ],
+      "time_s": 0.05998783401446417
+    },
+    {
+      "module": "up_blocks.3.resnets.1.conv1",
+      "type": "Conv2d",
+      "depth": 3,
+      "peak_gb": 2.5550623685121536,
+      "delta_gb": 1.3965606708079576,
+      "out_gb": 0.25,
+      "out_shape": [
+        1,
+        1024,
+        1024,
+        128
+      ],
+      "time_s": 0.06066004099557176
+    },
+    {
+      "module": "up_blocks.3.resnets.1.norm2",
+      "type": "GroupNorm",
+      "depth": 3,
+      "peak_gb": 2.658502658829093,
+      "delta_gb": 1.000000961124897,
+      "out_gb": 0.5,
+      "out_shape": [
+        1,
+        1024,
+        1024,
+        128
+      ],
+      "time_s": 0.06163283303612843
+    },
+    {
+      "module": "up_blocks.3.resnets.1.conv2",
+      "type": "Conv2d",
+      "depth": 3,
+      "peak_gb": 2.5550623685121536,
+      "delta_gb": 1.3965606708079576,
+      "out_gb": 0.25,
+      "out_shape": [
+        1,
+        1024,
+        1024,
+        128
+      ],
+      "time_s": 0.06077983300201595
+    },
+    {
+      "module": "up_blocks.3.resnets.1",
+      "type": "Flux2ResnetBlock2D",
+      "depth": 2,
+      "peak_gb": 2.5550623685121536,
+      "delta_gb": 1.3965606708079576,
+      "out_gb": 0.25,
+      "out_shape": [
+        1,
+        128,
+        1024,
+        1024
+      ],
+      "time_s": 0.29119441600050777
+    },
+    {
+      "module": "up_blocks.3.resnets.2.norm1",
+      "type": "GroupNorm",
+      "depth": 3,
+      "peak_gb": 2.408502658829093,
+      "delta_gb": 1.000000961124897,
+      "out_gb": 0.5,
+      "out_shape": [
+        1,
+        1024,
+        1024,
+        128
+      ],
+      "time_s": 0.06250454200198874
+    },
+    {
+      "module": "up_blocks.3.resnets.2.conv1",
+      "type": "Conv2d",
+      "depth": 3,
+      "peak_gb": 2.5550623685121536,
+      "delta_gb": 1.3965606708079576,
+      "out_gb": 0.25,
+      "out_shape": [
+        1,
+        1024,
+        1024,
+        128
+      ],
+      "time_s": 0.06267141597345471
+    },
+    {
+      "module": "up_blocks.3.resnets.2.norm2",
+      "type": "GroupNorm",
+      "depth": 3,
+      "peak_gb": 2.658502658829093,
+      "delta_gb": 1.000000961124897,
+      "out_gb": 0.5,
+      "out_shape": [
+        1,
+        1024,
+        1024,
+        128
+      ],
+      "time_s": 0.06259079097071663
+    },
+    {
+      "module": "up_blocks.3.resnets.2.conv2",
+      "type": "Conv2d",
+      "depth": 3,
+      "peak_gb": 2.5550623685121536,
+      "delta_gb": 1.3965606708079576,
+      "out_gb": 0.25,
+      "out_shape": [
+        1,
+        1024,
+        1024,
+        128
+      ],
+      "time_s": 0.060960749979130924
+    },
+    {
+      "module": "up_blocks.3.resnets.2",
+      "type": "Flux2ResnetBlock2D",
+      "depth": 2,
+      "peak_gb": 2.5550623685121536,
+      "delta_gb": 1.3965606708079576,
+      "out_gb": 0.25,
+      "out_shape": [
+        1,
+        128,
+        1024,
+        1024
+      ],
+      "time_s": 0.29746075003640726
+    },
+    {
+      "module": "up_blocks.3",
+      "type": "Flux2UpDecoderBlock2D",
+      "depth": 1,
+      "peak_gb": 2.5550623685121536,
+      "delta_gb": 1.8965606708079576,
+      "out_gb": 0.25,
+      "out_shape": [
+        1,
+        128,
+        1024,
+        1024
+      ],
+      "time_s": 1.0681789580266923
+    },
+    {
+      "module": "conv_norm_out",
+      "type": "Flux2ConvNormOut",
+      "depth": 1,
+      "peak_gb": 2.158502658829093,
+      "delta_gb": 1.750000961124897,
+      "out_gb": 0.25,
+      "out_shape": [
+        1,
+        128,
+        1024,
+        1024
+      ],
+      "time_s": 0.07571845804341137
+    },
+    {
+      "module": "conv_out",
+      "type": "Flux2ConvOut",
+      "depth": 1,
+      "peak_gb": 0.4143675100058317,
+      "delta_gb": 0.005865812301635742,
+      "out_gb": 0.005859375,
+      "out_shape": [
+        1,
+        3,
+        1024,
+        1024
+      ],
+      "time_s": 0.012682209024205804
+    }
+  ],
+  "top_by_delta": [
+    {
+      "module": "up_blocks.2",
+      "type": "Flux2UpDecoderBlock2D",
+      "depth": 1,
+      "peak_gb": 4.331063345074654,
+      "delta_gb": 3.9225616473704576,
+      "out_gb": 0.5,
+      "out_shape": [
+        1,
+        256,
+        1024,
+        1024
+      ],
+      "time_s": 0.8006629999727011
+    },
+    {
+      "module": "up_blocks.2.upsamplers.0",
+      "type": "Flux2Upsample2D",
+      "depth": 2,
+      "peak_gb": 4.331063345074654,
+      "delta_gb": 3.6725616473704576,
+      "out_gb": 0.5,
+      "out_shape": [
+        1,
+        256,
+        1024,
+        1024
+      ],
+      "time_s": 0.20847933401819319
+    },
+    {
+      "module": "up_blocks.2.upsamplers.0.conv",
+      "type": "Conv2d",
+      "depth": 3,
+      "peak_gb": 4.331063345074654,
+      "delta_gb": 3.0475616473704576,
+      "out_gb": 0.5,
+      "out_shape": [
+        1,
+        1024,
+        1024,
+        256
+      ],
+      "time_s": 0.15307975001633167
+    },
+    {
+      "module": "up_blocks.3.resnets.0.conv1",
+      "type": "Conv2d",
+      "depth": 3,
+      "peak_gb": 3.255425527691841,
+      "delta_gb": 2.096923829987645,
+      "out_gb": 0.25,
+      "out_shape": [
+        1,
+        1024,
+        1024,
+        128
+      ],
+      "time_s": 0.09658133302582428
+    },
+    {
+      "module": "up_blocks.1",
+      "type": "Flux2UpDecoderBlock2D",
+      "depth": 1,
+      "peak_gb": 2.2278834134340286,
+      "delta_gb": 2.0068817157298326,
+      "out_gb": 0.25,
+      "out_shape": [
+        1,
+        512,
+        512,
+        512
+      ],
+      "time_s": 0.3662893330329098
+    },
+    {
+      "module": "up_blocks.3.resnets.0.norm1",
+      "type": "GroupNorm",
+      "depth": 3,
+      "peak_gb": 3.6585036125034094,
+      "delta_gb": 2.0000019147992134,
+      "out_gb": 1.0,
+      "out_shape": [
+        1,
+        1024,
+        1024,
+        256
+      ],
+      "time_s": 0.12361945799784735
+    },
+    {
+      "module": "up_blocks.3",
+      "type": "Flux2UpDecoderBlock2D",
+      "depth": 1,
+      "peak_gb": 2.5550623685121536,
+      "delta_gb": 1.8965606708079576,
+      "out_gb": 0.25,
+      "out_shape": [
+        1,
+        128,
+        1024,
+        1024
+      ],
+      "time_s": 1.0681789580266923
+    },
+    {
+      "module": "up_blocks.1.upsamplers.0",
+      "type": "Flux2Upsample2D",
+      "depth": 2,
+      "peak_gb": 2.2278834134340286,
+      "delta_gb": 1.8818817157298326,
+      "out_gb": 0.25,
+      "out_shape": [
+        1,
+        512,
+        512,
+        512
+      ],
+      "time_s": 0.09835450001992285
+    },
+    {
+      "module": "conv_norm_out",
+      "type": "Flux2ConvNormOut",
+      "depth": 1,
+      "peak_gb": 2.158502658829093,
+      "delta_gb": 1.750000961124897,
+      "out_gb": 0.25,
+      "out_shape": [
+        1,
+        128,
+        1024,
+        1024
+      ],
+      "time_s": 0.07571845804341137
+    },
+    {
+      "module": "up_blocks.1.upsamplers.0.conv",
+      "type": "Conv2d",
+      "depth": 3,
+      "peak_gb": 2.2278834134340286,
+      "delta_gb": 1.5693817157298326,
+      "out_gb": 0.25,
+      "out_shape": [
+        1,
+        512,
+        512,
+        512
+      ],
+      "time_s": 0.07863262499449775
+    },
+    {
+      "module": "up_blocks.3.resnets.0.conv2",
+      "type": "Conv2d",
+      "depth": 3,
+      "peak_gb": 2.3050623685121536,
+      "delta_gb": 1.3965606708079576,
+      "out_gb": 0.25,
+      "out_shape": [
+        1,
+        1024,
+        1024,
+        128
+      ],
+      "time_s": 0.06128708302276209
+    },
+    {
+      "module": "up_blocks.3.resnets.1.conv1",
+      "type": "Conv2d",
+      "depth": 3,
+      "peak_gb": 2.5550623685121536,
+      "delta_gb": 1.3965606708079576,
+      "out_gb": 0.25,
+      "out_shape": [
+        1,
+        1024,
+        1024,
+        128
+      ],
+      "time_s": 0.06066004099557176
+    },
+    {
+      "module": "up_blocks.3.resnets.1.conv2",
+      "type": "Conv2d",
+      "depth": 3,
+      "peak_gb": 2.5550623685121536,
+      "delta_gb": 1.3965606708079576,
+      "out_gb": 0.25,
+      "out_shape": [
+        1,
+        1024,
+        1024,
+        128
+      ],
+      "time_s": 0.06077983300201595
+    },
+    {
+      "module": "up_blocks.3.resnets.1",
+      "type": "Flux2ResnetBlock2D",
+      "depth": 2,
+      "peak_gb": 2.5550623685121536,
+      "delta_gb": 1.3965606708079576,
+      "out_gb": 0.25,
+      "out_shape": [
+        1,
+        128,
+        1024,
+        1024
+      ],
+      "time_s": 0.29119441600050777
+    },
+    {
+      "module": "up_blocks.3.resnets.2.conv1",
+      "type": "Conv2d",
+      "depth": 3,
+      "peak_gb": 2.5550623685121536,
+      "delta_gb": 1.3965606708079576,
+      "out_gb": 0.25,
+      "out_shape": [
+        1,
+        1024,
+        1024,
+        128
+      ],
+      "time_s": 0.06267141597345471
+    }
+  ],
+  "verify": {
+    "p1": {
+      "psnr_db": 999.0,
+      "max_abs_pixel_diff": 0,
+      "mean_abs_pixel_diff": 0.0,
+      "identical": true
+    }
+  },
+  "psnr_db_vs_baseline": 999.0
+}

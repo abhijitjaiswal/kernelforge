@@ -1,0 +1,195 @@
+{
+  "exp_id": "exp-012-smoke",
+  "kind": "stages",
+  "timestamp": "2026-10-19T19:29:55+00:00",
+  "model": "flux2-klein-4b",
+  "config": {
+    "resolution": 1024,
+    "steps": 4,
+    "seed": 42,
+    "prompt_ids": [
+      "p1"
+    ],
+    "weights": "bf16",
+    "lifecycle": "staged",
+    "cache_limit_gb": 0.5
+  },
+  "runs": 1,
+  "stages": {
+    "text_encode": {
+      "load_s": 1.3360965830506757,
+      "weights_gb": 7.492,
+      "warmup_s": 0.760773791000247,
+      "compute_s": {
+        "median": 0.327080000017304,
+        "min": 0.327080000017304,
+        "max": 0.327080000017304,
+        "n": 1
+      },
+      "compute_runs_s": [
+        0.327080000017304
+      ],
+      "peak_mlx_gb": 8.182
+    },
+    "denoise": {
+      "load_s": 1.3145023750257678,
+      "weights_gb": 7.226,
+      "warmup_s": 15.490844874992035,
+      "compute_s": {
+        "median": 16.55857891595224,
+        "min": 16.55857891595224,
+        "max": 16.55857891595224,
+        "n": 1
+      },
+      "compute_runs_s": [
+        16.55857891595224
+      ],
+      "step_s": {
+        "median": 4.153175645973533,
+        "min": 4.037227166001685,
+        "max": 4.214988792024087,
+        "n": 4
+      },
+      "step_s_by_index": {
+        "0": {
+          "median": 4.037227166001685,
+          "min": 4.037227166001685,
+          "max": 4.037227166001685,
+          "n": 1
+        },
+        "1": {
+          "median": 4.130321499949787,
+          "min": 4.130321499949787,
+          "max": 4.130321499949787,
+          "n": 1
+        },
+        "2": {
+          "median": 4.17602979199728,
+          "min": 4.17602979199728,
+          "max": 4.17602979199728,
+          "n": 1
+        },
+        "3": {
+          "median": 4.214988792024087,
+          "min": 4.214988792024087,
+          "max": 4.214988792024087,
+          "n": 1
+        }
+      },
+      "peak_mlx_gb": 8.574
+    },
+    "vae_decode": {
+      "load_s": 0.028987707977648824,
+      "weights_gb": 0.165,
+      "warmup_s": 2.12716387497494,
+      "compute_s": {
+        "median": 2.093910416995641,
+        "min": 2.093910416995641,
+        "max": 2.093910416995641,
+        "n": 1
+      },
+      "compute_runs_s": [
+        2.093910416995641
+      ],
+      "peak_mlx_gb": 9.559
+    }
+  },
+  "stages_summary": {
+    "text_encode": {
+      "load_s": 1.34,
+      "compute_s": 0.327
+    },
+    "denoise": {
+      "load_s": 1.31,
+      "compute_s": 16.559,
+      "step_s": 4.153
+    },
+    "vae_decode": {
+      "load_s": 0.03,
+      "compute_s": 2.094
+    }
+  },
+  "compute_total_s": 18.979569332965184,
+  "load_total_s": 2.6795866660540923,
+  "memtrace": {
+    "peak_footprint_gb": 10.689,
+    "peak_at_s": 40.47,
+    "peak_stage": "vae_decode:timed",
+    "per_stage": {
+      "text_encode:load": {
+        "footprint_peak_gb": 7.56,
+        "mlx_active_peak_gb": 7.492
+      },
+      "text_encode:warmup": {
+        "footprint_peak_gb": 8.483,
+        "mlx_active_peak_gb": 8.18
+      },
+      "text_encode:timed": {
+        "footprint_peak_gb": 8.498,
+        "mlx_active_peak_gb": 8.135
+      },
+      "text_encode:free": {
+        "footprint_peak_gb": 5.735,
+        "mlx_active_peak_gb": 0.007
+      },
+      "denoise:load": {
+        "footprint_peak_gb": 7.208,
+        "mlx_active_peak_gb": 7.226
+      },
+      "denoise:warmup": {
+        "footprint_peak_gb": 9.306,
+        "mlx_active_peak_gb": 8.574
+      },
+      "denoise:timed": {
+        "footprint_peak_gb": 9.297,
+        "mlx_active_peak_gb": 8.574
+      },
+      "denoise:free": {
+        "footprint_peak_gb": 2.895,
+        "mlx_active_peak_gb": 0.008
+      },
+      "vae_decode:warmup": {
+        "footprint_peak_gb": 10.323,
+        "mlx_active_peak_gb": 9.559
+      },
+      "vae_decode:timed": {
+        "footprint_peak_gb": 10.689,
+        "mlx_active_peak_gb": 9.559
+      }
+    }
+  },
+  "power": {
+    "n_samples": 40,
+    "busy_samples": 36,
+    "gpu_mhz_busy_median": 1312,
+    "gpu_mhz_busy_min": 1219,
+    "gpu_mw_busy_median": 11626,
+    "thermal_levels": [
+      "Nominal"
+    ],
+    "thermal_at_start": "Nominal"
+  },
+  "swap_used_mb_before_after": [
+    1754.44,
+    1829.81
+  ],
+  "swap_grew": true,
+  "ref": "baselines/bf16_free_te",
+  "verify": {
+    "p1": {
+      "psnr_db": 999.0,
+      "max_abs_pixel_diff": 0,
+      "mean_abs_pixel_diff": 0.0,
+      "identical": true
+    }
+  },
+  "psnr_db_vs_baseline": 999.0,
+  "max_abs_pixel_diff": 0,
+  "mlx_version": "0.32.4",
+  "process": {
+    "peak_footprint_gb": 10.824,
+    "max_rss_gb": 4.88,
+    "process_wall_s": 42.13
+  },
+  "returncode": 0
+}

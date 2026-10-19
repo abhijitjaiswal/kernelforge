@@ -178,19 +178,31 @@ const label = r => {
   return bits.filter(Boolean).join(" · ");
 };
 const verdictOf = r => (S.results.find(x => x.exp_id === r.exp_id) || {}).verdict;
-const baseRun = () => S.runs.find(r => r.exp_id === base) || S.runs.find(r => r.exp_id === "exp-001") || S.runs[0];
+const med = xs => { const a = xs.filter(v => v != null).sort((p, q) => p - q); return a.length ? (a.length % 2 ? a[(a.length - 1) / 2] : (a[a.length / 2 - 1] + a[a.length / 2]) / 2) : null; };
+// repeated runs share a group id: exp-011-bf16-1, -2, -3 -> exp-011-bf16
+const groupId = id => (id.match(/^(exp-\d+-[a-z0-9]+)-\d+$/) || [null, id])[1];
+const timingValid = r => r.swap_grew === false && r.returncode === 0 && tot(r) != null;
+const cfgKey = r => { const c = { ...(r.config || {}) }; return JSON.stringify(Object.keys(c).sort().map(k => [k, c[k]])); };
+function groups() {
+  const m = new Map();
+  S.runs.filter(r => tot(r) != null).forEach(r => { const g = groupId(r.exp_id); if (!m.has(g)) m.set(g, []); m.get(g).push(r); });
+  return [...m].map(([id, rs]) => ({ id, runs: rs, n: rs.length, total: med(rs.map(tot)), fp: med(rs.map(fp)), fpMax: Math.max(...rs.map(r => fp(r) ?? 0)), label: label(rs[0]), valid: rs.every(timingValid) }));
+}
+const baseInfo = () => { const gs = groups(); return gs.find(g => g.id === base) || gs.find(g => g.id === "exp-011-bf16") || gs[0]; };
+const speedup = r => { const b = baseInfo(); return b && timingValid(r) ? b.total / tot(r) : null; };
 
 async function load() {
   S = await (await fetch("/api/state")).json();
-  S.runs.sort((a, b) => a.exp_id.localeCompare(b.exp_id));
-  if (!S.runs.find(r => r.exp_id === base)) base = (S.runs.find(r => r.exp_id === "exp-001") || S.runs[0] || {}).exp_id;
+  S.runs.sort((a, b) => a.exp_id.localeCompare(b.exp_id, undefined, { numeric: true }));
+  if (!groups().find(g => g.id === base)) base = (groups().find(g => g.id === "exp-011-bf16") || groups()[0] || {}).id;
   if (!sel || !S.runs.find(r => r.exp_id === sel)) sel = S.runs.length ? S.runs[S.runs.length - 1].exp_id : null;
   render();
 }
 
 function render() {
   const opts = S.runs.map(r => `<option value="${esc(r.exp_id)}">${esc(r.exp_id)}</option>`).join("");
-  $("#baseSel").innerHTML = opts; $("#baseSel").value = base || "";
+  $("#baseSel").innerHTML = groups().filter(g => g.valid).map(g => `<option value="${esc(g.id)}">${esc(g.id)} · ${f(g.total)} s${g.n > 1 ? ` (median of ${g.n})` : ""}</option>`).join("");
+  $("#baseSel").value = base || "";
   const keepF = $("#obsFilter").value, keepE = $("#obsExp").value;
   $("#obsFilter").innerHTML = `<option value="">All experiments</option>` + opts; $("#obsFilter").value = keepF;
   $("#obsExp").innerHTML = `<option value="">General (no experiment)</option>` + opts; $("#obsExp").value = keepE || sel || "";
@@ -199,23 +211,25 @@ function render() {
 
 // ---------- goal tiles
 function renderTiles() {
-  const b = baseRun();
+  const b = baseInfo();
   if (!b) { $("#tiles").innerHTML = `<div class="tile"><div class="k">No results yet</div><div class="t">Run an experiment on m5-test, then press "Pull results from m5-test".</div></div>`; return; }
-  const valid = S.runs.filter(r => r.returncode === 0 && !r.swap_grew);
-  const quality = r => r.psnr_db_vs_baseline == null || r.psnr_db_vs_baseline > 40;
-  const fast = valid.filter(quality).sort((x, y) => tot(x) - tot(y))[0];
-  const lean = valid.filter(r => fp(r) != null).sort((x, y) => fp(x) - fp(y))[0];
-  const sp = fast ? tot(b) / tot(fast) : null;
+  const exact = r => { const v = Object.values(r.verify || {}); return v.length > 0 && v.every(x => x.psnr_db > 40); };
+  const fast = S.runs.filter(r => timingValid(r) && exact(r)).sort((x, y) => tot(x) - tot(y))[0];
+  const sp = fast ? b.total / tot(fast) : null;
+  const gs = groups().filter(g => g.fp != null && g.runs.every(r => r.swap_grew === false));
+  const confirmed = gs.filter(g => g.n >= 3).sort((x, y) => x.fpMax - y.fpMax)[0];
+  const cand = gs.sort((x, y) => x.fp - y.fp)[0];
+  const lean = confirmed || cand;
   const pill = (ok, txt) => `<span class="pill ${ok ? "good" : "warn"}">${txt}</span>`;
   $("#tiles").innerHTML = `
-    <div class="tile"><div class="k">Baseline · ${esc(b.exp_id)}</div><div class="v">${f(tot(b), 1)} s</div>
-      <div class="t">${esc(label(b))} · OS peak ${f(fp(b), 1)} GB</div></div>
-    <div class="tile"><div class="k">Best speedup (Tier E, PSNR > 40 dB)</div><div class="v">${f(sp, 2)}×</div>
+    <div class="tile"><div class="k">Baseline · ${esc(b.id)}${b.n > 1 ? ` (median of ${b.n})` : ""}</div><div class="v">${f(b.total)} s</div>
+      <div class="t">${esc(b.label)} · OS peak ${f(b.fp, 1)} GB · speed goal ≤ ${f(b.total / 1.3)} s</div></div>
+    <div class="tile"><div class="k">Best speedup (Tier E, PSNR > 40 dB, no swap)</div><div class="v">${f(sp, 2)}×</div>
       <div class="t">${fast ? esc(fast.exp_id) + " · " : ""}goal ≥ 1.30× ${pill(sp >= 1.3, sp >= 1.3 ? "met" : "not yet")}</div></div>
-    <div class="tile"><div class="k">Lowest OS peak footprint</div><div class="v">${f(fp(lean), 1)} GB</div>
-      <div class="t">${lean ? esc(lean.exp_id) + " · " : ""}goal ≤ 8 GB ${pill(fp(lean) <= 8, fp(lean) <= 8 ? "met" : "not yet")} · stretch ≤ 6 GB</div></div>
+    <div class="tile"><div class="k">Lowest OS peak footprint${lean ? (lean === confirmed ? ` · worst of ${lean.n} repeats` : " · candidate, n=" + lean.n) : ""}</div><div class="v">${f(lean ? (lean === confirmed ? lean.fpMax : lean.fp) : null, 2)} GB</div>
+      <div class="t">${lean ? esc(lean.id) + " · " + esc(lean.label) + " · " : ""}goal ≤ 8 GB ${pill(lean && lean === confirmed && lean.fpMax <= 8, lean && lean === confirmed ? (lean.fpMax <= 8 ? "met" : "not yet") : "needs 3 repeats")} · quality tier: check table</div></div>
     <div class="tile"><div class="k">Experiments logged</div><div class="v">${S.runs.length}</div>
-      <div class="t">${S.observations.length} observation${S.observations.length === 1 ? "" : "s"} · ${S.runs.filter(r => r.swap_grew).length} with swap growth (timing invalid)</div></div>`;
+      <div class="t">${S.observations.length} observation${S.observations.length === 1 ? "" : "s"} · ${S.runs.filter(r => r.swap_grew).length} memory-only (swap grew, timing invalid)</div></div>`;
 }
 
 // ---------- stage chart (horizontal stacked bars)
@@ -246,7 +260,7 @@ function renderStage() {
 function renderPareto() {
   const rs = S.runs.filter(r => tot(r) && fp(r));
   if (!rs.length) { $("#paretoChart").innerHTML = `<div class="empty">No runs with memory data yet.</div>`; return; }
-  const b = baseRun(), W = 560, H = 300, L = 44, R = 16, T = 12, B = 34;
+  const b = baseInfo(), W = 560, H = 300, L = 44, R = 16, T = 12, B = 34;
   const xmax = Math.max(14, ...rs.map(fp)) * 1.05, ymax = Math.max(...rs.map(tot)) * 1.15;
   const x = v => L + (W - L - R) * v / xmax, y = v => H - B - (H - T - B) * v / ymax;
   let s = `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Total time versus peak memory">`;
@@ -255,7 +269,7 @@ function renderPareto() {
   s += `<text x="${(L + W - R) / 2}" y="${H - 4}" text-anchor="middle">OS peak memory footprint (GB)</text>`;
   s += `<text x="12" y="${(T + H - B) / 2}" text-anchor="middle" transform="rotate(-90 12 ${(T + H - B) / 2})">seconds per image</text>`;
   [[8, "8 GB goal"], [6, "6 GB stretch"]].forEach(([g, n]) => s += `<line x1="${x(g)}" x2="${x(g)}" y1="${T}" y2="${H - B}" stroke="var(--ink-2)" stroke-dasharray="4 4" opacity=".6"/><text x="${x(g) + 4}" y="${T + 10}">${n}</text>`);
-  if (b) { const g = tot(b) / 1.3; s += `<line x1="${L}" x2="${W - R}" y1="${y(g)}" y2="${y(g)}" stroke="var(--ink-2)" stroke-dasharray="4 4" opacity=".6"/><text x="${W - R - 4}" y="${y(g) - 5}" text-anchor="end">1.3× faster than ${esc(b.exp_id)}</text>`; }
+  if (b) { const g = b.total / 1.3; s += `<line x1="${L}" x2="${W - R}" y1="${y(g)}" y2="${y(g)}" stroke="var(--ink-2)" stroke-dasharray="4 4" opacity=".6"/><text x="${W - R - 4}" y="${y(g) - 5}" text-anchor="end">1.3× faster than ${esc(b.id)}</text>`; }
   rs.forEach(r => {
     const bad = r.swap_grew || (r.psnr_db_vs_baseline != null && r.psnr_db_vs_baseline <= 40);
     const tipTxt = `<b>${esc(r.exp_id)}</b> · ${esc(label(r))}<br>${f(tot(r))} s · OS peak ${f(fp(r))} GB · MLX peak ${f(r.peak_mem_mlx_gb)} GB` +
@@ -275,19 +289,25 @@ function niceTicks(max, n) {
 
 // ---------- table
 function renderTable() {
-  const b = baseRun();
-  const cols = ["Experiment", "Config", "Total s", "Speedup", "Text s", "Denoise s", "VAE s", "MLX peak GB", "OS peak GB", "PSNR dB", "Max Δ px", "Swap", "Status"];
-  let h = `<thead><tr>${cols.map((c, i) => `<th class="${i > 1 && i < 11 ? "n" : ""}">${c}</th>`).join("")}</tr></thead><tbody>`;
+  const b = baseInfo();
+  const cols = [["Experiment"], ["Config"], ["Cache cap"], ["Quality ref"], ["Total s", 1], ["Speedup", 1], ["Text s", 1], ["Denoise s", 1], ["VAE s", 1], ["MLX peak GB", 1], ["OS peak GB", 1], ["PSNR dB per prompt"], ["Max Δ px", 1], ["Swap"], ["Status"]];
+  let h = `<thead><tr>${cols.map(([c, n]) => `<th class="${n ? "n" : ""}">${c}</th>`).join("")}</tr></thead><tbody>`;
   S.runs.forEach(r => {
-    const v = verdictOf(r), crashed = r.returncode && r.returncode !== 0;
-    const st = crashed ? `<span class="pill crit">failed</span>` : v ? `<span class="pill ${v === "keep" ? "good" : v === "revert" || v === "failed" ? "crit" : "warn"}">${esc(v)}</span>` : `<span class="pill">not reviewed</span>`;
-    const psnr = r.psnr_db_vs_baseline;
+    const v = verdictOf(r), crashed = r.returncode && r.returncode !== 0, c = r.config || {};
+    const memOnly = r.swap_grew === true;
+    const st = crashed ? `<span class="pill crit">failed</span>` : (memOnly ? `<span class="pill warn">memory-only</span> ` : "") +
+      (v ? `<span class="pill ${v === "keep" ? "good" : v === "revert" || v === "failed" ? "crit" : "warn"}">${esc(v)}</span>` : (memOnly ? "" : `<span class="pill">not reviewed</span>`));
+    const psnr = Object.entries(r.verify || {}).map(([p, x]) => `${esc(p)} ${x.psnr_db >= 999 ? "=" : f(x.psnr_db, 1)}`).join(" · ") || "–";
+    const sp = speedup(r);
+    const kind = r.kind ? ` <span class="pill">${esc(r.kind.replace("_", " "))}</span>` : "";
     h += `<tr tabindex="0" data-exp="${esc(r.exp_id)}" class="${r.exp_id === sel ? "sel" : ""}">
-      <td><b>${esc(r.exp_id)}</b></td><td>${esc(label(r))}</td>
-      <td class="n">${f(tot(r))}</td><td class="n">${b && tot(r) ? f(tot(b) / tot(r)) + "×" : "–"}</td>
+      <td><b>${esc(r.exp_id)}</b>${kind}</td><td>${esc(label(r))}</td>
+      <td>${c.cache_limit_gb != null ? f(c.cache_limit_gb, 1) + " GB" : "none"}</td>
+      <td class="mono">${r.ref ? esc(r.ref.replace("baselines/", "")) : "–"}</td>
+      <td class="n">${f(tot(r))}</td><td class="n">${memOnly ? "memory-only" : sp != null ? f(sp) + "×" : "–"}</td>
       <td class="n">${f(r.text_encode_s?.median)}</td><td class="n">${f(r.denoise_s?.median)}</td><td class="n">${f(r.vae_s?.median)}</td>
-      <td class="n">${f(r.peak_mem_mlx_gb)}</td><td class="n">${f(fp(r))}</td>
-      <td class="n">${psnr == null ? "–" : psnr >= 999 ? "identical" : f(psnr, 1)}</td><td class="n">${r.max_abs_pixel_diff ?? "–"}</td>
+      <td class="n">${f(r.peak_mem_mlx_gb ?? r.peak_mlx_gb)}</td><td class="n">${f(fp(r))}</td>
+      <td class="mono">${psnr}</td><td class="n">${r.max_abs_pixel_diff ?? "–"}</td>
       <td>${r.swap_grew ? `<span class="pill crit">grew</span>` : r.swap_grew === false ? `<span class="pill good">flat</span>` : "–"}</td><td>${st}</td></tr>`;
   });
   $("#expTable").innerHTML = h + "</tbody>";
