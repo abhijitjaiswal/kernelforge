@@ -1,0 +1,7 @@
+[bench] exp-013 adapter=flux2_klein opts={'weights': 'q8', 'lifecycle': 'free_te', 'tile_vae': True, 'cache_limit_gb': 0.5}
+[bench] loaded in 0.5s, prep {'text_encode_s': {'A close-up portrait photograph of an elderly woman with silver hair and warm brown eyes, soft window light, neutral grey background': 0.48913212498882785, 'A wide alpine landscape at golden hour: a turquoise glacial lake in the foreground, pine forest along the shore, snow-capped jagged peaks behind, thin clouds catching orange light, a small wooden cabin with smoke rising from the chimney, highly detailed, photorealistic': 0.3642545420443639, 'A weathered wooden sign nailed to a fence post that reads "FRESH EGGS 2 DOLLARS" in hand-painted red capital letters, rural farm background, daylight, sharp focus': 0.3645262500504032}, 'text_encode_peak_gb': 3.854, 'active_before_free_gb': 3.141, 'active_after_free_gb': 0.022}
+[bench] warm-up 20.102604958985467s
+[bench] r0 p1 total 22.24s denoise 19.03s vae 2.71s peak 5.297GB
+[bench] r0 p2 total 22.81s denoise 19.70s vae 2.73s peak 5.297GB
+[bench] r0 p3 total 23.29s denoise 20.17s vae 2.75s peak 5.297GB
+[bench] done

@@ -1,5 +1,60 @@
 # RESULTS (newest first)
 
+### exp-015-q8-3: stage bench round 3: q8 staged, cache cap 0.5 GB, load separated, 5 warm runs
+- total 23.96 s (denoise 21.25, VAE 2.32, text 0.39); peak footprint 10.909 GB, MLX peak 9.556 GB; swap grew: False
+- PSNR vs ref: p1 999.0 dB, max abs diff 0
+- tier E, verdict **keep**. compute-only A/B
+
+### exp-015-q8-2: stage bench round 2: q8 staged, cache cap 0.5 GB, load separated, 5 warm runs
+- total 22.97 s (denoise 20.41, VAE 2.18, text 0.37); peak footprint 10.886 GB, MLX peak 9.556 GB; swap grew: False
+- PSNR vs ref: p1 999.0 dB, max abs diff 0
+- tier E, verdict **keep**. compute-only A/B
+
+### exp-015-q8-1: stage bench round 1: q8 staged, cache cap 0.5 GB, load separated, 5 warm runs
+- total 22.87 s (denoise 20.32, VAE 2.18, text 0.37); peak footprint 10.942 GB, MLX peak 9.556 GB; swap grew: False
+- PSNR vs ref: p1 999.0 dB, max abs diff 0
+- tier E, verdict **keep**. compute-only A/B
+
+### exp-015-bf16-3: stage bench round 3: bf16 staged, cache cap 0.5 GB, load separated, 5 warm runs
+- total 20.82 s (denoise 18.24, VAE 2.25, text 0.34); peak footprint 10.874 GB, MLX peak 9.559 GB; swap grew: False
+- PSNR vs ref: p1 999.0 dB, max abs diff 0
+- tier E, verdict **keep**. compute-only A/B
+
+### exp-015-bf16-2: stage bench round 2: bf16 staged, cache cap 0.5 GB, load separated, 5 warm runs
+- total 20.70 s (denoise 18.20, VAE 2.16, text 0.33); peak footprint 10.879 GB, MLX peak 9.559 GB; swap grew: False
+- PSNR vs ref: p1 999.0 dB, max abs diff 0
+- tier E, verdict **keep**. compute-only A/B
+
+### exp-015-bf16-1: stage bench round 1: bf16 staged, cache cap 0.5 GB, load separated, 5 warm runs
+- total 20.42 s (denoise 17.93, VAE 2.16, text 0.33); peak footprint 10.869 GB, MLX peak 9.559 GB; swap grew: False
+- PSNR vs ref: p1 999.0 dB, max abs diff 0
+- tier E, verdict **keep**. compute-only A/B
+
+### exp-014: VAE decoder per-module memory profile (bf16, real p1 latents)
+- total 2.05 s (denoise 0.00, VAE 2.05, text 0.00); peak footprint None GB, MLX peak 9.552989134564996 GB; swap grew: None
+- PSNR vs ref: p1 999.0 dB, max abs diff None
+- tier E, verdict **keep**. Fused decode peaks 9.55 GB; eager per-module max is 4.33 GB with bit-identical output, so most of the 9.3 GB is lazy-graph lifetime. Hot ops: 1024^2 upsample conv +3.05 GB, full-res GroupNorm +2.0 GB. Mid-block attention +0.09 GB: no need to chunk it.
+
+### exp-013: q8 + tiled VAE images for p1/p2/p3 (quality grid)
+- total 22.81 s (denoise 19.70, VAE 2.73, text 0.36); peak footprint 6.163 GB, MLX peak 5.297 GB; swap grew: False
+- PSNR vs ref: p1 26.5, p2 26.3, p3 27.1 dB, max abs diff 122
+- tier A, verdict **revert**. vs bf16: PSNR 24.7/23.8/19.8, LPIPS 0.058/0.090/0.110 (fail, >0.05). Tiling alone vs untiled q8: LPIPS 0.035/0.055/0.036 and a visible vertical seam in p1 (per-tile GroupNorm stats).
+
+### exp-010-rep-3: repeat 3 of exp-010 (q8 staged + tiled VAE + cache cap 0.5 GB)
+- total 20.48 s (denoise 17.28, VAE 2.70, text 0.49); peak footprint 6.049 GB, MLX peak 5.19 GB; swap grew: False
+- PSNR vs ref: p1 26.5 dB, max abs diff 55
+- tier A, verdict **revert**. Footprint 6.04-6.05 GB confirmed over 4 runs, but the config fails Tier A (LPIPS vs bf16 0.058-0.110, visible tile seam).
+
+### exp-010-rep-2: repeat 2 of exp-010 (q8 staged + tiled VAE + cache cap 0.5 GB)
+- total 20.42 s (denoise 17.23, VAE 2.68, text 0.49); peak footprint 6.043 GB, MLX peak 5.19 GB; swap grew: False
+- PSNR vs ref: p1 26.5 dB, max abs diff 55
+- tier A, verdict **revert**. Footprint 6.04-6.05 GB confirmed over 4 runs, but the config fails Tier A (LPIPS vs bf16 0.058-0.110, visible tile seam).
+
+### exp-010-rep-1: repeat 1 of exp-010 (q8 staged + tiled VAE + cache cap 0.5 GB)
+- total 20.31 s (denoise 17.12, VAE 2.69, text 0.49); peak footprint 6.044 GB, MLX peak 5.19 GB; swap grew: False
+- PSNR vs ref: p1 26.5 dB, max abs diff 55
+- tier A, verdict **revert**. Footprint 6.04-6.05 GB confirmed over 4 runs, but the config fails Tier A (LPIPS vs bf16 0.058-0.110, visible tile seam).
+
 ## Summary
 
 <!-- summary:start -->
@@ -18,6 +73,9 @@ Speedup vs **exp-011-bf16** = 18.92 s (median of 3). *memory-only* = swap grew, 
 | exp-008 | q8 · staged · tiled VAE | none | q8_free_te | 21.10 | 0.90× | 5.19 | 8.71 | p1 26.5 | flat |
 | exp-009 | bf16 · staged | 0.5 GB | bf16_free_te | 19.57 | 0.97× | 9.49 | 10.26 | p1 = | flat |
 | exp-010 | q8 · staged · tiled VAE | 0.5 GB | q8_free_te | 20.66 | 0.92× | 5.19 | 6.04 | p1 26.5 | flat |
+| exp-010-rep-1 | q8 · staged · tiled VAE | 0.5 GB | q8_free_te | 20.31 | 0.93× | 5.19 | 6.04 | p1 26.5 | flat |
+| exp-010-rep-2 | q8 · staged · tiled VAE | 0.5 GB | q8_free_te | 20.42 | 0.93× | 5.19 | 6.04 | p1 26.5 | flat |
+| exp-010-rep-3 | q8 · staged · tiled VAE | 0.5 GB | q8_free_te | 20.48 | 0.92× | 5.19 | 6.05 | p1 26.5 | flat |
 | exp-011-bf16-1 | bf16 · staged | 0.5 GB | bf16_free_te | 19.20 | 0.99× | 9.49 | 10.08 | p1 = | flat |
 | exp-011-bf16-2 | bf16 · staged | 0.5 GB | bf16_free_te | 18.86 | 1.00× | 9.49 | 10.24 | p1 = | flat |
 | exp-011-bf16-3 | bf16 · staged | 0.5 GB | bf16_free_te | 18.92 | 1.00× | 9.49 | 9.74 | p1 = | flat |
@@ -25,7 +83,14 @@ Speedup vs **exp-011-bf16** = 18.92 s (median of 3). *memory-only* = swap grew, 
 | exp-011-q8-2 | q8 · staged | 0.5 GB | q8_free_te | 20.00 | 0.95× | 9.49 | 9.80 | p1 = | flat |
 | exp-011-q8-3 | q8 · staged | 0.5 GB | q8_free_te | 20.04 | 0.94× | 9.49 | 9.80 | p1 = | flat |
 | exp-012-smoke | bf16 · staged | 0.5 GB | bf16_free_te | – | memory-only | – | 10.82 | p1 = | grew |
+| exp-013 | q8 · free_te · tiled VAE | 0.5 GB | q8_free_te | 22.81 | 0.83× | 5.30 | 6.16 | p1 26.5 · p2 26.3 · p3 27.1 | flat |
 | exp-014 | bf16 | none | – | – | – | – | – | p1 = | – |
+| exp-015-bf16-1 | bf16 · staged | 0.5 GB | bf16_free_te | – | – | – | 10.87 | p1 = | flat |
+| exp-015-bf16-2 | bf16 · staged | 0.5 GB | bf16_free_te | – | – | – | 10.88 | p1 = | flat |
+| exp-015-bf16-3 | bf16 · staged | 0.5 GB | bf16_free_te | – | – | – | 10.87 | p1 = | flat |
+| exp-015-q8-1 | q8 · staged | 0.5 GB | q8_free_te | – | – | – | 10.94 | p1 = | flat |
+| exp-015-q8-2 | q8 · staged | 0.5 GB | q8_free_te | – | – | – | 10.89 | p1 = | flat |
+| exp-015-q8-3 | q8 · staged | 0.5 GB | q8_free_te | – | – | – | 10.91 | p1 = | flat |
 <!-- summary:end -->
 
 ## Log

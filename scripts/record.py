@@ -31,6 +31,16 @@ def main():
     a = ap.parse_args()
 
     r = load(a.exp)
+    if r.get("kind") == "stages":  # stage bench: compute-only totals, no end-to-end image time
+        r.setdefault("total_s", {"median": r["compute_total_s"]})
+        for k, st in (("text_encode_s", "text_encode"), ("denoise_s", "denoise"), ("vae_s", "vae_decode")):
+            r.setdefault(k, {"median": r["stages"][st]["compute_s"]["median"]})
+        r.setdefault("peak_mem_mlx_gb", max(v["peak_mlx_gb"] for v in r["stages"].values()))
+    if "total_s" not in r:  # VAE-only runs: the decode is the whole measured time
+        r["total_s"] = {"median": (r.get("e2e") or {}).get("time_s") or r.get("time_s_median")}
+        r["text_encode_s"] = r["denoise_s"] = {"median": 0.0}
+        r["vae_s"] = r["total_s"]
+        r.setdefault("peak_mem_mlx_gb", (r.get("e2e") or {}).get("peak_gb"))
     base = load(a.baseline) if a.baseline else None
     v = r.get("verify", {})
     psnr = r.get("psnr_db_vs_baseline")

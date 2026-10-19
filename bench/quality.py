@@ -9,9 +9,11 @@ models/torch (TORCH_HOME), never in the user's home cache.
 import argparse
 import json
 import os
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT))
 os.environ.setdefault("TORCH_HOME", str(ROOT / "models" / "torch"))
 
 import numpy as np  # noqa: E402

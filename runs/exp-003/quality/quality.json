@@ -1,0 +1,31 @@
+{
+  "cand": "baselines/q8_free_te",
+  "ref": "baselines/bf16_free_te",
+  "label": "q8 vs bf16 (exp-003)",
+  "per_prompt": {
+    "p1": {
+      "psnr_db": 29.377667336114783,
+      "max_abs_pixel_diff": 147,
+      "mean_abs_pixel_diff": 3.5363648732503257,
+      "identical": false,
+      "lpips": 0.027371058240532875
+    },
+    "p2": {
+      "psnr_db": 27.510796738178463,
+      "max_abs_pixel_diff": 203,
+      "mean_abs_pixel_diff": 4.923281669616699,
+      "identical": false,
+      "lpips": 0.044079653918743134
+    },
+    "p3": {
+      "psnr_db": 20.69256020204857,
+      "max_abs_pixel_diff": 241,
+      "mean_abs_pixel_diff": 11.305839856465658,
+      "identical": false,
+      "lpips": 0.08129096031188965
+    }
+  },
+  "lpips_max": 0.08129096031188965,
+  "psnr_min": 20.69256020204857,
+  "tier_a_pass_lpips": false
+}

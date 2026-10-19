@@ -1,0 +1,4 @@
+[stages] text_encode: load 0.62s warm-up 0.38s compute 0.373s peak 4.739 GB
+[stages] denoise: load 0.63s warm-up 18.13s compute 20.415s peak 5.19 GB
+[stages] vae_decode: load 0.03s warm-up 2.19s compute 2.184s peak 9.556 GB
+[stages] done

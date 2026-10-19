@@ -1,0 +1,31 @@
+{
+  "cand": "runs/exp-013",
+  "ref": "baselines/bf16_free_te",
+  "label": "q8 + tiled VAE vs bf16 baseline",
+  "per_prompt": {
+    "p1": {
+      "psnr_db": 24.741952419223807,
+      "max_abs_pixel_diff": 133,
+      "mean_abs_pixel_diff": 11.880074501037598,
+      "identical": false,
+      "lpips": 0.057880379259586334
+    },
+    "p2": {
+      "psnr_db": 23.78356724885808,
+      "max_abs_pixel_diff": 195,
+      "mean_abs_pixel_diff": 11.442742665608725,
+      "identical": false,
+      "lpips": 0.08966778963804245
+    },
+    "p3": {
+      "psnr_db": 19.810883138615377,
+      "max_abs_pixel_diff": 252,
+      "mean_abs_pixel_diff": 15.74478562672933,
+      "identical": false,
+      "lpips": 0.10995963215827942
+    }
+  },
+  "lpips_max": 0.10995963215827942,
+  "psnr_min": 19.810883138615377,
+  "tier_a_pass_lpips": false
+}

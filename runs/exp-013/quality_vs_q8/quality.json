@@ -1,0 +1,31 @@
+{
+  "cand": "runs/exp-013",
+  "ref": "baselines/q8_free_te",
+  "label": "tiled VAE vs untiled (both q8)",
+  "per_prompt": {
+    "p1": {
+      "psnr_db": 26.510566998549024,
+      "max_abs_pixel_diff": 55,
+      "mean_abs_pixel_diff": 10.856759071350098,
+      "identical": false,
+      "lpips": 0.034867480397224426
+    },
+    "p2": {
+      "psnr_db": 26.275264999274107,
+      "max_abs_pixel_diff": 122,
+      "mean_abs_pixel_diff": 9.511052131652832,
+      "identical": false,
+      "lpips": 0.054627206176519394
+    },
+    "p3": {
+      "psnr_db": 27.10092174227129,
+      "max_abs_pixel_diff": 90,
+      "mean_abs_pixel_diff": 8.831831614176432,
+      "identical": false,
+      "lpips": 0.03607978671789169
+    }
+  },
+  "lpips_max": 0.054627206176519394,
+  "psnr_min": 26.275264999274107,
+  "tier_a_pass_lpips": false
+}

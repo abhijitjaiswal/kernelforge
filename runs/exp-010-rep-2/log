@@ -1,0 +1,5 @@
+[bench] exp-010-rep-2 adapter=flux2_klein opts={'weights': 'q8', 'lifecycle': 'staged', 'tile_vae': True, 'cache_limit_gb': 0.5}
+[bench] loaded in 0.5s, prep {'text_encode_s': {'A close-up portrait photograph of an elderly woman with silver hair and warm brown eyes, soft window light, neutral grey background': 0.4886767090065405}, 'text_encode_peak_gb': 3.537, 'active_before_free_gb': 3.098, 'active_after_free_gb': 0.007}
+[bench] warm-up Nones
+[bench] r0 p1 total 20.42s denoise 17.23s vae 2.68s peak 5.19GB
+[bench] done

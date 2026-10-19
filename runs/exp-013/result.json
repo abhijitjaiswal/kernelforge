@@ -1,0 +1,185 @@
+{
+  "exp_id": "exp-013",
+  "timestamp": "2026-10-19T19:44:15+00:00",
+  "model": "flux2-klein-4b",
+  "config": {
+    "resolution": 1024,
+    "steps": 4,
+    "seed": 42,
+    "prompt_ids": [
+      "p1",
+      "p2",
+      "p3"
+    ],
+    "weights": "q8",
+    "lifecycle": "free_te",
+    "tile_vae": true,
+    "cache_limit_gb": 0.5
+  },
+  "runs": 1,
+  "text_encode_s": {
+    "median": 0.3645262500504032,
+    "min": 0.3642545420443639,
+    "max": 0.48913212498882785,
+    "n": 3
+  },
+  "text_encode_cached": true,
+  "denoise_s": {
+    "median": 19.701244125026278,
+    "min": 19.02873320900835,
+    "max": 20.166527041990776,
+    "n": 3
+  },
+  "vae_s": {
+    "median": 2.732912999985274,
+    "min": 2.7148901249747723,
+    "max": 2.748764541989658,
+    "n": 3
+  },
+  "total_s": {
+    "median": 22.806192042073235,
+    "min": 22.241321916982997,
+    "max": 23.28825325006619,
+    "n": 3
+  },
+  "total_s_by_prompt": {
+    "p1": {
+      "median": 22.241321916982997,
+      "min": 22.241321916982997,
+      "max": 22.241321916982997,
+      "n": 1
+    },
+    "p2": {
+      "median": 22.806192042073235,
+      "min": 22.806192042073235,
+      "max": 22.806192042073235,
+      "n": 1
+    },
+    "p3": {
+      "median": 23.28825325006619,
+      "min": 23.28825325006619,
+      "max": 23.28825325006619,
+      "n": 1
+    }
+  },
+  "first_vs_last_round_total_s": [
+    22.806192042073235,
+    22.806192042073235
+  ],
+  "peak_mem_mlx_gb": 5.297,
+  "mem_by_stage_gb": {
+    "weights": {
+      "text_encoder": 3.981,
+      "transformer": 3.835,
+      "vae": 0.155
+    },
+    "text_encoder_peak": 3.854,
+    "denoise_peak": 5.297,
+    "vae_peak": 2.487
+  },
+  "prepare": {
+    "text_encode_peak_gb": 3.854,
+    "active_before_free_gb": 3.141,
+    "active_after_free_gb": 0.022,
+    "text_encode_s": [
+      0.48913212498882785,
+      0.3642545420443639,
+      0.3645262500504032
+    ]
+  },
+  "adapter": {
+    "model": "flux2-klein-4b",
+    "revision": "e7b7dc27f91deacad38e78976d1f2b499d76a294",
+    "opts": {
+      "weights": "q8",
+      "quantize": null,
+      "lifecycle": "free_te",
+      "tile_vae": true,
+      "mem_limit_gb": null,
+      "cache_limit_gb": 0.5
+    },
+    "load_s": 0.49817787494976074,
+    "mem_after_load_gb": 0.0,
+    "weights_gb": {
+      "text_encoder": 3.981,
+      "transformer": 3.835,
+      "vae": 0.155
+    }
+  },
+  "warmup_s": 20.102604958985467,
+  "swap_used_mb_before_after": [
+    1805.81,
+    1805.81
+  ],
+  "swap_grew": false,
+  "deterministic_across_runs": true,
+  "memtrace": {
+    "peak_footprint_gb": 6.084,
+    "peak_at_s": 73.04,
+    "peak_stage": "denoise",
+    "per_stage": {
+      "load": {
+        "footprint_peak_gb": 0.305,
+        "mlx_active_peak_gb": 0
+      },
+      "prepare": {
+        "footprint_peak_gb": 4.229,
+        "mlx_active_peak_gb": 3.851
+      },
+      "denoise": {
+        "footprint_peak_gb": 6.084,
+        "mlx_active_peak_gb": 5.297
+      },
+      "vae": {
+        "footprint_peak_gb": 3.5,
+        "mlx_active_peak_gb": 2.487
+      },
+      "post": {
+        "footprint_peak_gb": 0.991,
+        "mlx_active_peak_gb": 0.114
+      }
+    }
+  },
+  "power": {
+    "n_samples": 89,
+    "busy_samples": 88,
+    "gpu_mhz_busy_median": 1214,
+    "gpu_mhz_busy_min": 1130,
+    "gpu_mw_busy_median": 10024,
+    "thermal_levels": [
+      "Nominal"
+    ],
+    "thermal_at_start": "Nominal"
+  },
+  "ref": "baselines/q8_free_te",
+  "verify": {
+    "p1": {
+      "psnr_db": 26.510566998549024,
+      "max_abs_pixel_diff": 55,
+      "mean_abs_pixel_diff": 10.856759071350098,
+      "identical": false
+    },
+    "p2": {
+      "psnr_db": 26.275264999274107,
+      "max_abs_pixel_diff": 122,
+      "mean_abs_pixel_diff": 9.511052131652832,
+      "identical": false
+    },
+    "p3": {
+      "psnr_db": 27.10092174227129,
+      "max_abs_pixel_diff": 90,
+      "mean_abs_pixel_diff": 8.831831614176432,
+      "identical": false
+    }
+  },
+  "psnr_db_vs_baseline": 26.275264999274107,
+  "max_abs_pixel_diff": 122,
+  "idle_check": "Processes: 493 total, 2 running, 491 sleeping, 2537 threads \n2026/10/20 01:14:15\nLoad Avg: 1.44, 1.40, 1.39 \nCPU usage: 0.0% user, 7.50% sys, 92.50% idle \nSharedLibs: 385M resident, 81M data, 66M linkedit.\nMemRegions: 169260 total, 1594M resident, 185M private, 577M shared.\nPhysMem: 9620M used (2072M wired, 555M compressor), 6061M unused.\nVM: 207T vsize, 6144M framework vsize, 161529613(0) swapins, 204142797(0) swapouts.\nNetworks: packets: 152137223/421G in, 114026968/349G out.\nDisks: 172915196/6051G read, 105329236/4587G written.\n\nPID    COMMAND          %CPU TIME     #TH #WQ #PORTS MEM   PURG CMPRS PGRP  PPID STATE    BOOSTS     %CPU_ME %CPU_OTHRS UID FAULTS  COW MSGSENT MSGRECV SYSBSD   SYSMACH CSW      PAGEINS IDLEW  POWER INSTRS CYCLES JETPRI USER     #MREGS RPRVT VPRVT VSIZE KPRVT KSHRD\n",
+  "mlx_version": "0.32.4",
+  "process": {
+    "peak_footprint_gb": 6.163,
+    "max_rss_gb": 4.206,
+    "process_wall_s": 90.83
+  },
+  "returncode": 0
+}
