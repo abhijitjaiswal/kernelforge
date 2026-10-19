@@ -1,0 +1,143 @@
+{
+  "exp_id": "exp-003",
+  "timestamp": "2026-10-19T18:12:58+00:00",
+  "model": "flux2-klein-4b",
+  "config": {
+    "resolution": 1024,
+    "steps": 4,
+    "seed": 42,
+    "prompt_ids": [
+      "p1",
+      "p2",
+      "p3"
+    ],
+    "weights": "bf16",
+    "lifecycle": "free_te"
+  },
+  "runs": 3,
+  "text_encode_s": {
+    "median": 0.3573390830424614,
+    "min": 0.34347520797746256,
+    "max": 1.2629197500064038,
+    "n": 9
+  },
+  "text_encode_cached": true,
+  "denoise_s": {
+    "median": 22.227883042010944,
+    "min": 20.23987704195315,
+    "max": 28.264739292033482,
+    "n": 9
+  },
+  "vae_s": {
+    "median": 3.9809485420119017,
+    "min": 2.7910455419914797,
+    "max": 5.231762249954045,
+    "n": 9
+  },
+  "total_s": {
+    "median": 26.669504833058454,
+    "min": 24.11694258300122,
+    "max": 33.796930915967096,
+    "n": 9
+  },
+  "total_s_by_prompt": {
+    "p1": {
+      "median": 26.016903167008422,
+      "min": 25.54440962499939,
+      "max": 32.722308875003364,
+      "n": 3
+    },
+    "p2": {
+      "median": 26.669504833058454,
+      "min": 24.11694258300122,
+      "max": 32.677004583063535,
+      "n": 3
+    },
+    "p3": {
+      "median": 29.9963292919565,
+      "min": 25.4000392909511,
+      "max": 33.796930915967096,
+      "n": 3
+    }
+  },
+  "first_vs_last_round_total_s": [
+    25.4000392909511,
+    32.722308875003364
+  ],
+  "peak_mem_mlx_gb": 9.511,
+  "mem_by_stage_gb": {
+    "weights": {
+      "text_encoder": 7.492,
+      "transformer": 7.219,
+      "vae": 0.157
+    },
+    "text_encoder_peak": 6.505,
+    "denoise_peak": 8.681,
+    "vae_peak": 9.511
+  },
+  "prepare": {
+    "text_encode_peak_gb": 6.505,
+    "active_before_free_gb": 5.84,
+    "active_after_free_gb": 0.022,
+    "text_encode_s": [
+      1.2629197500064038,
+      0.3573390830424614,
+      0.34347520797746256
+    ]
+  },
+  "adapter": {
+    "model": "flux2-klein-4b",
+    "revision": "e7b7dc27f91deacad38e78976d1f2b499d76a294",
+    "opts": {
+      "weights": "bf16",
+      "quantize": null,
+      "lifecycle": "free_te",
+      "tile_vae": false,
+      "mem_limit_gb": null
+    },
+    "load_s": 0.38050220801960677,
+    "mem_after_load_gb": 0.0,
+    "weights_gb": {
+      "text_encoder": 7.492,
+      "transformer": 7.219,
+      "vae": 0.157
+    }
+  },
+  "warmup_s": 21.249717041035183,
+  "swap_used_mb_before_after": [
+    2200.12,
+    3021.0
+  ],
+  "swap_grew": true,
+  "deterministic_across_runs": true,
+  "verify": {
+    "p1": {
+      "psnr_db": 29.377667336114783,
+      "max_abs_pixel_diff": 147,
+      "mean_abs_pixel_diff": 3.5363648732503257,
+      "identical": false
+    },
+    "p2": {
+      "psnr_db": 27.510796738178463,
+      "max_abs_pixel_diff": 203,
+      "mean_abs_pixel_diff": 4.923281669616699,
+      "identical": false
+    },
+    "p3": {
+      "psnr_db": 20.69256020204857,
+      "max_abs_pixel_diff": 241,
+      "mean_abs_pixel_diff": 11.305839856465658,
+      "identical": false
+    }
+  },
+  "psnr_db_vs_baseline": 20.69256020204857,
+  "max_abs_pixel_diff": 241,
+  "idle_check": "Processes: 399 total, 2 running, 397 sleeping, 2234 threads \n2026/10/19 23:42:58\nLoad Avg: 1.47, 1.30, 1.31 \nCPU usage: 0.89% user, 9.82% sys, 89.28% idle \nSharedLibs: 348M resident, 77M data, 61M linkedit.\nMemRegions: 162749 total, 1084M resident, 114M private, 682M shared.\nPhysMem: 5003M used (2534M wired, 274M compressor), 10G unused.\nVM: 169T vsize, 6144M framework vsize, 158827305(0) swapins, 195616180(0) swapouts.\nNetworks: packets: 151840562/420G in, 113928876/349G out.\nDisks: 170266533/5698G read, 103081623/4456G written.\n\nPID    COMMAND          %CPU TIME     #TH #WQ  #PORTS MEM   PURG CMPRS PGRP  PPID STATE    BOOSTS     %CPU_ME %CPU_OTHRS UID FAULTS  COW MSGSENT MSGRECV SYSBSD   SYSMACH CSW      PAGEINS IDLEW  POWER INSTRS CYCLES JETPRI USER     #MREGS RPRVT VPRVT VSIZE KPRVT KSHRD\n",
+  "mlx_version": "0.32.4",
+  "process": {
+    "peak_footprint_gb": 12.325,
+    "max_rss_gb": 6.069,
+    "process_wall_s": 276.76
+  },
+  "returncode": 0
+}

@@ -92,7 +92,7 @@ def main():
         f.write(json.dumps(ds) + "\n")
 
     t = r["total_s"]["median"]
-    psnr_list = ", ".join("%s %s" % (k, x.get("psnr_db", "n/a")) for k, x in v.items())
+    psnr_list = ", ".join("%s %.1f" % (k, x.get("psnr_db") or 0) for k, x in v.items())
     md = (
         f"### {a.exp}: {a.change}\n"
         f"- total {t:.2f} s (denoise {r['denoise_s']['median']:.2f}, VAE {r['vae_s']['median']:.2f}, "

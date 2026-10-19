@@ -1,0 +1,136 @@
+{
+  "exp_id": "exp-002",
+  "timestamp": "2026-10-19T18:03:22+00:00",
+  "model": "flux2-klein-4b",
+  "config": {
+    "resolution": 1024,
+    "steps": 4,
+    "seed": 42,
+    "prompt_ids": [
+      "p1",
+      "p2",
+      "p3"
+    ],
+    "weights": "q8",
+    "lifecycle": "stock"
+  },
+  "runs": 5,
+  "text_encode_s": {
+    "median": 1.1206626659841277,
+    "min": 0.5352733340114355,
+    "max": 5.408934999955818,
+    "n": 15
+  },
+  "text_encode_cached": false,
+  "denoise_s": {
+    "median": 22.767758500005584,
+    "min": 19.91268474998651,
+    "max": 31.708350708009675,
+    "n": 15
+  },
+  "vae_s": {
+    "median": 2.7750333750154823,
+    "min": 2.5930357920005918,
+    "max": 3.587317208002787,
+    "n": 15
+  },
+  "total_s": {
+    "median": 26.607459208986256,
+    "min": 24.154048374970444,
+    "max": 36.567123125016224,
+    "n": 15
+  },
+  "total_s_by_prompt": {
+    "p1": {
+      "median": 26.66266995802289,
+      "min": 24.977301125007216,
+      "max": 36.567123125016224,
+      "n": 5
+    },
+    "p2": {
+      "median": 26.56121820799308,
+      "min": 25.067616416024975,
+      "max": 32.854462624993175,
+      "n": 5
+    },
+    "p3": {
+      "median": 26.607459208986256,
+      "min": 24.154048374970444,
+      "max": 32.90038825001102,
+      "n": 5
+    }
+  },
+  "first_vs_last_round_total_s": [
+    25.4791569999652,
+    31.869025958003476
+  ],
+  "peak_mem_mlx_gb": 15.99,
+  "mem_by_stage_gb": {
+    "weights": {
+      "text_encoder": 3.981,
+      "transformer": 3.835,
+      "vae": 0.155
+    },
+    "text_encoder_peak": null,
+    "denoise_peak": 9.327,
+    "vae_peak": 15.99
+  },
+  "prepare": {
+    "text_encode_s": []
+  },
+  "adapter": {
+    "model": "flux2-klein-4b",
+    "revision": "e7b7dc27f91deacad38e78976d1f2b499d76a294",
+    "opts": {
+      "weights": "q8",
+      "quantize": null,
+      "lifecycle": "stock",
+      "tile_vae": false,
+      "mem_limit_gb": null
+    },
+    "load_s": 1.753268125001341,
+    "mem_after_load_gb": 7.972,
+    "weights_gb": {
+      "text_encoder": 3.981,
+      "transformer": 3.835,
+      "vae": 0.155
+    }
+  },
+  "warmup_s": 24.849194541049656,
+  "swap_used_mb_before_after": [
+    2831.31,
+    4667.06
+  ],
+  "swap_grew": true,
+  "deterministic_across_runs": true,
+  "verify": {
+    "p1": {
+      "psnr_db": 999.0,
+      "max_abs_pixel_diff": 0,
+      "mean_abs_pixel_diff": 0.0,
+      "identical": true
+    },
+    "p2": {
+      "psnr_db": 999.0,
+      "max_abs_pixel_diff": 0,
+      "mean_abs_pixel_diff": 0.0,
+      "identical": true
+    },
+    "p3": {
+      "psnr_db": 999.0,
+      "max_abs_pixel_diff": 0,
+      "mean_abs_pixel_diff": 0.0,
+      "identical": true
+    }
+  },
+  "psnr_db_vs_baseline": 999.0,
+  "max_abs_pixel_diff": 0,
+  "idle_check": "Processes: 369 total, 2 running, 367 sleeping, 2178 threads \n2026/10/19 23:33:22\nLoad Avg: 1.67, 1.50, 1.45 \nCPU usage: 1.76% user, 8.84% sys, 89.38% idle \nSharedLibs: 373M resident, 59M data, 73M linkedit.\nMemRegions: 158864 total, 952M resident, 114M private, 460M shared.\nPhysMem: 4736M used (2085M wired, 236M compressor), 11G unused.\nVM: 157T vsize, 6144M framework vsize, 157574788(0) swapins, 194221409(0) swapouts.\nNetworks: packets: 151834153/420G in, 113925505/349G out.\nDisks: 169517549/5669G read, 102718646/4434G written.\n\nPID    COMMAND          %CPU TIME     #TH #WQ  #PORTS MEM   PURG CMPRS PGRP  PPID STATE    BOOSTS     %CPU_ME %CPU_OTHRS UID FAULTS  COW MSGSENT MSGRECV SYSBSD   SYSMACH CSW      PAGEINS IDLEW  POWER INSTRS CYCLES JETPRI USER     #MREGS RPRVT VPRVT VSIZE KPRVT KSHRD\n",
+  "mlx_version": "0.32.4",
+  "process": {
+    "peak_footprint_gb": 14.116,
+    "max_rss_gb": 5.577,
+    "process_wall_s": 456.31
+  },
+  "returncode": 0
+}

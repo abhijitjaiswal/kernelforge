@@ -1,0 +1,144 @@
+{
+  "exp_id": "exp-004",
+  "timestamp": "2026-10-19T18:19:35+00:00",
+  "model": "flux2-klein-4b",
+  "config": {
+    "resolution": 1024,
+    "steps": 4,
+    "seed": 42,
+    "prompt_ids": [
+      "p1",
+      "p2",
+      "p3"
+    ],
+    "weights": "q8",
+    "lifecycle": "free_te",
+    "tile_vae": true
+  },
+  "runs": 5,
+  "text_encode_s": {
+    "median": 0.3913834579871036,
+    "min": 0.384449917008169,
+    "max": 0.4893848330248147,
+    "n": 15
+  },
+  "text_encode_cached": true,
+  "denoise_s": {
+    "median": 31.95227549999254,
+    "min": 23.049364917038474,
+    "max": 34.19022483302979,
+    "n": 15
+  },
+  "vae_s": {
+    "median": 7.523003625043202,
+    "min": 5.085832750017289,
+    "max": 8.321055999957025,
+    "n": 15
+  },
+  "total_s": {
+    "median": 39.69645991700236,
+    "min": 29.40908816695446,
+    "max": 42.264768542023376,
+    "n": 15
+  },
+  "total_s_by_prompt": {
+    "p1": {
+      "median": 40.29091800004244,
+      "min": 30.313682083040476,
+      "max": 41.60452295804862,
+      "n": 5
+    },
+    "p2": {
+      "median": 39.423045750998426,
+      "min": 29.40908816695446,
+      "max": 42.264768542023376,
+      "n": 5
+    },
+    "p3": {
+      "median": 39.69645991700236,
+      "min": 32.21865804196568,
+      "max": 40.7857086660224,
+      "n": 5
+    }
+  },
+  "first_vs_last_round_total_s": [
+    30.313682083040476,
+    40.7857086660224
+  ],
+  "peak_mem_mlx_gb": 5.297,
+  "mem_by_stage_gb": {
+    "weights": {
+      "text_encoder": 3.981,
+      "transformer": 3.835,
+      "vae": 0.155
+    },
+    "text_encoder_peak": 3.854,
+    "denoise_peak": 5.297,
+    "vae_peak": 2.487
+  },
+  "prepare": {
+    "text_encode_peak_gb": 3.854,
+    "active_before_free_gb": 3.122,
+    "active_after_free_gb": 0.022,
+    "text_encode_s": [
+      0.4893848330248147,
+      0.384449917008169,
+      0.3913834579871036
+    ]
+  },
+  "adapter": {
+    "model": "flux2-klein-4b",
+    "revision": "e7b7dc27f91deacad38e78976d1f2b499d76a294",
+    "opts": {
+      "weights": "q8",
+      "quantize": null,
+      "lifecycle": "free_te",
+      "tile_vae": true,
+      "mem_limit_gb": null
+    },
+    "load_s": 0.5147040409501642,
+    "mem_after_load_gb": 0.0,
+    "weights_gb": {
+      "text_encoder": 3.981,
+      "transformer": 3.835,
+      "vae": 0.155
+    }
+  },
+  "warmup_s": 22.55035641696304,
+  "swap_used_mb_before_after": [
+    2700.94,
+    3492.56
+  ],
+  "swap_grew": true,
+  "deterministic_across_runs": true,
+  "verify": {
+    "p1": {
+      "psnr_db": 26.510566998549024,
+      "max_abs_pixel_diff": 55,
+      "mean_abs_pixel_diff": 10.856759071350098,
+      "identical": false
+    },
+    "p2": {
+      "psnr_db": 26.275264999274107,
+      "max_abs_pixel_diff": 122,
+      "mean_abs_pixel_diff": 9.511052131652832,
+      "identical": false
+    },
+    "p3": {
+      "psnr_db": 27.10092174227129,
+      "max_abs_pixel_diff": 90,
+      "mean_abs_pixel_diff": 8.831831614176432,
+      "identical": false
+    }
+  },
+  "psnr_db_vs_baseline": 26.275264999274107,
+  "max_abs_pixel_diff": 122,
+  "idle_check": "Processes: 423 total, 2 running, 421 sleeping, 2277 threads \n2026/10/19 23:49:35\nLoad Avg: 1.84, 1.70, 1.49 \nCPU usage: 3.38% user, 9.32% sys, 87.28% idle \nSharedLibs: 622M resident, 113M data, 104M linkedit.\nMemRegions: 164883 total, 1236M resident, 209M private, 794M shared.\nPhysMem: 5925M used (2473M wired, 246M compressor), 9549M unused.\nVM: 179T vsize, 6144M framework vsize, 159283010(0) swapins, 197362120(0) swapouts.\nNetworks: packets: 151846655/420G in, 113932269/349G out.\nDisks: 170806745/5787G read, 103528185/4482G written.\n\nPID    COMMAND          %CPU TIME     #TH #WQ  #PORTS MEM   PURG CMPRS PGRP  PPID STATE    BOOSTS     %CPU_ME %CPU_OTHRS UID FAULTS  COW MSGSENT MSGRECV SYSBSD   SYSMACH CSW      PAGEINS IDLEW  POWER INSTRS CYCLES JETPRI USER     #MREGS RPRVT VPRVT VSIZE KPRVT KSHRD\n",
+  "mlx_version": "0.32.4",
+  "process": {
+    "peak_footprint_gb": 11.901,
+    "max_rss_gb": 3.411,
+    "process_wall_s": 592.37
+  },
+  "returncode": 0
+}

@@ -1,0 +1,19 @@
+[bench] exp-002 adapter=flux2_klein opts={'weights': 'q8', 'lifecycle': 'stock'}
+[bench] loaded in 1.8s, prep {'text_encode_s': {}}
+[bench] warm-up 24.8s
+[bench] r0 p1 total 26.66s denoise 19.91s vae 2.74s peak 15.99GB
+[bench] r0 p2 total 25.48s denoise 20.51s vae 2.59s peak 15.99GB
+[bench] r0 p3 total 24.15s denoise 20.91s vae 2.70s peak 15.99GB
+[bench] r1 p1 total 24.98s denoise 21.58s vae 2.78s peak 15.99GB
+[bench] r1 p2 total 25.07s denoise 21.86s vae 2.65s peak 15.99GB
+[bench] r1 p3 total 24.74s denoise 21.09s vae 2.72s peak 15.99GB
+[bench] r2 p1 total 25.17s denoise 21.68s vae 2.66s peak 15.99GB
+[bench] r2 p2 total 26.56s denoise 22.77s vae 2.74s peak 15.99GB
+[bench] r2 p3 total 26.61s denoise 22.86s vae 2.85s peak 15.99GB
+[bench] r3 p1 total 36.57s denoise 31.71s vae 3.59s peak 15.99GB
+[bench] r3 p2 total 32.85s denoise 24.02s vae 3.41s peak 15.99GB
+[bench] r3 p3 total 32.90s denoise 24.82s vae 3.25s peak 15.99GB
+[bench] r4 p1 total 32.46s denoise 26.34s vae 3.28s peak 15.99GB
+[bench] r4 p2 total 31.87s denoise 27.37s vae 3.27s peak 15.99GB
+[bench] r4 p3 total 31.07s denoise 27.03s vae 2.82s peak 15.99GB
+[bench] done

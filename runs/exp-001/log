@@ -6,3 +6,14 @@
 [bench] r0 p3 total 24.17s denoise 21.24s vae 2.55s peak 9.508GB
 [bench] r1 p1 total 24.09s denoise 21.35s vae 2.25s peak 9.508GB
 [bench] r1 p2 total 25.84s denoise 21.75s vae 3.73s peak 9.508GB
+[bench] r1 p3 total 25.36s denoise 21.57s vae 3.34s peak 9.508GB
+[bench] r2 p1 total 26.02s denoise 21.99s vae 3.53s peak 9.508GB
+[bench] r2 p2 total 25.10s denoise 21.87s vae 2.75s peak 9.508GB
+[bench] r2 p3 total 25.42s denoise 22.27s vae 2.78s peak 9.508GB
+[bench] r3 p1 total 25.80s denoise 22.18s vae 3.12s peak 9.508GB
+[bench] r3 p2 total 25.18s denoise 22.18s vae 2.55s peak 9.508GB
+[bench] r3 p3 total 26.51s denoise 23.27s vae 2.85s peak 9.508GB
+[bench] r4 p1 total 27.53s denoise 22.72s vae 4.31s peak 9.508GB
+[bench] r4 p2 total 26.62s denoise 23.76s vae 2.48s peak 9.508GB
+[bench] r4 p3 total 29.58s denoise 24.84s vae 4.37s peak 9.508GB
+[bench] done

@@ -1,0 +1,13 @@
+[bench] exp-003 adapter=flux2_klein opts={'weights': 'bf16', 'lifecycle': 'free_te'}
+[bench] loaded in 0.4s, prep {'text_encode_s': {'A close-up portrait photograph of an elderly woman with silver hair and warm brown eyes, soft window light, neutral grey background': 1.2629197500064038, 'A wide alpine landscape at golden hour: a turquoise glacial lake in the foreground, pine forest along the shore, snow-capped jagged peaks behind, thin clouds catching orange light, a small wooden cabin with smoke rising from the chimney, highly detailed, photorealistic': 0.3573390830424614, 'A weathered wooden sign nailed to a fence post that reads "FRESH EGGS 2 DOLLARS" in hand-painted red capital letters, rural farm background, daylight, sharp focus': 0.34347520797746256}, 'text_encode_peak_gb': 6.505, 'active_before_free_gb': 5.84, 'active_after_free_gb': 0.022}
+[bench] warm-up 21.2s
+[bench] r0 p1 total 25.54s denoise 20.24s vae 3.98s peak 9.511GB
+[bench] r0 p2 total 24.12s denoise 20.94s vae 2.79s peak 9.511GB
+[bench] r0 p3 total 25.40s denoise 21.15s vae 3.79s peak 9.511GB
+[bench] r1 p1 total 26.02s denoise 21.36s vae 3.38s peak 9.511GB
+[bench] r1 p2 total 26.67s denoise 22.23s vae 3.99s peak 9.511GB
+[bench] r1 p3 total 30.00s denoise 26.00s vae 3.64s peak 9.511GB
+[bench] r2 p1 total 32.72s denoise 27.20s vae 4.24s peak 9.511GB
+[bench] r2 p2 total 32.68s denoise 28.26s vae 4.03s peak 9.511GB
+[bench] r2 p3 total 33.80s denoise 28.20s vae 5.23s peak 9.511GB
+[bench] done
