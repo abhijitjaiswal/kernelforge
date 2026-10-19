@@ -1,0 +1,149 @@
+{
+  "exp_id": "exp-011-q8-2",
+  "timestamp": "2026-10-19T19:03:18+00:00",
+  "model": "flux2-klein-4b",
+  "config": {
+    "resolution": 1024,
+    "steps": 4,
+    "seed": 42,
+    "prompt_ids": [
+      "p1"
+    ],
+    "weights": "q8",
+    "lifecycle": "staged",
+    "cache_limit_gb": 0.5
+  },
+  "runs": 1,
+  "text_encode_s": {
+    "median": 0.4899086660007015,
+    "min": 0.4899086660007015,
+    "max": 0.4899086660007015,
+    "n": 1
+  },
+  "text_encode_cached": true,
+  "denoise_s": {
+    "median": 17.388886041997466,
+    "min": 17.388886041997466,
+    "max": 17.388886041997466,
+    "n": 1
+  },
+  "vae_s": {
+    "median": 2.088202374987304,
+    "min": 2.088202374987304,
+    "max": 2.088202374987304,
+    "n": 1
+  },
+  "total_s": {
+    "median": 20.003786083019804,
+    "min": 20.003786083019804,
+    "max": 20.003786083019804,
+    "n": 1
+  },
+  "total_s_by_prompt": {
+    "p1": {
+      "median": 20.003786083019804,
+      "min": 20.003786083019804,
+      "max": 20.003786083019804,
+      "n": 1
+    }
+  },
+  "first_vs_last_round_total_s": [
+    20.003786083019804,
+    20.003786083019804
+  ],
+  "peak_mem_mlx_gb": 9.492,
+  "mem_by_stage_gb": {
+    "weights": {
+      "text_encoder": 3.981,
+      "transformer": 3.835,
+      "vae": 0.155
+    },
+    "text_encoder_peak": 3.537,
+    "denoise_peak": 5.19,
+    "vae_peak": 9.492
+  },
+  "prepare": {
+    "text_encode_peak_gb": 3.537,
+    "active_before_free_gb": 3.105,
+    "active_after_free_gb": 0.007,
+    "text_encode_s": [
+      0.4899086660007015
+    ]
+  },
+  "adapter": {
+    "model": "flux2-klein-4b",
+    "revision": "e7b7dc27f91deacad38e78976d1f2b499d76a294",
+    "opts": {
+      "weights": "q8",
+      "quantize": null,
+      "lifecycle": "staged",
+      "tile_vae": false,
+      "mem_limit_gb": null,
+      "cache_limit_gb": 0.5
+    },
+    "load_s": 0.49524720798945054,
+    "mem_after_load_gb": 0.0,
+    "weights_gb": {
+      "text_encoder": 3.981,
+      "transformer": 3.835,
+      "vae": 0.155
+    }
+  },
+  "warmup_s": null,
+  "swap_used_mb_before_after": [
+    1818.44,
+    1818.44
+  ],
+  "swap_grew": false,
+  "deterministic_across_runs": true,
+  "memtrace": {
+    "peak_footprint_gb": 9.489,
+    "peak_at_s": 20.25,
+    "peak_stage": "vae",
+    "per_stage": {
+      "load": {
+        "footprint_peak_gb": 0.305,
+        "mlx_active_peak_gb": 0
+      },
+      "prepare": {
+        "footprint_peak_gb": 3.687,
+        "mlx_active_peak_gb": 3.345
+      },
+      "free_text_encoder": {
+        "footprint_peak_gb": 3.167,
+        "mlx_active_peak_gb": 0.007
+      },
+      "denoise": {
+        "footprint_peak_gb": 5.965,
+        "mlx_active_peak_gb": 5.19
+      },
+      "vae": {
+        "footprint_peak_gb": 9.489,
+        "mlx_active_peak_gb": 9.492
+      },
+      "post": {
+        "footprint_peak_gb": 2.71,
+        "mlx_active_peak_gb": 0.118
+      }
+    }
+  },
+  "ref": "baselines/q8_free_te",
+  "verify": {
+    "p1": {
+      "psnr_db": 999.0,
+      "max_abs_pixel_diff": 0,
+      "mean_abs_pixel_diff": 0.0,
+      "identical": true
+    }
+  },
+  "psnr_db_vs_baseline": 999.0,
+  "max_abs_pixel_diff": 0,
+  "idle_check": "Processes: 453 total, 2 running, 451 sleeping, 2307 threads \n2026/10/20 00:33:18\nLoad Avg: 1.63, 1.64, 1.56 \nCPU usage: 0.84% user, 9.32% sys, 89.83% idle \nSharedLibs: 458M resident, 58M data, 61M linkedit.\nMemRegions: 166010 total, 1137M resident, 114M private, 488M shared.\nPhysMem: 5965M used (2291M wired, 675M compressor), 9640M unused.\nVM: 191T vsize, 6144M framework vsize, 161524442(0) swapins, 204137973(0) swapouts.\nNetworks: packets: 151885460/420G in, 113985156/349G out.\nDisks: 172626440/5985G read, 105285013/4586G written.\n\nPID    COMMAND          %CPU TIME     #TH #WQ #PORTS MEM   PURG CMPRS PGRP  PPID STATE    BOOSTS     %CPU_ME %CPU_OTHRS UID FAULTS  COW MSGSENT MSGRECV SYSBSD   SYSMACH CSW      PAGEINS IDLEW  POWER INSTRS CYCLES JETPRI USER     #MREGS RPRVT VPRVT VSIZE KPRVT KSHRD\n",
+  "mlx_version": "0.32.4",
+  "process": {
+    "peak_footprint_gb": 9.8,
+    "max_rss_gb": 4.116,
+    "process_wall_s": 21.58
+  },
+  "returncode": 0
+}

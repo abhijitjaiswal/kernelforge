@@ -1,0 +1,150 @@
+{
+  "exp_id": "exp-010",
+  "timestamp": "2026-10-19T18:51:52+00:00",
+  "model": "flux2-klein-4b",
+  "config": {
+    "resolution": 1024,
+    "steps": 4,
+    "seed": 42,
+    "prompt_ids": [
+      "p1"
+    ],
+    "weights": "q8",
+    "lifecycle": "staged",
+    "tile_vae": true,
+    "cache_limit_gb": 0.5
+  },
+  "runs": 1,
+  "text_encode_s": {
+    "median": 0.48872454196680337,
+    "min": 0.48872454196680337,
+    "max": 0.48872454196680337,
+    "n": 1
+  },
+  "text_encode_cached": true,
+  "denoise_s": {
+    "median": 17.466972458001692,
+    "min": 17.466972458001692,
+    "max": 17.466972458001692,
+    "n": 1
+  },
+  "vae_s": {
+    "median": 2.6888957080082037,
+    "min": 2.6888957080082037,
+    "max": 2.6888957080082037,
+    "n": 1
+  },
+  "total_s": {
+    "median": 20.655058832955547,
+    "min": 20.655058832955547,
+    "max": 20.655058832955547,
+    "n": 1
+  },
+  "total_s_by_prompt": {
+    "p1": {
+      "median": 20.655058832955547,
+      "min": 20.655058832955547,
+      "max": 20.655058832955547,
+      "n": 1
+    }
+  },
+  "first_vs_last_round_total_s": [
+    20.655058832955547,
+    20.655058832955547
+  ],
+  "peak_mem_mlx_gb": 5.19,
+  "mem_by_stage_gb": {
+    "weights": {
+      "text_encoder": 3.981,
+      "transformer": 3.835,
+      "vae": 0.155
+    },
+    "text_encoder_peak": 3.537,
+    "denoise_peak": 5.19,
+    "vae_peak": 2.472
+  },
+  "prepare": {
+    "text_encode_peak_gb": 3.537,
+    "active_before_free_gb": 3.098,
+    "active_after_free_gb": 0.007,
+    "text_encode_s": [
+      0.48872454196680337
+    ]
+  },
+  "adapter": {
+    "model": "flux2-klein-4b",
+    "revision": "e7b7dc27f91deacad38e78976d1f2b499d76a294",
+    "opts": {
+      "weights": "q8",
+      "quantize": null,
+      "lifecycle": "staged",
+      "tile_vae": true,
+      "mem_limit_gb": null,
+      "cache_limit_gb": 0.5
+    },
+    "load_s": 0.4976075000013225,
+    "mem_after_load_gb": 0.0,
+    "weights_gb": {
+      "text_encoder": 3.981,
+      "transformer": 3.835,
+      "vae": 0.155
+    }
+  },
+  "warmup_s": null,
+  "swap_used_mb_before_after": [
+    1826.44,
+    1826.44
+  ],
+  "swap_grew": false,
+  "deterministic_across_runs": true,
+  "memtrace": {
+    "peak_footprint_gb": 5.964,
+    "peak_at_s": 15.54,
+    "peak_stage": "denoise",
+    "per_stage": {
+      "load": {
+        "footprint_peak_gb": 0.305,
+        "mlx_active_peak_gb": 0
+      },
+      "prepare": {
+        "footprint_peak_gb": 3.734,
+        "mlx_active_peak_gb": 3.447
+      },
+      "free_text_encoder": {
+        "footprint_peak_gb": 3.113,
+        "mlx_active_peak_gb": 0.007
+      },
+      "denoise": {
+        "footprint_peak_gb": 5.964,
+        "mlx_active_peak_gb": 5.19
+      },
+      "vae": {
+        "footprint_peak_gb": 3.402,
+        "mlx_active_peak_gb": 2.471
+      },
+      "post": {
+        "footprint_peak_gb": 0.97,
+        "mlx_active_peak_gb": 0.113
+      }
+    }
+  },
+  "ref": "baselines/q8_free_te",
+  "verify": {
+    "p1": {
+      "psnr_db": 26.510566998549024,
+      "max_abs_pixel_diff": 55,
+      "mean_abs_pixel_diff": 10.856759071350098,
+      "identical": false
+    }
+  },
+  "psnr_db_vs_baseline": 26.510566998549024,
+  "max_abs_pixel_diff": 55,
+  "idle_check": "Processes: 449 total, 2 running, 447 sleeping, 2306 threads \n2026/10/20 00:21:52\nLoad Avg: 1.73, 1.67, 1.54 \nCPU usage: 1.69% user, 8.47% sys, 89.83% idle \nSharedLibs: 623M resident, 109M data, 91M linkedit.\nMemRegions: 165683 total, 1702M resident, 204M private, 884M shared.\nPhysMem: 7233M used (2158M wired, 440M compressor), 8297M unused.\nVM: 189T vsize, 6144M framework vsize, 161523959(0) swapins, 204137973(0) swapouts.\nNetworks: packets: 151875919/420G in, 113980545/349G out.\nDisks: 172512949/5944G read, 105279244/4586G written.\n\nPID    COMMAND          %CPU TIME     #TH #WQ #PORTS MEM   PURG CMPRS PGRP  PPID STATE    BOOSTS     %CPU_ME %CPU_OTHRS UID FAULTS  COW MSGSENT MSGRECV SYSBSD   SYSMACH CSW      PAGEINS IDLEW  POWER INSTRS CYCLES JETPRI USER     #MREGS RPRVT VPRVT VSIZE KPRVT KSHRD\n",
+  "mlx_version": "0.32.4",
+  "process": {
+    "peak_footprint_gb": 6.043,
+    "max_rss_gb": 3.412,
+    "process_wall_s": 22.27
+  },
+  "returncode": 0
+}

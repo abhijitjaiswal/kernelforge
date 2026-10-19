@@ -1,0 +1,145 @@
+{
+  "exp_id": "exp-009",
+  "timestamp": "2026-10-19T18:48:31+00:00",
+  "model": "flux2-klein-4b",
+  "config": {
+    "resolution": 1024,
+    "steps": 4,
+    "seed": 42,
+    "prompt_ids": [
+      "p1"
+    ],
+    "weights": "bf16",
+    "lifecycle": "staged",
+    "cache_limit_gb": 0.5
+  },
+  "runs": 1,
+  "text_encode_s": {
+    "median": 1.0350039170007221,
+    "min": 1.0350039170007221,
+    "max": 1.0350039170007221,
+    "n": 1
+  },
+  "text_encode_cached": true,
+  "denoise_s": {
+    "median": 16.34434849995887,
+    "min": 16.34434849995887,
+    "max": 16.34434849995887,
+    "n": 1
+  },
+  "vae_s": {
+    "median": 2.156168167013675,
+    "min": 2.156168167013675,
+    "max": 2.156168167013675,
+    "n": 1
+  },
+  "total_s": {
+    "median": 19.56989604199771,
+    "min": 19.56989604199771,
+    "max": 19.56989604199771,
+    "n": 1
+  },
+  "total_s_by_prompt": {
+    "p1": {
+      "median": 19.56989604199771,
+      "min": 19.56989604199771,
+      "max": 19.56989604199771,
+      "n": 1
+    }
+  },
+  "first_vs_last_round_total_s": [
+    19.56989604199771,
+    19.56989604199771
+  ],
+  "peak_mem_mlx_gb": 9.495,
+  "mem_by_stage_gb": {
+    "weights": {
+      "text_encoder": 7.492,
+      "transformer": 7.219,
+      "vae": 0.157
+    },
+    "text_encoder_peak": 6.34,
+    "denoise_peak": 8.574,
+    "vae_peak": 9.495
+  },
+  "prepare": {
+    "text_encode_peak_gb": 6.34,
+    "active_before_free_gb": 5.815,
+    "active_after_free_gb": 0.007,
+    "text_encode_s": [
+      1.0350039170007221
+    ]
+  },
+  "adapter": {
+    "model": "flux2-klein-4b",
+    "revision": "e7b7dc27f91deacad38e78976d1f2b499d76a294",
+    "opts": {
+      "weights": "bf16",
+      "quantize": null,
+      "lifecycle": "staged",
+      "tile_vae": false,
+      "mem_limit_gb": null,
+      "cache_limit_gb": 0.5
+    },
+    "load_s": 0.3713770000031218,
+    "mem_after_load_gb": 0.0,
+    "weights_gb": {
+      "text_encoder": 7.492,
+      "transformer": 7.219,
+      "vae": 0.157
+    }
+  },
+  "warmup_s": null,
+  "swap_used_mb_before_after": [
+    2691.94,
+    2691.94
+  ],
+  "swap_grew": false,
+  "deterministic_across_runs": true,
+  "memtrace": {
+    "peak_footprint_gb": 10.216,
+    "peak_at_s": 19.67,
+    "peak_stage": "vae",
+    "per_stage": {
+      "load": {
+        "footprint_peak_gb": 0.218,
+        "mlx_active_peak_gb": 0
+      },
+      "prepare": {
+        "footprint_peak_gb": 6.651,
+        "mlx_active_peak_gb": 6.15
+      },
+      "denoise": {
+        "footprint_peak_gb": 9.304,
+        "mlx_active_peak_gb": 8.574
+      },
+      "vae": {
+        "footprint_peak_gb": 10.216,
+        "mlx_active_peak_gb": 9.495
+      },
+      "post": {
+        "footprint_peak_gb": 0.912,
+        "mlx_active_peak_gb": 0.1
+      }
+    }
+  },
+  "ref": "baselines/bf16_free_te",
+  "verify": {
+    "p1": {
+      "psnr_db": 999.0,
+      "max_abs_pixel_diff": 0,
+      "mean_abs_pixel_diff": 0.0,
+      "identical": true
+    }
+  },
+  "psnr_db_vs_baseline": 999.0,
+  "max_abs_pixel_diff": 0,
+  "idle_check": "Processes: 423 total, 2 running, 421 sleeping, 2275 threads \n2026/10/20 00:18:31\nLoad Avg: 1.28, 1.35, 1.42 \nCPU usage: 1.73% user, 11.30% sys, 86.95% idle \nSharedLibs: 312M resident, 53M data, 58M linkedit.\nMemRegions: 163856 total, 1125M resident, 98M private, 679M shared.\nPhysMem: 6870M used (2486M wired, 397M compressor), 8680M unused.\nVM: 179T vsize, 6144M framework vsize, 161509537(0) swapins, 204137973(0) swapouts.\nNetworks: packets: 151873804/420G in, 113978989/349G out.\nDisks: 172449710/5930G read, 105275422/4586G written.\n\nPID    COMMAND          %CPU TIME     #TH #WQ #PORTS MEM   PURG CMPRS PGRP  PPID STATE    BOOSTS     %CPU_ME %CPU_OTHRS UID FAULTS  COW MSGSENT MSGRECV SYSBSD   SYSMACH CSW      PAGEINS IDLEW  POWER INSTRS CYCLES JETPRI USER     #MREGS RPRVT VPRVT VSIZE KPRVT KSHRD\n",
+  "mlx_version": "0.32.4",
+  "process": {
+    "peak_footprint_gb": 10.258,
+    "max_rss_gb": 6.068,
+    "process_wall_s": 21.04
+  },
+  "returncode": 0
+}

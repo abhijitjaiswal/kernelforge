@@ -1,0 +1,1 @@
+{"round": 0, "prompt_id": "p1", "text_encode_s": 0.489009624987375, "text_encode_cached": true, "denoise_s": 17.42236679198686, "vae_s": 2.082801125012338, "post_s": 0.0293254159623757, "total_s": 20.02350295794895, "mem_peak_mlx_gb": 9.492, "mem_denoise_peak_gb": 5.19, "mem_vae_peak_gb": 9.492, "mem_active_gb": 0.099}

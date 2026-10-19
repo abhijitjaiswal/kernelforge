@@ -1,5 +1,53 @@
 # RESULTS (newest first)
 
+### exp-011-q8-3: A/B round 3: q8 staged, cache cap 0.5 GB
+- total 20.04 s (denoise 17.42, VAE 2.09, text 0.49); peak footprint 9.799 GB, MLX peak 9.492 GB; swap grew: False
+- vs exp-011-bf16-3: 0.9445x speed, -0.0059 memory reduction
+- PSNR vs ref: p1 999.0 dB, max abs diff 0
+- tier A, verdict **revert**. Alternating A/B with 150 s cool-downs.
+
+### exp-011-bf16-3: A/B round 3: bf16 staged, cache cap 0.5 GB
+- total 18.92 s (denoise 15.74, VAE 2.10, text 1.05); peak footprint 9.742 GB, MLX peak 9.495 GB; swap grew: False
+- vs exp-011-q8-3: 1.0588x speed, 0.0058 memory reduction
+- PSNR vs ref: p1 999.0 dB, max abs diff 0
+- tier E, verdict **keep**. Alternating A/B with 150 s cool-downs.
+
+### exp-011-q8-2: A/B round 2: q8 staged, cache cap 0.5 GB
+- total 20.00 s (denoise 17.39, VAE 2.09, text 0.49); peak footprint 9.8 GB, MLX peak 9.492 GB; swap grew: False
+- vs exp-011-bf16-2: 0.9427x speed, 0.0434 memory reduction
+- PSNR vs ref: p1 999.0 dB, max abs diff 0
+- tier A, verdict **revert**. Alternating A/B with 150 s cool-downs.
+
+### exp-011-bf16-2: A/B round 2: bf16 staged, cache cap 0.5 GB
+- total 18.86 s (denoise 15.69, VAE 2.10, text 1.04); peak footprint 10.245 GB, MLX peak 9.495 GB; swap grew: False
+- vs exp-011-q8-2: 1.0608x speed, -0.0454 memory reduction
+- PSNR vs ref: p1 999.0 dB, max abs diff 0
+- tier E, verdict **keep**. Alternating A/B with 150 s cool-downs.
+
+### exp-011-q8-1: A/B round 1: q8 staged, cache cap 0.5 GB
+- total 20.02 s (denoise 17.42, VAE 2.08, text 0.49); peak footprint 9.801 GB, MLX peak 9.492 GB; swap grew: False
+- vs exp-011-bf16-1: 0.9589x speed, 0.0273 memory reduction
+- PSNR vs ref: p1 999.0 dB, max abs diff 0
+- tier A, verdict **revert**. Alternating A/B with 150 s cool-downs.
+
+### exp-011-bf16-1: A/B round 1: bf16 staged, cache cap 0.5 GB
+- total 19.20 s (denoise 16.04, VAE 2.09, text 1.04); peak footprint 10.076 GB, MLX peak 9.495 GB; swap grew: False
+- vs exp-011-q8-1: 1.0428x speed, -0.0281 memory reduction
+- PSNR vs ref: p1 999.0 dB, max abs diff 0
+- tier E, verdict **keep**. Alternating A/B with 150 s cool-downs.
+
+### exp-010: q8 staged + tiled VAE + cache cap 0.5 GB
+- total 20.66 s (denoise 17.47, VAE 2.69, text 0.49); peak footprint 6.043 GB, MLX peak 5.19 GB; swap grew: False
+- vs exp-005: 1.0481x speed, 0.493 memory reduction
+- PSNR vs ref: p1 26.5 dB, max abs diff 55
+- tier A, verdict **keep**. Lowest footprint: 6.04 GB OS / 5.19 GB MLX at 20.7 s, swap flat. Tier A (tiled decode PSNR 26.5 dB vs untiled); LPIPS and visual check pending.
+
+### exp-009: MLX cache cap 0.5 GB (bf16 staged)
+- total 19.57 s (denoise 16.34, VAE 2.16, text 1.04); peak footprint 10.258 GB, MLX peak 9.495 GB; swap grew: False
+- vs exp-007: 0.9962x speed, 0.1111 memory reduction
+- PSNR vs ref: p1 999.0 dB, max abs diff 0
+- tier E, verdict **keep**. OS footprint 11.54 -> 10.26 GB, pixel-identical, no speed cost (19.6 vs 19.5 s), swap flat.
+
 ### exp-008: staged lifecycle + tiled VAE decode (q8)
 - total 21.10 s (denoise 18.05, VAE 2.55, text 0.49); peak footprint 8.706 GB, MLX peak 5.19 GB; swap grew: False
 - vs exp-005: 1.026x speed, 0.2695 memory reduction
