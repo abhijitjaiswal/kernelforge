@@ -14,6 +14,7 @@ opts:
   quantize   int | None   quantize at load (only meaningful with weights=bf16)
   lifecycle  "stock"      all components resident (mflux default)
              "free_te"    encode prompts up front, then drop the text encoder
+             "staged"     free_te + drop the transformer before VAE decode (one image per process)
   tile_vae   bool         mflux TilingConfig() decode
   mem_limit_gb float|None mx.set_memory_limit (simulated smaller machine)
 """
@@ -98,6 +99,10 @@ class Adapter:
         mx.eval(packed_latents)
         self._marks["denoise_end"] = time.perf_counter()
         self._marks["mem_denoise_peak"] = mx.get_peak_memory()
+        if self.opts["lifecycle"] == "staged":
+            self.model.transformer = None
+            gc.collect()
+            mx.clear_cache()
         mx.reset_peak_memory()
         self.mark("vae")
         out = self._orig_decode(packed_latents, tiling_config=tiling_config)

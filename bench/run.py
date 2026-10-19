@@ -60,6 +60,7 @@ def main():
     ap.add_argument("--res", type=int, default=1024)
     ap.add_argument("--ref", help="baseline dir with <prompt>.png to verify against")
     ap.add_argument("--save-baseline", help="copy output pngs into this dir (refuses to overwrite)")
+    ap.add_argument("--no-warmup", action="store_true", help="cold single-image measurement (needed for lifecycle=staged)")
     ap.add_argument("--meta", default="{}", help="extra fields for result.json (change, hypothesis, track...)")
     a = ap.parse_args()
 
@@ -101,10 +102,13 @@ def main():
     print(f"[bench] loaded in {ad.load_s:.1f}s, prep {prep}", flush=True)
 
     gen = lambda pid: ad.generate(prompts_all[pid], seed=a.seed, steps=a.steps, width=a.res, height=a.res)
-    t = time.perf_counter()
-    gen(pids[0])  # untimed warm-up (mx.compile, kernel JIT)
-    warm_s = time.perf_counter() - t
-    print(f"[bench] warm-up {warm_s:.1f}s", flush=True)
+    warm_s = None
+    if not a.no_warmup:
+        trace.mark("warmup")
+        t = time.perf_counter()
+        gen(pids[0])  # untimed warm-up (mx.compile, kernel JIT)
+        warm_s = time.perf_counter() - t
+    print(f"[bench] warm-up {warm_s}s", flush=True)
 
     per_run, per_prompt = [], {}
     # Interleave prompts across rounds so thermal drift spreads over every prompt.
