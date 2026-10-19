@@ -75,6 +75,7 @@ class Adapter:
         self.model.vae.decode_packed_latents = self._timed_decode
         self._cache = {}
         self._marks = {}
+        self.mark = lambda name: None  # set by the harness (bench/memtrace.py)
 
     # --- stage wrappers -------------------------------------------------------------
     def _timed_encode(self, *, prompt, negative_prompt, guidance):
@@ -89,6 +90,7 @@ class Adapter:
             if self.opts["lifecycle"] != "stock":
                 self._cache[key] = out
         self._marks["encode_end"] = time.perf_counter()
+        self.mark("denoise")
         self._marks["mem_encode_peak"] = mx.get_peak_memory()
         return out
 
@@ -97,9 +99,11 @@ class Adapter:
         self._marks["denoise_end"] = time.perf_counter()
         self._marks["mem_denoise_peak"] = mx.get_peak_memory()
         mx.reset_peak_memory()
+        self.mark("vae")
         out = self._orig_decode(packed_latents, tiling_config=tiling_config)
         mx.eval(out)
         self._marks["decode_end"] = time.perf_counter()
+        self.mark("post")
         self._marks["mem_vae_peak"] = mx.get_peak_memory()
         return out
 
@@ -119,6 +123,7 @@ class Adapter:
             info["text_encode_s"][p] = time.perf_counter() - t0
             info["text_encode_peak_gb"] = _gb(mx.get_peak_memory())
             self._cache[(p, g)] = out
+        self.mark("free_text_encoder")
         info["active_before_free_gb"] = _gb(mx.get_active_memory())
         self.model.text_encoder = None
         gc.collect()
@@ -130,6 +135,7 @@ class Adapter:
     def generate(self, prompt: str, seed: int, steps: int = 4, width: int = 1024, height: int = 1024) -> dict:
         self._marks = {}
         mx.reset_peak_memory()
+        self.mark("encode")
         t0 = time.perf_counter()
         img = self.model.generate_image(seed=seed, prompt=prompt, num_inference_steps=steps,
                                         width=width, height=height, guidance=DEFAULTS["guidance"])

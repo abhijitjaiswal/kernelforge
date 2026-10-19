@@ -1,0 +1,429 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kernelforge Lab</title>
+<style>
+/* Layout: instrument-panel bench log. Goal readouts on top, live m5-test feed, then charts, the experiment ledger, a detail drawer and the observation log. */
+:root {
+  color-scheme: light;
+  --page: #f6f7f8; --surface: #fcfcfb; --surface-2: #eef0f2;
+  --ink: #0f1215; --ink-2: #4c5258; --muted: #858b91;
+  --grid: #e1e3e6; --axis: #c2c6cb; --ring: rgba(15,18,21,0.10);
+  --accent: #2a78d6;
+  --s1: #2a78d6; --s2: #eb6834; --s3: #1baf7a;
+  --good: #0ca30c; --good-ink: #006300; --warn: #fab219; --serious: #ec835a; --crit: #d03b3b;
+  --band: rgba(15,18,21,0.05);
+  --sans: system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  color-scheme: dark;
+  --page: #0e1012; --surface: #181a1c; --surface-2: #212427;
+  --ink: #eef0f1; --ink-2: #bcc1c6; --muted: #858b91;
+  --grid: #2a2d30; --axis: #3a3e42; --ring: rgba(255,255,255,0.10);
+  --accent: #3987e5; --s1: #3987e5; --s2: #d95926; --s3: #199e70; --good-ink: #0ca30c;
+  --band: rgba(255,255,255,0.05);
+} }
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --page: #0e1012; --surface: #181a1c; --surface-2: #212427;
+  --ink: #eef0f1; --ink-2: #bcc1c6; --muted: #858b91;
+  --grid: #2a2d30; --axis: #3a3e42; --ring: rgba(255,255,255,0.10);
+  --accent: #3987e5; --s1: #3987e5; --s2: #d95926; --s3: #199e70; --good-ink: #0ca30c;
+  --band: rgba(255,255,255,0.05);
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--page); color: var(--ink); font: 14px/1.45 var(--sans); }
+.wrap { max-width: 1280px; margin: 0 auto; padding-block: 20px 60px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: grid; gap: 18px; }
+header { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 12px; }
+h1 { font-size: 22px; margin: 0; letter-spacing: -0.01em; }
+h2 { font-size: 13px; margin: 0; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-2); font-weight: 600; }
+.sub { color: var(--ink-2); font-size: 13px; }
+.mono { font-family: var(--mono); font-size: 12px; }
+.panel { background: var(--surface); border: 1px solid var(--ring); border-radius: 10px; padding: 16px; min-width: 0; display: grid; gap: 12px; align-content: start; }
+.row { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+.tiles { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+.tile { background: var(--surface); border: 1px solid var(--ring); border-radius: 10px; padding: 14px 16px; display: grid; gap: 4px; }
+.tile .k { font-size: 12px; color: var(--ink-2); }
+.tile .v { font-size: 28px; font-weight: 600; letter-spacing: -0.02em; }
+.tile .t { font-size: 12px; color: var(--muted); }
+.pill { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 99px; border: 1px solid var(--ring); white-space: nowrap; background: var(--surface-2); color: var(--ink-2); }
+.pill::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--muted); }
+.pill.good::before { background: var(--good); } .pill.warn::before { background: var(--warn); }
+.pill.crit::before { background: var(--crit); } .pill.run::before { background: var(--accent); animation: pulse 1.2s infinite; }
+@keyframes pulse { 50% { opacity: .3; } }
+@media (prefers-reduced-motion: reduce) { .pill.run::before { animation: none; } }
+button, select, input, textarea { font: inherit; color: var(--ink); }
+button { background: var(--surface-2); border: 1px solid var(--ring); border-radius: 7px; padding: 6px 12px; cursor: pointer; }
+button.primary { background: var(--accent); color: #fff; border-color: transparent; }
+button:hover { filter: brightness(1.05); }
+button:focus-visible, select:focus-visible, input:focus-visible, textarea:focus-visible, tr:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+select, input, textarea { background: var(--surface); border: 1px solid var(--axis); border-radius: 7px; padding: 6px 8px; }
+.log { background: var(--surface-2); border-radius: 7px; padding: 10px 12px; max-height: 220px; overflow: auto; white-space: pre-wrap; word-break: break-all; margin: 0; }
+.scroll { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 13px; }
+th, td { text-align: left; padding: 7px 10px; border-bottom: 1px solid var(--grid); white-space: nowrap; }
+th { font-size: 11px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); font-weight: 600; }
+td.n, th.n { text-align: right; font-variant-numeric: tabular-nums; font-family: var(--mono); font-size: 12px; }
+tbody tr { cursor: pointer; }
+tbody tr:hover { background: var(--band); }
+tbody tr.sel { background: color-mix(in srgb, var(--accent) 12%, transparent); }
+svg text { fill: var(--muted); font: 11px var(--sans); }
+svg .ink { fill: var(--ink-2); }
+.legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: 12px; color: var(--ink-2); }
+.legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 5px; vertical-align: -1px; }
+.imgs { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+.imgs figure { margin: 0; display: grid; gap: 4px; }
+.imgs img { width: 100%; border-radius: 6px; border: 1px solid var(--ring); background: var(--surface-2); aspect-ratio: 1; object-fit: cover; }
+.imgs figcaption { font-size: 12px; color: var(--ink-2); }
+.kv { display: grid; grid-template-columns: max-content 1fr; gap: 3px 14px; font-size: 13px; }
+.kv dt { color: var(--muted); } .kv dd { margin: 0; font-family: var(--mono); font-size: 12px; min-width: 0; overflow-wrap: anywhere; }
+.obs { display: grid; gap: 10px; }
+.obs-item { display: grid; gap: 3px; padding: 10px 12px; border-radius: 8px; background: var(--surface-2); }
+.obs-item .meta { font-size: 11px; color: var(--muted); display: flex; gap: 8px; flex-wrap: wrap; }
+.obs-item p { margin: 0; white-space: pre-wrap; max-width: 80ch; }
+form.add { display: grid; gap: 8px; grid-template-columns: 1fr 1fr; }
+form.add textarea { grid-column: 1 / -1; min-height: 70px; resize: vertical; }
+form.add .actions { grid-column: 1 / -1; display: flex; gap: 10px; align-items: center; }
+.empty { color: var(--muted); font-size: 13px; padding: 8px 0; }
+#tip { position: fixed; pointer-events: none; background: var(--ink); color: var(--page); font-size: 12px; padding: 6px 9px; border-radius: 6px; max-width: 300px; z-index: 20; line-height: 1.4; }
+.hdr-actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.split { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Kernelforge Lab</h1>
+      <div class="sub">FLUX.2 Klein 4B · 1024², 4 steps, seed 42 · measured on m5-test (Apple M5, 8-core GPU, 16 GB)</div>
+    </div>
+    <div class="hdr-actions">
+      <label class="sub" for="baseSel">Baseline</label>
+      <select id="baseSel"></select>
+      <button id="pullBtn" class="primary">Pull results from m5-test</button>
+      <span id="pullMsg" class="sub"></span>
+    </div>
+  </header>
+
+  <section class="tiles" id="tiles"></section>
+
+  <section class="panel">
+    <div class="split"><h2>m5-test now</h2><span id="jobPill"></span></div>
+    <div id="hostLine" class="mono sub"></div>
+    <pre class="log mono" id="jobLog">Checking m5-test…</pre>
+  </section>
+
+  <section class="row">
+    <div class="panel">
+      <div class="split"><h2>Time per image, by stage (median)</h2></div>
+      <div class="legend"><span><i style="background:var(--s1)"></i>Text encode</span><span><i style="background:var(--s2)"></i>Denoise</span><span><i style="background:var(--s3)"></i>VAE decode</span></div>
+      <div id="stageChart"></div>
+    </div>
+    <div class="panel">
+      <div class="split"><h2>Speed vs memory</h2></div>
+      <div class="sub">Each dot is one experiment. Lower-left is better. Dashed lines mark the goals.</div>
+      <div id="paretoChart"></div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>Experiments</h2>
+    <div class="scroll"><table id="expTable"></table></div>
+  </section>
+
+  <section class="panel" id="detail"></section>
+
+  <section class="panel">
+    <div class="split"><h2>Observations</h2>
+      <select id="obsFilter"><option value="">All experiments</option></select></div>
+    <form class="add" id="obsForm">
+      <select id="obsExp"><option value="">General (no experiment)</option></select>
+      <select id="obsKind"><option>observation</option><option>hypothesis</option><option>decision</option><option>blocker</option><option>next step</option></select>
+      <textarea id="obsText" placeholder="What did you notice? e.g. VAE decode takes 17% of the total; worth tiling."></textarea>
+      <div class="actions"><button class="primary" type="submit">Save observation</button><span id="obsMsg" class="sub"></span></div>
+    </form>
+    <div class="obs" id="obsList"></div>
+  </section>
+</div>
+<div id="tip" hidden></div>
+<script>
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const f = (x, d = 2) => x == null || Number.isNaN(x) ? "–" : Number(x).toFixed(d);
+let S = { runs: [], results: [], observations: [] }, sel = null, base = null;
+try { base = localStorage.getItem("kf-base"); } catch (e) {}
+
+// ---------- tooltip
+const tip = $("#tip");
+function showTip(e, html) { tip.innerHTML = html; tip.hidden = false; moveTip(e); }
+function moveTip(e) { const w = tip.offsetWidth; tip.style.left = Math.min(e.clientX + 14, innerWidth - w - 8) + "px"; tip.style.top = (e.clientY + 14) + "px"; }
+function hideTip() { tip.hidden = true; }
+function bindTips(root) {
+  root.querySelectorAll("[data-tip]").forEach(el => {
+    el.addEventListener("mouseenter", e => showTip(e, el.dataset.tip));
+    el.addEventListener("mousemove", moveTip);
+    el.addEventListener("mouseleave", hideTip);
+  });
+}
+
+// ---------- derived fields
+const tot = r => r.total_s?.median;
+const fp = r => r.process?.peak_footprint_gb;
+const label = r => {
+  const c = r.config || {}; const bits = [c.weights, c.lifecycle];
+  if (c.tile_vae) bits.push("tiled VAE"); if (c.mem_limit_gb) bits.push(`cap ${c.mem_limit_gb} GB`);
+  return bits.filter(Boolean).join(" · ");
+};
+const verdictOf = r => (S.results.find(x => x.exp_id === r.exp_id) || {}).verdict;
+const baseRun = () => S.runs.find(r => r.exp_id === base) || S.runs.find(r => r.exp_id === "exp-001") || S.runs[0];
+
+async function load() {
+  S = await (await fetch("/api/state")).json();
+  S.runs.sort((a, b) => a.exp_id.localeCompare(b.exp_id));
+  if (!S.runs.find(r => r.exp_id === base)) base = (S.runs.find(r => r.exp_id === "exp-001") || S.runs[0] || {}).exp_id;
+  if (!sel || !S.runs.find(r => r.exp_id === sel)) sel = S.runs.length ? S.runs[S.runs.length - 1].exp_id : null;
+  render();
+}
+
+function render() {
+  const opts = S.runs.map(r => `<option value="${esc(r.exp_id)}">${esc(r.exp_id)}</option>`).join("");
+  $("#baseSel").innerHTML = opts; $("#baseSel").value = base || "";
+  const keepF = $("#obsFilter").value, keepE = $("#obsExp").value;
+  $("#obsFilter").innerHTML = `<option value="">All experiments</option>` + opts; $("#obsFilter").value = keepF;
+  $("#obsExp").innerHTML = `<option value="">General (no experiment)</option>` + opts; $("#obsExp").value = keepE || sel || "";
+  renderTiles(); renderStage(); renderPareto(); renderTable(); renderDetail(); renderObs();
+}
+
+// ---------- goal tiles
+function renderTiles() {
+  const b = baseRun();
+  if (!b) { $("#tiles").innerHTML = `<div class="tile"><div class="k">No results yet</div><div class="t">Run an experiment on m5-test, then press "Pull results from m5-test".</div></div>`; return; }
+  const valid = S.runs.filter(r => r.returncode === 0 && !r.swap_grew);
+  const quality = r => r.psnr_db_vs_baseline == null || r.psnr_db_vs_baseline > 40;
+  const fast = valid.filter(quality).sort((x, y) => tot(x) - tot(y))[0];
+  const lean = valid.filter(r => fp(r) != null).sort((x, y) => fp(x) - fp(y))[0];
+  const sp = fast ? tot(b) / tot(fast) : null;
+  const pill = (ok, txt) => `<span class="pill ${ok ? "good" : "warn"}">${txt}</span>`;
+  $("#tiles").innerHTML = `
+    <div class="tile"><div class="k">Baseline · ${esc(b.exp_id)}</div><div class="v">${f(tot(b), 1)} s</div>
+      <div class="t">${esc(label(b))} · OS peak ${f(fp(b), 1)} GB</div></div>
+    <div class="tile"><div class="k">Best speedup (Tier E, PSNR > 40 dB)</div><div class="v">${f(sp, 2)}×</div>
+      <div class="t">${fast ? esc(fast.exp_id) + " · " : ""}goal ≥ 1.30× ${pill(sp >= 1.3, sp >= 1.3 ? "met" : "not yet")}</div></div>
+    <div class="tile"><div class="k">Lowest OS peak footprint</div><div class="v">${f(fp(lean), 1)} GB</div>
+      <div class="t">${lean ? esc(lean.exp_id) + " · " : ""}goal ≤ 8 GB ${pill(fp(lean) <= 8, fp(lean) <= 8 ? "met" : "not yet")} · stretch ≤ 6 GB</div></div>
+    <div class="tile"><div class="k">Experiments logged</div><div class="v">${S.runs.length}</div>
+      <div class="t">${S.observations.length} observation${S.observations.length === 1 ? "" : "s"} · ${S.runs.filter(r => r.swap_grew).length} with swap growth (timing invalid)</div></div>`;
+}
+
+// ---------- stage chart (horizontal stacked bars)
+function renderStage() {
+  const rs = S.runs.filter(r => tot(r));
+  if (!rs.length) { $("#stageChart").innerHTML = `<div class="empty">No timed runs yet.</div>`; return; }
+  const W = 560, rowH = 30, L = 82, R = 56, T = 6, H = T + rs.length * rowH + 26;
+  const max = Math.max(...rs.map(r => r.text_encode_s.median + r.denoise_s.median + r.vae_s.median, 1)) * 1.05;
+  const x = v => L + (W - L - R) * v / max;
+  const ticks = niceTicks(max, 5);
+  let s = `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Stage times per experiment">`;
+  ticks.forEach(t => s += `<line x1="${x(t)}" x2="${x(t)}" y1="${T}" y2="${H - 22}" stroke="var(--grid)"/><text x="${x(t)}" y="${H - 8}" text-anchor="middle">${t}s</text>`);
+  rs.forEach((r, i) => {
+    const y = T + i * rowH + 6, h = rowH - 12;
+    const parts = [["Text encode", r.text_encode_s.median, "var(--s1)"], ["Denoise", r.denoise_s.median, "var(--s2)"], ["VAE decode", r.vae_s.median, "var(--s3)"]];
+    let acc = 0; const sum = parts.reduce((a, p) => a + p[1], 0);
+    s += `<text x="${L - 8}" y="${y + h / 2 + 4}" text-anchor="end" class="ink">${esc(r.exp_id)}</text>`;
+    parts.forEach(([n, v, c], k) => {
+      const x0 = x(acc) + (k ? 1 : 0), x1 = x(acc + v) - 1; acc += v;
+      if (x1 - x0 > 0.5) s += `<rect x="${x0}" y="${y}" width="${x1 - x0}" height="${h}" rx="${k === 2 ? 3 : 0}" fill="${c}" data-tip="<b>${esc(r.exp_id)}</b> · ${esc(n)}<br>${f(v)} s (${f(100 * v / sum, 0)}% of image)"/>`;
+    });
+    s += `<text x="${x(sum) + 6}" y="${y + h / 2 + 4}" class="ink">${f(tot(r), 1)} s</text>`;
+  });
+  $("#stageChart").innerHTML = s + "</svg>"; bindTips($("#stageChart"));
+}
+
+// ---------- pareto scatter
+function renderPareto() {
+  const rs = S.runs.filter(r => tot(r) && fp(r));
+  if (!rs.length) { $("#paretoChart").innerHTML = `<div class="empty">No runs with memory data yet.</div>`; return; }
+  const b = baseRun(), W = 560, H = 300, L = 44, R = 16, T = 12, B = 34;
+  const xmax = Math.max(14, ...rs.map(fp)) * 1.05, ymax = Math.max(...rs.map(tot)) * 1.15;
+  const x = v => L + (W - L - R) * v / xmax, y = v => H - B - (H - T - B) * v / ymax;
+  let s = `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Total time versus peak memory">`;
+  niceTicks(xmax, 6).forEach(t => s += `<line x1="${x(t)}" x2="${x(t)}" y1="${T}" y2="${H - B}" stroke="var(--grid)"/><text x="${x(t)}" y="${H - B + 16}" text-anchor="middle">${t}</text>`);
+  niceTicks(ymax, 5).forEach(t => s += `<line x1="${L}" x2="${W - R}" y1="${y(t)}" y2="${y(t)}" stroke="var(--grid)"/><text x="${L - 6}" y="${y(t) + 4}" text-anchor="end">${t}</text>`);
+  s += `<text x="${(L + W - R) / 2}" y="${H - 4}" text-anchor="middle">OS peak memory footprint (GB)</text>`;
+  s += `<text x="12" y="${(T + H - B) / 2}" text-anchor="middle" transform="rotate(-90 12 ${(T + H - B) / 2})">seconds per image</text>`;
+  [[8, "8 GB goal"], [6, "6 GB stretch"]].forEach(([g, n]) => s += `<line x1="${x(g)}" x2="${x(g)}" y1="${T}" y2="${H - B}" stroke="var(--ink-2)" stroke-dasharray="4 4" opacity=".6"/><text x="${x(g) + 4}" y="${T + 10}">${n}</text>`);
+  if (b) { const g = tot(b) / 1.3; s += `<line x1="${L}" x2="${W - R}" y1="${y(g)}" y2="${y(g)}" stroke="var(--ink-2)" stroke-dasharray="4 4" opacity=".6"/><text x="${W - R - 4}" y="${y(g) - 5}" text-anchor="end">1.3× faster than ${esc(b.exp_id)}</text>`; }
+  rs.forEach(r => {
+    const bad = r.swap_grew || (r.psnr_db_vs_baseline != null && r.psnr_db_vs_baseline <= 40);
+    const tipTxt = `<b>${esc(r.exp_id)}</b> · ${esc(label(r))}<br>${f(tot(r))} s · OS peak ${f(fp(r))} GB · MLX peak ${f(r.peak_mem_mlx_gb)} GB` +
+      (r.psnr_db_vs_baseline != null ? `<br>PSNR vs ref ${f(r.psnr_db_vs_baseline, 1)} dB` : "") + (r.swap_grew ? "<br>Swap grew: timing invalid" : "");
+    s += `<circle cx="${x(fp(r))}" cy="${y(tot(r))}" r="6" fill="${r.exp_id === sel ? "var(--accent)" : "var(--surface)"}" stroke="var(--accent)" stroke-width="2" ${bad ? 'stroke-dasharray="2 2"' : ""}/>` +
+      `<circle cx="${x(fp(r))}" cy="${y(tot(r))}" r="14" fill="transparent" data-exp="${esc(r.exp_id)}" data-tip="${esc(tipTxt)}" style="cursor:pointer"/>` +
+      `<text x="${x(fp(r)) + 10}" y="${y(tot(r)) - 8}" class="ink">${esc(r.exp_id)}</text>`;
+  });
+  $("#paretoChart").innerHTML = s + "</svg>"; bindTips($("#paretoChart"));
+  $("#paretoChart").querySelectorAll("[data-exp]").forEach(el => el.addEventListener("click", () => { sel = el.dataset.exp; render(); }));
+}
+
+function niceTicks(max, n) {
+  const raw = max / n, mag = 10 ** Math.floor(Math.log10(raw)), st = [1, 2, 2.5, 5, 10].map(m => m * mag).find(v => v >= raw);
+  const out = []; for (let v = 0; v <= max + 1e-9; v += st) out.push(+v.toFixed(6)); return out;
+}
+
+// ---------- table
+function renderTable() {
+  const b = baseRun();
+  const cols = ["Experiment", "Config", "Total s", "Speedup", "Text s", "Denoise s", "VAE s", "MLX peak GB", "OS peak GB", "PSNR dB", "Max Δ px", "Swap", "Status"];
+  let h = `<thead><tr>${cols.map((c, i) => `<th class="${i > 1 && i < 11 ? "n" : ""}">${c}</th>`).join("")}</tr></thead><tbody>`;
+  S.runs.forEach(r => {
+    const v = verdictOf(r), crashed = r.returncode && r.returncode !== 0;
+    const st = crashed ? `<span class="pill crit">failed</span>` : v ? `<span class="pill ${v === "keep" ? "good" : v === "revert" || v === "failed" ? "crit" : "warn"}">${esc(v)}</span>` : `<span class="pill">not reviewed</span>`;
+    const psnr = r.psnr_db_vs_baseline;
+    h += `<tr tabindex="0" data-exp="${esc(r.exp_id)}" class="${r.exp_id === sel ? "sel" : ""}">
+      <td><b>${esc(r.exp_id)}</b></td><td>${esc(label(r))}</td>
+      <td class="n">${f(tot(r))}</td><td class="n">${b && tot(r) ? f(tot(b) / tot(r)) + "×" : "–"}</td>
+      <td class="n">${f(r.text_encode_s?.median)}</td><td class="n">${f(r.denoise_s?.median)}</td><td class="n">${f(r.vae_s?.median)}</td>
+      <td class="n">${f(r.peak_mem_mlx_gb)}</td><td class="n">${f(fp(r))}</td>
+      <td class="n">${psnr == null ? "–" : psnr >= 999 ? "identical" : f(psnr, 1)}</td><td class="n">${r.max_abs_pixel_diff ?? "–"}</td>
+      <td>${r.swap_grew ? `<span class="pill crit">grew</span>` : r.swap_grew === false ? `<span class="pill good">flat</span>` : "–"}</td><td>${st}</td></tr>`;
+  });
+  $("#expTable").innerHTML = h + "</tbody>";
+  $("#expTable").querySelectorAll("tbody tr").forEach(tr => {
+    const go = () => { sel = tr.dataset.exp; render(); $("#detail").scrollIntoView({ behavior: "smooth", block: "start" }); };
+    tr.addEventListener("click", go); tr.addEventListener("keydown", e => { if (e.key === "Enter") go(); });
+  });
+}
+
+// ---------- detail
+async function renderDetail() {
+  const r = S.runs.find(x => x.exp_id === sel), el = $("#detail");
+  if (!r) { el.innerHTML = `<h2>Experiment detail</h2><div class="empty">Select an experiment in the table.</div>`; return; }
+  const res = S.results.find(x => x.exp_id === r.exp_id) || {};
+  const stage = r.mem_by_stage_gb || {};
+  const w = stage.weights || {};
+  const pids = r.config?.prompt_ids || [];
+  const ref = r.ref || (r.verify && Object.keys(r.verify).length ? "baselines/q8_free_te" : null);
+  el.innerHTML = `
+    <div class="split"><h2>${esc(r.exp_id)} · ${esc(label(r))}</h2><span class="sub">${esc(r.timestamp || "")}</span></div>
+    ${res.change ? `<div><b>Change:</b> ${esc(res.change)}${res.hypothesis ? `<br><b>Hypothesis:</b> ${esc(res.hypothesis)}` : ""}${res.notes ? `<br><b>Notes:</b> ${esc(res.notes)}` : ""}</div>` : ""}
+    <div class="row">
+      <dl class="kv">
+        <dt>Runs</dt><dd>${r.runs} per prompt × ${pids.length} prompts (+1 warm-up, ${f(r.warmup_s, 1)} s)</dd>
+        <dt>Total</dt><dd>median ${f(tot(r))} s · min ${f(r.total_s?.min)} · max ${f(r.total_s?.max)}</dd>
+        <dt>Round 1 → last</dt><dd>${(r.first_vs_last_round_total_s || []).map(v => f(v)).join(" → ")} s (thermal drift)</dd>
+        <dt>Text encode</dt><dd>${f(r.text_encode_s?.median)} s${r.text_encode_cached ? " (encoded once, then encoder freed)" : ""}</dd>
+        <dt>Weights</dt><dd>text encoder ${f(w.text_encoder)} · transformer ${f(w.transformer)} · VAE ${f(w.vae)} GB</dd>
+        <dt>MLX peaks</dt><dd>text ${f(stage.text_encoder_peak)} · denoise ${f(stage.denoise_peak)} · VAE ${f(stage.vae_peak)} GB</dd>
+        <dt>OS footprint</dt><dd>${f(fp(r))} GB peak${r.memtrace ? ` · during "${esc(r.memtrace.peak_stage)}" at ${f(r.memtrace.peak_at_s, 1)} s` : ""}</dd>
+        <dt>Swap (MB)</dt><dd>${(r.swap_used_mb_before_after || []).map(v => f(v, 0)).join(" → ")}</dd>
+        <dt>Deterministic</dt><dd>${r.deterministic_across_runs ? "yes, identical pixels on every run" : "no"}</dd>
+        <dt>Load</dt><dd>${f(r.adapter?.load_s, 1)} s · process wall ${f(r.process?.process_wall_s, 0)} s</dd>
+        <dt>Raw</dt><dd>runs/${esc(r.exp_id)}/result.json</dd>
+      </dl>
+      <div style="display:grid;gap:8px;min-width:0"><h2>Total time per run</h2>
+        <div class="legend">${pids.map((p, i) => `<span><i style="background:var(--s${i + 1})"></i>${esc(p)}</span>`).join("")}</div>
+        <div id="perRun"></div></div>
+    </div>
+    <div style="display:grid;gap:8px"><h2>Memory over the whole process</h2>
+      <div class="legend"><span><i style="background:var(--s1)"></i>OS footprint</span><span><i style="background:var(--s2)"></i>MLX active</span><span><i style="background:var(--band);outline:1px solid var(--axis)"></i>VAE decode</span></div>
+      <div id="memChart"><div class="empty">${r._has_memtrace ? "Loading…" : "No memory timeline for this run (recorded from exp-005 on)."}</div></div></div>
+    <div style="display:grid;gap:8px"><h2>Images</h2><div class="imgs">${pids.map(p => {
+      const v = r.verify?.[p];
+      return `<figure><img loading="lazy" src="/files/runs/${esc(r.exp_id)}/${esc(p)}.png" alt="${esc(p)} output"><figcaption>${esc(p)} output</figcaption></figure>` +
+        (ref ? `<figure><img loading="lazy" src="/files/${esc(ref)}/${esc(p)}.png" alt="${esc(p)} reference"><figcaption>${esc(p)} reference (${esc(ref)})</figcaption></figure>` : "") +
+        (r._images.includes(p + "_diff.png") ? `<figure><img loading="lazy" src="/files/runs/${esc(r.exp_id)}/${esc(p)}_diff.png" alt="${esc(p)} difference"><figcaption>${esc(p)} difference ×10 · PSNR ${v?.psnr_db >= 999 ? "identical" : f(v?.psnr_db, 1) + " dB"} · max Δ ${v?.max_abs_pixel_diff ?? "–"}</figcaption></figure>` : "");
+    }).join("")}</div></div>`;
+  renderPerRun(r, pids);
+  if (r._has_memtrace) renderMem(r.exp_id);
+}
+
+function renderPerRun(r, pids) {
+  const pr = r._per_run || []; if (!pr.length) { $("#perRun").innerHTML = `<div class="empty">No per-run data.</div>`; return; }
+  const W = 420, H = 180, L = 40, R = 12, T = 10, B = 26, n = r.runs;
+  const vals = pr.map(p => p.total_s), lo = Math.min(...vals) * 0.97, hi = Math.max(...vals) * 1.03;
+  const x = i => L + (W - L - R) * (n === 1 ? 0.5 : i / (n - 1)), y = v => H - B - (H - T - B) * (v - lo) / (hi - lo || 1);
+  let s = `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Total time per run">`;
+  const step = (hi - lo) / 4; for (let k = 0; k <= 4; k++) { const v = lo + k * step; s += `<line x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}" stroke="var(--grid)"/><text x="${L - 6}" y="${y(v) + 4}" text-anchor="end">${f(v, 1)}</text>`; }
+  for (let i = 0; i < n; i++) s += `<text x="${x(i)}" y="${H - 8}" text-anchor="middle">round ${i + 1}</text>`;
+  pids.forEach((p, k) => {
+    const pts = pr.filter(q => q.prompt_id === p).map(q => [x(q.round), y(q.total_s), q]);
+    s += `<polyline fill="none" stroke="var(--s${k + 1})" stroke-width="2" points="${pts.map(a => a[0] + "," + a[1]).join(" ")}"/>`;
+    pts.forEach(([px, py, q]) => s += `<circle cx="${px}" cy="${py}" r="4" fill="var(--s${k + 1})" stroke="var(--surface)" stroke-width="2"/><circle cx="${px}" cy="${py}" r="11" fill="transparent" data-tip="<b>${esc(p)}</b> round ${q.round + 1}<br>total ${f(q.total_s)} s · denoise ${f(q.denoise_s)} · VAE ${f(q.vae_s)}<br>MLX peak ${f(q.mem_peak_mlx_gb)} GB"/>`);
+  });
+  $("#perRun").innerHTML = s + "</svg>"; bindTips($("#perRun"));
+}
+
+async function renderMem(exp) {
+  const m = await (await fetch(`/api/memtrace/${encodeURIComponent(exp)}`)).json();
+  if (!m || sel !== exp) return;
+  const g = 1024 ** 3, sm = m.samples, tmax = sm[sm.length - 1][0];
+  const W = 1100, H = 240, L = 44, R = 14, T = 14, B = 28;
+  const ymax = Math.max(...sm.map(q => Math.max(q[1], q[3]))) / g * 1.1;
+  const x = t => L + (W - L - R) * t / tmax, y = v => H - B - (H - T - B) * v / ymax;
+  let s = `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Memory timeline">`;
+  const marks = m.marks.concat([[tmax, "_end"]]);
+  for (let i = 0; i < marks.length - 1; i++) if (marks[i][1] === "vae") s += `<rect x="${x(marks[i][0])}" y="${T}" width="${Math.max(1, x(marks[i + 1][0]) - x(marks[i][0]))}" height="${H - T - B}" fill="var(--band)"/>`;
+  niceTicks(ymax, 4).forEach(v => s += `<line x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}" stroke="var(--grid)"/><text x="${L - 6}" y="${y(v) + 4}" text-anchor="end">${v} GB</text>`);
+  niceTicks(tmax, 10).forEach(t => s += `<text x="${x(t)}" y="${H - 8}" text-anchor="middle">${t}s</text>`);
+  m.marks.filter(k => ["load", "prepare", "free_text_encoder", "done"].includes(k[1])).forEach(([t, n]) =>
+    s += `<line x1="${x(t)}" x2="${x(t)}" y1="${T}" y2="${H - B}" stroke="var(--axis)"/><text x="${x(t) + 3}" y="${T + 10}">${n.replace(/_/g, " ")}</text>`);
+  s += `<line x1="${L}" x2="${W - R}" y1="${y(8)}" y2="${y(8)}" stroke="var(--ink-2)" stroke-dasharray="4 4" opacity=".6"/><text x="${W - R - 4}" y="${y(8) - 4}" text-anchor="end">8 GB goal</text>`;
+  [[1, "var(--s1)"], [3, "var(--s2)"]].forEach(([c, col]) => s += `<polyline fill="none" stroke="${col}" stroke-width="2" stroke-linejoin="round" points="${sm.map(q => x(q[0]).toFixed(1) + "," + y(q[c] / g).toFixed(1)).join(" ")}"/>`);
+  s += `<line id="mx" y1="${T}" y2="${H - B}" stroke="var(--ink-2)" opacity="0" /><rect x="${L}" y="${T}" width="${W - L - R}" height="${H - T - B}" fill="transparent" id="mhit"/>`;
+  $("#memChart").innerHTML = s + "</svg>";
+  const svg = $("#memChart svg"), hit = $("#mhit"), cross = $("#mx");
+  hit.addEventListener("mousemove", e => {
+    const p = svg.createSVGPoint(); p.x = e.clientX; p.y = e.clientY; const lp = p.matrixTransform(svg.getScreenCTM().inverse());
+    const t = (lp.x - L) / (W - L - R) * tmax; let q = sm[0]; for (const z of sm) { if (z[0] > t) break; q = z; }
+    let st = "start"; for (const k of m.marks) { if (k[0] > q[0]) break; st = k[1]; }
+    cross.setAttribute("x1", x(q[0])); cross.setAttribute("x2", x(q[0])); cross.setAttribute("opacity", ".5");
+    showTip(e, `<b>${f(q[0], 1)} s</b> · stage: ${esc(st)}<br>OS footprint ${f(q[1] / g)} GB<br>MLX active ${f(q[3] / g)} GB · cache ${f(q[4] / g)} GB`);
+  });
+  hit.addEventListener("mouseleave", () => { hideTip(); cross.setAttribute("opacity", "0"); });
+}
+
+// ---------- observations
+function renderObs() {
+  const fl = $("#obsFilter").value;
+  const list = S.observations.filter(o => !fl || o.exp_id === fl).slice().reverse();
+  $("#obsList").innerHTML = list.length ? list.map(o => `<div class="obs-item"><div class="meta"><span class="pill">${esc(o.kind)}</span><span>${esc(o.exp_id || "general")}</span><span>${esc(o.ts)}</span><span>${esc(o.author)}</span></div><p>${esc(o.text)}</p></div>`).join("")
+    : `<div class="empty">No observations yet. Pick an experiment, write what you noticed and save it. Saved notes go to observations.jsonl in the repo.</div>`;
+}
+$("#obsFilter").addEventListener("change", renderObs);
+$("#obsForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  const r = await fetch("/api/observations", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ exp_id: $("#obsExp").value, kind: $("#obsKind").value, text: $("#obsText").value }) });
+  const j = await r.json();
+  if (!r.ok) { $("#obsMsg").textContent = j.error; return; }
+  $("#obsText").value = ""; $("#obsMsg").textContent = "Saved"; S.observations.push(j); renderObs(); renderTiles();
+  setTimeout(() => $("#obsMsg").textContent = "", 2000);
+});
+
+// ---------- m5-test live
+async function pollJob() {
+  try {
+    const j = await (await fetch("/api/job")).json();
+    if (!j.ok) { $("#jobPill").innerHTML = `<span class="pill crit">m5-test unreachable</span>`; $("#jobLog").textContent = j.error; return; }
+    const running = j.running.length > 0;
+    $("#jobPill").innerHTML = `<span class="pill ${running ? "run" : "good"}">${running ? "benchmark running" : "idle"}</span> <span class="sub">checked ${esc(j.checked)}</span>`;
+    $("#hostLine").textContent = j.host.join("  ·  ");
+    $("#jobLog").textContent = j.job ? `[${j.job}]\n` + j.log.join("\n") : "No job logs on m5-test yet.";
+    $("#jobLog").scrollTop = 1e9;
+  } catch (e) { $("#jobPill").innerHTML = `<span class="pill crit">local server stopped</span>`; }
+}
+
+$("#baseSel").addEventListener("change", e => { base = e.target.value; try { localStorage.setItem("kf-base", base); } catch (x) {} render(); });
+$("#pullBtn").addEventListener("click", async () => {
+  $("#pullMsg").textContent = "Pulling…";
+  const r = await fetch("/api/pull", { method: "POST" }); const j = await r.json();
+  $("#pullMsg").textContent = r.ok ? "Pulled " + new Date().toLocaleTimeString() : "Pull failed: " + j.stderr;
+  await load();
+});
+
+load(); pollJob(); setInterval(pollJob, 30000); setInterval(load, 30000);
+</script>
+</body>
+</html>

@@ -80,6 +80,7 @@ def main():
     import numpy as np
     from PIL import Image
 
+    from bench.memtrace import MemTrace
     from bench.verify import compare
 
     prompts_all = json.loads((ROOT / "bench" / "prompts.json").read_text())
@@ -90,8 +91,12 @@ def main():
     started = datetime.now(timezone.utc).isoformat(timespec="seconds")
     print(f"[bench] {a.exp} adapter={a.adapter} opts={opts}", flush=True)
 
+    trace = MemTrace().start()
+    trace.mark("load")
     Adapter = importlib.import_module(f"adapters.{a.adapter}.pipeline").Adapter
     ad = Adapter(opts)
+    ad.mark = trace.mark
+    trace.mark("prepare")
     prep = ad.prepare([prompts_all[p] for p in pids])
     print(f"[bench] loaded in {ad.load_s:.1f}s, prep {prep}", flush=True)
 
@@ -117,6 +122,9 @@ def main():
             per_run.append(rec)
             print(f"[bench] r{r} {pid} total {rec['total_s']:.2f}s denoise {rec['denoise_s']:.2f}s vae {rec['vae_s']:.2f}s peak {rec['mem_peak_mlx_gb']}GB", flush=True)
     swap1 = swap_used_mb()
+    trace.mark("done")
+    trace.stop()
+    trace.dump(out / "memtrace.json")
 
     with open(out / "per_run.jsonl", "w") as f:
         for rec in per_run:
@@ -164,6 +172,8 @@ def main():
         "swap_used_mb_before_after": [swap0, swap1],
         "swap_grew": (swap1 or 0) - (swap0 or 0) > 32,
         "deterministic_across_runs": all(v["deterministic"] for v in per_prompt.values()),
+        "memtrace": trace.summary(),
+        "ref": a.ref,
         "verify": verify,
         "psnr_db_vs_baseline": min(psnrs) if psnrs else None,
         "max_abs_pixel_diff": max((v.get("max_abs_pixel_diff", 0) for v in verify.values()), default=None) if verify else None,

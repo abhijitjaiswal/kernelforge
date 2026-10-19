@@ -1,0 +1,5 @@
+[bench] exp-000-smoke adapter=flux2_klein opts={'weights': 'q8', 'lifecycle': 'free_te'}
+[bench] loaded in 0.5s, prep {'text_encode_s': {'A close-up portrait photograph of an elderly woman with silver hair and warm brown eyes, soft window light, neutral grey background': 0.7756702920305543}, 'text_encode_peak_gb': 3.537, 'active_before_free_gb': 3.09, 'active_after_free_gb': 0.007}
+[bench] warm-up 21.4s
+[bench] r0 p1 total 24.85s denoise 19.85s vae 4.21s peak 9.494GB
+[bench] done

@@ -1,0 +1,108 @@
+{
+  "exp_id": "exp-000-smoke",
+  "timestamp": "2026-10-19T17:51:31+00:00",
+  "model": "flux2-klein-4b",
+  "config": {
+    "resolution": 1024,
+    "steps": 4,
+    "seed": 42,
+    "prompt_ids": [
+      "p1"
+    ],
+    "weights": "q8",
+    "lifecycle": "free_te"
+  },
+  "runs": 1,
+  "text_encode_s": {
+    "median": 0.7756702920305543,
+    "min": 0.7756702920305543,
+    "max": 0.7756702920305543,
+    "n": 1
+  },
+  "text_encode_cached": true,
+  "denoise_s": {
+    "median": 19.84594054199988,
+    "min": 19.84594054199988,
+    "max": 19.84594054199988,
+    "n": 1
+  },
+  "vae_s": {
+    "median": 4.207191583001986,
+    "min": 4.207191583001986,
+    "max": 4.207191583001986,
+    "n": 1
+  },
+  "total_s": {
+    "median": 24.84689420904033,
+    "min": 24.84689420904033,
+    "max": 24.84689420904033,
+    "n": 1
+  },
+  "total_s_by_prompt": {
+    "p1": {
+      "median": 24.84689420904033,
+      "min": 24.84689420904033,
+      "max": 24.84689420904033,
+      "n": 1
+    }
+  },
+  "first_vs_last_round_total_s": [
+    24.84689420904033,
+    24.84689420904033
+  ],
+  "peak_mem_mlx_gb": 9.494,
+  "mem_by_stage_gb": {
+    "weights": {
+      "text_encoder": 3.981,
+      "transformer": 3.835,
+      "vae": 0.155
+    },
+    "text_encoder_peak": 3.537,
+    "denoise_peak": 5.282,
+    "vae_peak": 9.494
+  },
+  "prepare": {
+    "text_encode_peak_gb": 3.537,
+    "active_before_free_gb": 3.09,
+    "active_after_free_gb": 0.007,
+    "text_encode_s": [
+      0.7756702920305543
+    ]
+  },
+  "adapter": {
+    "model": "flux2-klein-4b",
+    "revision": "e7b7dc27f91deacad38e78976d1f2b499d76a294",
+    "opts": {
+      "weights": "q8",
+      "quantize": null,
+      "lifecycle": "free_te",
+      "tile_vae": false,
+      "mem_limit_gb": null
+    },
+    "load_s": 0.5279381250147708,
+    "mem_after_load_gb": 0.0,
+    "weights_gb": {
+      "text_encoder": 3.981,
+      "transformer": 3.835,
+      "vae": 0.155
+    }
+  },
+  "warmup_s": 21.35268637497211,
+  "swap_used_mb_before_after": [
+    1990.94,
+    2549.25
+  ],
+  "swap_grew": true,
+  "deterministic_across_runs": true,
+  "verify": {},
+  "psnr_db_vs_baseline": null,
+  "max_abs_pixel_diff": null,
+  "idle_check": "Processes: 466 total, 2 running, 464 sleeping, 2389 threads \n2026/10/19 23:21:31\nLoad Avg: 1.46, 1.47, 1.42 \nCPU usage: 1.35% user, 8.78% sys, 89.86% idle \nSharedLibs: 524M resident, 83M data, 94M linkedit.\nMemRegions: 165669 total, 1775M resident, 171M private, 1106M shared.\nPhysMem: 7038M used (2137M wired, 270M compressor), 8449M unused.\nVM: 196T vsize, 6144M framework vsize, 156904457(0) swapins, 192776500(0) swapouts.\nNetworks: packets: 151826125/420G in, 113914692/349G out.\nDisks: 168816519/5579G read, 102343455/4412G written.\n\nPID    COMMAND          %CPU TIME     #TH #WQ #PORTS MEM   PURG CMPRS PGRP  PPID STATE    BOOSTS     %CPU_ME %CPU_OTHRS UID FAULTS  COW MSGSENT MSGRECV SYSBSD   SYSMACH CSW      PAGEINS IDLEW  POWER INSTRS CYCLES JETPRI USER     #MREGS RPRVT VPRVT VSIZE KPRVT KSHRD\n",
+  "mlx_version": "0.32.4",
+  "process": {
+    "peak_footprint_gb": 12.398,
+    "max_rss_gb": 3.428,
+    "process_wall_s": 51.43
+  },
+  "returncode": 0
+}
