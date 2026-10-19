@@ -1,0 +1,144 @@
+{
+  "exp_id": "exp-008",
+  "timestamp": "2026-10-19T18:44:05+00:00",
+  "model": "flux2-klein-4b",
+  "config": {
+    "resolution": 1024,
+    "steps": 4,
+    "seed": 42,
+    "prompt_ids": [
+      "p1"
+    ],
+    "weights": "q8",
+    "lifecycle": "staged",
+    "tile_vae": true
+  },
+  "runs": 1,
+  "text_encode_s": {
+    "median": 0.4892339169746265,
+    "min": 0.4892339169746265,
+    "max": 0.4892339169746265,
+    "n": 1
+  },
+  "text_encode_cached": true,
+  "denoise_s": {
+    "median": 18.053470125014428,
+    "min": 18.053470125014428,
+    "max": 18.053470125014428,
+    "n": 1
+  },
+  "vae_s": {
+    "median": 2.5520227079978213,
+    "min": 2.5520227079978213,
+    "max": 2.5520227079978213,
+    "n": 1
+  },
+  "total_s": {
+    "median": 21.101435624994338,
+    "min": 21.101435624994338,
+    "max": 21.101435624994338,
+    "n": 1
+  },
+  "total_s_by_prompt": {
+    "p1": {
+      "median": 21.101435624994338,
+      "min": 21.101435624994338,
+      "max": 21.101435624994338,
+      "n": 1
+    }
+  },
+  "first_vs_last_round_total_s": [
+    21.101435624994338,
+    21.101435624994338
+  ],
+  "peak_mem_mlx_gb": 5.19,
+  "mem_by_stage_gb": {
+    "weights": {
+      "text_encoder": 3.981,
+      "transformer": 3.835,
+      "vae": 0.155
+    },
+    "text_encoder_peak": 3.537,
+    "denoise_peak": 5.19,
+    "vae_peak": 2.472
+  },
+  "prepare": {
+    "text_encode_peak_gb": 3.537,
+    "active_before_free_gb": 3.09,
+    "active_after_free_gb": 0.007,
+    "text_encode_s": [
+      0.4892339169746265
+    ]
+  },
+  "adapter": {
+    "model": "flux2-klein-4b",
+    "revision": "e7b7dc27f91deacad38e78976d1f2b499d76a294",
+    "opts": {
+      "weights": "q8",
+      "quantize": null,
+      "lifecycle": "staged",
+      "tile_vae": true,
+      "mem_limit_gb": null
+    },
+    "load_s": 0.4994314999785274,
+    "mem_after_load_gb": 0.0,
+    "weights_gb": {
+      "text_encoder": 3.981,
+      "transformer": 3.835,
+      "vae": 0.155
+    }
+  },
+  "warmup_s": null,
+  "swap_used_mb_before_after": [
+    2723.94,
+    2707.94
+  ],
+  "swap_grew": false,
+  "deterministic_across_runs": true,
+  "memtrace": {
+    "peak_footprint_gb": 8.671,
+    "peak_at_s": 22.31,
+    "peak_stage": "post",
+    "per_stage": {
+      "load": {
+        "footprint_peak_gb": 0.305,
+        "mlx_active_peak_gb": 0
+      },
+      "prepare": {
+        "footprint_peak_gb": 3.766,
+        "mlx_active_peak_gb": 3.537
+      },
+      "denoise": {
+        "footprint_peak_gb": 6.43,
+        "mlx_active_peak_gb": 5.19
+      },
+      "vae": {
+        "footprint_peak_gb": 8.643,
+        "mlx_active_peak_gb": 2.472
+      },
+      "post": {
+        "footprint_peak_gb": 8.671,
+        "mlx_active_peak_gb": 0.099
+      }
+    }
+  },
+  "ref": "baselines/q8_free_te",
+  "verify": {
+    "p1": {
+      "psnr_db": 26.510566998549024,
+      "max_abs_pixel_diff": 55,
+      "mean_abs_pixel_diff": 10.856759071350098,
+      "identical": false
+    }
+  },
+  "psnr_db_vs_baseline": 26.510566998549024,
+  "max_abs_pixel_diff": 55,
+  "idle_check": "Processes: 421 total, 2 running, 419 sleeping, 2270 threads \n2026/10/20 00:14:05\nLoad Avg: 1.26, 1.40, 1.46 \nCPU usage: 3.50% user, 8.77% sys, 87.71% idle \nSharedLibs: 306M resident, 48M data, 54M linkedit.\nMemRegions: 163726 total, 895M resident, 66M private, 648M shared.\nPhysMem: 4715M used (2489M wired, 448M compressor), 11G unused.\nVM: 178T vsize, 6144M framework vsize, 161507114(0) swapins, 204137973(0) swapouts.\nNetworks: packets: 151871051/420G in, 113971855/349G out.\nDisks: 172419391/5922G read, 105273222/4586G written.\n\nPID    COMMAND          %CPU TIME     #TH #WQ #PORTS MEM   PURG CMPRS PGRP  PPID STATE    BOOSTS     %CPU_ME %CPU_OTHRS UID FAULTS  COW MSGSENT MSGRECV SYSBSD   SYSMACH CSW      PAGEINS IDLEW  POWER INSTRS CYCLES JETPRI USER     #MREGS RPRVT VPRVT VSIZE KPRVT KSHRD\n",
+  "mlx_version": "0.32.4",
+  "process": {
+    "peak_footprint_gb": 8.706,
+    "max_rss_gb": 3.93,
+    "process_wall_s": 22.73
+  },
+  "returncode": 0
+}

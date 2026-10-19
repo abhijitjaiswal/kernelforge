@@ -1,5 +1,29 @@
 # RESULTS (newest first)
 
+### exp-008: staged lifecycle + tiled VAE decode (q8)
+- total 21.10 s (denoise 18.05, VAE 2.55, text 0.49); peak footprint 8.706 GB, MLX peak 5.19 GB; swap grew: False
+- vs exp-005: 1.026x speed, 0.2695 memory reduction
+- PSNR vs ref: p1 26.5 dB, max abs diff 55
+- tier A, verdict **keep**. Lowest so far: MLX 5.19 GB, OS 8.7 GB, no swap growth. VAE 2.6 s when cool (the 7.5 s in exp-004 was mostly heat). Output differs from untiled (PSNR 26.5 dB): Tier A, needs LPIPS.
+
+### exp-007: lifecycle staged with bf16 weights
+- total 19.50 s (denoise 16.40, VAE 2.04, text 1.04); peak footprint 11.54 GB, MLX peak 9.495 GB; swap grew: False
+- vs exp-005: 1.1105x speed, 0.0317 memory reduction
+- PSNR vs ref: p1 999.0 dB, max abs diff 0
+- tier E, verdict **keep**. Fastest so far (19.5 s, denoise 16.4 s) and first run with no swap growth. bf16 denoise is faster than q8 (18.3 s) when both are cool: the 8-bit dequant costs time.
+
+### exp-006: lifecycle staged: also free the transformer before VAE decode (q8)
+- total 20.88 s (denoise 18.33, VAE 2.04, text 0.49); peak footprint 11.698 GB, MLX peak 9.492 GB; swap grew: True
+- vs exp-005: 1.0367x speed, 0.0185 memory reduction
+- PSNR vs ref: p1 999.0 dB, max abs diff 0
+- tier E, verdict **keep**. MLX peak unchanged at 9.49 GB: the VAE decoder alone needs ~9.5 GB of activations at 1024^2. OS footprint -0.2 GB only. Pixel-identical.
+
+### exp-005: cold single image: q8 free_te with memtrace (reference for staged lifecycle)
+- total 21.65 s (denoise 18.47, VAE 2.66, text 0.49); peak footprint 11.918 GB, MLX peak 9.492 GB; swap grew: True
+- vs exp-001: 1.1742x speed, 0.0577 memory reduction
+- PSNR vs ref: p1 999.0 dB, max abs diff 0
+- tier E, verdict **keep**. Peak is in VAE decode: footprint 11.9 GB = MLX active 5.0 + MLX cache 6.3 GB. Cache explains the OS/MLX gap.
+
 ### exp-004: VAE tiled decode (mflux TilingConfig defaults), q8 free_te
 - total 39.70 s (denoise 31.95, VAE 7.52, text 0.39); peak footprint 11.901 GB, MLX peak 5.297 GB; swap grew: True
 - vs exp-001: 0.6404x speed, 0.0591 memory reduction

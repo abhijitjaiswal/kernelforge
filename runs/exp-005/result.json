@@ -1,0 +1,147 @@
+{
+  "exp_id": "exp-005",
+  "timestamp": "2026-10-19T18:33:58+00:00",
+  "model": "flux2-klein-4b",
+  "config": {
+    "resolution": 1024,
+    "steps": 4,
+    "seed": 42,
+    "prompt_ids": [
+      "p1"
+    ],
+    "weights": "q8",
+    "lifecycle": "free_te"
+  },
+  "runs": 1,
+  "text_encode_s": {
+    "median": 0.4912725840113126,
+    "min": 0.4912725840113126,
+    "max": 0.4912725840113126,
+    "n": 1
+  },
+  "text_encode_cached": true,
+  "denoise_s": {
+    "median": 18.47290608397452,
+    "min": 18.47290608397452,
+    "max": 18.47290608397452,
+    "n": 1
+  },
+  "vae_s": {
+    "median": 2.6571968750213273,
+    "min": 2.6571968750213273,
+    "max": 2.6571968750213273,
+    "n": 1
+  },
+  "total_s": {
+    "median": 21.64904750097776,
+    "min": 21.64904750097776,
+    "max": 21.64904750097776,
+    "n": 1
+  },
+  "total_s_by_prompt": {
+    "p1": {
+      "median": 21.64904750097776,
+      "min": 21.64904750097776,
+      "max": 21.64904750097776,
+      "n": 1
+    }
+  },
+  "first_vs_last_round_total_s": [
+    21.64904750097776,
+    21.64904750097776
+  ],
+  "peak_mem_mlx_gb": 9.492,
+  "mem_by_stage_gb": {
+    "weights": {
+      "text_encoder": 3.981,
+      "transformer": 3.835,
+      "vae": 0.155
+    },
+    "text_encoder_peak": 3.537,
+    "denoise_peak": 5.19,
+    "vae_peak": 9.492
+  },
+  "prepare": {
+    "text_encode_peak_gb": 3.537,
+    "active_before_free_gb": 3.09,
+    "active_after_free_gb": 0.007,
+    "text_encode_s": [
+      0.4912725840113126
+    ]
+  },
+  "adapter": {
+    "model": "flux2-klein-4b",
+    "revision": "e7b7dc27f91deacad38e78976d1f2b499d76a294",
+    "opts": {
+      "weights": "q8",
+      "quantize": null,
+      "lifecycle": "free_te",
+      "tile_vae": false,
+      "mem_limit_gb": null
+    },
+    "load_s": 0.5149784170207568,
+    "mem_after_load_gb": 0.0,
+    "weights_gb": {
+      "text_encoder": 3.981,
+      "transformer": 3.835,
+      "vae": 0.155
+    }
+  },
+  "warmup_s": null,
+  "swap_used_mb_before_after": [
+    2053.06,
+    2880.69
+  ],
+  "swap_grew": true,
+  "deterministic_across_runs": true,
+  "memtrace": {
+    "peak_footprint_gb": 11.867,
+    "peak_at_s": 22.24,
+    "peak_stage": "vae",
+    "per_stage": {
+      "load": {
+        "footprint_peak_gb": 0.315,
+        "mlx_active_peak_gb": 0
+      },
+      "prepare": {
+        "footprint_peak_gb": 3.615,
+        "mlx_active_peak_gb": 3.447
+      },
+      "free_text_encoder": {
+        "footprint_peak_gb": 3.778,
+        "mlx_active_peak_gb": 0.007
+      },
+      "denoise": {
+        "footprint_peak_gb": 6.43,
+        "mlx_active_peak_gb": 5.19
+      },
+      "vae": {
+        "footprint_peak_gb": 11.867,
+        "mlx_active_peak_gb": 9.492
+      },
+      "post": {
+        "footprint_peak_gb": 10.839,
+        "mlx_active_peak_gb": 0.099
+      }
+    }
+  },
+  "ref": "baselines/q8_free_te",
+  "verify": {
+    "p1": {
+      "psnr_db": 999.0,
+      "max_abs_pixel_diff": 0,
+      "mean_abs_pixel_diff": 0.0,
+      "identical": true
+    }
+  },
+  "psnr_db_vs_baseline": 999.0,
+  "max_abs_pixel_diff": 0,
+  "idle_check": "Processes: 399 total, 2 running, 397 sleeping, 2209 threads \n2026/10/20 00:03:58\nLoad Avg: 1.23, 1.48, 1.52 \nCPU usage: 4.31% user, 11.20% sys, 84.48% idle \nSharedLibs: 570M resident, 116M data, 98M linkedit.\nMemRegions: 162027 total, 1491M resident, 231M private, 797M shared.\nPhysMem: 6727M used (2486M wired, 238M compressor), 8734M unused.\nVM: 169T vsize, 6144M framework vsize, 161491855(0) swapins, 204079153(0) swapouts.\nNetworks: packets: 151860664/420G in, 113966611/349G out.\nDisks: 172272623/5892G read, 105247286/4585G written.\n\nPID    COMMAND          %CPU TIME     #TH #WQ  #PORTS MEM   PURG CMPRS PGRP  PPID STATE    BOOSTS     %CPU_ME %CPU_OTHRS UID FAULTS  COW MSGSENT MSGRECV SYSBSD   SYSMACH CSW      PAGEINS IDLEW  POWER INSTRS CYCLES JETPRI USER     #MREGS RPRVT VPRVT VSIZE KPRVT KSHRD\n",
+  "mlx_version": "0.32.4",
+  "process": {
+    "peak_footprint_gb": 11.918,
+    "max_rss_gb": 3.411,
+    "process_wall_s": 23.44
+  },
+  "returncode": 0
+}
