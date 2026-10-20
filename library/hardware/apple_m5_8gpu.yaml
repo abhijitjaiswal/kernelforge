@@ -12,4 +12,7 @@ measured:  # exp-031 unless noted; medians, cool device
   launch_overhead_ms_per_eval: 0.20
   thermal: "fanless: warm back-to-back denoise runs at ~1150 MHz vs ~1360 MHz cold (-15%) while thermal pressure stays Nominal; warm 5-round batches drift +17-25%; 150 s cool-down + cold process gives <2% spread (exp-011, exp-021)"
   mx_set_memory_limit: "soft limit: allocations exceed it; usable only to pressure the allocator, not to simulate a smaller machine (exp-022)"
-todo: [ssd_read_gbps_for_weight_streaming, threadgroup_sizes, tile_sizes_for_custom_kernels]
+  ssd_read_gbps: {cold_after_purge: [6.22, 6.46], warm_page_cache: [17.4, 17.8]}   # exp-052-disk, 6.86 GB of block files
+  unified_memory_streaming_cost: "generic: streaming weights from SSD/page cache while the GPU computes costs +2-3.5% of compute time from memory/DMA contention, even when prefetch hides 99.9% of the load latency (exp-051/052: barrier-only 4.84 s/step, prefetch warm 4.95, prefetch cold 5.00). Treat as the floor for any weight-streaming scheme on this device."
+  eval_barrier_cost: "mx.eval after each of 25 transformer blocks costs +6.6% of an eager step (exp-052-barrier): loses cross-block GPU pipelining"
+todo: [threadgroup_sizes, tile_sizes_for_custom_kernels]

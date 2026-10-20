@@ -1,0 +1,19 @@
+id: block-weight-streaming-prefetch
+kind: memory-streaming
+numerics_changing: false
+tier: E
+status: validated
+matches:
+  graph: "sequential stack of blocks with disjoint weights (transformer / DiT / LLM layers); one pass per step"
+preconditions:
+  - per-block weights in separate files (safetensors) or addressable ranges
+  - block load time < block compute time (else stalls remain): here 44 ms cold vs ~180 ms
+rewrite: "keep 2 blocks resident: install block i, start async load of block i+1 (cyclic across steps), eval, release block i"
+justification: "same weights, same ops, same order; verified bit-identical to resident eager (10 runs)"
+results:
+  - {model: flux2-klein-4b, hw: apple_m5_8gpu_16gb, mode: eager, peak_mlx_gb: "8.52 -> 2.22", footprint_gb: "9.53 -> 6.65 (now set by the text encoder)",
+     step_s: "4.54 -> 5.00 (+10.1%, cold SSD)", stall_hidden: "99.9% of cold load (1.12 -> 0.001 s/step)", exps: [exp-051, exp-052]}
+cost_breakdown: {eval_barriers: "+6.6%", load_contention: "+2-3.5% (hardware floor)"}
+failure_cases:
+  - "page cache hides SSD cost on large-RAM machines: test with purge before every step"
+  - "a real 8 GB Mac is still untested (memory pressure, page-cache eviction of other pages)"
