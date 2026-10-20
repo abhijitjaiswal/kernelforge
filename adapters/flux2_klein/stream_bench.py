@@ -184,7 +184,7 @@ def main():
     runs = []
     lat = lh = lw = None
     mx.reset_peak_memory()
-    for r in range(a.runs + 1):  # run 0 = warm-up
+    for r in range(a.runs + 1):  # run 0 = warm-up (with --runs 0 it is the only, cold, image)
         trace.mark(f"denoise_run{r}")
         cfg = cfg_of()
         lat, lid, lh, lw = m._prepare_generation_latents(seed=42, config=cfg)
@@ -239,7 +239,7 @@ def main():
         rp = ROOT / ref / f"{a.prompt}.png"
         if rp.exists():
             verify[ref] = compare(img, np.asarray(Image.open(rp).convert("RGB")))
-    timed = runs[1:]
+    timed = runs[1:] if a.runs > 0 else runs[:1]  # --runs 0: cold single image (includes compile tracing, like run.py --no-warmup)
     swap1 = swap_used_mb()
     res = {"exp_id": a.exp, "kind": "streaming", "mode": a.mode, "purge_steps": a.purge_steps,
            "config": {"weights": "bf16", "prompt_ids": [a.prompt], "stream": a.mode + ("-cold" if a.purge_steps else "") + (f"-lag{a.lag}" if a.lag else ""), "te_stream": a.te_stream, "vae_impl": "chunked", "cache_limit_gb": 0.5},
