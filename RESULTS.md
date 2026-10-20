@@ -1,5 +1,35 @@
 # RESULTS (newest first)
 
+### exp-053-pblockc-2: streaming: per-block compile + prefetch, cold SSD, round 2
+- total 18.47 s (denoise 18.47, VAE 0.00, text 0.00); peak footprint 6.65 GB, MLX peak 2.358103446662426 GB; swap grew: False
+- PSNR vs ref: runs/exp-053-rblockc-1 999.0, baselines/bf16_free_te 46.9 dB, max abs diff None
+- tier E, verdict **keep**. bit-identical to rblockc; +7.5-7.8% step time vs rblockc; 2.36 GB MLX, 6.65 GB OS
+
+### exp-053-rblockc-2: resident, per-block mx.compile, no barriers (numerics reference for compiled streaming), round 2
+- total 17.26 s (denoise 17.26, VAE 0.00, text 0.00); peak footprint 9.56 GB, MLX peak 8.574096897616982 GB; swap grew: False
+- PSNR vs ref: runs/exp-053-rcomp-1 47.0, baselines/bf16_free_te 46.9 dB, max abs diff None
+- tier E, verdict **keep**. per-block compile costs +0.7-1.4% vs whole compile
+
+### exp-053-rcomp-2: resident, mflux whole-transformer compile (speed reference), chunked VAE, round 2
+- total 17.26 s (denoise 17.26, VAE 0.00, text 0.00); peak footprint 9.561 GB, MLX peak 8.574102517217398 GB; swap grew: False
+- PSNR vs ref: baselines/bf16_free_te 52.1 dB, max abs diff None
+- tier E, verdict **keep**. steady-state reference
+
+### exp-053-pblockc-1: streaming: per-block compile + prefetch, cold SSD, round 1
+- total 18.35 s (denoise 18.35, VAE 0.00, text 0.00); peak footprint 6.65 GB, MLX peak 2.358103446662426 GB; swap grew: False
+- PSNR vs ref: runs/exp-053-rblockc-1 999.0, baselines/bf16_free_te 46.9 dB, max abs diff None
+- tier E, verdict **keep**. bit-identical to rblockc; +7.5-7.8% step time vs rblockc; 2.36 GB MLX, 6.65 GB OS
+
+### exp-053-rblockc-1: resident, per-block mx.compile, no barriers (numerics reference for compiled streaming), round 1
+- total 17.15 s (denoise 17.15, VAE 0.00, text 0.00); peak footprint 9.527 GB, MLX peak 8.574096897616982 GB; swap grew: False
+- PSNR vs ref: runs/exp-053-rcomp-1 47.0, baselines/bf16_free_te 46.9 dB, max abs diff None
+- tier E, verdict **keep**. per-block compile costs +0.7-1.4% vs whole compile
+
+### exp-053-rcomp-1: resident, mflux whole-transformer compile (speed reference), chunked VAE, round 1
+- total 16.88 s (denoise 16.88, VAE 0.00, text 0.00); peak footprint 9.561 GB, MLX peak 8.574102517217398 GB; swap grew: False
+- PSNR vs ref: baselines/bf16_free_te 52.1 dB, max abs diff None
+- tier E, verdict **keep**. steady-state reference
+
 ### exp-052-prefetch-cold-2: streaming prefetch, page cache purged before every step (cold SSD), round 2
 - total 19.94 s (denoise 19.94, VAE 0.00, text 0.00); peak footprint 6.65 GB, MLX peak 2.220408022403717 GB; swap grew: False
 - PSNR vs ref: runs/exp-051-resident-1 999.0, baselines/bf16_free_te 46.9 dB, max abs diff None
@@ -329,6 +359,12 @@ Speedup vs **exp-011-bf16** = 18.92 s (median of 3). *memory-only* = swap grew, 
 | exp-052-prefetch-cold-2 | bf16 | 0.5 GB | – | – | – | 2.22 | 6.65 | runs/exp-051-resident-1 = · baselines/bf16_free_te 46.9 | flat |
 | exp-052-sync-cold-1 | bf16 | 0.5 GB | – | – | – | 1.76 | 6.65 | runs/exp-051-resident-1 = · baselines/bf16_free_te 46.9 | flat |
 | exp-052-sync-cold-2 | bf16 | 0.5 GB | – | – | – | 1.76 | 6.65 | runs/exp-051-resident-1 = · baselines/bf16_free_te 46.9 | flat |
+| exp-053-pblockc-1 | bf16 | 0.5 GB | – | – | – | 2.36 | 6.65 | runs/exp-053-rblockc-1 = · baselines/bf16_free_te 46.9 | flat |
+| exp-053-pblockc-2 | bf16 | 0.5 GB | – | – | – | 2.36 | 6.65 | runs/exp-053-rblockc-1 = · baselines/bf16_free_te 46.9 | flat |
+| exp-053-rblockc-1 | bf16 | 0.5 GB | – | – | – | 8.57 | 9.53 | runs/exp-053-rcomp-1 47.0 · baselines/bf16_free_te 46.9 | flat |
+| exp-053-rblockc-2 | bf16 | 0.5 GB | – | – | – | 8.57 | 9.56 | runs/exp-053-rcomp-1 47.0 · baselines/bf16_free_te 46.9 | flat |
+| exp-053-rcomp-1 | bf16 | 0.5 GB | – | – | – | 8.57 | 9.56 | baselines/bf16_free_te 52.1 | flat |
+| exp-053-rcomp-2 | bf16 | 0.5 GB | – | – | – | 8.57 | 9.56 | baselines/bf16_free_te 52.1 | flat |
 <!-- summary:end -->
 
 ## Log
