@@ -67,7 +67,7 @@ def disk_speed(files, cold=False):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--exp")
-    ap.add_argument("--mode", choices=["resident", "barrier", "sync", "prefetch"])
+    ap.add_argument("--mode", choices=["resident", "barrier", "sync", "prefetch", "resident_compiled", "resident_blockc", "prefetch_blockc"])
     ap.add_argument("--purge-steps", action="store_true", help="purge the page cache before every denoise step (untimed): cold-SSD reads")
     ap.add_argument("--prep", action="store_true")
     ap.add_argument("--disk", action="store_true")
@@ -116,7 +116,7 @@ def main():
     from bench.memtrace import MemTrace
     from bench.power import Power
     from bench.run import swap_used_mb
-    from engine.streaming import WeightStreamer
+    from engine.streaming import BlockCompiler, WeightStreamer
     from mflux.models.common.config.config import Config
 
     mx.set_cache_limit(int(0.5 * G))
@@ -127,8 +127,10 @@ def main():
     ad = Adapter({"weights": "bf16", "lifecycle": "staged", "vae_impl": "chunked", "vae_rows": 64})
     m = ad.model
     trace.mark("encode")
+    t_enc = time.perf_counter()
     emb, tid, _, _ = ad._orig_encode(prompt=prompt, negative_prompt=" ", guidance=DEFAULTS["guidance"])
     mx.eval(emb, tid)
+    encode_s = time.perf_counter() - t_enc  # includes lazy text-encoder load (cold process, as a user would run it)
     m.text_encoder = None
     gc.collect()
     mx.clear_cache()
@@ -137,7 +139,19 @@ def main():
     blocks = block_list(tr)
     streamer = None
     trace.mark("load_transformer")
-    if a.mode in ("resident", "barrier"):
+    compiled_predict = None
+    if a.mode == "resident_compiled":  # mflux's whole-transformer mx.compile (speed reference)
+        mx.eval(tr.parameters())
+        compiled_predict = m._predict(tr)
+    elif a.mode == "resident_blockc":  # resident, one compiled function per block, no barriers (numerics reference)
+        mx.eval(tr.parameters())
+        BlockCompiler(blocks).attach()
+    elif a.mode == "prefetch_blockc":
+        streamer = WeightStreamer(blocks, block_files(len(blocks)), prefetch=True, compile=True)
+        streamer.release_all()
+        mx.eval(tr.parameters())
+        streamer.attach()
+    elif a.mode in ("resident", "barrier"):
         mx.eval(tr.parameters())
         if a.mode == "barrier":  # resident weights, but mx.eval after every block: isolates the barrier cost
             for b in blocks:
@@ -173,7 +187,11 @@ def main():
                 purge()
                 time.sleep(0.5)
             t = time.perf_counter()
-            noise = tr(hidden_states=lat, encoder_hidden_states=emb, timestep=cfg.scheduler.timesteps[s], img_ids=lid, txt_ids=tid, guidance=None)
+            if compiled_predict is not None:
+                noise = compiled_predict(latents=lat, latent_ids=lid, prompt_embeds=emb, text_ids=tid, negative_prompt_embeds=None,
+                                         negative_text_ids=None, guidance=DEFAULTS["guidance"], timestep=cfg.scheduler.timesteps[s])
+            else:
+                noise = tr(hidden_states=lat, encoder_hidden_states=emb, timestep=cfg.scheduler.timesteps[s], img_ids=lid, txt_ids=tid, guidance=None)
             lat = cfg.scheduler.step(noise=noise, timestep=s, latents=lat, sigmas=cfg.scheduler.sigmas)
             mx.eval(lat)
             steps.append(time.perf_counter() - t)
@@ -185,6 +203,8 @@ def main():
     if streamer:
         streamer.detach()
     trace.mark("decode")
+    compiled_predict = None
+    t_dec = time.perf_counter()
     m.transformer = None
     gc.collect()
     mx.clear_cache()
@@ -193,6 +213,7 @@ def main():
     decoded = ad._orig_decode(packed)
     mx.eval(decoded)
     img = np.array(ImageUtil.to_pil(decoded).convert("RGB"))
+    decode_s = time.perf_counter() - t_dec
     trace.mark("done")
     trace.stop()
     trace.dump(out / "memtrace.json")
@@ -213,6 +234,8 @@ def main():
            "config": {"weights": "bf16", "prompt_ids": [a.prompt], "stream": a.mode + ("-cold" if a.purge_steps else ""), "vae_impl": "chunked", "cache_limit_gb": 0.5},
            "runs": runs, "step_s_median": statistics.median([s for r in timed for s in r["step_s"]]),
            "denoise_s_median": statistics.median([r["total_s"] for r in timed]),
+           "encode_s": encode_s, "decode_s": decode_s,
+           "e2e_image_s": encode_s + statistics.median([r["total_s"] for r in timed]) + decode_s,
            "stall_per_step_s": statistics.median([r["stall_s"] for r in timed]) / 4 if streamer else 0.0,
            "resident_after_load_gb": resident_gb, "peak_mlx_gb": denoise_peak, "memtrace": trace.summary(), "power": psum,
            "verify": verify, "swap_used_mb_before_after": [swap0, swap1], "swap_grew": (swap1 or 0) - (swap0 or 0) > 32,

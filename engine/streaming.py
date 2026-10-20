@@ -9,6 +9,10 @@ so the memory is released.
     ... run the model eagerly ...
     s.detach(); s.stats  # per-block stall (time waiting for weights) and compute times
 
+compile=True: every block gets its own mx.compile'd function whose weights are explicit inputs
+(fn(params, array_kwargs)), so swapping in streamed weights never retraces and each block keeps
+compile's fusion. Use BlockCompiler for the same per-block compilation with resident weights.
+
 Prefetch: right after block i's weights are installed, block i+1's (cyclic, so the next step's first
 block is fetched during the last block) load is started with mx.async_eval, so file reads can overlap
 GPU compute of block i. The deliverable measurement is how much of the load time this hides.
@@ -29,9 +33,66 @@ def _placeholder(tree):
     return tree_unflatten([(k, mx.zeros((0,), dtype=v.dtype)) for k, v in tree_flatten(tree)])
 
 
+def _is_array_tree(v):
+    if isinstance(v, mx.array):
+        return True
+    if isinstance(v, (tuple, list)) and v:
+        return all(_is_array_tree(x) for x in v)
+    return False
+
+
+class _CompiledCall:
+    """mx.compile'd block call with weights and array kwargs as inputs; non-array kwargs are baked in."""
+
+    def __init__(self, block, orig_call):
+        self.block, self.orig, self.fn, self.static_key = block, orig_call, None, None
+
+    def __call__(self, params, kw):
+        arrays = {k: v for k, v in kw.items() if _is_array_tree(v)}
+        static = {k: v for k, v in kw.items() if k not in arrays}
+        key = repr(sorted(static.items()))
+        if self.fn is None or key != self.static_key:
+            block, orig = self.block, self.orig
+
+            def fn(p, arr):
+                block.update(p)
+                return orig(block, **arr, **static)
+
+            self.fn, self.static_key = mx.compile(fn), key
+        return self.fn(params, arrays)
+
+
+class BlockCompiler:
+    """Resident weights, one mx.compile'd function per block (numerics reference for compiled streaming)."""
+
+    def __init__(self, blocks, barrier=False):
+        self.blocks, self.barrier, self._patched = blocks, barrier, []
+        self.params = [b.parameters() for b in blocks]  # kept apart: tracing installs tracers in the module
+
+    def attach(self):
+        for i, b in enumerate(self.blocks):
+            cls = type(b)
+            cc = _CompiledCall(b, cls.__call__)
+            outer = self
+
+            def call(self_, *a, _i=i, _cc=cc, **k):
+                assert not a, "block calls must use keyword arguments"
+                out = _cc(outer.params[_i], k)
+                if outer.barrier:
+                    mx.eval(out)
+                return out
+
+            b.__class__ = type(cls.__name__, (cls,), {"__call__": call})
+            self._patched.append((b, cls))
+
+    def detach(self):
+        for b, cls in self._patched:
+            b.__class__ = cls
+
+
 class WeightStreamer:
-    def __init__(self, blocks, files, prefetch=True):
-        self.blocks, self.files, self.prefetch = blocks, [str(f) for f in files], prefetch
+    def __init__(self, blocks, files, prefetch=True, compile=False):
+        self.blocks, self.files, self.prefetch, self.compile = blocks, [str(f) for f in files], prefetch, compile
         self.n = len(blocks)
         self.pending = {}
         self.stats = []
@@ -55,10 +116,11 @@ class WeightStreamer:
         params = self.pending.pop(i)
         mx.eval(params)                      # stall = time spent waiting for this block's weights
         stall = time.perf_counter() - t0
-        self.blocks[i].update(params)
+        if not self.compile:
+            self.blocks[i].update(params)
         if self.prefetch:
             self._start_load((i + 1) % self.n)
-        return stall
+        return stall, params
 
     def _after(self, i, out, stall, t_start):
         mx.eval(out)
@@ -70,11 +132,12 @@ class WeightStreamer:
         for i, b in enumerate(self.blocks):
             cls = type(b)
             orig = cls.__call__
+            cc = _CompiledCall(b, orig) if self.compile else None
 
-            def call(self_, *a, _i=i, _orig=orig, **k):
+            def call(self_, *a, _i=i, _orig=orig, _cc=cc, **k):
                 t = time.perf_counter()
-                stall = streamer._before(_i)
-                out = _orig(self_, *a, **k)
+                stall, params = streamer._before(_i)
+                out = _cc(params, k) if _cc is not None else _orig(self_, *a, **k)
                 streamer._after(_i, out, stall, t)
                 return out
 

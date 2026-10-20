@@ -8,7 +8,7 @@ from pathlib import Path
 import mlx.core as mx
 from mlx import nn
 
-from engine.streaming import WeightStreamer, save_block_files
+from engine.streaming import BlockCompiler, WeightStreamer, save_block_files
 
 
 class Block(nn.Module):
@@ -27,7 +27,7 @@ class Net(nn.Module):
 
     def __call__(self, x):
         for b in self.blocks:
-            x = b(x)
+            x = b(x=x)
         return x
 
 
@@ -37,19 +37,28 @@ def main():
     x = mx.random.normal((8, 64))
     ref = [net(x), net(x * 0.5)]
     mx.eval(ref)
+    tree_unflatten_params = net.parameters()
     with tempfile.TemporaryDirectory() as d:
         files = [Path(d) / f"{i}.safetensors" for i in range(len(net.blocks))]
         save_block_files(net.blocks, files)
-        for prefetch in (False, True):
-            s = WeightStreamer(net.blocks, files, prefetch=prefetch)
+        bc = BlockCompiler(net.blocks)
+        bc.attach()
+        cref = [net(x), net(x * 0.5)]
+        mx.eval(cref)
+        bc.detach()
+        print("block-compiled resident vs eager: max abs diff", max(mx.abs(a - b).max().item() for a, b in zip(cref, ref)))
+        net.update(tree_unflatten_params)  # restore real weights (tracing installed tracers)
+        for prefetch, comp in ((False, False), (True, False), (True, True)):
+            s = WeightStreamer(net.blocks, files, prefetch=prefetch, compile=comp)
             s.release_all()
             s.attach()
             outs = [net(x), net(x * 0.5)]  # two "steps": exercises the cyclic prefetch
             mx.eval(outs)
             s.detach()
-            same = all(mx.array_equal(o, r).item() for o, r in zip(outs, ref))
+            want = cref if comp else ref
+            same = all(mx.array_equal(o, r).item() for o, r in zip(outs, want))
             empty = all(v.size == 0 for b in net.blocks for _, v in __import__("mlx.utils").utils.tree_flatten(b.parameters()))
-            print(f"prefetch={prefetch}: bit-identical={same}  blocks released after run={empty}  block calls={len(s.stats)}")
+            print(f"prefetch={prefetch} compile={comp}: bit-identical to {'block-compiled' if comp else 'eager'} resident={same}  blocks released after run={empty}  block calls={len(s.stats)}")
             assert same and empty
 
 
