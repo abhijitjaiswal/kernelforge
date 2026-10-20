@@ -1,0 +1,3 @@
+[stream] prefetch_blockc run0: steps [4.021, 3.917, 3.997, 4.098] stall 0.10s
+[stream] prefetch_blockc run1: steps [4.196, 4.27, 4.316, 4.342] stall 0.01s
+[stream] prefetch_blockc run2: steps [4.375, 4.48, 4.523, 4.529] stall 0.01s
