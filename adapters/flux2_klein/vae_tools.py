@@ -65,8 +65,25 @@ def main():
     a = ap.parse_args()
     out = ROOT / "runs" / a.exp
     out.mkdir(parents=True, exist_ok=True)
+    import os
+    import subprocess
+    if os.environ.get("KF_CHILD") != "1":  # re-exec under /usr/bin/time -l for the OS peak footprint
+        from bench.run import parse_time_l
+        with open(out / "time.txt", "w") as tf, open(out / "log", "w") as lf:
+            rc = subprocess.run(["/usr/bin/time", "-l", sys.executable, "-m", "adapters.flux2_klein.vae_tools", *sys.argv[1:]],
+                                env=dict(os.environ, KF_CHILD="1"), stdout=lf, stderr=tf, cwd=ROOT).returncode
+        rp = out / "result.json"
+        res = json.loads(rp.read_text()) if rp.exists() else {"exp_id": a.exp, "notes": "crashed; see log"}
+        res["process"] = parse_time_l((out / "time.txt").read_text())
+        res["returncode"] = rc
+        res["swap_grew"] = res.get("swap_grew")
+        rp.write_text(json.dumps(res, indent=2, default=str))
+        print(json.dumps({k: res.get(k) for k in ("exp_id", "time_s_median", "peak_mlx_gb", "psnr_db_vs_baseline", "process", "returncode")}, default=str))
+        sys.exit(rc)
     mx.set_cache_limit(int(a.cache_limit_gb * G))
 
+    from bench.run import swap_used_mb
+    swap0 = swap_used_mb()
     vae = load_vae(a.weights)
     latents = mx.load(str(ROOT / a.latents))["latents"]
     x = vae_input(vae, latents)
@@ -108,6 +125,9 @@ def main():
         res["verify"] = {pid: compare(img, np.asarray(Image.open(ROOT / a.ref / f"{pid}.png").convert("RGB")), str(out / f"{pid}_diff.png"))}
         res["psnr_db_vs_baseline"] = res["verify"][pid]["psnr_db"]
         res["max_abs_pixel_diff"] = res["verify"][pid]["max_abs_pixel_diff"]
+    swap1 = swap_used_mb()
+    res["swap_used_mb_before_after"] = [swap0, swap1]
+    res["swap_grew"] = (swap1 or 0) - (swap0 or 0) > 32
     (out / "result.json").write_text(json.dumps(res, indent=2, default=str))
     summ = {k: res.get(k) for k in ("exp_id", "e2e", "time_s_median", "peak_mlx_gb", "psnr_db_vs_baseline")}
     print(json.dumps(summ, default=str))
