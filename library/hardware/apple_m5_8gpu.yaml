@@ -1,8 +1,15 @@
 id: apple_m5_8gpu_16gb
 device: "Apple M5, 8-core GPU, Metal 4, 16 GB unified (MacBook Air Mac17,3, fanless)"
-mlx_device_info: {architecture: applegpu_g17g, max_recommended_working_set_gb: 11.84, max_buffer_length_gb: 8.88}
-measured:
-  # Phase 0 observations only; microbenchmarks (bandwidth, matmul throughput per dtype, launch overhead) are Phase 1.
-  thermal: "warm 5-round batch: +17-25% time from round 1 to 5; after ~40 min continuous load denoise rose 22 s -> 32 s. With 150 s cool-down + cold process: run-to-run spread <2%."
-  q8_vs_bf16_matmul: "end-to-end Klein denoise: q8 17.42 s vs bf16 15.74 s (q8 ~11% slower) - to confirm with microbenchmarks"
-todo: [peak_bandwidth, achieved_bandwidth, matmul_tflops_bf16, matmul_tflops_q8, neural_accelerator_use, launch_overhead, threadgroup_sizes]
+mlx: {version: 0.32.4, architecture: applegpu_g17g, max_recommended_working_set_gb: 11.84, max_buffer_length_gb: 8.88}
+measured:  # exp-031 unless noted; medians, cool device
+  matmul_peak_tflops: {bf16: 11.15, fp16: 11.52, fp32: 9.07}        # 4096^3, NAX kernels
+  matmul_peak_tflops_without_nax: {bf16: 3.04, fp16: 3.05, fp32: 2.84}  # MLX_METAL_GPU_ARCH=applegpu_g16g
+  neural_accelerators: "used by MLX 0.32.4 for dense matmul (steel_gemm_*_nax), quantized matmul (affine_qmm_*_nax) and SDPA; ~3.7x vs non-NAX path"
+  sdpa_tflops: {bf16_L4608_H24_D128: 8.70, without_nax: 2.51}
+  quantized_matmul_vs_bf16: "q8/q4 group-64 matmuls 8-25% slower than bf16 at M>=512 (compute-bound; dequant adds work); faster only at M=1"
+  bandwidth_gbps_read_plus_write: 134.7
+  ridge_point_flop_per_byte: 85
+  launch_overhead_ms_per_eval: 0.20
+  thermal: "fanless: warm back-to-back denoise runs at ~1150 MHz vs ~1360 MHz cold (-15%) while thermal pressure stays Nominal; warm 5-round batches drift +17-25%; 150 s cool-down + cold process gives <2% spread (exp-011, exp-021)"
+  mx_set_memory_limit: "soft limit: allocations exceed it; usable only to pressure the allocator, not to simulate a smaller machine (exp-022)"
+todo: [ssd_read_gbps_for_weight_streaming, threadgroup_sizes, tile_sizes_for_custom_kernels]

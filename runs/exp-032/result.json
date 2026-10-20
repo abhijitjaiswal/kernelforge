@@ -1,0 +1,3944 @@
+{
+  "exp_id": "exp-032",
+  "kind": "sensitivity",
+  "config": {
+    "weights": "bf16",
+    "prompt_ids": [
+      "p1"
+    ],
+    "step": 0,
+    "group_size": 64
+  },
+  "metric": "rel L2 of transformer output (predicted velocity) vs bf16, one layer quantized at a time",
+  "rows": [
+    {
+      "layer": "proj_out",
+      "bits": 8,
+      "rel_l2": 0.004867221228778362,
+      "cos": 0.9999881982803345,
+      "params": 393216,
+      "bytes_saved_vs_bf16": 368640.0,
+      "s": 4.047194958024193
+    },
+    {
+      "layer": "proj_out",
+      "bits": 4,
+      "rel_l2": 0.050309520214796066,
+      "cos": 0.9987336993217468,
+      "params": 393216,
+      "bytes_saved_vs_bf16": 565248.0,
+      "s": 4.147703125025146
+    },
+    {
+      "layer": "norm_out.linear",
+      "bits": 8,
+      "rel_l2": 0.0018457783153280616,
+      "cos": 0.9999983310699463,
+      "params": 18874368,
+      "bytes_saved_vs_bf16": 17694720.0,
+      "s": 4.294694416981656
+    },
+    {
+      "layer": "norm_out.linear",
+      "bits": 4,
+      "rel_l2": 0.005616738460958004,
+      "cos": 0.9999848008155823,
+      "params": 18874368,
+      "bytes_saved_vs_bf16": 27131904.0,
+      "s": 4.3953399999882095
+    },
+    {
+      "layer": "single_transformer_blocks.19.attn.to_out",
+      "bits": 8,
+      "rel_l2": 0.002450596308335662,
+      "cos": 0.999997079372406,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 35389440.0,
+      "s": 4.431789833994117
+    },
+    {
+      "layer": "single_transformer_blocks.19.attn.to_out",
+      "bits": 4,
+      "rel_l2": 0.007223071530461311,
+      "cos": 0.9999753832817078,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 54263808.0,
+      "s": 4.458166290947702
+    },
+    {
+      "layer": "single_transformer_blocks.19.attn.to_qkv_mlp_proj",
+      "bits": 8,
+      "rel_l2": 0.0034820109140127897,
+      "cos": 0.9999939799308777,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 79626240.0,
+      "s": 4.514844499994069
+    },
+    {
+      "layer": "single_transformer_blocks.19.attn.to_qkv_mlp_proj",
+      "bits": 4,
+      "rel_l2": 0.027124200016260147,
+      "cos": 0.9996361136436462,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 122093568.0,
+      "s": 4.532971584005281
+    },
+    {
+      "layer": "single_transformer_blocks.18.attn.to_out",
+      "bits": 8,
+      "rel_l2": 0.003307803301140666,
+      "cos": 0.9999945163726807,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 35389440.0,
+      "s": 4.5979405420366675
+    },
+    {
+      "layer": "single_transformer_blocks.18.attn.to_out",
+      "bits": 4,
+      "rel_l2": 0.01626075804233551,
+      "cos": 0.9998700618743896,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 54263808.0,
+      "s": 4.620214458031114
+    },
+    {
+      "layer": "single_transformer_blocks.18.attn.to_qkv_mlp_proj",
+      "bits": 8,
+      "rel_l2": 0.003965327050536871,
+      "cos": 0.9999921917915344,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 79626240.0,
+      "s": 4.639344625000376
+    },
+    {
+      "layer": "single_transformer_blocks.18.attn.to_qkv_mlp_proj",
+      "bits": 4,
+      "rel_l2": 0.023032590746879578,
+      "cos": 0.9997347593307495,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 122093568.0,
+      "s": 4.659398084040731
+    },
+    {
+      "layer": "single_transformer_blocks.17.attn.to_out",
+      "bits": 8,
+      "rel_l2": 0.003940877038985491,
+      "cos": 0.999992311000824,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 35389440.0,
+      "s": 4.661206124990713
+    },
+    {
+      "layer": "single_transformer_blocks.17.attn.to_out",
+      "bits": 4,
+      "rel_l2": 0.02095952443778515,
+      "cos": 0.9997802972793579,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 54263808.0,
+      "s": 4.65460691699991
+    },
+    {
+      "layer": "single_transformer_blocks.17.attn.to_qkv_mlp_proj",
+      "bits": 8,
+      "rel_l2": 0.004477628506720066,
+      "cos": 0.9999900460243225,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 79626240.0,
+      "s": 4.6967141249915585
+    },
+    {
+      "layer": "single_transformer_blocks.17.attn.to_qkv_mlp_proj",
+      "bits": 4,
+      "rel_l2": 0.02842900902032852,
+      "cos": 0.9995986819267273,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 122093568.0,
+      "s": 4.7442359999986365
+    },
+    {
+      "layer": "single_transformer_blocks.16.attn.to_out",
+      "bits": 8,
+      "rel_l2": 0.004396739415824413,
+      "cos": 0.9999903440475464,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 35389440.0,
+      "s": 4.765093166963197
+    },
+    {
+      "layer": "single_transformer_blocks.16.attn.to_out",
+      "bits": 4,
+      "rel_l2": 0.02439366653561592,
+      "cos": 0.9997034668922424,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 54263808.0,
+      "s": 4.787324082979467
+    },
+    {
+      "layer": "single_transformer_blocks.16.attn.to_qkv_mlp_proj",
+      "bits": 8,
+      "rel_l2": 0.004897093400359154,
+      "cos": 0.9999880194664001,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 79626240.0,
+      "s": 4.800732958014123
+    },
+    {
+      "layer": "single_transformer_blocks.16.attn.to_qkv_mlp_proj",
+      "bits": 4,
+      "rel_l2": 0.03059173934161663,
+      "cos": 0.9995325207710266,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 122093568.0,
+      "s": 4.786731333006173
+    },
+    {
+      "layer": "single_transformer_blocks.15.attn.to_out",
+      "bits": 8,
+      "rel_l2": 0.004967942368239164,
+      "cos": 0.9999876022338867,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 35389440.0,
+      "s": 4.791610291984398
+    },
+    {
+      "layer": "single_transformer_blocks.15.attn.to_out",
+      "bits": 4,
+      "rel_l2": 0.028565185144543648,
+      "cos": 0.9995934963226318,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 54263808.0,
+      "s": 4.8065475830226205
+    },
+    {
+      "layer": "single_transformer_blocks.15.attn.to_qkv_mlp_proj",
+      "bits": 8,
+      "rel_l2": 0.005619035102427006,
+      "cos": 0.9999842047691345,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 79626240.0,
+      "s": 4.808221208048053
+    },
+    {
+      "layer": "single_transformer_blocks.15.attn.to_qkv_mlp_proj",
+      "bits": 4,
+      "rel_l2": 0.035089876502752304,
+      "cos": 0.9993846416473389,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 122093568.0,
+      "s": 4.818383417034056
+    },
+    {
+      "layer": "single_transformer_blocks.14.attn.to_out",
+      "bits": 8,
+      "rel_l2": 0.005380631424486637,
+      "cos": 0.9999854564666748,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 35389440.0,
+      "s": 4.822112041991204
+    },
+    {
+      "layer": "single_transformer_blocks.14.attn.to_out",
+      "bits": 4,
+      "rel_l2": 0.029050523415207863,
+      "cos": 0.9995779395103455,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 54263808.0,
+      "s": 4.842376917018555
+    },
+    {
+      "layer": "single_transformer_blocks.14.attn.to_qkv_mlp_proj",
+      "bits": 8,
+      "rel_l2": 0.0057965428568422794,
+      "cos": 0.9999832510948181,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 79626240.0,
+      "s": 4.848648124956526
+    },
+    {
+      "layer": "single_transformer_blocks.14.attn.to_qkv_mlp_proj",
+      "bits": 4,
+      "rel_l2": 0.03211513161659241,
+      "cos": 0.9994843602180481,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 122093568.0,
+      "s": 4.847112625022419
+    },
+    {
+      "layer": "single_transformer_blocks.13.attn.to_out",
+      "bits": 8,
+      "rel_l2": 0.005659487098455429,
+      "cos": 0.9999840259552002,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 35389440.0,
+      "s": 4.85457712499192
+    },
+    {
+      "layer": "single_transformer_blocks.13.attn.to_out",
+      "bits": 4,
+      "rel_l2": 0.02557743526995182,
+      "cos": 0.9996728897094727,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 54263808.0,
+      "s": 4.907417125010397
+    },
+    {
+      "layer": "single_transformer_blocks.13.attn.to_qkv_mlp_proj",
+      "bits": 8,
+      "rel_l2": 0.005988406483083963,
+      "cos": 0.9999820590019226,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 79626240.0,
+      "s": 4.888074832968414
+    },
+    {
+      "layer": "single_transformer_blocks.13.attn.to_qkv_mlp_proj",
+      "bits": 4,
+      "rel_l2": 0.02963085286319256,
+      "cos": 0.9995611310005188,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 122093568.0,
+      "s": 4.905295417003799
+    },
+    {
+      "layer": "single_transformer_blocks.12.attn.to_out",
+      "bits": 8,
+      "rel_l2": 0.005964136216789484,
+      "cos": 0.9999821782112122,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 35389440.0,
+      "s": 4.92069670901401
+    },
+    {
+      "layer": "single_transformer_blocks.12.attn.to_out",
+      "bits": 4,
+      "rel_l2": 0.026272347196936607,
+      "cos": 0.9996549487113953,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 54263808.0,
+      "s": 4.911956832977012
+    },
+    {
+      "layer": "single_transformer_blocks.12.attn.to_qkv_mlp_proj",
+      "bits": 8,
+      "rel_l2": 0.006238305009901524,
+      "cos": 0.9999805092811584,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 79626240.0,
+      "s": 4.9917667080299
+    },
+    {
+      "layer": "single_transformer_blocks.12.attn.to_qkv_mlp_proj",
+      "bits": 4,
+      "rel_l2": 0.03078427165746689,
+      "cos": 0.999527633190155,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 122093568.0,
+      "s": 4.949432083056308
+    },
+    {
+      "layer": "single_transformer_blocks.11.attn.to_out",
+      "bits": 8,
+      "rel_l2": 0.006311092060059309,
+      "cos": 0.9999800324440002,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 35389440.0,
+      "s": 4.965912166982889
+    },
+    {
+      "layer": "single_transformer_blocks.11.attn.to_out",
+      "bits": 4,
+      "rel_l2": 0.024477265775203705,
+      "cos": 0.9997004866600037,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 54263808.0,
+      "s": 4.90154337498825
+    },
+    {
+      "layer": "single_transformer_blocks.11.attn.to_qkv_mlp_proj",
+      "bits": 8,
+      "rel_l2": 0.006675112061202526,
+      "cos": 0.9999777674674988,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 79626240.0,
+      "s": 5.001447000016924
+    },
+    {
+      "layer": "single_transformer_blocks.11.attn.to_qkv_mlp_proj",
+      "bits": 4,
+      "rel_l2": 0.02825375460088253,
+      "cos": 0.9996014833450317,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 122093568.0,
+      "s": 5.010360333020799
+    },
+    {
+      "layer": "single_transformer_blocks.10.attn.to_out",
+      "bits": 8,
+      "rel_l2": 0.006458674091845751,
+      "cos": 0.9999792575836182,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 35389440.0,
+      "s": 5.028250707953703
+    },
+    {
+      "layer": "single_transformer_blocks.10.attn.to_out",
+      "bits": 4,
+      "rel_l2": 0.01958588883280754,
+      "cos": 0.9998088479042053,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 54263808.0,
+      "s": 5.023386415967252
+    },
+    {
+      "layer": "single_transformer_blocks.10.attn.to_qkv_mlp_proj",
+      "bits": 8,
+      "rel_l2": 0.006727697793394327,
+      "cos": 0.9999774098396301,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 79626240.0,
+      "s": 5.047937499999534
+    },
+    {
+      "layer": "single_transformer_blocks.10.attn.to_qkv_mlp_proj",
+      "bits": 4,
+      "rel_l2": 0.024587441235780716,
+      "cos": 0.9996987581253052,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 122093568.0,
+      "s": 4.9998348749941215
+    },
+    {
+      "layer": "single_transformer_blocks.9.attn.to_out",
+      "bits": 8,
+      "rel_l2": 0.006770930252969265,
+      "cos": 0.9999769926071167,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 35389440.0,
+      "s": 5.055712166999001
+    },
+    {
+      "layer": "single_transformer_blocks.9.attn.to_out",
+      "bits": 4,
+      "rel_l2": 0.02149500697851181,
+      "cos": 0.9997692704200745,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 54263808.0,
+      "s": 4.999153542041313
+    },
+    {
+      "layer": "single_transformer_blocks.9.attn.to_qkv_mlp_proj",
+      "bits": 8,
+      "rel_l2": 0.0070881531573832035,
+      "cos": 0.9999749660491943,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 79626240.0,
+      "s": 5.022124209033791
+    },
+    {
+      "layer": "single_transformer_blocks.9.attn.to_qkv_mlp_proj",
+      "bits": 4,
+      "rel_l2": 0.02939159795641899,
+      "cos": 0.999567985534668,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 122093568.0,
+      "s": 5.025249792030081
+    },
+    {
+      "layer": "single_transformer_blocks.8.attn.to_out",
+      "bits": 8,
+      "rel_l2": 0.007103198207914829,
+      "cos": 0.9999748468399048,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 35389440.0,
+      "s": 5.034283832996152
+    },
+    {
+      "layer": "single_transformer_blocks.8.attn.to_out",
+      "bits": 4,
+      "rel_l2": 0.02430621162056923,
+      "cos": 0.9997045397758484,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 54263808.0,
+      "s": 4.988736582978163
+    },
+    {
+      "layer": "single_transformer_blocks.8.attn.to_qkv_mlp_proj",
+      "bits": 8,
+      "rel_l2": 0.007361975964158773,
+      "cos": 0.9999728798866272,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 79626240.0,
+      "s": 5.027900457964279
+    },
+    {
+      "layer": "single_transformer_blocks.8.attn.to_qkv_mlp_proj",
+      "bits": 4,
+      "rel_l2": 0.028567511588335037,
+      "cos": 0.9995920062065125,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 122093568.0,
+      "s": 5.014033332990948
+    },
+    {
+      "layer": "single_transformer_blocks.7.attn.to_out",
+      "bits": 8,
+      "rel_l2": 0.007463566493242979,
+      "cos": 0.9999721050262451,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 35389440.0,
+      "s": 5.0149112500366755
+    },
+    {
+      "layer": "single_transformer_blocks.7.attn.to_out",
+      "bits": 4,
+      "rel_l2": 0.02708316221833229,
+      "cos": 0.9996331930160522,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 54263808.0,
+      "s": 5.0155901669641025
+    },
+    {
+      "layer": "single_transformer_blocks.7.attn.to_qkv_mlp_proj",
+      "bits": 8,
+      "rel_l2": 0.0076174004934728146,
+      "cos": 0.9999709725379944,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 79626240.0,
+      "s": 5.018250124994665
+    },
+    {
+      "layer": "single_transformer_blocks.7.attn.to_qkv_mlp_proj",
+      "bits": 4,
+      "rel_l2": 0.03233352303504944,
+      "cos": 0.9994778633117676,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 122093568.0,
+      "s": 5.022680457972456
+    },
+    {
+      "layer": "single_transformer_blocks.6.attn.to_out",
+      "bits": 8,
+      "rel_l2": 0.007806107401847839,
+      "cos": 0.9999696016311646,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 35389440.0,
+      "s": 5.013559707964305
+    },
+    {
+      "layer": "single_transformer_blocks.6.attn.to_out",
+      "bits": 4,
+      "rel_l2": 0.03317573666572571,
+      "cos": 0.9994498491287231,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 54263808.0,
+      "s": 4.990837208984885
+    },
+    {
+      "layer": "single_transformer_blocks.6.attn.to_qkv_mlp_proj",
+      "bits": 8,
+      "rel_l2": 0.00820084661245346,
+      "cos": 0.9999662637710571,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 79626240.0,
+      "s": 5.040159832977224
+    },
+    {
+      "layer": "single_transformer_blocks.6.attn.to_qkv_mlp_proj",
+      "bits": 4,
+      "rel_l2": 0.03538471832871437,
+      "cos": 0.9993741512298584,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 122093568.0,
+      "s": 5.043689000012819
+    },
+    {
+      "layer": "single_transformer_blocks.5.attn.to_out",
+      "bits": 8,
+      "rel_l2": 0.008134876377880573,
+      "cos": 0.9999670386314392,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 35389440.0,
+      "s": 5.023063667002134
+    },
+    {
+      "layer": "single_transformer_blocks.5.attn.to_out",
+      "bits": 4,
+      "rel_l2": 0.03054164908826351,
+      "cos": 0.9995338320732117,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 54263808.0,
+      "s": 5.0187569170375355
+    },
+    {
+      "layer": "single_transformer_blocks.5.attn.to_qkv_mlp_proj",
+      "bits": 8,
+      "rel_l2": 0.008105930872261524,
+      "cos": 0.9999671578407288,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 79626240.0,
+      "s": 5.032773458049633
+    },
+    {
+      "layer": "single_transformer_blocks.5.attn.to_qkv_mlp_proj",
+      "bits": 4,
+      "rel_l2": 0.025154776871204376,
+      "cos": 0.999683678150177,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 122093568.0,
+      "s": 5.032040667021647
+    },
+    {
+      "layer": "single_transformer_blocks.4.attn.to_out",
+      "bits": 8,
+      "rel_l2": 0.008196196518838406,
+      "cos": 0.9999664425849915,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 35389440.0,
+      "s": 4.996838207996916
+    },
+    {
+      "layer": "single_transformer_blocks.4.attn.to_out",
+      "bits": 4,
+      "rel_l2": 0.030246572569012642,
+      "cos": 0.9995425939559937,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 54263808.0,
+      "s": 5.0294804580044
+    },
+    {
+      "layer": "single_transformer_blocks.4.attn.to_qkv_mlp_proj",
+      "bits": 8,
+      "rel_l2": 0.008234012871980667,
+      "cos": 0.9999660849571228,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 79626240.0,
+      "s": 5.024792457988951
+    },
+    {
+      "layer": "single_transformer_blocks.4.attn.to_qkv_mlp_proj",
+      "bits": 4,
+      "rel_l2": 0.03120562620460987,
+      "cos": 0.999514102935791,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 122093568.0,
+      "s": 5.028334541013464
+    },
+    {
+      "layer": "single_transformer_blocks.3.attn.to_out",
+      "bits": 8,
+      "rel_l2": 0.008378847502171993,
+      "cos": 0.9999650120735168,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 35389440.0,
+      "s": 5.0348350839922205
+    },
+    {
+      "layer": "single_transformer_blocks.3.attn.to_out",
+      "bits": 4,
+      "rel_l2": 0.027699680998921394,
+      "cos": 0.9996163845062256,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 54263808.0,
+      "s": 5.017935249954462
+    },
+    {
+      "layer": "single_transformer_blocks.3.attn.to_qkv_mlp_proj",
+      "bits": 8,
+      "rel_l2": 0.00901065580546856,
+      "cos": 0.9999594688415527,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 79626240.0,
+      "s": 5.029824708006345
+    },
+    {
+      "layer": "single_transformer_blocks.3.attn.to_qkv_mlp_proj",
+      "bits": 4,
+      "rel_l2": 0.028324635699391365,
+      "cos": 0.9995989203453064,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 122093568.0,
+      "s": 5.032448582991492
+    },
+    {
+      "layer": "single_transformer_blocks.2.attn.to_out",
+      "bits": 8,
+      "rel_l2": 0.00855316687375307,
+      "cos": 0.9999634623527527,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 35389440.0,
+      "s": 5.030624624982011
+    },
+    {
+      "layer": "single_transformer_blocks.2.attn.to_out",
+      "bits": 4,
+      "rel_l2": 0.025674141943454742,
+      "cos": 0.9996704459190369,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 54263808.0,
+      "s": 5.00870720797684
+    },
+    {
+      "layer": "single_transformer_blocks.2.attn.to_qkv_mlp_proj",
+      "bits": 8,
+      "rel_l2": 0.008740072138607502,
+      "cos": 0.999961793422699,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 79626240.0,
+      "s": 5.028833499993198
+    },
+    {
+      "layer": "single_transformer_blocks.2.attn.to_qkv_mlp_proj",
+      "bits": 4,
+      "rel_l2": 0.03189534693956375,
+      "cos": 0.9994915127754211,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 122093568.0,
+      "s": 5.094861374993343
+    },
+    {
+      "layer": "single_transformer_blocks.1.attn.to_out",
+      "bits": 8,
+      "rel_l2": 0.009025500155985355,
+      "cos": 0.9999592304229736,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 35389440.0,
+      "s": 5.0132477909792215
+    },
+    {
+      "layer": "single_transformer_blocks.1.attn.to_out",
+      "bits": 4,
+      "rel_l2": 0.025686025619506836,
+      "cos": 0.9996700882911682,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 54263808.0,
+      "s": 5.018960041983519
+    },
+    {
+      "layer": "single_transformer_blocks.1.attn.to_qkv_mlp_proj",
+      "bits": 8,
+      "rel_l2": 0.009243753738701344,
+      "cos": 0.9999572038650513,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 79626240.0,
+      "s": 5.005884083977435
+    },
+    {
+      "layer": "single_transformer_blocks.1.attn.to_qkv_mlp_proj",
+      "bits": 4,
+      "rel_l2": 0.02609492838382721,
+      "cos": 0.9996597170829773,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 122093568.0,
+      "s": 5.071621917013545
+    },
+    {
+      "layer": "single_transformer_blocks.0.attn.to_out",
+      "bits": 8,
+      "rel_l2": 0.00941832922399044,
+      "cos": 0.9999557137489319,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 35389440.0,
+      "s": 5.01330195798073
+    },
+    {
+      "layer": "single_transformer_blocks.0.attn.to_out",
+      "bits": 4,
+      "rel_l2": 0.02342909760773182,
+      "cos": 0.9997256398200989,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 54263808.0,
+      "s": 4.99521950003691
+    },
+    {
+      "layer": "single_transformer_blocks.0.attn.to_qkv_mlp_proj",
+      "bits": 8,
+      "rel_l2": 0.009666015394032001,
+      "cos": 0.9999532103538513,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 79626240.0,
+      "s": 5.0233607909758575
+    },
+    {
+      "layer": "single_transformer_blocks.0.attn.to_qkv_mlp_proj",
+      "bits": 4,
+      "rel_l2": 0.04402156174182892,
+      "cos": 0.9990315437316895,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 122093568.0,
+      "s": 5.046962791995611
+    },
+    {
+      "layer": "transformer_blocks.4.ff_context.linear_out",
+      "bits": 8,
+      "rel_l2": 0.009838761761784554,
+      "cos": 0.9999516606330872,
+      "params": 28311552,
+      "bytes_saved_vs_bf16": 26542080.0,
+      "s": 5.003528916975483
+    },
+    {
+      "layer": "transformer_blocks.4.ff_context.linear_out",
+      "bits": 4,
+      "rel_l2": 0.026495598256587982,
+      "cos": 0.9996489882469177,
+      "params": 28311552,
+      "bytes_saved_vs_bf16": 40697856.0,
+      "s": 4.991869958990719
+    },
+    {
+      "layer": "transformer_blocks.4.ff_context.linear_in",
+      "bits": 8,
+      "rel_l2": 0.00981952901929617,
+      "cos": 0.9999518394470215,
+      "params": 56623104,
+      "bytes_saved_vs_bf16": 53084160.0,
+      "s": 5.003378749999683
+    },
+    {
+      "layer": "transformer_blocks.4.ff_context.linear_in",
+      "bits": 4,
+      "rel_l2": 0.030593831092119217,
+      "cos": 0.9995320439338684,
+      "params": 56623104,
+      "bytes_saved_vs_bf16": 81395712.0,
+      "s": 5.015551791002508
+    },
+    {
+      "layer": "transformer_blocks.4.ff.linear_out",
+      "bits": 8,
+      "rel_l2": 0.009207249619066715,
+      "cos": 0.9999576807022095,
+      "params": 28311552,
+      "bytes_saved_vs_bf16": 26542080.0,
+      "s": 4.987761290976778
+    },
+    {
+      "layer": "transformer_blocks.4.ff.linear_out",
+      "bits": 4,
+      "rel_l2": 0.01488822977989912,
+      "cos": 0.9998892545700073,
+      "params": 28311552,
+      "bytes_saved_vs_bf16": 40697856.0,
+      "s": 5.037172875017859
+    },
+    {
+      "layer": "transformer_blocks.4.ff.linear_in",
+      "bits": 8,
+      "rel_l2": 0.008851560764014721,
+      "cos": 0.9999607801437378,
+      "params": 56623104,
+      "bytes_saved_vs_bf16": 53084160.0,
+      "s": 5.023335582984146
+    },
+    {
+      "layer": "transformer_blocks.4.ff.linear_in",
+      "bits": 4,
+      "rel_l2": 0.01695951446890831,
+      "cos": 0.9998563528060913,
+      "params": 56623104,
+      "bytes_saved_vs_bf16": 81395712.0,
+      "s": 5.029731583024841
+    },
+    {
+      "layer": "transformer_blocks.4.attn.to_add_out",
+      "bits": 8,
+      "rel_l2": 0.01047775149345398,
+      "cos": 0.9999452233314514,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 5.01587570796255
+    },
+    {
+      "layer": "transformer_blocks.4.attn.to_add_out",
+      "bits": 4,
+      "rel_l2": 0.0172099806368351,
+      "cos": 0.9998520612716675,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 5.083979209011886
+    },
+    {
+      "layer": "transformer_blocks.4.attn.add_v_proj",
+      "bits": 8,
+      "rel_l2": 0.010153094306588173,
+      "cos": 0.9999484419822693,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 5.140217125008348
+    },
+    {
+      "layer": "transformer_blocks.4.attn.add_v_proj",
+      "bits": 4,
+      "rel_l2": 0.016038713976740837,
+      "cos": 0.9998714327812195,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 5.10540745902108
+    },
+    {
+      "layer": "transformer_blocks.4.attn.add_k_proj",
+      "bits": 8,
+      "rel_l2": 0.01010221429169178,
+      "cos": 0.999949038028717,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 5.168011833971832
+    },
+    {
+      "layer": "transformer_blocks.4.attn.add_k_proj",
+      "bits": 4,
+      "rel_l2": 0.01567498967051506,
+      "cos": 0.9998770952224731,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 5.168491416960023
+    },
+    {
+      "layer": "transformer_blocks.4.attn.add_q_proj",
+      "bits": 8,
+      "rel_l2": 0.010818962939083576,
+      "cos": 0.9999415278434753,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 5.152357666986063
+    },
+    {
+      "layer": "transformer_blocks.4.attn.add_q_proj",
+      "bits": 4,
+      "rel_l2": 0.015524444170296192,
+      "cos": 0.9998794794082642,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 5.218878875020891
+    },
+    {
+      "layer": "transformer_blocks.4.attn.to_out",
+      "bits": 8,
+      "rel_l2": 0.009055671282112598,
+      "cos": 0.9999589920043945,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 5.267486750031821
+    },
+    {
+      "layer": "transformer_blocks.4.attn.to_out",
+      "bits": 4,
+      "rel_l2": 0.01774696260690689,
+      "cos": 0.9998425841331482,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 5.237594083999284
+    },
+    {
+      "layer": "transformer_blocks.4.attn.to_v",
+      "bits": 8,
+      "rel_l2": 0.010086391121149063,
+      "cos": 0.9999490976333618,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 5.247393291967455
+    },
+    {
+      "layer": "transformer_blocks.4.attn.to_v",
+      "bits": 4,
+      "rel_l2": 0.024049660190939903,
+      "cos": 0.9997109174728394,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 5.293070290994365
+    },
+    {
+      "layer": "transformer_blocks.4.attn.to_k",
+      "bits": 8,
+      "rel_l2": 0.009694515727460384,
+      "cos": 0.999953031539917,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 5.277317790954839
+    },
+    {
+      "layer": "transformer_blocks.4.attn.to_k",
+      "bits": 4,
+      "rel_l2": 0.015325678512454033,
+      "cos": 0.9998825192451477,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 5.260131083021406
+    },
+    {
+      "layer": "transformer_blocks.4.attn.to_q",
+      "bits": 8,
+      "rel_l2": 0.008975062519311905,
+      "cos": 0.9999596476554871,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 5.28470900002867
+    },
+    {
+      "layer": "transformer_blocks.4.attn.to_q",
+      "bits": 4,
+      "rel_l2": 0.012202909216284752,
+      "cos": 0.9999255537986755,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 5.268375416984782
+    },
+    {
+      "layer": "transformer_blocks.3.ff_context.linear_out",
+      "bits": 8,
+      "rel_l2": 0.010603283531963825,
+      "cos": 0.9999438524246216,
+      "params": 28311552,
+      "bytes_saved_vs_bf16": 26542080.0,
+      "s": 5.301341749960557
+    },
+    {
+      "layer": "transformer_blocks.3.ff_context.linear_out",
+      "bits": 4,
+      "rel_l2": 0.023276718333363533,
+      "cos": 0.9997290968894958,
+      "params": 28311552,
+      "bytes_saved_vs_bf16": 40697856.0,
+      "s": 5.339399875025265
+    },
+    {
+      "layer": "transformer_blocks.3.ff_context.linear_in",
+      "bits": 8,
+      "rel_l2": 0.010560194961726665,
+      "cos": 0.999944269657135,
+      "params": 56623104,
+      "bytes_saved_vs_bf16": 53084160.0,
+      "s": 5.294589792029001
+    },
+    {
+      "layer": "transformer_blocks.3.ff_context.linear_in",
+      "bits": 4,
+      "rel_l2": 0.03875335305929184,
+      "cos": 0.9992490410804749,
+      "params": 56623104,
+      "bytes_saved_vs_bf16": 81395712.0,
+      "s": 5.278938666044269
+    },
+    {
+      "layer": "transformer_blocks.3.ff.linear_out",
+      "bits": 8,
+      "rel_l2": 0.010398955084383488,
+      "cos": 0.9999459981918335,
+      "params": 28311552,
+      "bytes_saved_vs_bf16": 26542080.0,
+      "s": 5.318184416042641
+    },
+    {
+      "layer": "transformer_blocks.3.ff.linear_out",
+      "bits": 4,
+      "rel_l2": 0.015698827803134918,
+      "cos": 0.999876856803894,
+      "params": 28311552,
+      "bytes_saved_vs_bf16": 40697856.0,
+      "s": 5.2580608339631
+    },
+    {
+      "layer": "transformer_blocks.3.ff.linear_in",
+      "bits": 8,
+      "rel_l2": 0.010217564180493355,
+      "cos": 0.9999478459358215,
+      "params": 56623104,
+      "bytes_saved_vs_bf16": 53084160.0,
+      "s": 5.31221987499157
+    },
+    {
+      "layer": "transformer_blocks.3.ff.linear_in",
+      "bits": 4,
+      "rel_l2": 0.013994600623846054,
+      "cos": 0.999902069568634,
+      "params": 56623104,
+      "bytes_saved_vs_bf16": 81395712.0,
+      "s": 5.369244540983345
+    },
+    {
+      "layer": "transformer_blocks.3.attn.to_add_out",
+      "bits": 8,
+      "rel_l2": 0.011495912447571754,
+      "cos": 0.9999340176582336,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 5.317786458996125
+    },
+    {
+      "layer": "transformer_blocks.3.attn.to_add_out",
+      "bits": 4,
+      "rel_l2": 0.01901916414499283,
+      "cos": 0.9998194575309753,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 5.338350250036456
+    },
+    {
+      "layer": "transformer_blocks.3.attn.add_v_proj",
+      "bits": 8,
+      "rel_l2": 0.01189544890075922,
+      "cos": 0.9999294281005859,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 5.316562167019583
+    },
+    {
+      "layer": "transformer_blocks.3.attn.add_v_proj",
+      "bits": 4,
+      "rel_l2": 0.016828803345561028,
+      "cos": 0.9998584389686584,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 5.33717399998568
+    },
+    {
+      "layer": "transformer_blocks.3.attn.add_k_proj",
+      "bits": 8,
+      "rel_l2": 0.011292608454823494,
+      "cos": 0.9999364018440247,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 5.406087624956854
+    },
+    {
+      "layer": "transformer_blocks.3.attn.add_k_proj",
+      "bits": 4,
+      "rel_l2": 0.01747746206820011,
+      "cos": 0.9998477101325989,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 5.414719749998767
+    },
+    {
+      "layer": "transformer_blocks.3.attn.add_q_proj",
+      "bits": 8,
+      "rel_l2": 0.011168623343110085,
+      "cos": 0.9999375939369202,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 5.377026166999713
+    },
+    {
+      "layer": "transformer_blocks.3.attn.add_q_proj",
+      "bits": 4,
+      "rel_l2": 0.01705489493906498,
+      "cos": 0.999854564666748,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 5.3812359170406125
+    },
+    {
+      "layer": "transformer_blocks.3.attn.to_out",
+      "bits": 8,
+      "rel_l2": 0.010571162216365337,
+      "cos": 0.9999440312385559,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 6.726345749979373
+    },
+    {
+      "layer": "transformer_blocks.3.attn.to_out",
+      "bits": 4,
+      "rel_l2": 0.015355635434389114,
+      "cos": 0.9998821020126343,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 5.9067794169532135
+    },
+    {
+      "layer": "transformer_blocks.3.attn.to_v",
+      "bits": 8,
+      "rel_l2": 0.010828693397343159,
+      "cos": 0.9999414682388306,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 5.609193500014953
+    },
+    {
+      "layer": "transformer_blocks.3.attn.to_v",
+      "bits": 4,
+      "rel_l2": 0.017154783010482788,
+      "cos": 0.9998528957366943,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 5.641004125005566
+    },
+    {
+      "layer": "transformer_blocks.3.attn.to_k",
+      "bits": 8,
+      "rel_l2": 0.010804358869791031,
+      "cos": 0.9999415874481201,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 5.661878583021462
+    },
+    {
+      "layer": "transformer_blocks.3.attn.to_k",
+      "bits": 4,
+      "rel_l2": 0.012746995314955711,
+      "cos": 0.9999186992645264,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 5.622986125003081
+    },
+    {
+      "layer": "transformer_blocks.3.attn.to_q",
+      "bits": 8,
+      "rel_l2": 0.010340772569179535,
+      "cos": 0.9999465942382812,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 5.678496083011851
+    },
+    {
+      "layer": "transformer_blocks.3.attn.to_q",
+      "bits": 4,
+      "rel_l2": 0.01117332186549902,
+      "cos": 0.9999375939369202,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 5.6831448749871925
+    },
+    {
+      "layer": "transformer_blocks.2.ff_context.linear_out",
+      "bits": 8,
+      "rel_l2": 0.012230892665684223,
+      "cos": 0.9999255537986755,
+      "params": 28311552,
+      "bytes_saved_vs_bf16": 26542080.0,
+      "s": 5.66621470899554
+    },
+    {
+      "layer": "transformer_blocks.2.ff_context.linear_out",
+      "bits": 4,
+      "rel_l2": 0.022670693695545197,
+      "cos": 0.9997429847717285,
+      "params": 28311552,
+      "bytes_saved_vs_bf16": 40697856.0,
+      "s": 5.73424762499053
+    },
+    {
+      "layer": "transformer_blocks.2.ff_context.linear_in",
+      "bits": 8,
+      "rel_l2": 0.013052967377007008,
+      "cos": 0.9999150633811951,
+      "params": 56623104,
+      "bytes_saved_vs_bf16": 53084160.0,
+      "s": 5.736527875007596
+    },
+    {
+      "layer": "transformer_blocks.2.ff_context.linear_in",
+      "bits": 4,
+      "rel_l2": 0.02523665502667427,
+      "cos": 0.9996817111968994,
+      "params": 56623104,
+      "bytes_saved_vs_bf16": 81395712.0,
+      "s": 5.7157527090166695
+    },
+    {
+      "layer": "transformer_blocks.2.ff.linear_out",
+      "bits": 8,
+      "rel_l2": 0.010089418850839138,
+      "cos": 0.999949038028717,
+      "params": 28311552,
+      "bytes_saved_vs_bf16": 26542080.0,
+      "s": 5.7516267920145765
+    },
+    {
+      "layer": "transformer_blocks.2.ff.linear_out",
+      "bits": 4,
+      "rel_l2": 0.015205875039100647,
+      "cos": 0.9998844861984253,
+      "params": 28311552,
+      "bytes_saved_vs_bf16": 40697856.0,
+      "s": 5.690947041963227
+    },
+    {
+      "layer": "transformer_blocks.2.ff.linear_in",
+      "bits": 8,
+      "rel_l2": 0.010571321472525597,
+      "cos": 0.999944269657135,
+      "params": 56623104,
+      "bytes_saved_vs_bf16": 53084160.0,
+      "s": 5.801065583014861
+    },
+    {
+      "layer": "transformer_blocks.2.ff.linear_in",
+      "bits": 4,
+      "rel_l2": 0.014057869091629982,
+      "cos": 0.9999011754989624,
+      "params": 56623104,
+      "bytes_saved_vs_bf16": 81395712.0,
+      "s": 5.766087083029561
+    },
+    {
+      "layer": "transformer_blocks.2.attn.to_add_out",
+      "bits": 8,
+      "rel_l2": 0.01180939469486475,
+      "cos": 0.999930202960968,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 5.746080958051607
+    },
+    {
+      "layer": "transformer_blocks.2.attn.to_add_out",
+      "bits": 4,
+      "rel_l2": 0.023925364017486572,
+      "cos": 0.9997138381004333,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 5.769255291961599
+    },
+    {
+      "layer": "transformer_blocks.2.attn.add_v_proj",
+      "bits": 8,
+      "rel_l2": 0.012397862039506435,
+      "cos": 0.9999232292175293,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 5.7411315409699455
+    },
+    {
+      "layer": "transformer_blocks.2.attn.add_v_proj",
+      "bits": 4,
+      "rel_l2": 0.022955358028411865,
+      "cos": 0.9997365474700928,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 5.766596457979176
+    },
+    {
+      "layer": "transformer_blocks.2.attn.add_k_proj",
+      "bits": 8,
+      "rel_l2": 0.011793072335422039,
+      "cos": 0.9999305605888367,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 5.842438874999061
+    },
+    {
+      "layer": "transformer_blocks.2.attn.add_k_proj",
+      "bits": 4,
+      "rel_l2": 0.01930767484009266,
+      "cos": 0.9998137354850769,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 5.800505125022028
+    },
+    {
+      "layer": "transformer_blocks.2.attn.add_q_proj",
+      "bits": 8,
+      "rel_l2": 0.012650803662836552,
+      "cos": 0.9999200701713562,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 5.797078958014026
+    },
+    {
+      "layer": "transformer_blocks.2.attn.add_q_proj",
+      "bits": 4,
+      "rel_l2": 0.020103614777326584,
+      "cos": 0.9997979402542114,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 5.815551332954783
+    },
+    {
+      "layer": "transformer_blocks.2.attn.to_out",
+      "bits": 8,
+      "rel_l2": 0.010090949013829231,
+      "cos": 0.9999490976333618,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 5.798736041004304
+    },
+    {
+      "layer": "transformer_blocks.2.attn.to_out",
+      "bits": 4,
+      "rel_l2": 0.015952635556459427,
+      "cos": 0.9998729228973389,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 5.818191041995306
+    },
+    {
+      "layer": "transformer_blocks.2.attn.to_v",
+      "bits": 8,
+      "rel_l2": 0.011380446143448353,
+      "cos": 0.9999352693557739,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 5.8303545829840004
+    },
+    {
+      "layer": "transformer_blocks.2.attn.to_v",
+      "bits": 4,
+      "rel_l2": 0.022769181057810783,
+      "cos": 0.9997407793998718,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 5.839080290985294
+    },
+    {
+      "layer": "transformer_blocks.2.attn.to_k",
+      "bits": 8,
+      "rel_l2": 0.01121656596660614,
+      "cos": 0.9999372363090515,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 5.814351707987953
+    },
+    {
+      "layer": "transformer_blocks.2.attn.to_k",
+      "bits": 4,
+      "rel_l2": 0.014234303496778011,
+      "cos": 0.9998987317085266,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 5.824245084018912
+    },
+    {
+      "layer": "transformer_blocks.2.attn.to_q",
+      "bits": 8,
+      "rel_l2": 0.010598967783153057,
+      "cos": 0.9999438524246216,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 5.767275708960369
+    },
+    {
+      "layer": "transformer_blocks.2.attn.to_q",
+      "bits": 4,
+      "rel_l2": 0.011692146770656109,
+      "cos": 0.9999316334724426,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 5.828261416987516
+    },
+    {
+      "layer": "transformer_blocks.1.ff_context.linear_out",
+      "bits": 8,
+      "rel_l2": 0.012783459387719631,
+      "cos": 0.9999183416366577,
+      "params": 28311552,
+      "bytes_saved_vs_bf16": 26542080.0,
+      "s": 5.825893000001088
+    },
+    {
+      "layer": "transformer_blocks.1.ff_context.linear_out",
+      "bits": 4,
+      "rel_l2": 0.025584278628230095,
+      "cos": 0.9996727108955383,
+      "params": 28311552,
+      "bytes_saved_vs_bf16": 40697856.0,
+      "s": 5.8171403329470195
+    },
+    {
+      "layer": "transformer_blocks.1.ff_context.linear_in",
+      "bits": 8,
+      "rel_l2": 0.012791257351636887,
+      "cos": 0.9999184012413025,
+      "params": 56623104,
+      "bytes_saved_vs_bf16": 53084160.0,
+      "s": 5.833922374993563
+    },
+    {
+      "layer": "transformer_blocks.1.ff_context.linear_in",
+      "bits": 4,
+      "rel_l2": 0.02885502763092518,
+      "cos": 0.9995839595794678,
+      "params": 56623104,
+      "bytes_saved_vs_bf16": 81395712.0,
+      "s": 5.808618667011615
+    },
+    {
+      "layer": "transformer_blocks.1.ff.linear_out",
+      "bits": 8,
+      "rel_l2": 0.011160655878484249,
+      "cos": 0.9999377727508545,
+      "params": 28311552,
+      "bytes_saved_vs_bf16": 26542080.0,
+      "s": 5.841586166003253
+    },
+    {
+      "layer": "transformer_blocks.1.ff.linear_out",
+      "bits": 4,
+      "rel_l2": 0.01373826153576374,
+      "cos": 0.9999056458473206,
+      "params": 28311552,
+      "bytes_saved_vs_bf16": 40697856.0,
+      "s": 5.848642083001323
+    },
+    {
+      "layer": "transformer_blocks.1.ff.linear_in",
+      "bits": 8,
+      "rel_l2": 0.011515949852764606,
+      "cos": 0.9999337792396545,
+      "params": 56623104,
+      "bytes_saved_vs_bf16": 53084160.0,
+      "s": 5.931197208003141
+    },
+    {
+      "layer": "transformer_blocks.1.ff.linear_in",
+      "bits": 4,
+      "rel_l2": 0.014557982794940472,
+      "cos": 0.9998940229415894,
+      "params": 56623104,
+      "bytes_saved_vs_bf16": 81395712.0,
+      "s": 5.880988749966491
+    },
+    {
+      "layer": "transformer_blocks.1.attn.to_add_out",
+      "bits": 8,
+      "rel_l2": 0.014437851496040821,
+      "cos": 0.9998958706855774,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 5.882188041985501
+    },
+    {
+      "layer": "transformer_blocks.1.attn.to_add_out",
+      "bits": 4,
+      "rel_l2": 0.023186950013041496,
+      "cos": 0.9997313022613525,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 5.927971000026446
+    },
+    {
+      "layer": "transformer_blocks.1.attn.add_v_proj",
+      "bits": 8,
+      "rel_l2": 0.013474293984472752,
+      "cos": 0.9999091625213623,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 5.973649208957795
+    },
+    {
+      "layer": "transformer_blocks.1.attn.add_v_proj",
+      "bits": 4,
+      "rel_l2": 0.023379191756248474,
+      "cos": 0.9997267127037048,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 5.835584582993761
+    },
+    {
+      "layer": "transformer_blocks.1.attn.add_k_proj",
+      "bits": 8,
+      "rel_l2": 0.014016582630574703,
+      "cos": 0.9999018311500549,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 5.901560916972812
+    },
+    {
+      "layer": "transformer_blocks.1.attn.add_k_proj",
+      "bits": 4,
+      "rel_l2": 0.017369205132126808,
+      "cos": 0.9998491406440735,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 5.916031999979168
+    },
+    {
+      "layer": "transformer_blocks.1.attn.add_q_proj",
+      "bits": 8,
+      "rel_l2": 0.014548301696777344,
+      "cos": 0.9998942017555237,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 5.8534563750145026
+    },
+    {
+      "layer": "transformer_blocks.1.attn.add_q_proj",
+      "bits": 4,
+      "rel_l2": 0.019202902913093567,
+      "cos": 0.9998160004615784,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 5.906858792004641
+    },
+    {
+      "layer": "transformer_blocks.1.attn.to_out",
+      "bits": 8,
+      "rel_l2": 0.011387418955564499,
+      "cos": 0.9999351501464844,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 5.881050958996639
+    },
+    {
+      "layer": "transformer_blocks.1.attn.to_out",
+      "bits": 4,
+      "rel_l2": 0.01597955822944641,
+      "cos": 0.9998723864555359,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 5.909705666010268
+    },
+    {
+      "layer": "transformer_blocks.1.attn.to_v",
+      "bits": 8,
+      "rel_l2": 0.013563248328864574,
+      "cos": 0.9999080896377563,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 5.9140044579980895
+    },
+    {
+      "layer": "transformer_blocks.1.attn.to_v",
+      "bits": 4,
+      "rel_l2": 0.021172186359763145,
+      "cos": 0.9997758269309998,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 6.067243540950585
+    },
+    {
+      "layer": "transformer_blocks.1.attn.to_k",
+      "bits": 8,
+      "rel_l2": 0.013029309920966625,
+      "cos": 0.9999151825904846,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 5.974443207960576
+    },
+    {
+      "layer": "transformer_blocks.1.attn.to_k",
+      "bits": 4,
+      "rel_l2": 0.016520027071237564,
+      "cos": 0.9998636245727539,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 6.026262792001944
+    },
+    {
+      "layer": "transformer_blocks.1.attn.to_q",
+      "bits": 8,
+      "rel_l2": 0.011598191224038601,
+      "cos": 0.9999328255653381,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 6.002165541984141
+    },
+    {
+      "layer": "transformer_blocks.1.attn.to_q",
+      "bits": 4,
+      "rel_l2": 0.014301849529147148,
+      "cos": 0.9998976588249207,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 5.974152916052844
+    },
+    {
+      "layer": "transformer_blocks.0.ff_context.linear_out",
+      "bits": 8,
+      "rel_l2": 0.014021230861544609,
+      "cos": 0.9999016523361206,
+      "params": 28311552,
+      "bytes_saved_vs_bf16": 26542080.0,
+      "s": 6.00827762496192
+    },
+    {
+      "layer": "transformer_blocks.0.ff_context.linear_out",
+      "bits": 4,
+      "rel_l2": 0.03428662568330765,
+      "cos": 0.9994121193885803,
+      "params": 28311552,
+      "bytes_saved_vs_bf16": 40697856.0,
+      "s": 6.329824957996607
+    },
+    {
+      "layer": "transformer_blocks.0.ff_context.linear_in",
+      "bits": 8,
+      "rel_l2": 0.014897978864610195,
+      "cos": 0.9998890161514282,
+      "params": 56623104,
+      "bytes_saved_vs_bf16": 53084160.0,
+      "s": 5.99815945798764
+    },
+    {
+      "layer": "transformer_blocks.0.ff_context.linear_in",
+      "bits": 4,
+      "rel_l2": 0.03627174720168114,
+      "cos": 0.9993420839309692,
+      "params": 56623104,
+      "bytes_saved_vs_bf16": 81395712.0,
+      "s": 6.184638417034876
+    },
+    {
+      "layer": "transformer_blocks.0.ff.linear_out",
+      "bits": 8,
+      "rel_l2": 0.012549974024295807,
+      "cos": 0.9999212622642517,
+      "params": 28311552,
+      "bytes_saved_vs_bf16": 26542080.0,
+      "s": 6.066450375015847
+    },
+    {
+      "layer": "transformer_blocks.0.ff.linear_out",
+      "bits": 4,
+      "rel_l2": 0.01750662922859192,
+      "cos": 0.9998468160629272,
+      "params": 28311552,
+      "bytes_saved_vs_bf16": 40697856.0,
+      "s": 6.053296375030186
+    },
+    {
+      "layer": "transformer_blocks.0.ff.linear_in",
+      "bits": 8,
+      "rel_l2": 0.01282598078250885,
+      "cos": 0.9999178051948547,
+      "params": 56623104,
+      "bytes_saved_vs_bf16": 53084160.0,
+      "s": 6.313174417009577
+    },
+    {
+      "layer": "transformer_blocks.0.ff.linear_in",
+      "bits": 4,
+      "rel_l2": 0.015576470643281937,
+      "cos": 0.9998787045478821,
+      "params": 56623104,
+      "bytes_saved_vs_bf16": 81395712.0,
+      "s": 6.019666165986564
+    },
+    {
+      "layer": "transformer_blocks.0.attn.to_add_out",
+      "bits": 8,
+      "rel_l2": 0.019715027883648872,
+      "cos": 0.9998056292533875,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 6.011909792025108
+    },
+    {
+      "layer": "transformer_blocks.0.attn.to_add_out",
+      "bits": 4,
+      "rel_l2": 0.037757765501737595,
+      "cos": 0.999286949634552,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 6.214277124963701
+    },
+    {
+      "layer": "transformer_blocks.0.attn.add_v_proj",
+      "bits": 8,
+      "rel_l2": 0.015565807931125164,
+      "cos": 0.999879002571106,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 6.086894957988989
+    },
+    {
+      "layer": "transformer_blocks.0.attn.add_v_proj",
+      "bits": 4,
+      "rel_l2": 0.02864757552742958,
+      "cos": 0.9995896816253662,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 6.040740208001807
+    },
+    {
+      "layer": "transformer_blocks.0.attn.add_k_proj",
+      "bits": 8,
+      "rel_l2": 0.018405620008707047,
+      "cos": 0.9998306035995483,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 6.033594125008676
+    },
+    {
+      "layer": "transformer_blocks.0.attn.add_k_proj",
+      "bits": 4,
+      "rel_l2": 0.033532559871673584,
+      "cos": 0.999437689781189,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 6.2445664160186425
+    },
+    {
+      "layer": "transformer_blocks.0.attn.add_q_proj",
+      "bits": 8,
+      "rel_l2": 0.01899813674390316,
+      "cos": 0.9998195171356201,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 6.078986125008669
+    },
+    {
+      "layer": "transformer_blocks.0.attn.add_q_proj",
+      "bits": 4,
+      "rel_l2": 0.036061882972717285,
+      "cos": 0.9993496537208557,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 6.2827324999962
+    },
+    {
+      "layer": "transformer_blocks.0.attn.to_out",
+      "bits": 8,
+      "rel_l2": 0.013917372561991215,
+      "cos": 0.99990314245224,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 6.248023417021614
+    },
+    {
+      "layer": "transformer_blocks.0.attn.to_out",
+      "bits": 4,
+      "rel_l2": 0.033037979155778885,
+      "cos": 0.9994549751281738,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 6.0667927080066875
+    },
+    {
+      "layer": "transformer_blocks.0.attn.to_v",
+      "bits": 8,
+      "rel_l2": 0.01771642453968525,
+      "cos": 0.9998429417610168,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 6.246579166967422
+    },
+    {
+      "layer": "transformer_blocks.0.attn.to_v",
+      "bits": 4,
+      "rel_l2": 0.04810768738389015,
+      "cos": 0.9988436102867126,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 6.129556667001452
+    },
+    {
+      "layer": "transformer_blocks.0.attn.to_k",
+      "bits": 8,
+      "rel_l2": 0.015084718354046345,
+      "cos": 0.9998862147331238,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 6.202424500021152
+    },
+    {
+      "layer": "transformer_blocks.0.attn.to_k",
+      "bits": 4,
+      "rel_l2": 0.02672898955643177,
+      "cos": 0.9996426105499268,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 6.264196999953128
+    },
+    {
+      "layer": "transformer_blocks.0.attn.to_q",
+      "bits": 8,
+      "rel_l2": 0.012132437899708748,
+      "cos": 0.9999263882637024,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 6.093484707991593
+    },
+    {
+      "layer": "transformer_blocks.0.attn.to_q",
+      "bits": 4,
+      "rel_l2": 0.015081622637808323,
+      "cos": 0.9998862147331238,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 6.247728750051465
+    },
+    {
+      "layer": "context_embedder",
+      "bits": 8,
+      "rel_l2": 0.023203667253255844,
+      "cos": 0.9997308254241943,
+      "params": 23592960,
+      "bytes_saved_vs_bf16": 22118400.0,
+      "s": 6.235411708010361
+    },
+    {
+      "layer": "context_embedder",
+      "bits": 4,
+      "rel_l2": 0.05345083400607109,
+      "cos": 0.9985705614089966,
+      "params": 23592960,
+      "bytes_saved_vs_bf16": 33914880.0,
+      "s": 6.094872333051171
+    },
+    {
+      "layer": "x_embedder",
+      "bits": 8,
+      "rel_l2": 0.015457226894795895,
+      "cos": 0.9998806715011597,
+      "params": 393216,
+      "bytes_saved_vs_bf16": 368640.0,
+      "s": 6.249833500012755
+    },
+    {
+      "layer": "x_embedder",
+      "bits": 4,
+      "rel_l2": 0.05237128958106041,
+      "cos": 0.9986280202865601,
+      "params": 393216,
+      "bytes_saved_vs_bf16": 565248.0,
+      "s": 6.24154862499563
+    },
+    {
+      "layer": "single_stream_modulation.linear",
+      "bits": 8,
+      "rel_l2": 0.010352990590035915,
+      "cos": 0.9999464154243469,
+      "params": 28311552,
+      "bytes_saved_vs_bf16": 26542080.0,
+      "s": 6.114009750017431
+    },
+    {
+      "layer": "single_stream_modulation.linear",
+      "bits": 4,
+      "rel_l2": 0.03887355700135231,
+      "cos": 0.9992661476135254,
+      "params": 28311552,
+      "bytes_saved_vs_bf16": 40697856.0,
+      "s": 6.194675208011176
+    },
+    {
+      "layer": "double_stream_modulation_txt.linear",
+      "bits": 8,
+      "rel_l2": 0.020251188427209854,
+      "cos": 0.9997950196266174,
+      "params": 56623104,
+      "bytes_saved_vs_bf16": 53084160.0,
+      "s": 6.13057395798387
+    },
+    {
+      "layer": "double_stream_modulation_txt.linear",
+      "bits": 4,
+      "rel_l2": 0.0419088639318943,
+      "cos": 0.9991222023963928,
+      "params": 56623104,
+      "bytes_saved_vs_bf16": 81395712.0,
+      "s": 6.407466915959958
+    },
+    {
+      "layer": "double_stream_modulation_img.linear",
+      "bits": 8,
+      "rel_l2": 0.0168556310236454,
+      "cos": 0.9998579025268555,
+      "params": 56623104,
+      "bytes_saved_vs_bf16": 53084160.0,
+      "s": 6.17237699998077
+    },
+    {
+      "layer": "double_stream_modulation_img.linear",
+      "bits": 4,
+      "rel_l2": 0.04899586737155914,
+      "cos": 0.9987989664077759,
+      "params": 56623104,
+      "bytes_saved_vs_bf16": 81395712.0,
+      "s": 6.34484104195144
+    },
+    {
+      "layer": "time_guidance_embed.linear_2",
+      "bits": 8,
+      "rel_l2": 0.02308584563434124,
+      "cos": 0.999733567237854,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 6.323528249980882
+    },
+    {
+      "layer": "time_guidance_embed.linear_2",
+      "bits": 4,
+      "rel_l2": 0.036201756447553635,
+      "cos": 0.9993444681167603,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 6.269245000032242
+    },
+    {
+      "layer": "time_guidance_embed.linear_1",
+      "bits": 8,
+      "rel_l2": 0.01952533982694149,
+      "cos": 0.9998093843460083,
+      "params": 786432,
+      "bytes_saved_vs_bf16": 737280.0,
+      "s": 6.227538875013124
+    },
+    {
+      "layer": "time_guidance_embed.linear_1",
+      "bits": 4,
+      "rel_l2": 0.05677911639213562,
+      "cos": 0.9983881115913391,
+      "params": 786432,
+      "bytes_saved_vs_bf16": 1130496.0,
+      "s": 6.305578166968189
+    }
+  ],
+  "ranking_q4": [
+    {
+      "layer": "time_guidance_embed.linear_1",
+      "bits": 4,
+      "rel_l2": 0.05677911639213562,
+      "cos": 0.9983881115913391,
+      "params": 786432,
+      "bytes_saved_vs_bf16": 1130496.0,
+      "s": 6.305578166968189
+    },
+    {
+      "layer": "context_embedder",
+      "bits": 4,
+      "rel_l2": 0.05345083400607109,
+      "cos": 0.9985705614089966,
+      "params": 23592960,
+      "bytes_saved_vs_bf16": 33914880.0,
+      "s": 6.094872333051171
+    },
+    {
+      "layer": "x_embedder",
+      "bits": 4,
+      "rel_l2": 0.05237128958106041,
+      "cos": 0.9986280202865601,
+      "params": 393216,
+      "bytes_saved_vs_bf16": 565248.0,
+      "s": 6.24154862499563
+    },
+    {
+      "layer": "proj_out",
+      "bits": 4,
+      "rel_l2": 0.050309520214796066,
+      "cos": 0.9987336993217468,
+      "params": 393216,
+      "bytes_saved_vs_bf16": 565248.0,
+      "s": 4.147703125025146
+    },
+    {
+      "layer": "double_stream_modulation_img.linear",
+      "bits": 4,
+      "rel_l2": 0.04899586737155914,
+      "cos": 0.9987989664077759,
+      "params": 56623104,
+      "bytes_saved_vs_bf16": 81395712.0,
+      "s": 6.34484104195144
+    },
+    {
+      "layer": "transformer_blocks.0.attn.to_v",
+      "bits": 4,
+      "rel_l2": 0.04810768738389015,
+      "cos": 0.9988436102867126,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 6.129556667001452
+    },
+    {
+      "layer": "single_transformer_blocks.0.attn.to_qkv_mlp_proj",
+      "bits": 4,
+      "rel_l2": 0.04402156174182892,
+      "cos": 0.9990315437316895,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 122093568.0,
+      "s": 5.046962791995611
+    },
+    {
+      "layer": "double_stream_modulation_txt.linear",
+      "bits": 4,
+      "rel_l2": 0.0419088639318943,
+      "cos": 0.9991222023963928,
+      "params": 56623104,
+      "bytes_saved_vs_bf16": 81395712.0,
+      "s": 6.407466915959958
+    },
+    {
+      "layer": "single_stream_modulation.linear",
+      "bits": 4,
+      "rel_l2": 0.03887355700135231,
+      "cos": 0.9992661476135254,
+      "params": 28311552,
+      "bytes_saved_vs_bf16": 40697856.0,
+      "s": 6.194675208011176
+    },
+    {
+      "layer": "transformer_blocks.3.ff_context.linear_in",
+      "bits": 4,
+      "rel_l2": 0.03875335305929184,
+      "cos": 0.9992490410804749,
+      "params": 56623104,
+      "bytes_saved_vs_bf16": 81395712.0,
+      "s": 5.278938666044269
+    },
+    {
+      "layer": "transformer_blocks.0.attn.to_add_out",
+      "bits": 4,
+      "rel_l2": 0.037757765501737595,
+      "cos": 0.999286949634552,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 6.214277124963701
+    },
+    {
+      "layer": "transformer_blocks.0.ff_context.linear_in",
+      "bits": 4,
+      "rel_l2": 0.03627174720168114,
+      "cos": 0.9993420839309692,
+      "params": 56623104,
+      "bytes_saved_vs_bf16": 81395712.0,
+      "s": 6.184638417034876
+    },
+    {
+      "layer": "time_guidance_embed.linear_2",
+      "bits": 4,
+      "rel_l2": 0.036201756447553635,
+      "cos": 0.9993444681167603,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 6.269245000032242
+    },
+    {
+      "layer": "transformer_blocks.0.attn.add_q_proj",
+      "bits": 4,
+      "rel_l2": 0.036061882972717285,
+      "cos": 0.9993496537208557,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 6.2827324999962
+    },
+    {
+      "layer": "single_transformer_blocks.6.attn.to_qkv_mlp_proj",
+      "bits": 4,
+      "rel_l2": 0.03538471832871437,
+      "cos": 0.9993741512298584,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 122093568.0,
+      "s": 5.043689000012819
+    },
+    {
+      "layer": "single_transformer_blocks.15.attn.to_qkv_mlp_proj",
+      "bits": 4,
+      "rel_l2": 0.035089876502752304,
+      "cos": 0.9993846416473389,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 122093568.0,
+      "s": 4.818383417034056
+    },
+    {
+      "layer": "transformer_blocks.0.ff_context.linear_out",
+      "bits": 4,
+      "rel_l2": 0.03428662568330765,
+      "cos": 0.9994121193885803,
+      "params": 28311552,
+      "bytes_saved_vs_bf16": 40697856.0,
+      "s": 6.329824957996607
+    },
+    {
+      "layer": "transformer_blocks.0.attn.add_k_proj",
+      "bits": 4,
+      "rel_l2": 0.033532559871673584,
+      "cos": 0.999437689781189,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 6.2445664160186425
+    },
+    {
+      "layer": "single_transformer_blocks.6.attn.to_out",
+      "bits": 4,
+      "rel_l2": 0.03317573666572571,
+      "cos": 0.9994498491287231,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 54263808.0,
+      "s": 4.990837208984885
+    },
+    {
+      "layer": "transformer_blocks.0.attn.to_out",
+      "bits": 4,
+      "rel_l2": 0.033037979155778885,
+      "cos": 0.9994549751281738,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 6.0667927080066875
+    },
+    {
+      "layer": "single_transformer_blocks.7.attn.to_qkv_mlp_proj",
+      "bits": 4,
+      "rel_l2": 0.03233352303504944,
+      "cos": 0.9994778633117676,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 122093568.0,
+      "s": 5.022680457972456
+    },
+    {
+      "layer": "single_transformer_blocks.14.attn.to_qkv_mlp_proj",
+      "bits": 4,
+      "rel_l2": 0.03211513161659241,
+      "cos": 0.9994843602180481,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 122093568.0,
+      "s": 4.847112625022419
+    },
+    {
+      "layer": "single_transformer_blocks.2.attn.to_qkv_mlp_proj",
+      "bits": 4,
+      "rel_l2": 0.03189534693956375,
+      "cos": 0.9994915127754211,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 122093568.0,
+      "s": 5.094861374993343
+    },
+    {
+      "layer": "single_transformer_blocks.4.attn.to_qkv_mlp_proj",
+      "bits": 4,
+      "rel_l2": 0.03120562620460987,
+      "cos": 0.999514102935791,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 122093568.0,
+      "s": 5.028334541013464
+    },
+    {
+      "layer": "single_transformer_blocks.12.attn.to_qkv_mlp_proj",
+      "bits": 4,
+      "rel_l2": 0.03078427165746689,
+      "cos": 0.999527633190155,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 122093568.0,
+      "s": 4.949432083056308
+    },
+    {
+      "layer": "transformer_blocks.4.ff_context.linear_in",
+      "bits": 4,
+      "rel_l2": 0.030593831092119217,
+      "cos": 0.9995320439338684,
+      "params": 56623104,
+      "bytes_saved_vs_bf16": 81395712.0,
+      "s": 5.015551791002508
+    },
+    {
+      "layer": "single_transformer_blocks.16.attn.to_qkv_mlp_proj",
+      "bits": 4,
+      "rel_l2": 0.03059173934161663,
+      "cos": 0.9995325207710266,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 122093568.0,
+      "s": 4.786731333006173
+    },
+    {
+      "layer": "single_transformer_blocks.5.attn.to_out",
+      "bits": 4,
+      "rel_l2": 0.03054164908826351,
+      "cos": 0.9995338320732117,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 54263808.0,
+      "s": 5.0187569170375355
+    },
+    {
+      "layer": "single_transformer_blocks.4.attn.to_out",
+      "bits": 4,
+      "rel_l2": 0.030246572569012642,
+      "cos": 0.9995425939559937,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 54263808.0,
+      "s": 5.0294804580044
+    },
+    {
+      "layer": "single_transformer_blocks.13.attn.to_qkv_mlp_proj",
+      "bits": 4,
+      "rel_l2": 0.02963085286319256,
+      "cos": 0.9995611310005188,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 122093568.0,
+      "s": 4.905295417003799
+    },
+    {
+      "layer": "single_transformer_blocks.9.attn.to_qkv_mlp_proj",
+      "bits": 4,
+      "rel_l2": 0.02939159795641899,
+      "cos": 0.999567985534668,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 122093568.0,
+      "s": 5.025249792030081
+    },
+    {
+      "layer": "single_transformer_blocks.14.attn.to_out",
+      "bits": 4,
+      "rel_l2": 0.029050523415207863,
+      "cos": 0.9995779395103455,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 54263808.0,
+      "s": 4.842376917018555
+    },
+    {
+      "layer": "transformer_blocks.1.ff_context.linear_in",
+      "bits": 4,
+      "rel_l2": 0.02885502763092518,
+      "cos": 0.9995839595794678,
+      "params": 56623104,
+      "bytes_saved_vs_bf16": 81395712.0,
+      "s": 5.808618667011615
+    },
+    {
+      "layer": "transformer_blocks.0.attn.add_v_proj",
+      "bits": 4,
+      "rel_l2": 0.02864757552742958,
+      "cos": 0.9995896816253662,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 6.040740208001807
+    },
+    {
+      "layer": "single_transformer_blocks.8.attn.to_qkv_mlp_proj",
+      "bits": 4,
+      "rel_l2": 0.028567511588335037,
+      "cos": 0.9995920062065125,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 122093568.0,
+      "s": 5.014033332990948
+    },
+    {
+      "layer": "single_transformer_blocks.15.attn.to_out",
+      "bits": 4,
+      "rel_l2": 0.028565185144543648,
+      "cos": 0.9995934963226318,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 54263808.0,
+      "s": 4.8065475830226205
+    },
+    {
+      "layer": "single_transformer_blocks.17.attn.to_qkv_mlp_proj",
+      "bits": 4,
+      "rel_l2": 0.02842900902032852,
+      "cos": 0.9995986819267273,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 122093568.0,
+      "s": 4.7442359999986365
+    },
+    {
+      "layer": "single_transformer_blocks.3.attn.to_qkv_mlp_proj",
+      "bits": 4,
+      "rel_l2": 0.028324635699391365,
+      "cos": 0.9995989203453064,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 122093568.0,
+      "s": 5.032448582991492
+    },
+    {
+      "layer": "single_transformer_blocks.11.attn.to_qkv_mlp_proj",
+      "bits": 4,
+      "rel_l2": 0.02825375460088253,
+      "cos": 0.9996014833450317,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 122093568.0,
+      "s": 5.010360333020799
+    },
+    {
+      "layer": "single_transformer_blocks.3.attn.to_out",
+      "bits": 4,
+      "rel_l2": 0.027699680998921394,
+      "cos": 0.9996163845062256,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 54263808.0,
+      "s": 5.017935249954462
+    },
+    {
+      "layer": "single_transformer_blocks.19.attn.to_qkv_mlp_proj",
+      "bits": 4,
+      "rel_l2": 0.027124200016260147,
+      "cos": 0.9996361136436462,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 122093568.0,
+      "s": 4.532971584005281
+    },
+    {
+      "layer": "single_transformer_blocks.7.attn.to_out",
+      "bits": 4,
+      "rel_l2": 0.02708316221833229,
+      "cos": 0.9996331930160522,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 54263808.0,
+      "s": 5.0155901669641025
+    },
+    {
+      "layer": "transformer_blocks.0.attn.to_k",
+      "bits": 4,
+      "rel_l2": 0.02672898955643177,
+      "cos": 0.9996426105499268,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 6.264196999953128
+    },
+    {
+      "layer": "transformer_blocks.4.ff_context.linear_out",
+      "bits": 4,
+      "rel_l2": 0.026495598256587982,
+      "cos": 0.9996489882469177,
+      "params": 28311552,
+      "bytes_saved_vs_bf16": 40697856.0,
+      "s": 4.991869958990719
+    },
+    {
+      "layer": "single_transformer_blocks.12.attn.to_out",
+      "bits": 4,
+      "rel_l2": 0.026272347196936607,
+      "cos": 0.9996549487113953,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 54263808.0,
+      "s": 4.911956832977012
+    },
+    {
+      "layer": "single_transformer_blocks.1.attn.to_qkv_mlp_proj",
+      "bits": 4,
+      "rel_l2": 0.02609492838382721,
+      "cos": 0.9996597170829773,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 122093568.0,
+      "s": 5.071621917013545
+    },
+    {
+      "layer": "single_transformer_blocks.1.attn.to_out",
+      "bits": 4,
+      "rel_l2": 0.025686025619506836,
+      "cos": 0.9996700882911682,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 54263808.0,
+      "s": 5.018960041983519
+    },
+    {
+      "layer": "single_transformer_blocks.2.attn.to_out",
+      "bits": 4,
+      "rel_l2": 0.025674141943454742,
+      "cos": 0.9996704459190369,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 54263808.0,
+      "s": 5.00870720797684
+    },
+    {
+      "layer": "transformer_blocks.1.ff_context.linear_out",
+      "bits": 4,
+      "rel_l2": 0.025584278628230095,
+      "cos": 0.9996727108955383,
+      "params": 28311552,
+      "bytes_saved_vs_bf16": 40697856.0,
+      "s": 5.8171403329470195
+    },
+    {
+      "layer": "single_transformer_blocks.13.attn.to_out",
+      "bits": 4,
+      "rel_l2": 0.02557743526995182,
+      "cos": 0.9996728897094727,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 54263808.0,
+      "s": 4.907417125010397
+    },
+    {
+      "layer": "transformer_blocks.2.ff_context.linear_in",
+      "bits": 4,
+      "rel_l2": 0.02523665502667427,
+      "cos": 0.9996817111968994,
+      "params": 56623104,
+      "bytes_saved_vs_bf16": 81395712.0,
+      "s": 5.7157527090166695
+    },
+    {
+      "layer": "single_transformer_blocks.5.attn.to_qkv_mlp_proj",
+      "bits": 4,
+      "rel_l2": 0.025154776871204376,
+      "cos": 0.999683678150177,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 122093568.0,
+      "s": 5.032040667021647
+    },
+    {
+      "layer": "single_transformer_blocks.10.attn.to_qkv_mlp_proj",
+      "bits": 4,
+      "rel_l2": 0.024587441235780716,
+      "cos": 0.9996987581253052,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 122093568.0,
+      "s": 4.9998348749941215
+    },
+    {
+      "layer": "single_transformer_blocks.11.attn.to_out",
+      "bits": 4,
+      "rel_l2": 0.024477265775203705,
+      "cos": 0.9997004866600037,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 54263808.0,
+      "s": 4.90154337498825
+    },
+    {
+      "layer": "single_transformer_blocks.16.attn.to_out",
+      "bits": 4,
+      "rel_l2": 0.02439366653561592,
+      "cos": 0.9997034668922424,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 54263808.0,
+      "s": 4.787324082979467
+    },
+    {
+      "layer": "single_transformer_blocks.8.attn.to_out",
+      "bits": 4,
+      "rel_l2": 0.02430621162056923,
+      "cos": 0.9997045397758484,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 54263808.0,
+      "s": 4.988736582978163
+    },
+    {
+      "layer": "transformer_blocks.4.attn.to_v",
+      "bits": 4,
+      "rel_l2": 0.024049660190939903,
+      "cos": 0.9997109174728394,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 5.293070290994365
+    },
+    {
+      "layer": "transformer_blocks.2.attn.to_add_out",
+      "bits": 4,
+      "rel_l2": 0.023925364017486572,
+      "cos": 0.9997138381004333,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 5.769255291961599
+    },
+    {
+      "layer": "single_transformer_blocks.0.attn.to_out",
+      "bits": 4,
+      "rel_l2": 0.02342909760773182,
+      "cos": 0.9997256398200989,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 54263808.0,
+      "s": 4.99521950003691
+    },
+    {
+      "layer": "transformer_blocks.1.attn.add_v_proj",
+      "bits": 4,
+      "rel_l2": 0.023379191756248474,
+      "cos": 0.9997267127037048,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 5.835584582993761
+    },
+    {
+      "layer": "transformer_blocks.3.ff_context.linear_out",
+      "bits": 4,
+      "rel_l2": 0.023276718333363533,
+      "cos": 0.9997290968894958,
+      "params": 28311552,
+      "bytes_saved_vs_bf16": 40697856.0,
+      "s": 5.339399875025265
+    },
+    {
+      "layer": "transformer_blocks.1.attn.to_add_out",
+      "bits": 4,
+      "rel_l2": 0.023186950013041496,
+      "cos": 0.9997313022613525,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 5.927971000026446
+    },
+    {
+      "layer": "single_transformer_blocks.18.attn.to_qkv_mlp_proj",
+      "bits": 4,
+      "rel_l2": 0.023032590746879578,
+      "cos": 0.9997347593307495,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 122093568.0,
+      "s": 4.659398084040731
+    },
+    {
+      "layer": "transformer_blocks.2.attn.add_v_proj",
+      "bits": 4,
+      "rel_l2": 0.022955358028411865,
+      "cos": 0.9997365474700928,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 5.766596457979176
+    },
+    {
+      "layer": "transformer_blocks.2.attn.to_v",
+      "bits": 4,
+      "rel_l2": 0.022769181057810783,
+      "cos": 0.9997407793998718,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 5.839080290985294
+    },
+    {
+      "layer": "transformer_blocks.2.ff_context.linear_out",
+      "bits": 4,
+      "rel_l2": 0.022670693695545197,
+      "cos": 0.9997429847717285,
+      "params": 28311552,
+      "bytes_saved_vs_bf16": 40697856.0,
+      "s": 5.73424762499053
+    },
+    {
+      "layer": "single_transformer_blocks.9.attn.to_out",
+      "bits": 4,
+      "rel_l2": 0.02149500697851181,
+      "cos": 0.9997692704200745,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 54263808.0,
+      "s": 4.999153542041313
+    },
+    {
+      "layer": "transformer_blocks.1.attn.to_v",
+      "bits": 4,
+      "rel_l2": 0.021172186359763145,
+      "cos": 0.9997758269309998,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 6.067243540950585
+    },
+    {
+      "layer": "single_transformer_blocks.17.attn.to_out",
+      "bits": 4,
+      "rel_l2": 0.02095952443778515,
+      "cos": 0.9997802972793579,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 54263808.0,
+      "s": 4.65460691699991
+    },
+    {
+      "layer": "transformer_blocks.2.attn.add_q_proj",
+      "bits": 4,
+      "rel_l2": 0.020103614777326584,
+      "cos": 0.9997979402542114,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 5.815551332954783
+    },
+    {
+      "layer": "single_transformer_blocks.10.attn.to_out",
+      "bits": 4,
+      "rel_l2": 0.01958588883280754,
+      "cos": 0.9998088479042053,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 54263808.0,
+      "s": 5.023386415967252
+    },
+    {
+      "layer": "transformer_blocks.2.attn.add_k_proj",
+      "bits": 4,
+      "rel_l2": 0.01930767484009266,
+      "cos": 0.9998137354850769,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 5.800505125022028
+    },
+    {
+      "layer": "transformer_blocks.1.attn.add_q_proj",
+      "bits": 4,
+      "rel_l2": 0.019202902913093567,
+      "cos": 0.9998160004615784,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 5.906858792004641
+    },
+    {
+      "layer": "transformer_blocks.3.attn.to_add_out",
+      "bits": 4,
+      "rel_l2": 0.01901916414499283,
+      "cos": 0.9998194575309753,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 5.338350250036456
+    },
+    {
+      "layer": "transformer_blocks.4.attn.to_out",
+      "bits": 4,
+      "rel_l2": 0.01774696260690689,
+      "cos": 0.9998425841331482,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 5.237594083999284
+    },
+    {
+      "layer": "transformer_blocks.0.ff.linear_out",
+      "bits": 4,
+      "rel_l2": 0.01750662922859192,
+      "cos": 0.9998468160629272,
+      "params": 28311552,
+      "bytes_saved_vs_bf16": 40697856.0,
+      "s": 6.053296375030186
+    },
+    {
+      "layer": "transformer_blocks.3.attn.add_k_proj",
+      "bits": 4,
+      "rel_l2": 0.01747746206820011,
+      "cos": 0.9998477101325989,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 5.414719749998767
+    },
+    {
+      "layer": "transformer_blocks.1.attn.add_k_proj",
+      "bits": 4,
+      "rel_l2": 0.017369205132126808,
+      "cos": 0.9998491406440735,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 5.916031999979168
+    },
+    {
+      "layer": "transformer_blocks.4.attn.to_add_out",
+      "bits": 4,
+      "rel_l2": 0.0172099806368351,
+      "cos": 0.9998520612716675,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 5.083979209011886
+    },
+    {
+      "layer": "transformer_blocks.3.attn.to_v",
+      "bits": 4,
+      "rel_l2": 0.017154783010482788,
+      "cos": 0.9998528957366943,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 5.641004125005566
+    },
+    {
+      "layer": "transformer_blocks.3.attn.add_q_proj",
+      "bits": 4,
+      "rel_l2": 0.01705489493906498,
+      "cos": 0.999854564666748,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 5.3812359170406125
+    },
+    {
+      "layer": "transformer_blocks.4.ff.linear_in",
+      "bits": 4,
+      "rel_l2": 0.01695951446890831,
+      "cos": 0.9998563528060913,
+      "params": 56623104,
+      "bytes_saved_vs_bf16": 81395712.0,
+      "s": 5.029731583024841
+    },
+    {
+      "layer": "transformer_blocks.3.attn.add_v_proj",
+      "bits": 4,
+      "rel_l2": 0.016828803345561028,
+      "cos": 0.9998584389686584,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 5.33717399998568
+    },
+    {
+      "layer": "transformer_blocks.1.attn.to_k",
+      "bits": 4,
+      "rel_l2": 0.016520027071237564,
+      "cos": 0.9998636245727539,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 6.026262792001944
+    },
+    {
+      "layer": "single_transformer_blocks.18.attn.to_out",
+      "bits": 4,
+      "rel_l2": 0.01626075804233551,
+      "cos": 0.9998700618743896,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 54263808.0,
+      "s": 4.620214458031114
+    },
+    {
+      "layer": "transformer_blocks.4.attn.add_v_proj",
+      "bits": 4,
+      "rel_l2": 0.016038713976740837,
+      "cos": 0.9998714327812195,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 5.10540745902108
+    },
+    {
+      "layer": "transformer_blocks.1.attn.to_out",
+      "bits": 4,
+      "rel_l2": 0.01597955822944641,
+      "cos": 0.9998723864555359,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 5.909705666010268
+    },
+    {
+      "layer": "transformer_blocks.2.attn.to_out",
+      "bits": 4,
+      "rel_l2": 0.015952635556459427,
+      "cos": 0.9998729228973389,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 5.818191041995306
+    },
+    {
+      "layer": "transformer_blocks.3.ff.linear_out",
+      "bits": 4,
+      "rel_l2": 0.015698827803134918,
+      "cos": 0.999876856803894,
+      "params": 28311552,
+      "bytes_saved_vs_bf16": 40697856.0,
+      "s": 5.2580608339631
+    },
+    {
+      "layer": "transformer_blocks.4.attn.add_k_proj",
+      "bits": 4,
+      "rel_l2": 0.01567498967051506,
+      "cos": 0.9998770952224731,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 5.168491416960023
+    },
+    {
+      "layer": "transformer_blocks.0.ff.linear_in",
+      "bits": 4,
+      "rel_l2": 0.015576470643281937,
+      "cos": 0.9998787045478821,
+      "params": 56623104,
+      "bytes_saved_vs_bf16": 81395712.0,
+      "s": 6.019666165986564
+    },
+    {
+      "layer": "transformer_blocks.4.attn.add_q_proj",
+      "bits": 4,
+      "rel_l2": 0.015524444170296192,
+      "cos": 0.9998794794082642,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 5.218878875020891
+    },
+    {
+      "layer": "transformer_blocks.3.attn.to_out",
+      "bits": 4,
+      "rel_l2": 0.015355635434389114,
+      "cos": 0.9998821020126343,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 5.9067794169532135
+    },
+    {
+      "layer": "transformer_blocks.4.attn.to_k",
+      "bits": 4,
+      "rel_l2": 0.015325678512454033,
+      "cos": 0.9998825192451477,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 5.260131083021406
+    },
+    {
+      "layer": "transformer_blocks.2.ff.linear_out",
+      "bits": 4,
+      "rel_l2": 0.015205875039100647,
+      "cos": 0.9998844861984253,
+      "params": 28311552,
+      "bytes_saved_vs_bf16": 40697856.0,
+      "s": 5.690947041963227
+    },
+    {
+      "layer": "transformer_blocks.0.attn.to_q",
+      "bits": 4,
+      "rel_l2": 0.015081622637808323,
+      "cos": 0.9998862147331238,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 6.247728750051465
+    },
+    {
+      "layer": "transformer_blocks.4.ff.linear_out",
+      "bits": 4,
+      "rel_l2": 0.01488822977989912,
+      "cos": 0.9998892545700073,
+      "params": 28311552,
+      "bytes_saved_vs_bf16": 40697856.0,
+      "s": 5.037172875017859
+    },
+    {
+      "layer": "transformer_blocks.1.ff.linear_in",
+      "bits": 4,
+      "rel_l2": 0.014557982794940472,
+      "cos": 0.9998940229415894,
+      "params": 56623104,
+      "bytes_saved_vs_bf16": 81395712.0,
+      "s": 5.880988749966491
+    },
+    {
+      "layer": "transformer_blocks.1.attn.to_q",
+      "bits": 4,
+      "rel_l2": 0.014301849529147148,
+      "cos": 0.9998976588249207,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 5.974152916052844
+    },
+    {
+      "layer": "transformer_blocks.2.attn.to_k",
+      "bits": 4,
+      "rel_l2": 0.014234303496778011,
+      "cos": 0.9998987317085266,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 5.824245084018912
+    },
+    {
+      "layer": "transformer_blocks.2.ff.linear_in",
+      "bits": 4,
+      "rel_l2": 0.014057869091629982,
+      "cos": 0.9999011754989624,
+      "params": 56623104,
+      "bytes_saved_vs_bf16": 81395712.0,
+      "s": 5.766087083029561
+    },
+    {
+      "layer": "transformer_blocks.3.ff.linear_in",
+      "bits": 4,
+      "rel_l2": 0.013994600623846054,
+      "cos": 0.999902069568634,
+      "params": 56623104,
+      "bytes_saved_vs_bf16": 81395712.0,
+      "s": 5.369244540983345
+    },
+    {
+      "layer": "transformer_blocks.1.ff.linear_out",
+      "bits": 4,
+      "rel_l2": 0.01373826153576374,
+      "cos": 0.9999056458473206,
+      "params": 28311552,
+      "bytes_saved_vs_bf16": 40697856.0,
+      "s": 5.848642083001323
+    },
+    {
+      "layer": "transformer_blocks.3.attn.to_k",
+      "bits": 4,
+      "rel_l2": 0.012746995314955711,
+      "cos": 0.9999186992645264,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 5.622986125003081
+    },
+    {
+      "layer": "transformer_blocks.4.attn.to_q",
+      "bits": 4,
+      "rel_l2": 0.012202909216284752,
+      "cos": 0.9999255537986755,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 5.268375416984782
+    },
+    {
+      "layer": "transformer_blocks.2.attn.to_q",
+      "bits": 4,
+      "rel_l2": 0.011692146770656109,
+      "cos": 0.9999316334724426,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 5.828261416987516
+    },
+    {
+      "layer": "transformer_blocks.3.attn.to_q",
+      "bits": 4,
+      "rel_l2": 0.01117332186549902,
+      "cos": 0.9999375939369202,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 13565952.0,
+      "s": 5.6831448749871925
+    },
+    {
+      "layer": "single_transformer_blocks.19.attn.to_out",
+      "bits": 4,
+      "rel_l2": 0.007223071530461311,
+      "cos": 0.9999753832817078,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 54263808.0,
+      "s": 4.458166290947702
+    },
+    {
+      "layer": "norm_out.linear",
+      "bits": 4,
+      "rel_l2": 0.005616738460958004,
+      "cos": 0.9999848008155823,
+      "params": 18874368,
+      "bytes_saved_vs_bf16": 27131904.0,
+      "s": 4.3953399999882095
+    }
+  ],
+  "ranking_q8": [
+    {
+      "layer": "context_embedder",
+      "bits": 8,
+      "rel_l2": 0.023203667253255844,
+      "cos": 0.9997308254241943,
+      "params": 23592960,
+      "bytes_saved_vs_bf16": 22118400.0,
+      "s": 6.235411708010361
+    },
+    {
+      "layer": "time_guidance_embed.linear_2",
+      "bits": 8,
+      "rel_l2": 0.02308584563434124,
+      "cos": 0.999733567237854,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 6.323528249980882
+    },
+    {
+      "layer": "double_stream_modulation_txt.linear",
+      "bits": 8,
+      "rel_l2": 0.020251188427209854,
+      "cos": 0.9997950196266174,
+      "params": 56623104,
+      "bytes_saved_vs_bf16": 53084160.0,
+      "s": 6.13057395798387
+    },
+    {
+      "layer": "transformer_blocks.0.attn.to_add_out",
+      "bits": 8,
+      "rel_l2": 0.019715027883648872,
+      "cos": 0.9998056292533875,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 6.011909792025108
+    },
+    {
+      "layer": "time_guidance_embed.linear_1",
+      "bits": 8,
+      "rel_l2": 0.01952533982694149,
+      "cos": 0.9998093843460083,
+      "params": 786432,
+      "bytes_saved_vs_bf16": 737280.0,
+      "s": 6.227538875013124
+    },
+    {
+      "layer": "transformer_blocks.0.attn.add_q_proj",
+      "bits": 8,
+      "rel_l2": 0.01899813674390316,
+      "cos": 0.9998195171356201,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 6.078986125008669
+    },
+    {
+      "layer": "transformer_blocks.0.attn.add_k_proj",
+      "bits": 8,
+      "rel_l2": 0.018405620008707047,
+      "cos": 0.9998306035995483,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 6.033594125008676
+    },
+    {
+      "layer": "transformer_blocks.0.attn.to_v",
+      "bits": 8,
+      "rel_l2": 0.01771642453968525,
+      "cos": 0.9998429417610168,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 6.246579166967422
+    },
+    {
+      "layer": "double_stream_modulation_img.linear",
+      "bits": 8,
+      "rel_l2": 0.0168556310236454,
+      "cos": 0.9998579025268555,
+      "params": 56623104,
+      "bytes_saved_vs_bf16": 53084160.0,
+      "s": 6.17237699998077
+    },
+    {
+      "layer": "transformer_blocks.0.attn.add_v_proj",
+      "bits": 8,
+      "rel_l2": 0.015565807931125164,
+      "cos": 0.999879002571106,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 6.086894957988989
+    },
+    {
+      "layer": "x_embedder",
+      "bits": 8,
+      "rel_l2": 0.015457226894795895,
+      "cos": 0.9998806715011597,
+      "params": 393216,
+      "bytes_saved_vs_bf16": 368640.0,
+      "s": 6.249833500012755
+    },
+    {
+      "layer": "transformer_blocks.0.attn.to_k",
+      "bits": 8,
+      "rel_l2": 0.015084718354046345,
+      "cos": 0.9998862147331238,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 6.202424500021152
+    },
+    {
+      "layer": "transformer_blocks.0.ff_context.linear_in",
+      "bits": 8,
+      "rel_l2": 0.014897978864610195,
+      "cos": 0.9998890161514282,
+      "params": 56623104,
+      "bytes_saved_vs_bf16": 53084160.0,
+      "s": 5.99815945798764
+    },
+    {
+      "layer": "transformer_blocks.1.attn.add_q_proj",
+      "bits": 8,
+      "rel_l2": 0.014548301696777344,
+      "cos": 0.9998942017555237,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 5.8534563750145026
+    },
+    {
+      "layer": "transformer_blocks.1.attn.to_add_out",
+      "bits": 8,
+      "rel_l2": 0.014437851496040821,
+      "cos": 0.9998958706855774,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 5.882188041985501
+    },
+    {
+      "layer": "transformer_blocks.0.ff_context.linear_out",
+      "bits": 8,
+      "rel_l2": 0.014021230861544609,
+      "cos": 0.9999016523361206,
+      "params": 28311552,
+      "bytes_saved_vs_bf16": 26542080.0,
+      "s": 6.00827762496192
+    },
+    {
+      "layer": "transformer_blocks.1.attn.add_k_proj",
+      "bits": 8,
+      "rel_l2": 0.014016582630574703,
+      "cos": 0.9999018311500549,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 5.901560916972812
+    },
+    {
+      "layer": "transformer_blocks.0.attn.to_out",
+      "bits": 8,
+      "rel_l2": 0.013917372561991215,
+      "cos": 0.99990314245224,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 6.248023417021614
+    },
+    {
+      "layer": "transformer_blocks.1.attn.to_v",
+      "bits": 8,
+      "rel_l2": 0.013563248328864574,
+      "cos": 0.9999080896377563,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 5.9140044579980895
+    },
+    {
+      "layer": "transformer_blocks.1.attn.add_v_proj",
+      "bits": 8,
+      "rel_l2": 0.013474293984472752,
+      "cos": 0.9999091625213623,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 5.973649208957795
+    },
+    {
+      "layer": "transformer_blocks.2.ff_context.linear_in",
+      "bits": 8,
+      "rel_l2": 0.013052967377007008,
+      "cos": 0.9999150633811951,
+      "params": 56623104,
+      "bytes_saved_vs_bf16": 53084160.0,
+      "s": 5.736527875007596
+    },
+    {
+      "layer": "transformer_blocks.1.attn.to_k",
+      "bits": 8,
+      "rel_l2": 0.013029309920966625,
+      "cos": 0.9999151825904846,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 5.974443207960576
+    },
+    {
+      "layer": "transformer_blocks.0.ff.linear_in",
+      "bits": 8,
+      "rel_l2": 0.01282598078250885,
+      "cos": 0.9999178051948547,
+      "params": 56623104,
+      "bytes_saved_vs_bf16": 53084160.0,
+      "s": 6.313174417009577
+    },
+    {
+      "layer": "transformer_blocks.1.ff_context.linear_in",
+      "bits": 8,
+      "rel_l2": 0.012791257351636887,
+      "cos": 0.9999184012413025,
+      "params": 56623104,
+      "bytes_saved_vs_bf16": 53084160.0,
+      "s": 5.833922374993563
+    },
+    {
+      "layer": "transformer_blocks.1.ff_context.linear_out",
+      "bits": 8,
+      "rel_l2": 0.012783459387719631,
+      "cos": 0.9999183416366577,
+      "params": 28311552,
+      "bytes_saved_vs_bf16": 26542080.0,
+      "s": 5.825893000001088
+    },
+    {
+      "layer": "transformer_blocks.2.attn.add_q_proj",
+      "bits": 8,
+      "rel_l2": 0.012650803662836552,
+      "cos": 0.9999200701713562,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 5.797078958014026
+    },
+    {
+      "layer": "transformer_blocks.0.ff.linear_out",
+      "bits": 8,
+      "rel_l2": 0.012549974024295807,
+      "cos": 0.9999212622642517,
+      "params": 28311552,
+      "bytes_saved_vs_bf16": 26542080.0,
+      "s": 6.066450375015847
+    },
+    {
+      "layer": "transformer_blocks.2.attn.add_v_proj",
+      "bits": 8,
+      "rel_l2": 0.012397862039506435,
+      "cos": 0.9999232292175293,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 5.7411315409699455
+    },
+    {
+      "layer": "transformer_blocks.2.ff_context.linear_out",
+      "bits": 8,
+      "rel_l2": 0.012230892665684223,
+      "cos": 0.9999255537986755,
+      "params": 28311552,
+      "bytes_saved_vs_bf16": 26542080.0,
+      "s": 5.66621470899554
+    },
+    {
+      "layer": "transformer_blocks.0.attn.to_q",
+      "bits": 8,
+      "rel_l2": 0.012132437899708748,
+      "cos": 0.9999263882637024,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 6.093484707991593
+    },
+    {
+      "layer": "transformer_blocks.3.attn.add_v_proj",
+      "bits": 8,
+      "rel_l2": 0.01189544890075922,
+      "cos": 0.9999294281005859,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 5.316562167019583
+    },
+    {
+      "layer": "transformer_blocks.2.attn.to_add_out",
+      "bits": 8,
+      "rel_l2": 0.01180939469486475,
+      "cos": 0.999930202960968,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 5.746080958051607
+    },
+    {
+      "layer": "transformer_blocks.2.attn.add_k_proj",
+      "bits": 8,
+      "rel_l2": 0.011793072335422039,
+      "cos": 0.9999305605888367,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 5.842438874999061
+    },
+    {
+      "layer": "transformer_blocks.1.attn.to_q",
+      "bits": 8,
+      "rel_l2": 0.011598191224038601,
+      "cos": 0.9999328255653381,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 6.002165541984141
+    },
+    {
+      "layer": "transformer_blocks.1.ff.linear_in",
+      "bits": 8,
+      "rel_l2": 0.011515949852764606,
+      "cos": 0.9999337792396545,
+      "params": 56623104,
+      "bytes_saved_vs_bf16": 53084160.0,
+      "s": 5.931197208003141
+    },
+    {
+      "layer": "transformer_blocks.3.attn.to_add_out",
+      "bits": 8,
+      "rel_l2": 0.011495912447571754,
+      "cos": 0.9999340176582336,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 5.317786458996125
+    },
+    {
+      "layer": "transformer_blocks.1.attn.to_out",
+      "bits": 8,
+      "rel_l2": 0.011387418955564499,
+      "cos": 0.9999351501464844,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 5.881050958996639
+    },
+    {
+      "layer": "transformer_blocks.2.attn.to_v",
+      "bits": 8,
+      "rel_l2": 0.011380446143448353,
+      "cos": 0.9999352693557739,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 5.8303545829840004
+    },
+    {
+      "layer": "transformer_blocks.3.attn.add_k_proj",
+      "bits": 8,
+      "rel_l2": 0.011292608454823494,
+      "cos": 0.9999364018440247,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 5.406087624956854
+    },
+    {
+      "layer": "transformer_blocks.2.attn.to_k",
+      "bits": 8,
+      "rel_l2": 0.01121656596660614,
+      "cos": 0.9999372363090515,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 5.814351707987953
+    },
+    {
+      "layer": "transformer_blocks.3.attn.add_q_proj",
+      "bits": 8,
+      "rel_l2": 0.011168623343110085,
+      "cos": 0.9999375939369202,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 5.377026166999713
+    },
+    {
+      "layer": "transformer_blocks.1.ff.linear_out",
+      "bits": 8,
+      "rel_l2": 0.011160655878484249,
+      "cos": 0.9999377727508545,
+      "params": 28311552,
+      "bytes_saved_vs_bf16": 26542080.0,
+      "s": 5.841586166003253
+    },
+    {
+      "layer": "transformer_blocks.3.attn.to_v",
+      "bits": 8,
+      "rel_l2": 0.010828693397343159,
+      "cos": 0.9999414682388306,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 5.609193500014953
+    },
+    {
+      "layer": "transformer_blocks.4.attn.add_q_proj",
+      "bits": 8,
+      "rel_l2": 0.010818962939083576,
+      "cos": 0.9999415278434753,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 5.152357666986063
+    },
+    {
+      "layer": "transformer_blocks.3.attn.to_k",
+      "bits": 8,
+      "rel_l2": 0.010804358869791031,
+      "cos": 0.9999415874481201,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 5.661878583021462
+    },
+    {
+      "layer": "transformer_blocks.3.ff_context.linear_out",
+      "bits": 8,
+      "rel_l2": 0.010603283531963825,
+      "cos": 0.9999438524246216,
+      "params": 28311552,
+      "bytes_saved_vs_bf16": 26542080.0,
+      "s": 5.301341749960557
+    },
+    {
+      "layer": "transformer_blocks.2.attn.to_q",
+      "bits": 8,
+      "rel_l2": 0.010598967783153057,
+      "cos": 0.9999438524246216,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 5.767275708960369
+    },
+    {
+      "layer": "transformer_blocks.2.ff.linear_in",
+      "bits": 8,
+      "rel_l2": 0.010571321472525597,
+      "cos": 0.999944269657135,
+      "params": 56623104,
+      "bytes_saved_vs_bf16": 53084160.0,
+      "s": 5.801065583014861
+    },
+    {
+      "layer": "transformer_blocks.3.attn.to_out",
+      "bits": 8,
+      "rel_l2": 0.010571162216365337,
+      "cos": 0.9999440312385559,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 6.726345749979373
+    },
+    {
+      "layer": "transformer_blocks.3.ff_context.linear_in",
+      "bits": 8,
+      "rel_l2": 0.010560194961726665,
+      "cos": 0.999944269657135,
+      "params": 56623104,
+      "bytes_saved_vs_bf16": 53084160.0,
+      "s": 5.294589792029001
+    },
+    {
+      "layer": "transformer_blocks.4.attn.to_add_out",
+      "bits": 8,
+      "rel_l2": 0.01047775149345398,
+      "cos": 0.9999452233314514,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 5.01587570796255
+    },
+    {
+      "layer": "transformer_blocks.3.ff.linear_out",
+      "bits": 8,
+      "rel_l2": 0.010398955084383488,
+      "cos": 0.9999459981918335,
+      "params": 28311552,
+      "bytes_saved_vs_bf16": 26542080.0,
+      "s": 5.318184416042641
+    },
+    {
+      "layer": "single_stream_modulation.linear",
+      "bits": 8,
+      "rel_l2": 0.010352990590035915,
+      "cos": 0.9999464154243469,
+      "params": 28311552,
+      "bytes_saved_vs_bf16": 26542080.0,
+      "s": 6.114009750017431
+    },
+    {
+      "layer": "transformer_blocks.3.attn.to_q",
+      "bits": 8,
+      "rel_l2": 0.010340772569179535,
+      "cos": 0.9999465942382812,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 5.678496083011851
+    },
+    {
+      "layer": "transformer_blocks.3.ff.linear_in",
+      "bits": 8,
+      "rel_l2": 0.010217564180493355,
+      "cos": 0.9999478459358215,
+      "params": 56623104,
+      "bytes_saved_vs_bf16": 53084160.0,
+      "s": 5.31221987499157
+    },
+    {
+      "layer": "transformer_blocks.4.attn.add_v_proj",
+      "bits": 8,
+      "rel_l2": 0.010153094306588173,
+      "cos": 0.9999484419822693,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 5.140217125008348
+    },
+    {
+      "layer": "transformer_blocks.4.attn.add_k_proj",
+      "bits": 8,
+      "rel_l2": 0.01010221429169178,
+      "cos": 0.999949038028717,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 5.168011833971832
+    },
+    {
+      "layer": "transformer_blocks.2.attn.to_out",
+      "bits": 8,
+      "rel_l2": 0.010090949013829231,
+      "cos": 0.9999490976333618,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 5.798736041004304
+    },
+    {
+      "layer": "transformer_blocks.2.ff.linear_out",
+      "bits": 8,
+      "rel_l2": 0.010089418850839138,
+      "cos": 0.999949038028717,
+      "params": 28311552,
+      "bytes_saved_vs_bf16": 26542080.0,
+      "s": 5.7516267920145765
+    },
+    {
+      "layer": "transformer_blocks.4.attn.to_v",
+      "bits": 8,
+      "rel_l2": 0.010086391121149063,
+      "cos": 0.9999490976333618,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 5.247393291967455
+    },
+    {
+      "layer": "transformer_blocks.4.ff_context.linear_out",
+      "bits": 8,
+      "rel_l2": 0.009838761761784554,
+      "cos": 0.9999516606330872,
+      "params": 28311552,
+      "bytes_saved_vs_bf16": 26542080.0,
+      "s": 5.003528916975483
+    },
+    {
+      "layer": "transformer_blocks.4.ff_context.linear_in",
+      "bits": 8,
+      "rel_l2": 0.00981952901929617,
+      "cos": 0.9999518394470215,
+      "params": 56623104,
+      "bytes_saved_vs_bf16": 53084160.0,
+      "s": 5.003378749999683
+    },
+    {
+      "layer": "transformer_blocks.4.attn.to_k",
+      "bits": 8,
+      "rel_l2": 0.009694515727460384,
+      "cos": 0.999953031539917,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 5.277317790954839
+    },
+    {
+      "layer": "single_transformer_blocks.0.attn.to_qkv_mlp_proj",
+      "bits": 8,
+      "rel_l2": 0.009666015394032001,
+      "cos": 0.9999532103538513,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 79626240.0,
+      "s": 5.0233607909758575
+    },
+    {
+      "layer": "single_transformer_blocks.0.attn.to_out",
+      "bits": 8,
+      "rel_l2": 0.00941832922399044,
+      "cos": 0.9999557137489319,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 35389440.0,
+      "s": 5.01330195798073
+    },
+    {
+      "layer": "single_transformer_blocks.1.attn.to_qkv_mlp_proj",
+      "bits": 8,
+      "rel_l2": 0.009243753738701344,
+      "cos": 0.9999572038650513,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 79626240.0,
+      "s": 5.005884083977435
+    },
+    {
+      "layer": "transformer_blocks.4.ff.linear_out",
+      "bits": 8,
+      "rel_l2": 0.009207249619066715,
+      "cos": 0.9999576807022095,
+      "params": 28311552,
+      "bytes_saved_vs_bf16": 26542080.0,
+      "s": 4.987761290976778
+    },
+    {
+      "layer": "transformer_blocks.4.attn.to_out",
+      "bits": 8,
+      "rel_l2": 0.009055671282112598,
+      "cos": 0.9999589920043945,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 5.267486750031821
+    },
+    {
+      "layer": "single_transformer_blocks.1.attn.to_out",
+      "bits": 8,
+      "rel_l2": 0.009025500155985355,
+      "cos": 0.9999592304229736,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 35389440.0,
+      "s": 5.0132477909792215
+    },
+    {
+      "layer": "single_transformer_blocks.3.attn.to_qkv_mlp_proj",
+      "bits": 8,
+      "rel_l2": 0.00901065580546856,
+      "cos": 0.9999594688415527,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 79626240.0,
+      "s": 5.029824708006345
+    },
+    {
+      "layer": "transformer_blocks.4.attn.to_q",
+      "bits": 8,
+      "rel_l2": 0.008975062519311905,
+      "cos": 0.9999596476554871,
+      "params": 9437184,
+      "bytes_saved_vs_bf16": 8847360.0,
+      "s": 5.28470900002867
+    },
+    {
+      "layer": "transformer_blocks.4.ff.linear_in",
+      "bits": 8,
+      "rel_l2": 0.008851560764014721,
+      "cos": 0.9999607801437378,
+      "params": 56623104,
+      "bytes_saved_vs_bf16": 53084160.0,
+      "s": 5.023335582984146
+    },
+    {
+      "layer": "single_transformer_blocks.2.attn.to_qkv_mlp_proj",
+      "bits": 8,
+      "rel_l2": 0.008740072138607502,
+      "cos": 0.999961793422699,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 79626240.0,
+      "s": 5.028833499993198
+    },
+    {
+      "layer": "single_transformer_blocks.2.attn.to_out",
+      "bits": 8,
+      "rel_l2": 0.00855316687375307,
+      "cos": 0.9999634623527527,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 35389440.0,
+      "s": 5.030624624982011
+    },
+    {
+      "layer": "single_transformer_blocks.3.attn.to_out",
+      "bits": 8,
+      "rel_l2": 0.008378847502171993,
+      "cos": 0.9999650120735168,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 35389440.0,
+      "s": 5.0348350839922205
+    },
+    {
+      "layer": "single_transformer_blocks.4.attn.to_qkv_mlp_proj",
+      "bits": 8,
+      "rel_l2": 0.008234012871980667,
+      "cos": 0.9999660849571228,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 79626240.0,
+      "s": 5.024792457988951
+    },
+    {
+      "layer": "single_transformer_blocks.6.attn.to_qkv_mlp_proj",
+      "bits": 8,
+      "rel_l2": 0.00820084661245346,
+      "cos": 0.9999662637710571,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 79626240.0,
+      "s": 5.040159832977224
+    },
+    {
+      "layer": "single_transformer_blocks.4.attn.to_out",
+      "bits": 8,
+      "rel_l2": 0.008196196518838406,
+      "cos": 0.9999664425849915,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 35389440.0,
+      "s": 4.996838207996916
+    },
+    {
+      "layer": "single_transformer_blocks.5.attn.to_out",
+      "bits": 8,
+      "rel_l2": 0.008134876377880573,
+      "cos": 0.9999670386314392,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 35389440.0,
+      "s": 5.023063667002134
+    },
+    {
+      "layer": "single_transformer_blocks.5.attn.to_qkv_mlp_proj",
+      "bits": 8,
+      "rel_l2": 0.008105930872261524,
+      "cos": 0.9999671578407288,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 79626240.0,
+      "s": 5.032773458049633
+    },
+    {
+      "layer": "single_transformer_blocks.6.attn.to_out",
+      "bits": 8,
+      "rel_l2": 0.007806107401847839,
+      "cos": 0.9999696016311646,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 35389440.0,
+      "s": 5.013559707964305
+    },
+    {
+      "layer": "single_transformer_blocks.7.attn.to_qkv_mlp_proj",
+      "bits": 8,
+      "rel_l2": 0.0076174004934728146,
+      "cos": 0.9999709725379944,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 79626240.0,
+      "s": 5.018250124994665
+    },
+    {
+      "layer": "single_transformer_blocks.7.attn.to_out",
+      "bits": 8,
+      "rel_l2": 0.007463566493242979,
+      "cos": 0.9999721050262451,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 35389440.0,
+      "s": 5.0149112500366755
+    },
+    {
+      "layer": "single_transformer_blocks.8.attn.to_qkv_mlp_proj",
+      "bits": 8,
+      "rel_l2": 0.007361975964158773,
+      "cos": 0.9999728798866272,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 79626240.0,
+      "s": 5.027900457964279
+    },
+    {
+      "layer": "single_transformer_blocks.8.attn.to_out",
+      "bits": 8,
+      "rel_l2": 0.007103198207914829,
+      "cos": 0.9999748468399048,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 35389440.0,
+      "s": 5.034283832996152
+    },
+    {
+      "layer": "single_transformer_blocks.9.attn.to_qkv_mlp_proj",
+      "bits": 8,
+      "rel_l2": 0.0070881531573832035,
+      "cos": 0.9999749660491943,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 79626240.0,
+      "s": 5.022124209033791
+    },
+    {
+      "layer": "single_transformer_blocks.9.attn.to_out",
+      "bits": 8,
+      "rel_l2": 0.006770930252969265,
+      "cos": 0.9999769926071167,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 35389440.0,
+      "s": 5.055712166999001
+    },
+    {
+      "layer": "single_transformer_blocks.10.attn.to_qkv_mlp_proj",
+      "bits": 8,
+      "rel_l2": 0.006727697793394327,
+      "cos": 0.9999774098396301,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 79626240.0,
+      "s": 5.047937499999534
+    },
+    {
+      "layer": "single_transformer_blocks.11.attn.to_qkv_mlp_proj",
+      "bits": 8,
+      "rel_l2": 0.006675112061202526,
+      "cos": 0.9999777674674988,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 79626240.0,
+      "s": 5.001447000016924
+    },
+    {
+      "layer": "single_transformer_blocks.10.attn.to_out",
+      "bits": 8,
+      "rel_l2": 0.006458674091845751,
+      "cos": 0.9999792575836182,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 35389440.0,
+      "s": 5.028250707953703
+    },
+    {
+      "layer": "single_transformer_blocks.11.attn.to_out",
+      "bits": 8,
+      "rel_l2": 0.006311092060059309,
+      "cos": 0.9999800324440002,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 35389440.0,
+      "s": 4.965912166982889
+    },
+    {
+      "layer": "single_transformer_blocks.12.attn.to_qkv_mlp_proj",
+      "bits": 8,
+      "rel_l2": 0.006238305009901524,
+      "cos": 0.9999805092811584,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 79626240.0,
+      "s": 4.9917667080299
+    },
+    {
+      "layer": "single_transformer_blocks.13.attn.to_qkv_mlp_proj",
+      "bits": 8,
+      "rel_l2": 0.005988406483083963,
+      "cos": 0.9999820590019226,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 79626240.0,
+      "s": 4.888074832968414
+    },
+    {
+      "layer": "single_transformer_blocks.12.attn.to_out",
+      "bits": 8,
+      "rel_l2": 0.005964136216789484,
+      "cos": 0.9999821782112122,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 35389440.0,
+      "s": 4.92069670901401
+    },
+    {
+      "layer": "single_transformer_blocks.14.attn.to_qkv_mlp_proj",
+      "bits": 8,
+      "rel_l2": 0.0057965428568422794,
+      "cos": 0.9999832510948181,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 79626240.0,
+      "s": 4.848648124956526
+    },
+    {
+      "layer": "single_transformer_blocks.13.attn.to_out",
+      "bits": 8,
+      "rel_l2": 0.005659487098455429,
+      "cos": 0.9999840259552002,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 35389440.0,
+      "s": 4.85457712499192
+    },
+    {
+      "layer": "single_transformer_blocks.15.attn.to_qkv_mlp_proj",
+      "bits": 8,
+      "rel_l2": 0.005619035102427006,
+      "cos": 0.9999842047691345,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 79626240.0,
+      "s": 4.808221208048053
+    },
+    {
+      "layer": "single_transformer_blocks.14.attn.to_out",
+      "bits": 8,
+      "rel_l2": 0.005380631424486637,
+      "cos": 0.9999854564666748,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 35389440.0,
+      "s": 4.822112041991204
+    },
+    {
+      "layer": "single_transformer_blocks.15.attn.to_out",
+      "bits": 8,
+      "rel_l2": 0.004967942368239164,
+      "cos": 0.9999876022338867,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 35389440.0,
+      "s": 4.791610291984398
+    },
+    {
+      "layer": "single_transformer_blocks.16.attn.to_qkv_mlp_proj",
+      "bits": 8,
+      "rel_l2": 0.004897093400359154,
+      "cos": 0.9999880194664001,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 79626240.0,
+      "s": 4.800732958014123
+    },
+    {
+      "layer": "proj_out",
+      "bits": 8,
+      "rel_l2": 0.004867221228778362,
+      "cos": 0.9999881982803345,
+      "params": 393216,
+      "bytes_saved_vs_bf16": 368640.0,
+      "s": 4.047194958024193
+    },
+    {
+      "layer": "single_transformer_blocks.17.attn.to_qkv_mlp_proj",
+      "bits": 8,
+      "rel_l2": 0.004477628506720066,
+      "cos": 0.9999900460243225,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 79626240.0,
+      "s": 4.6967141249915585
+    },
+    {
+      "layer": "single_transformer_blocks.16.attn.to_out",
+      "bits": 8,
+      "rel_l2": 0.004396739415824413,
+      "cos": 0.9999903440475464,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 35389440.0,
+      "s": 4.765093166963197
+    },
+    {
+      "layer": "single_transformer_blocks.18.attn.to_qkv_mlp_proj",
+      "bits": 8,
+      "rel_l2": 0.003965327050536871,
+      "cos": 0.9999921917915344,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 79626240.0,
+      "s": 4.639344625000376
+    },
+    {
+      "layer": "single_transformer_blocks.17.attn.to_out",
+      "bits": 8,
+      "rel_l2": 0.003940877038985491,
+      "cos": 0.999992311000824,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 35389440.0,
+      "s": 4.661206124990713
+    },
+    {
+      "layer": "single_transformer_blocks.19.attn.to_qkv_mlp_proj",
+      "bits": 8,
+      "rel_l2": 0.0034820109140127897,
+      "cos": 0.9999939799308777,
+      "params": 84934656,
+      "bytes_saved_vs_bf16": 79626240.0,
+      "s": 4.514844499994069
+    },
+    {
+      "layer": "single_transformer_blocks.18.attn.to_out",
+      "bits": 8,
+      "rel_l2": 0.003307803301140666,
+      "cos": 0.9999945163726807,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 35389440.0,
+      "s": 4.5979405420366675
+    },
+    {
+      "layer": "single_transformer_blocks.19.attn.to_out",
+      "bits": 8,
+      "rel_l2": 0.002450596308335662,
+      "cos": 0.999997079372406,
+      "params": 37748736,
+      "bytes_saved_vs_bf16": 35389440.0,
+      "s": 4.431789833994117
+    },
+    {
+      "layer": "norm_out.linear",
+      "bits": 8,
+      "rel_l2": 0.0018457783153280616,
+      "cos": 0.9999983310699463,
+      "params": 18874368,
+      "bytes_saved_vs_bf16": 17694720.0,
+      "s": 4.294694416981656
+    }
+  ],
+  "mlx_version": "0.32.4"
+}

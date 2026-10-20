@@ -1,5 +1,9 @@
 # RESULTS (newest first)
 
+### exp-032: per-layer quantization sensitivity scan (engine/sensitivity.py), 109 Linears x {q8,q4}, one real denoise step
+- total 0.00 s (denoise 0.00, VAE 0.00, text 0.00); peak footprint None GB, MLX peak None GB; swap grew: None
+- tier A, verdict **keep**. Metric floor verified 0 (deterministic; fp32 recompute bit-identical). q8 per-layer rel 1.9e-3..2.3e-2 (median 1.0e-2); q4 5.6e-3..5.7e-2. Most sensitive: embedders, modulation, proj_out, first blocks; least: double-block attn q/k, ff, norm_out.
+
 ### exp-031-arch-g16g: microbench with MLX_METAL_GPU_ARCH=applegpu_g16g (pre-M5: no NAX kernels)
 - total 0.00 s (denoise 0.00, VAE 0.00, text 0.00); peak footprint None GB, MLX peak None GB; swap grew: None
 - tier E, verdict **keep**. Matmul 2.9-3.0 TF and SDPA 2.5 TF without NAX: the baseline already gets ~3.7x from the M5 neural accelerators.
@@ -232,6 +236,7 @@ Speedup vs **exp-011-bf16** = 18.92 s (median of 3). *memory-only* = swap grew, 
 | exp-030 | bf16 | none | – | – | – | – | – | – | – |
 | exp-031-arch-default | microbench | none | – | – | – | – | – | – | – |
 | exp-031-arch-g16g | microbench | none | – | – | – | – | – | – | – |
+| exp-032 | bf16 | none | – | – | – | – | – | – | – |
 <!-- summary:end -->
 
 ## Log
