@@ -46,3 +46,5 @@
   until a bandwidth-bound target exists. mx.set_memory_limit is a soft limit: smaller-machine simulation is invalid; 8 GB claims
   need a real 8 GB Mac. New Tier A speed track (A1 probe -> A2 -> A3), timeboxed 4 days, after the footprint batch.
 - xctrace unavailable (m5-test has Command Line Tools only; Xcode not installed). Profiling uses MLX timing + microbenchmarks.
+- 2026-10-20: speed track CLOSED, A2/A3 skipped (user decision). Finding: reports/speed_track_closure.md. Eager-vs-compiled
+  numerics promoted to protocol rule R1 (README) + library/notes/eager-vs-compiled-numerics.md.
