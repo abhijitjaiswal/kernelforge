@@ -1,5 +1,15 @@
 # RESULTS (newest first)
 
+### exp-061-full-2: full exact pipeline: streamed text encoder + compiled lag-1 streamed transformer + chunked VAE, cold SSD, round 2
+- total 17.44 s (denoise 17.44, VAE 0.00, text 0.00); peak footprint 3.496 GB, MLX peak 2.8117863927036524 GB; swap grew: False
+- PSNR vs ref: runs/exp-054-lag1-1 999.0, baselines/bf16_free_te 46.9 dB, max abs diff None
+- tier E, verdict **keep**. OS peak 3.50 GB (denoise stage), bit-identical to exp-054-lag1 (resident TE); swap flat
+
+### exp-061-full-1: full exact pipeline: streamed text encoder + compiled lag-1 streamed transformer + chunked VAE, cold SSD, round 1
+- total 17.24 s (denoise 17.24, VAE 0.00, text 0.00); peak footprint 3.496 GB, MLX peak 2.8117863927036524 GB; swap grew: False
+- PSNR vs ref: runs/exp-054-lag1-1 999.0, baselines/bf16_free_te 46.9 dB, max abs diff None
+- tier E, verdict **keep**. OS peak 3.50 GB (denoise stage), bit-identical to exp-054-lag1 (resident TE); swap flat
+
 ### exp-060-stream-2: text encoder stream, round 2
 - total 0.42 s (denoise 0.00, VAE 0.00, text 0.42); peak footprint 0.931 GB, MLX peak 0.6300162021070719 GB; swap grew: None
 - tier E, verdict **keep**. see te anatomy summary
@@ -433,6 +443,16 @@ Speedup vs **exp-011-bf16** = 18.92 s (median of 3). *memory-only* = swap grew, 
 | exp-054-lag2-2 | bf16 | 0.5 GB | – | – | – | 3.30 | 6.69 | runs/exp-053-rblockc-1 = · baselines/bf16_free_te 46.9 | flat |
 | exp-054-rblockc-1 | bf16 | 0.5 GB | – | – | – | 8.57 | 9.53 | runs/exp-053-rblockc-1 = · baselines/bf16_free_te 46.9 | flat |
 | exp-054-rblockc-2 | bf16 | 0.5 GB | – | – | – | 8.57 | 9.53 | runs/exp-053-rblockc-1 = · baselines/bf16_free_te 46.9 | flat |
+| exp-060-barrier-1 | bf16 | 0.5 GB | – | – | – | 7.77 | 8.07 | – | – |
+| exp-060-barrier-2 | bf16 | 0.5 GB | – | – | – | 7.77 | 8.07 | – | – |
+| exp-060-stock-1 | bf16 | 0.5 GB | – | – | – | 6.50 | 6.82 | – | – |
+| exp-060-stock-2 | bf16 | 0.5 GB | – | – | – | 6.50 | 6.81 | – | – |
+| exp-060-stream-1 | bf16 | 0.5 GB | – | – | – | 0.63 | 0.93 | – | – |
+| exp-060-stream-2 | bf16 | 0.5 GB | – | – | – | 0.63 | 0.93 | – | – |
+| exp-060-truncate-1 | bf16 | 0.5 GB | – | – | – | 6.50 | 6.81 | – | – |
+| exp-060-truncate-2 | bf16 | 0.5 GB | – | – | – | 6.50 | 6.81 | – | – |
+| exp-061-full-1 | bf16 | 0.5 GB | – | – | – | 2.81 | 3.50 | runs/exp-054-lag1-1 = · baselines/bf16_free_te 46.9 | flat |
+| exp-061-full-2 | bf16 | 0.5 GB | – | – | – | 2.81 | 3.50 | runs/exp-054-lag1-1 = · baselines/bf16_free_te 46.9 | flat |
 <!-- summary:end -->
 
 ## Log
