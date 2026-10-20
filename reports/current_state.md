@@ -6,15 +6,16 @@
 ## Headline
 
 > **Same model, same math, pixel-equivalent (Tier E; weight streaming itself proven bit-identical): peak RAM 10.1 → 6.65 GB
-> (next target ~3 GB), for ~7–8 % extra time.**
+> (next target ~3 GB), for ~2–3 % extra time.**
 > Separately established: Klein's compute is already at ~95 % of this chip's ceiling, so we stopped chasing speed with
 > evidence, not fatigue.
 
 *Basis:* 6.65 GB OS peak in every streaming run (exp-051/052/053). **Streaming is bit-identical** to the same-mode resident
 reference in all 14 streaming runs (R1). **The end-to-end image is not bit-identical to the original baseline.** The exact
 chunked VAE decode (needed for the 6.65 GB; the stock decode alone peaks at 9.5 GB) and per-block compilation change float
-rounding: PSNR 46.9 dB, max pixel diff 55, mean |Δ| 0.64/255 vs the baseline image (exp-053). That is Tier E. The extra time is +7.5–7.8 % per denoise step vs the resident per-block-compiled pipeline (exp-053,
-cold SSD, 2 rounds); lagged barriers (exp-054) are being measured to reduce it. The ~95 % is matmul throughput vs the measured
+rounding: PSNR 46.9 dB, max pixel diff 55, mean |Δ| 0.64/255 vs the baseline image (exp-053). That is Tier E. The extra time is **+2.1–2.8 % per denoise step** vs the resident per-block-compiled pipeline, with per-block
+compile, prefetch and a lag-1 barrier (exp-054, cold SSD, 2 rounds; the GPU always has one block queued). That is near the
+measured 2–3.5 % unified-memory contention floor. Without the lag it was +7.5–7.8 % (exp-053). The ~95 % is matmul throughput vs the measured
 NAX bf16 peak (exp-031). The next target is set by the text encoder, now the largest stage (~6.3 GB bf16).
 
 
@@ -23,12 +24,12 @@ NAX bf16 peak (exp-031). The next target is set by the text encoder, now the lar
 | | Baseline (Gate 0) | Now: exact pipeline |
 |---|---|---|
 | Config | bf16, text encoder freed, MLX cache cap 0.5 GB, compiled | + exact chunked VAE decode + transformer weight streaming (2 blocks resident, prefetch) |
-| **End-to-end per image** | **18.92 s** (exp-011: cold single image, stock decode) | **22.71 / 22.84 s** (exp-053, steady state, cold SSD, exact chunked decode). The same pipeline resident: 21.41 / 21.77 s |
-| Denoise (4 steps) | 15.74 s compiled (cold single image) | 18.35 / 18.47 s per-block-compiled streaming vs 17.15 / 17.26 s resident (**+7.5–7.8 %**) |
+| **End-to-end per image** | **18.92 s** (exp-011: cold single image, stock decode) | **22.10 / 21.80 s** (exp-054 lag-1, steady state, cold SSD, exact chunked decode). The same pipeline resident: 21.51 / 21.85 s |
+| Denoise (4 steps) | 15.74 s compiled (cold single image) | 17.75 / 17.69 s streaming vs 17.31 / 17.32 s resident (**+2.1–2.8 % per step**) |
 | **OS peak footprint** | **10.1 GB** (exp-011) | **6.65 GB** (exp-051/052) |
 | Image vs reference | — | streaming **bit-identical** to the same-mode resident run (14/14 runs, R1); vs the baseline image **46.9 dB** (Tier E: chunked decode + per-block compile rounding) |
 
-*Like-for-like:* of the 18.92 → 22.8 s gap, about 1.2 s is streaming (+7.5–7.8 % of denoise). The rest is measurement context:
+*Like-for-like:* of the 18.92 → ~22 s gap, about 0.4 s is streaming (+2–3 % of denoise). The rest is measurement context:
 steady-state throttled steps vs a cold single image, plus the exact chunked decode (3.5 s vs 2.1 s stock). The earlier "~19.8 s"
 was eager denoise-only and is superseded.
 
@@ -37,7 +38,7 @@ was eager denoise-only and is superseded.
 | Stage | Before | After | How | Exp |
 |---|---|---|---|---|
 | VAE decode | 9.55 GB | **1.81 GB** | exact row-chunked conv/upsample with GroupNorm stats computed over the full latent; 52 / 45 / 46 dB vs reference | exp-014, 019 |
-| Denoise (transformer) | 8.52 GB | **2.22 GB** | block-wise weight streaming; prefetch hides **99.9 %** of cold-SSD load (0.274 GB/block, 44 ms load vs ~180 ms compute) | exp-051, 052 |
+| Denoise (transformer) | 8.52 GB | **2.81 GB** | block-wise weight streaming, per-block compile, lag-1 barrier; prefetch hides **99.9 %** of cold-SSD load (0.274 GB/block, 44 ms load vs ~180 ms compute) | exp-051, 052, 054 |
 | Text encoder | 16.0 GB total stack | freed after encoding | lifecycle scheduling | exp-001/002 |
 | OS vs MLX gap | +6.3 GB cache | ≤ 0.8 GB | MLX buffer-cache cap | exp-009 |
 | **Process peak now set by** | | **text encoder (bf16 Qwen3, ~6.3 GB)** | next target: per-layer barriers / streaming | — |
@@ -62,7 +63,7 @@ The exact path above is why the footprint result needs no quality caveat.
 
 ## Open items
 
-1. Per-block compiled streaming: +7.5–7.8 % measured (exp-053). Lagged barriers (exp-054) are running; ≤ 5 % = done (1-day timebox).
+1. ~~Per-block compiled streaming~~ **done**: +2.1–2.8 % with a lag-1 barrier (exp-054), within the ≤ 5 % target.
 2. Text encoder: measure its lazy-graph share, then per-layer barriers or streaming. It sets the process peak and the demo number.
 3. Per-component 8-bit quality test (text encoder 8-bit on hold until then).
 4. **A real 8 GB Mac test.** No 8 GB claim is made yet. `mx.set_memory_limit` is a soft limit, so that simulation is invalid (R2).

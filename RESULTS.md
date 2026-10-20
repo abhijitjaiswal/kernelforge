@@ -1,5 +1,35 @@
 # RESULTS (newest first)
 
+### exp-054-lag2-2: compiled streaming, lag=2, cold SSD, round 2
+- total 17.82 s (denoise 17.82, VAE 0.00, text 0.00); peak footprint 6.686 GB, MLX peak 3.295169971883297 GB; swap grew: False
+- PSNR vs ref: runs/exp-053-rblockc-1 999.0, baselines/bf16_free_te 46.9 dB, max abs diff None
+- tier E, verdict **revert**. no faster than lag=1 (+2.6-3.0%), +0.5 GB resident
+
+### exp-054-lag1-2: compiled streaming, lagged barrier lag=1 (GPU keeps 1 block queued), cold SSD, round 2
+- total 17.69 s (denoise 17.69, VAE 0.00, text 0.00); peak footprint 6.65 GB, MLX peak 2.8117686733603477 GB; swap grew: False
+- PSNR vs ref: runs/exp-053-rblockc-1 999.0, baselines/bf16_free_te 46.9 dB, max abs diff None
+- tier E, verdict **keep**. +2.1-2.8% vs resident block-compiled, bit-identical; 2.81 GB MLX, 6.65 GB OS -> target <=5% met
+
+### exp-054-rblockc-2: resident per-block compiled reference (lag batch), round 2
+- total 17.32 s (denoise 17.32, VAE 0.00, text 0.00); peak footprint 9.526 GB, MLX peak 8.574096897616982 GB; swap grew: False
+- PSNR vs ref: runs/exp-053-rblockc-1 999.0, baselines/bf16_free_te 46.9 dB, max abs diff None
+- tier E, verdict **keep**. reference
+
+### exp-054-lag2-1: compiled streaming, lag=2, cold SSD, round 1
+- total 17.77 s (denoise 17.77, VAE 0.00, text 0.00); peak footprint 6.65 GB, MLX peak 3.295169971883297 GB; swap grew: False
+- PSNR vs ref: runs/exp-053-rblockc-1 999.0, baselines/bf16_free_te 46.9 dB, max abs diff None
+- tier E, verdict **revert**. no faster than lag=1 (+2.6-3.0%), +0.5 GB resident
+
+### exp-054-lag1-1: compiled streaming, lagged barrier lag=1 (GPU keeps 1 block queued), cold SSD, round 1
+- total 17.75 s (denoise 17.75, VAE 0.00, text 0.00); peak footprint 6.65 GB, MLX peak 2.811785839498043 GB; swap grew: False
+- PSNR vs ref: runs/exp-053-rblockc-1 999.0, baselines/bf16_free_te 46.9 dB, max abs diff None
+- tier E, verdict **keep**. +2.1-2.8% vs resident block-compiled, bit-identical; 2.81 GB MLX, 6.65 GB OS -> target <=5% met
+
+### exp-054-rblockc-1: resident per-block compiled reference (lag batch), round 1
+- total 17.31 s (denoise 17.31, VAE 0.00, text 0.00); peak footprint 9.526 GB, MLX peak 8.574096897616982 GB; swap grew: False
+- PSNR vs ref: runs/exp-053-rblockc-1 999.0, baselines/bf16_free_te 46.9 dB, max abs diff None
+- tier E, verdict **keep**. reference
+
 ### exp-053-pblockc-2: streaming: per-block compile + prefetch, cold SSD, round 2
 - total 18.47 s (denoise 18.47, VAE 0.00, text 0.00); peak footprint 6.65 GB, MLX peak 2.358103446662426 GB; swap grew: False
 - PSNR vs ref: runs/exp-053-rblockc-1 999.0, baselines/bf16_free_te 46.9 dB, max abs diff None
@@ -365,6 +395,12 @@ Speedup vs **exp-011-bf16** = 18.92 s (median of 3). *memory-only* = swap grew, 
 | exp-053-rblockc-2 | bf16 | 0.5 GB | – | – | – | 8.57 | 9.56 | runs/exp-053-rcomp-1 47.0 · baselines/bf16_free_te 46.9 | flat |
 | exp-053-rcomp-1 | bf16 | 0.5 GB | – | – | – | 8.57 | 9.56 | baselines/bf16_free_te 52.1 | flat |
 | exp-053-rcomp-2 | bf16 | 0.5 GB | – | – | – | 8.57 | 9.56 | baselines/bf16_free_te 52.1 | flat |
+| exp-054-lag1-1 | bf16 | 0.5 GB | – | – | – | 2.81 | 6.65 | runs/exp-053-rblockc-1 = · baselines/bf16_free_te 46.9 | flat |
+| exp-054-lag1-2 | bf16 | 0.5 GB | – | – | – | 2.81 | 6.65 | runs/exp-053-rblockc-1 = · baselines/bf16_free_te 46.9 | flat |
+| exp-054-lag2-1 | bf16 | 0.5 GB | – | – | – | 3.30 | 6.65 | runs/exp-053-rblockc-1 = · baselines/bf16_free_te 46.9 | flat |
+| exp-054-lag2-2 | bf16 | 0.5 GB | – | – | – | 3.30 | 6.69 | runs/exp-053-rblockc-1 = · baselines/bf16_free_te 46.9 | flat |
+| exp-054-rblockc-1 | bf16 | 0.5 GB | – | – | – | 8.57 | 9.53 | runs/exp-053-rblockc-1 = · baselines/bf16_free_te 46.9 | flat |
+| exp-054-rblockc-2 | bf16 | 0.5 GB | – | – | – | 8.57 | 9.53 | runs/exp-053-rblockc-1 = · baselines/bf16_free_te 46.9 | flat |
 <!-- summary:end -->
 
 ## Log
