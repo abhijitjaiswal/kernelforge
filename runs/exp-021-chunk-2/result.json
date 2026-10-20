@@ -1,0 +1,163 @@
+{
+  "exp_id": "exp-021-chunk-2",
+  "timestamp": "2026-10-20T13:44:49+00:00",
+  "model": "flux2-klein-4b",
+  "config": {
+    "resolution": 1024,
+    "steps": 4,
+    "seed": 42,
+    "prompt_ids": [
+      "p1"
+    ],
+    "weights": "bf16",
+    "lifecycle": "staged",
+    "cache_limit_gb": 0.5,
+    "vae_impl": "chunked"
+  },
+  "runs": 1,
+  "text_encode_s": {
+    "median": 1.0351581249851733,
+    "min": 1.0351581249851733,
+    "max": 1.0351581249851733,
+    "n": 1
+  },
+  "text_encode_cached": true,
+  "denoise_s": {
+    "median": 15.876792667026166,
+    "min": 15.876792667026166,
+    "max": 15.876792667026166,
+    "n": 1
+  },
+  "vae_s": {
+    "median": 3.3321914579719305,
+    "min": 3.3321914579719305,
+    "max": 3.3321914579719305,
+    "n": 1
+  },
+  "total_s": {
+    "median": 20.258770833024755,
+    "min": 20.258770833024755,
+    "max": 20.258770833024755,
+    "n": 1
+  },
+  "total_s_by_prompt": {
+    "p1": {
+      "median": 20.258770833024755,
+      "min": 20.258770833024755,
+      "max": 20.258770833024755,
+      "n": 1
+    }
+  },
+  "first_vs_last_round_total_s": [
+    20.258770833024755,
+    20.258770833024755
+  ],
+  "peak_mem_mlx_gb": 8.574,
+  "mem_by_stage_gb": {
+    "weights": {
+      "text_encoder": 7.492,
+      "transformer": 7.219,
+      "vae": 0.157
+    },
+    "text_encoder_peak": 6.34,
+    "denoise_peak": 8.574,
+    "vae_peak": 1.636
+  },
+  "prepare": {
+    "text_encode_peak_gb": 6.34,
+    "active_before_free_gb": 5.815,
+    "active_after_free_gb": 0.007,
+    "text_encode_s": [
+      1.0351581249851733
+    ]
+  },
+  "adapter": {
+    "model": "flux2-klein-4b",
+    "revision": "e7b7dc27f91deacad38e78976d1f2b499d76a294",
+    "opts": {
+      "weights": "bf16",
+      "quantize": null,
+      "lifecycle": "staged",
+      "tile_vae": false,
+      "mem_limit_gb": null,
+      "cache_limit_gb": 0.5,
+      "vae_impl": "chunked",
+      "vae_rows": 128
+    },
+    "load_s": 0.3792809580336325,
+    "mem_after_load_gb": 0.0,
+    "weights_gb": {
+      "text_encoder": 7.492,
+      "transformer": 7.219,
+      "vae": 0.157
+    }
+  },
+  "warmup_s": null,
+  "swap_used_mb_before_after": [
+    3605.19,
+    3605.19
+  ],
+  "swap_grew": false,
+  "deterministic_across_runs": true,
+  "memtrace": {
+    "peak_footprint_gb": 9.122,
+    "peak_at_s": 6.88,
+    "peak_stage": "denoise",
+    "per_stage": {
+      "load": {
+        "footprint_peak_gb": 0.226,
+        "mlx_active_peak_gb": 0
+      },
+      "prepare": {
+        "footprint_peak_gb": 6.569,
+        "mlx_active_peak_gb": 6.231
+      },
+      "free_text_encoder": {
+        "footprint_peak_gb": 5.174,
+        "mlx_active_peak_gb": 0.007
+      },
+      "denoise": {
+        "footprint_peak_gb": 9.122,
+        "mlx_active_peak_gb": 8.574
+      },
+      "vae": {
+        "footprint_peak_gb": 2.058,
+        "mlx_active_peak_gb": 1.505
+      },
+      "post": {
+        "footprint_peak_gb": 0.886,
+        "mlx_active_peak_gb": 0.1
+      }
+    }
+  },
+  "power": {
+    "n_samples": 21,
+    "busy_samples": 19,
+    "gpu_mhz_busy_median": 1378,
+    "gpu_mhz_busy_min": 1216,
+    "gpu_mw_busy_median": 12561,
+    "thermal_levels": [
+      "Nominal"
+    ],
+    "thermal_at_start": "Nominal"
+  },
+  "ref": "baselines/bf16_free_te",
+  "verify": {
+    "p1": {
+      "psnr_db": 52.26502000762126,
+      "max_abs_pixel_diff": 42,
+      "mean_abs_pixel_diff": 0.3105767567952474,
+      "identical": false
+    }
+  },
+  "psnr_db_vs_baseline": 52.26502000762126,
+  "max_abs_pixel_diff": 42,
+  "idle_check": "Processes: 520 total, 2 running, 518 sleeping, 2899 threads \n2026/10/20 19:14:49\nLoad Avg: 1.53, 1.49, 1.57 \nCPU usage: 2.84% user, 9.0% sys, 88.15% idle \nSharedLibs: 273M resident, 55M data, 52M linkedit.\nMemRegions: 334392 total, 1923M resident, 102M private, 795M shared.\nPhysMem: 6634M used (2122M wired, 620M compressor), 8992M unused.\nVM: 231T vsize, 6144M framework vsize, 162215474(0) swapins, 205043224(0) swapouts.\nNetworks: packets: 163578926/465G in, 125105518/393G out.\nDisks: 178749156/6314G read, 109809605/4706G written.\n\nPID    COMMAND          %CPU TIME     #TH #WQ #PORTS MEM   PURG CMPRS PGRP  PPID STATE    BOOSTS  %CPU_ME %CPU_OTHRS UID FAULTS COW MSGSENT MSGRECV SYSBSD SYSMACH CSW  PAGEINS IDLEW POWER INSTRS CYCLES JETPRI USER    #MREGS RPRVT VPRVT VSIZE KPRVT KSHRD\n",
+  "mlx_version": "0.32.4",
+  "process": {
+    "peak_footprint_gb": 9.175,
+    "max_rss_gb": 6.068,
+    "process_wall_s": 22.44
+  },
+  "returncode": 0
+}

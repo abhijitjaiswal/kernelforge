@@ -1,0 +1,53 @@
+{
+  "exp_id": "exp-018-barriers-p1",
+  "kind": "vae_decode",
+  "latents": "runs/exp-012-smoke/latents.safetensors",
+  "weights": "bf16",
+  "input_shape": [
+    1,
+    32,
+    128,
+    128
+  ],
+  "mlx_version": "0.32.4",
+  "impl": "barriers",
+  "impl_opts": {},
+  "time_s": [
+    2.193787667027209,
+    2.1940865829819813,
+    2.195417999988422
+  ],
+  "time_s_median": 2.1940865829819813,
+  "peak_mlx_gb": 7.261286824941635,
+  "weights_gb": 0.15654856525361538,
+  "config": {
+    "prompt_ids": [
+      "p1"
+    ],
+    "weights": "bf16",
+    "cache_limit_gb": 0.5,
+    "vae_impl": "barriers"
+  },
+  "ref": "baselines/bf16_free_te",
+  "verify": {
+    "p1": {
+      "psnr_db": 999.0,
+      "max_abs_pixel_diff": 0,
+      "mean_abs_pixel_diff": 0.0,
+      "identical": true
+    }
+  },
+  "psnr_db_vs_baseline": 999.0,
+  "max_abs_pixel_diff": 0,
+  "swap_used_mb_before_after": [
+    3692.69,
+    3692.69
+  ],
+  "swap_grew": false,
+  "process": {
+    "peak_footprint_gb": 7.276,
+    "max_rss_gb": 0.482,
+    "process_wall_s": 9.81
+  },
+  "returncode": 0
+}

@@ -1,0 +1,53 @@
+{
+  "exp_id": "exp-017-stock-p2",
+  "kind": "vae_decode",
+  "latents": "runs/exp-016-lat-p2/latents.safetensors",
+  "weights": "bf16",
+  "input_shape": [
+    1,
+    32,
+    128,
+    128
+  ],
+  "mlx_version": "0.32.4",
+  "impl": "stock",
+  "impl_opts": {},
+  "time_s": [
+    2.198224375024438,
+    2.1830802919575945,
+    2.1971171670011245
+  ],
+  "time_s_median": 2.1971171670011245,
+  "peak_mlx_gb": 9.552989134564996,
+  "weights_gb": 0.15654856525361538,
+  "config": {
+    "prompt_ids": [
+      "p2"
+    ],
+    "weights": "bf16",
+    "cache_limit_gb": 0.5,
+    "vae_impl": "stock"
+  },
+  "ref": "baselines/bf16_free_te",
+  "verify": {
+    "p2": {
+      "psnr_db": 999.0,
+      "max_abs_pixel_diff": 0,
+      "mean_abs_pixel_diff": 0.0,
+      "identical": true
+    }
+  },
+  "psnr_db_vs_baseline": 999.0,
+  "max_abs_pixel_diff": 0,
+  "swap_used_mb_before_after": [
+    3644.69,
+    3785.75
+  ],
+  "swap_grew": true,
+  "process": {
+    "peak_footprint_gb": 10.293,
+    "max_rss_gb": 0.421,
+    "process_wall_s": 9.81
+  },
+  "returncode": 0
+}

@@ -1,0 +1,5 @@
+[bench] exp-021-chunk-2 adapter=flux2_klein opts={'weights': 'bf16', 'lifecycle': 'staged', 'cache_limit_gb': 0.5, 'vae_impl': 'chunked'}
+[bench] loaded in 0.4s, prep {'text_encode_s': {'A close-up portrait photograph of an elderly woman with silver hair and warm brown eyes, soft window light, neutral grey background': 1.0351581249851733}, 'text_encode_peak_gb': 6.34, 'active_before_free_gb': 5.815, 'active_after_free_gb': 0.007}
+[bench] warm-up Nones
+[bench] r0 p1 total 20.26s denoise 15.88s vae 3.33s peak 8.574GB
+[bench] done

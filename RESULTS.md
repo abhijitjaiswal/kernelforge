@@ -1,5 +1,110 @@
 # RESULTS (newest first)
 
+### exp-022-cap6: simulated 6 GB limit: mx.set_memory_limit(6 GB), bf16 + chunked VAE
+- total 23.59 s (denoise 19.15, VAE 3.39, text 1.04); peak footprint 8.059 GB, MLX peak 7.704 GB; swap grew: False
+- PSNR vs ref: p1 52.3 dB, max abs diff 42
+- tier E, verdict **inconclusive**. SIMULATION. Soft limit exceeded (MLX 7.70 GB, OS 8.06 GB); denoise 15.9 -> 19.2 s as MLX frees buffers early.
+
+### exp-022-cap8: simulated 8 GB machine: mx.set_memory_limit(8 GB), bf16 + chunked VAE
+- total 20.37 s (denoise 15.96, VAE 3.36, text 1.03); peak footprint 8.537 GB, MLX peak 8.205 GB; swap grew: False
+- PSNR vs ref: p1 52.3 dB, max abs diff 42
+- tier E, verdict **inconclusive**. SIMULATION. MLX limit is soft: completes, MLX peak 8.21 GB, OS 8.54 GB (over 8), denoise unaffected.
+
+### exp-021-chunk-3: A/B round 3: full pipeline bf16 staged, chunked VAE
+- total 19.72 s (denoise 15.73, VAE 2.93, text 1.04); peak footprint 9.376 GB, MLX peak 8.574 GB; swap grew: False
+- PSNR vs ref: p1 52.3 dB, max abs diff 42
+- tier E, verdict **keep**. peak moves to denoise (8.57 GB MLX)
+
+### exp-021-stock-3: A/B round 3: full pipeline bf16 staged, stock VAE
+- total 19.07 s (denoise 15.91, VAE 2.09, text 1.03); peak footprint 10.277 GB, MLX peak 9.495 GB; swap grew: False
+- PSNR vs ref: p1 999.0 dB, max abs diff 0
+- tier E, verdict **keep**. reference for chunked decode
+
+### exp-021-chunk-2: A/B round 2: full pipeline bf16 staged, chunked VAE
+- total 20.26 s (denoise 15.88, VAE 3.33, text 1.04); peak footprint 9.175 GB, MLX peak 8.574 GB; swap grew: False
+- PSNR vs ref: p1 52.3 dB, max abs diff 42
+- tier E, verdict **keep**. peak moves to denoise (8.57 GB MLX)
+
+### exp-021-stock-2: A/B round 2: full pipeline bf16 staged, stock VAE
+- total 19.35 s (denoise 16.19, VAE 2.09, text 1.04); peak footprint 9.741 GB, MLX peak 9.495 GB; swap grew: False
+- PSNR vs ref: p1 999.0 dB, max abs diff 0
+- tier E, verdict **keep**. reference for chunked decode
+
+### exp-021-chunk-1: A/B round 1: full pipeline bf16 staged, chunked VAE
+- total 20.15 s (denoise 15.75, VAE 3.35, text 1.03); peak footprint 9.377 GB, MLX peak 8.574 GB; swap grew: True
+- PSNR vs ref: p1 52.3 dB, max abs diff 42
+- tier E, verdict **keep**. peak moves to denoise (8.57 GB MLX)
+
+### exp-021-stock-1: A/B round 1: full pipeline bf16 staged, stock VAE
+- total 19.10 s (denoise 15.90, VAE 2.10, text 1.07); peak footprint 10.19 GB, MLX peak 9.495 GB; swap grew: True
+- PSNR vs ref: p1 999.0 dB, max abs diff 0
+- tier E, verdict **keep**. reference for chunked decode
+
+### exp-020-chunk256-p1: chunked VAE decode, 256 rows, p1
+- total 2.95 s (denoise 0.00, VAE 2.95, text 0.00); peak footprint 2.767 GB, MLX peak None GB; swap grew: False
+- PSNR vs ref: p1 52.6 dB, max abs diff 24
+- tier E, verdict **keep**. chunk size barely matters
+
+### exp-020-chunk64-p1: chunked VAE decode, 64 rows, p1
+- total 2.76 s (denoise 0.00, VAE 2.76, text 0.00); peak footprint 2.411 GB, MLX peak None GB; swap grew: False
+- PSNR vs ref: p1 52.1 dB, max abs diff 21
+- tier E, verdict **keep**. chunk size barely matters
+
+### exp-019-chunk128-p3: exact row-chunked VAE decode (global GroupNorm stats, 128 rows), p3
+- total 2.84 s (denoise 0.00, VAE 2.84, text 0.00); peak footprint 2.464 GB, MLX peak None GB; swap grew: False
+- PSNR vs ref: p3 46.1 dB, max abs diff 36
+- tier E, verdict **keep**. 1.81 GB MLX, Tier E; float-rounding differences only (scattered, not on chunk edges)
+
+### exp-018-barriers-p3: VAE decode with mx.eval barriers between blocks, p3
+- total 2.20 s (denoise 0.00, VAE 2.20, text 0.00); peak footprint 7.276 GB, MLX peak None GB; swap grew: False
+- PSNR vs ref: p3 999.0 dB, max abs diff 0
+- tier E, verdict **keep**. bit-identical, 9.55 -> 7.26 GB
+
+### exp-017-stock-p3: VAE-only stock decode, p3 (reference)
+- total 2.07 s (denoise 0.00, VAE 2.07, text 0.00); peak footprint 10.293 GB, MLX peak None GB; swap grew: False
+- PSNR vs ref: p3 999.0 dB, max abs diff 0
+- tier E, verdict **keep**. 9.55 GB MLX for the decoder alone
+
+### exp-019-chunk128-p2: exact row-chunked VAE decode (global GroupNorm stats, 128 rows), p2
+- total 2.82 s (denoise 0.00, VAE 2.82, text 0.00); peak footprint 2.397 GB, MLX peak None GB; swap grew: False
+- PSNR vs ref: p2 45.2 dB, max abs diff 52
+- tier E, verdict **keep**. 1.81 GB MLX, Tier E; float-rounding differences only (scattered, not on chunk edges)
+
+### exp-018-barriers-p2: VAE decode with mx.eval barriers between blocks, p2
+- total 2.20 s (denoise 0.00, VAE 2.20, text 0.00); peak footprint 7.276 GB, MLX peak None GB; swap grew: False
+- PSNR vs ref: p2 999.0 dB, max abs diff 0
+- tier E, verdict **keep**. bit-identical, 9.55 -> 7.26 GB
+
+### exp-017-stock-p2: VAE-only stock decode, p2 (reference)
+- total 2.20 s (denoise 0.00, VAE 2.20, text 0.00); peak footprint 10.293 GB, MLX peak None GB; swap grew: True
+- PSNR vs ref: p2 999.0 dB, max abs diff 0
+- tier E, verdict **keep**. 9.55 GB MLX for the decoder alone
+
+### exp-019-chunk128-p1: exact row-chunked VAE decode (global GroupNorm stats, 128 rows), p1
+- total 2.93 s (denoise 0.00, VAE 2.93, text 0.00); peak footprint 2.421 GB, MLX peak None GB; swap grew: False
+- PSNR vs ref: p1 52.3 dB, max abs diff 42
+- tier E, verdict **keep**. 1.81 GB MLX, Tier E; float-rounding differences only (scattered, not on chunk edges)
+
+### exp-018-barriers-p1: VAE decode with mx.eval barriers between blocks, p1
+- total 2.19 s (denoise 0.00, VAE 2.19, text 0.00); peak footprint 7.276 GB, MLX peak None GB; swap grew: False
+- PSNR vs ref: p1 999.0 dB, max abs diff 0
+- tier E, verdict **keep**. bit-identical, 9.55 -> 7.26 GB
+
+### exp-017-stock-p1: VAE-only stock decode, p1 (reference)
+- total 2.07 s (denoise 0.00, VAE 2.07, text 0.00); peak footprint 10.663 GB, MLX peak None GB; swap grew: False
+- PSNR vs ref: p1 999.0 dB, max abs diff 0
+- tier E, verdict **keep**. 9.55 GB MLX for the decoder alone
+
+### exp-016-lat-p3: stage bench single run to save p3 final latents (bf16)
+- total 19.64 s (denoise 17.17, VAE 2.13, text 0.33); peak footprint 10.319 GB, MLX peak 9.559 GB; swap grew: True
+- PSNR vs ref: p3 999.0 dB, max abs diff 0
+- tier E, verdict **keep**. latents for VAE-only tests; chained output bit-identical to reference
+
+### exp-016-lat-p2: stage bench single run to save p2 final latents (bf16)
+- total 19.35 s (denoise 16.88, VAE 2.10, text 0.37); peak footprint 10.516 GB, MLX peak 9.559 GB; swap grew: True
+- PSNR vs ref: p2 999.0 dB, max abs diff 0
+- tier E, verdict **keep**. latents for VAE-only tests; chained output bit-identical to reference
+
 ### exp-015-q8-3: stage bench round 3: q8 staged, cache cap 0.5 GB, load separated, 5 warm runs
 - total 23.96 s (denoise 21.25, VAE 2.32, text 0.39); peak footprint 10.909 GB, MLX peak 9.556 GB; swap grew: False
 - PSNR vs ref: p1 999.0 dB, max abs diff 0
@@ -91,6 +196,27 @@ Speedup vs **exp-011-bf16** = 18.92 s (median of 3). *memory-only* = swap grew, 
 | exp-015-q8-1 | q8 · staged | 0.5 GB | q8_free_te | – | – | – | 10.94 | p1 = | flat |
 | exp-015-q8-2 | q8 · staged | 0.5 GB | q8_free_te | – | – | – | 10.89 | p1 = | flat |
 | exp-015-q8-3 | q8 · staged | 0.5 GB | q8_free_te | – | – | – | 10.91 | p1 = | flat |
+| exp-016-lat-p2 | bf16 · staged | 0.5 GB | bf16_free_te | – | memory-only | – | 10.52 | p2 = | grew |
+| exp-016-lat-p3 | bf16 · staged | 0.5 GB | bf16_free_te | – | memory-only | – | 10.32 | p3 = | grew |
+| exp-017-stock-p1 | bf16 | 0.5 GB | bf16_free_te | – | – | 9.55 | 10.66 | p1 = | flat |
+| exp-017-stock-p2 | bf16 | 0.5 GB | bf16_free_te | – | memory-only | 9.55 | 10.29 | p2 = | grew |
+| exp-017-stock-p3 | bf16 | 0.5 GB | bf16_free_te | – | – | 9.55 | 10.29 | p3 = | flat |
+| exp-018-barriers-p1 | bf16 | 0.5 GB | bf16_free_te | – | – | 7.26 | 7.28 | p1 = | flat |
+| exp-018-barriers-p2 | bf16 | 0.5 GB | bf16_free_te | – | – | 7.26 | 7.28 | p2 = | flat |
+| exp-018-barriers-p3 | bf16 | 0.5 GB | bf16_free_te | – | – | 7.26 | 7.28 | p3 = | flat |
+| exp-019-chunk128-p1 | bf16 | 0.5 GB | bf16_free_te | – | – | 1.81 | 2.42 | p1 52.3 | flat |
+| exp-019-chunk128-p2 | bf16 | 0.5 GB | bf16_free_te | – | – | 1.81 | 2.40 | p2 45.2 | flat |
+| exp-019-chunk128-p3 | bf16 | 0.5 GB | bf16_free_te | – | – | 1.81 | 2.46 | p3 46.1 | flat |
+| exp-020-chunk64-p1 | bf16 | 0.5 GB | bf16_free_te | – | – | 1.81 | 2.41 | p1 52.1 | flat |
+| exp-020-chunk256-p1 | bf16 | 0.5 GB | bf16_free_te | – | – | 1.89 | 2.77 | p1 52.6 | flat |
+| exp-021-chunk-1 | bf16 · staged | 0.5 GB | bf16_free_te | 20.15 | memory-only | 8.57 | 9.38 | p1 52.3 | grew |
+| exp-021-chunk-2 | bf16 · staged | 0.5 GB | bf16_free_te | 20.26 | 0.93× | 8.57 | 9.18 | p1 52.3 | flat |
+| exp-021-chunk-3 | bf16 · staged | 0.5 GB | bf16_free_te | 19.72 | 0.96× | 8.57 | 9.38 | p1 52.3 | flat |
+| exp-021-stock-1 | bf16 · staged | 0.5 GB | bf16_free_te | 19.10 | memory-only | 9.49 | 10.19 | p1 = | grew |
+| exp-021-stock-2 | bf16 · staged | 0.5 GB | bf16_free_te | 19.35 | 0.98× | 9.49 | 9.74 | p1 = | flat |
+| exp-021-stock-3 | bf16 · staged | 0.5 GB | bf16_free_te | 19.07 | 0.99× | 9.49 | 10.28 | p1 = | flat |
+| exp-022-cap6 | bf16 · staged | 0.5 GB | bf16_free_te | 23.59 | 0.80× | 7.70 | 8.06 | p1 52.3 | flat |
+| exp-022-cap8 | bf16 · staged | 0.5 GB | bf16_free_te | 20.37 | 0.93× | 8.21 | 8.54 | p1 52.3 | flat |
 <!-- summary:end -->
 
 ## Log

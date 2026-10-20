@@ -1,0 +1,158 @@
+{
+  "exp_id": "exp-021-stock-1",
+  "timestamp": "2026-10-20T13:36:13+00:00",
+  "model": "flux2-klein-4b",
+  "config": {
+    "resolution": 1024,
+    "steps": 4,
+    "seed": 42,
+    "prompt_ids": [
+      "p1"
+    ],
+    "weights": "bf16",
+    "lifecycle": "staged",
+    "cache_limit_gb": 0.5
+  },
+  "runs": 1,
+  "text_encode_s": {
+    "median": 1.0721294580143876,
+    "min": 1.0721294580143876,
+    "max": 1.0721294580143876,
+    "n": 1
+  },
+  "text_encode_cached": true,
+  "denoise_s": {
+    "median": 15.901474167010747,
+    "min": 15.901474167010747,
+    "max": 15.901474167010747,
+    "n": 1
+  },
+  "vae_s": {
+    "median": 2.098389416001737,
+    "min": 2.098389416001737,
+    "max": 2.098389416001737,
+    "n": 1
+  },
+  "total_s": {
+    "median": 19.09909529099241,
+    "min": 19.09909529099241,
+    "max": 19.09909529099241,
+    "n": 1
+  },
+  "total_s_by_prompt": {
+    "p1": {
+      "median": 19.09909529099241,
+      "min": 19.09909529099241,
+      "max": 19.09909529099241,
+      "n": 1
+    }
+  },
+  "first_vs_last_round_total_s": [
+    19.09909529099241,
+    19.09909529099241
+  ],
+  "peak_mem_mlx_gb": 9.495,
+  "mem_by_stage_gb": {
+    "weights": {
+      "text_encoder": 7.492,
+      "transformer": 7.219,
+      "vae": 0.157
+    },
+    "text_encoder_peak": 6.34,
+    "denoise_peak": 8.574,
+    "vae_peak": 9.495
+  },
+  "prepare": {
+    "text_encode_peak_gb": 6.34,
+    "active_before_free_gb": 5.808,
+    "active_after_free_gb": 0.007,
+    "text_encode_s": [
+      1.0721294580143876
+    ]
+  },
+  "adapter": {
+    "model": "flux2-klein-4b",
+    "revision": "e7b7dc27f91deacad38e78976d1f2b499d76a294",
+    "opts": {
+      "weights": "bf16",
+      "quantize": null,
+      "lifecycle": "staged",
+      "tile_vae": false,
+      "mem_limit_gb": null,
+      "cache_limit_gb": 0.5,
+      "vae_impl": "stock",
+      "vae_rows": 128
+    },
+    "load_s": 0.3632610000204295,
+    "mem_after_load_gb": 0.0,
+    "weights_gb": {
+      "text_encoder": 7.492,
+      "transformer": 7.219,
+      "vae": 0.157
+    }
+  },
+  "warmup_s": null,
+  "swap_used_mb_before_after": [
+    2990.5,
+    3307.12
+  ],
+  "swap_grew": true,
+  "deterministic_across_runs": true,
+  "memtrace": {
+    "peak_footprint_gb": 9.799,
+    "peak_at_s": 19.02,
+    "peak_stage": "vae",
+    "per_stage": {
+      "load": {
+        "footprint_peak_gb": 0.218,
+        "mlx_active_peak_gb": 0
+      },
+      "prepare": {
+        "footprint_peak_gb": 6.651,
+        "mlx_active_peak_gb": 6.216
+      },
+      "denoise": {
+        "footprint_peak_gb": 9.221,
+        "mlx_active_peak_gb": 8.574
+      },
+      "vae": {
+        "footprint_peak_gb": 9.799,
+        "mlx_active_peak_gb": 9.495
+      },
+      "post": {
+        "footprint_peak_gb": 0.873,
+        "mlx_active_peak_gb": 0.1
+      }
+    }
+  },
+  "power": {
+    "n_samples": 19,
+    "busy_samples": 18,
+    "gpu_mhz_busy_median": 1355,
+    "gpu_mhz_busy_min": 958,
+    "gpu_mw_busy_median": 12465,
+    "thermal_levels": [
+      "Nominal"
+    ],
+    "thermal_at_start": "Nominal"
+  },
+  "ref": "baselines/bf16_free_te",
+  "verify": {
+    "p1": {
+      "psnr_db": 999.0,
+      "max_abs_pixel_diff": 0,
+      "mean_abs_pixel_diff": 0.0,
+      "identical": true
+    }
+  },
+  "psnr_db_vs_baseline": 999.0,
+  "max_abs_pixel_diff": 0,
+  "idle_check": "Processes: 530 total, 2 running, 528 sleeping, 2933 threads \n2026/10/20 19:06:13\nLoad Avg: 1.90, 1.67, 1.72 \nCPU usage: 2.84% user, 9.95% sys, 87.20% idle \nSharedLibs: 652M resident, 92M data, 98M linkedit.\nMemRegions: 334856 total, 2905M resident, 205M private, 1147M shared.\nPhysMem: 8865M used (2171M wired, 823M compressor), 6712M unused.\nVM: 236T vsize, 6144M framework vsize, 162205076(0) swapins, 204993132(0) swapouts.\nNetworks: packets: 163572967/465G in, 125101015/393G out.\nDisks: 178621825/6274G read, 109790773/4705G written.\n\nPID    COMMAND          %CPU TIME     #TH #WQ #PORTS MEM   PURG CMPRS PGRP  PPID STATE    BOOSTS  %CPU_ME %CPU_OTHRS UID FAULTS COW MSGSENT MSGRECV SYSBSD SYSMACH CSW  PAGEINS IDLEW POWER INSTRS CYCLES JETPRI USER    #MREGS RPRVT VPRVT VSIZE KPRVT KSHRD\n",
+  "mlx_version": "0.32.4",
+  "process": {
+    "peak_footprint_gb": 10.19,
+    "max_rss_gb": 5.601,
+    "process_wall_s": 20.94
+  },
+  "returncode": 0
+}
