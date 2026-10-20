@@ -5,6 +5,15 @@
 
 ## Headline
 
+> **Same model, same pixels, proven bit-identical: peak RAM 10.1 → 6.65 GB (next target ~3 GB), for ~7 % extra time.**
+> Separately established: Klein's compute is already at ~95 % of this chip's ceiling, so we stopped chasing speed with
+> evidence, not fatigue.
+
+*Basis:* 6.65 GB OS peak in every streaming run (exp-051/052/053). Bit-identical to the same-mode resident reference in all
+14 streaming runs (R1). The extra time is +7.5–7.8 % per denoise step vs the resident per-block-compiled pipeline (exp-053,
+cold SSD, 2 rounds); lagged barriers (exp-054) are being measured to reduce it. The ~95 % is matmul throughput vs the measured
+NAX bf16 peak (exp-031). The next target is set by the text encoder, now the largest stage (~6.3 GB bf16).
+
 **Exact (bit-identical) memory reduction works: OS peak 10.1 GB → 6.65 GB, with no change to the image.** It costs about
 10 % of denoise time today. Recovering that cost (per-block compile) is in progress. **There is no low-hanging speed left in
 Klein T2I on this machine**: the matmuls already run at ~95 % of the M5 neural-accelerator peak.
@@ -14,13 +23,14 @@ Klein T2I on this machine**: the matmuls already run at ~95 % of the M5 neural-a
 | | Baseline (Gate 0) | Now: exact pipeline |
 |---|---|---|
 | Config | bf16, text encoder freed, MLX cache cap 0.5 GB, compiled | + exact chunked VAE decode + transformer weight streaming (2 blocks resident, prefetch) |
-| **End-to-end per image** | **18.92 s** (exp-011, median of 3, cold process) | **pending exp-053** (*estimate* ≈ 23–24 s eager; the compiled-streaming target is ≤ 5 % over resident) |
-| Denoise (4 steps) | 15.74 s compiled (cold) | 20.0 s eager streaming, cold SSD (exp-052). The eager-resident reference is 18.2 s |
+| **End-to-end per image** | **18.92 s** (exp-011: cold single image, stock decode) | **22.71 / 22.84 s** (exp-053, steady state, cold SSD, exact chunked decode). The same pipeline resident: 21.41 / 21.77 s |
+| Denoise (4 steps) | 15.74 s compiled (cold single image) | 18.35 / 18.47 s per-block-compiled streaming vs 17.15 / 17.26 s resident (**+7.5–7.8 %**) |
 | **OS peak footprint** | **10.1 GB** (exp-011) | **6.65 GB** (exp-051/052) |
 | Image vs reference | — | **bit-identical** to the same-mode resident run (10/10 runs; protocol rule R1) |
 
-*Note:* the "~19.8 s" figure is denoise-only and eager, so it is not comparable to the 18.92 s end-to-end baseline.
-End-to-end streaming numbers come from exp-053.
+*Like-for-like:* of the 18.92 → 22.8 s gap, about 1.3 s is streaming (+7.5–7.8 % of denoise). The rest is measurement context:
+steady-state throttled steps vs a cold single image, plus the exact chunked decode (3.5 s vs 2.1 s stock). The earlier "~19.8 s"
+was eager denoise-only and is superseded.
 
 ## What moved memory (all Tier E)
 
@@ -52,7 +62,7 @@ The exact path above is why the footprint result needs no quality caveat.
 
 ## Open items
 
-1. Per-block compiled streaming (≤ 5 % over resident = done; timebox 1 day). Running now (exp-053).
+1. Per-block compiled streaming: +7.5–7.8 % measured (exp-053). Lagged barriers (exp-054) are running; ≤ 5 % = done (1-day timebox).
 2. Text encoder: measure its lazy-graph share, then per-layer barriers or streaming. It sets the process peak and the demo number.
 3. Per-component 8-bit quality test (text encoder 8-bit on hold until then).
 4. **A real 8 GB Mac test.** No 8 GB claim is made yet. `mx.set_memory_limit` is a soft limit, so that simulation is invalid (R2).
