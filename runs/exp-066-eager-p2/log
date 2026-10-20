@@ -1,0 +1,3 @@
+[stream] resident run0: steps [3.994, 4.006, 4.169, 4.206] stall 0.00s
+[stream] resident run1: steps [4.284, 4.376, 4.396, 4.438] stall 0.00s
+[stream] resident run2: steps [4.462, 4.492, 4.534, 4.557] stall 0.00s

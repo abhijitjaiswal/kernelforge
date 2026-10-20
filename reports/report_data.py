@@ -57,6 +57,24 @@ def collect():
     q = json.loads((ROOT / "runs/exp-064-final-quality/quality.json").read_text())["per_prompt"]
     d["final_lpips"] = {k: v["lpips"] for k, v in q.items()}
     d["diag"] = {t: R(f"exp-063-{t}-p3")["verify"] for t in ("rcomp", "rblockc", "eager")}
+    d["diag_rcomp_swap"] = R("exp-063-rcomp-p3")["swap_grew"]
+    # cold single image, alternating A/B (exp-065) and p2 uncompiled reference (exp-066)
+    cb = [f"exp-065-base-{i}" for i in (1, 2, 3)]
+    cf = [f"exp-065-final-{i}" for i in (1, 2, 3)]
+    if all((ROOT / "runs" / e / "result.json").exists() for e in cb + cf):
+        d["cold_base"] = [total(e) for e in cb]
+        d["cold_final"] = [R(e)["e2e_image_s"] for e in cf]
+        d["cold_base_fp"] = [fp(e) for e in cb]
+        d["cold_final_fp"] = [fp(e) for e in cf]
+        d["cold_swap"] = [R(e)["swap_grew"] for e in cb + cf]
+        d["cold_final_ident"] = [R(e)["verify"]["runs/exp-061-full-1"]["identical"] for e in cf]
+        d["cold_ratio"] = med(d["cold_final"]) / med(d["cold_base"])
+        d["final_fp_all"] = d["final_fp_all"] + d["cold_final_fp"]
+        d["cold_parts"] = {"decode": [R(f)["decode_s"] - R(b)["vae_s"]["median"] for b, f in zip(cb, cf)],
+                           "denoise": [R(f)["denoise_s_median"] - R(b)["denoise_s"]["median"] for b, f in zip(cb, cf)],
+                           "encode": [R(f)["encode_s"] - R(b)["text_encode_s"]["median"] for b, f in zip(cb, cf)]}
+    if (ROOT / "runs/exp-066-eager-p2/result.json").exists():
+        d["p2_eager_ident"] = R("exp-066-eager-p2")["verify"]["runs/exp-062-full-p2"]["identical"]
     d["final_stage_fp"] = {k: v["footprint_peak_gb"] for k, v in R("exp-061-full-1")["memtrace"]["per_stage"].items()}
     # like-for-like resident (same exact pipeline, resident transformer + encoder)
     d["resident_e2e"] = [R(f"exp-054-rblockc-{i}")["e2e_image_s"] for i in (1, 2)]

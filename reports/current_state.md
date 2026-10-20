@@ -6,8 +6,12 @@
 ## Headline
 
 > **Same model, same math: the low-memory pipeline reproduces the stock model's uncompiled output bit for bit, with peak RAM
-> 10.1 → 3.5–3.7 GB, for ~2–3 % extra time. Against the compiled baseline image it differs only by the compiler's rounding order
-> (LPIPS ≤ 0.009).**
+> 10.1 → 3.5–3.7 GB, at +7 % time for a cold single image (mostly the exact decoder; the streamed denoise loop itself costs 2–3 %).
+> Against the compiled baseline image it differs only by the compiler's rounding order (LPIPS ≤ 0.009).**
+
+*Cold single image A/B (exp-065, 3 alternating rounds, same day): baseline 18.75 s vs final 20.09 s (median), +7.1 %; decoder
++0.9–1.15 s, denoise +0.4–0.5 s, text encoder −0.2 s. Final pipeline bit-identical to the uncompiled stock model on all three
+prompts (p2 verified in exp-066). Peak across all final-pipeline runs 3.50–3.69 GB.*
 > Separately established: Klein's compute is already at ~95 % of this chip's ceiling, so we stopped chasing speed with
 > evidence, not fatigue.
 

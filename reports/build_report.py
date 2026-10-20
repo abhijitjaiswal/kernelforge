@@ -301,7 +301,8 @@ def build():
               P("Project report · FLUX.2 [klein] 4B, text-to-image, 1024×1024 · measured on a MacBook Air M5 (16 GB) · October 2026", "sub"),
               P("Executive summary", "h1"),
               P(f"Same model, same math: the low-memory pipeline reproduces the stock model's uncompiled output bit for bit, with peak RAM "
-                f"{D['base_fp']:.1f} {ARW} {min(D['final_fp_all']):.1f}–{max(D['final_fp_all']):.1f} GB, for ~2–3% extra time. Against the compiled "
+                f"{D['base_fp']:.1f} {ARW} {min(D['final_fp_all']):.1f}–{max(D['final_fp_all']):.1f} GB, at {100 * (D['cold_ratio'] - 1):+.0f}% time for a cold single "
+                f"image (mostly the exact decoder; the streamed denoise loop itself costs 2–3%). Against the compiled "
                 f"baseline image it differs only by the compiler's rounding order (LPIPS ≤ {max(D['final_lpips'].values()):.3f}). Separately established: "
                 f"Klein's compute is already at ~{D['matmul_eff_vs_bf16_peak']:.0f}% of this chip's ceiling, so we stopped chasing speed with evidence, not fatigue.", "quote")]
     psnr_rows = " · ".join(f"{k}: {v['psnr_db']:.1f} dB / LPIPS {D['final_lpips'][k]:.4f}" + (" <b>(worst)</b>" if k == worst else "")
@@ -309,24 +310,33 @@ def build():
     story += [table([
         ["", "Baseline", "Final exact pipeline"],
         ["Peak memory (macOS)", f"<b>{D['base_fp']:.2f} GB</b> (exp-011, median of 3; range {min(D['base_fps']):.2f}–{max(D['base_fps']):.2f})",
-         f"<b>{min(D['final_fp_all']):.2f}–{max(D['final_fp_all']):.2f} GB</b> across prompts: p1 {D['final_fp'][0]:.2f} (exp-061, both rounds), "
-         f"p2 {D['final_fp_p23'][0]:.2f}, p3 {D['final_fp_p23'][1]:.2f} (exp-062)"],
-        ["End-to-end time per image", f"<b>{D['base_total']:.2f} s</b>: cold single image, stock decode, whole-model compile",
+         f"<b>{min(D['final_fp_all']):.2f}–{max(D['final_fp_all']):.2f} GB</b> across all {len(D['final_fp_all'])} final-pipeline runs: p1 "
+         + ", ".join(f2(x) for x in D["final_fp"] + D["cold_final_fp"]) + f" (exp-061, exp-065); p2 {D['final_fp_p23'][0]:.2f}, p3 {D['final_fp_p23'][1]:.2f} (exp-062)"],
+        ["Earlier end-to-end figures", f"<b>{D['base_total']:.2f} s</b> (exp-011, previous day): cold single image, stock decode, whole-model compile",
          f"<b>{e2e_lo:.2f}–{e2e_hi:.2f} s</b>: warm, throttled steady state, exact chunked decode. The same pipeline with everything "
          f"resident measured {res_lo:.2f}–{res_hi:.2f} s, so streaming adds no measurable end-to-end time"],
+        *([["<b>Cold single image</b> (what a user feels)",
+             f"<b>{np.median(D['cold_base']):.2f} s</b> (exp-065, median of 3: " + ", ".join(f"{x:.2f}" for x in D["cold_base"]) + ")",
+             f"<b>{np.median(D['cold_final']):.2f} s</b> (exp-065, median of 3: " + ", ".join(f"{x:.2f}" for x in D["cold_final"]) + "): "
+             f"<b>{100 * (D['cold_ratio'] - 1):+.1f}%</b> vs the baseline, alternating A/B on the same day, same thermal protocol"
+             + ("" if not any(D["cold_swap"]) else "; note: swap grew in at least one run")]] if "cold_base" in D else []),
         ["Cost inside the denoise loop", "–", f"+{lag_lo:.1f}–{lag_hi:.1f}% per step (exp-054, two rounds)"],
-        ["Quality", "–", f"<b>Bit-identical</b> to the stock model run without whole-model compilation, verified on p1 (vs exp-051 eager) and p3 (exp-063); "
-                         f"p2 has no uncompiled reference run. Also bit-identical to the "
+        ["Quality", "–", ("<b>Bit-identical</b> to the stock model run without whole-model compilation on <b>all three prompts</b> "
+                          "(p1 vs exp-051, p2 vs exp-066, p3 vs exp-063). " if D.get("p2_eager_ident") else
+                          "<b>Bit-identical</b> to the stock model run without whole-model compilation, verified on p1 (exp-051) and p3 (exp-063)"
+                          + ("; on p2 it is <b>not</b> (exp-066). " if D.get("p2_eager_ident") is False else "; p2 has no uncompiled reference run. "))
+                         + f"Also bit-identical to the "
                          f"same-mode resident run ({D['n_stream_runs']}/{D['n_stream_runs']} streaming runs). Vs the compiled baseline image: {psnr_rows}. "
                          f"p2 and p3 fall below the 40 dB Tier E bound; the stock model itself, run uncompiled, differs from the baseline by exactly as much, "
                          f"so the gap is the compiler's rounding order. Visually equivalent: LPIPS well under 0.05 on all prompts"],
         ["Swap", "flat", "flat in every final-pipeline run"],
     ], [3.6 * cm, 5.2 * cm, 8.2 * cm])]
     story += [Spacer(1, 6),
-              P("<b>Why the two times are measured differently.</b> The baseline is a cold single image on a cool chip. The final numbers are "
-                f"steady-state runs on a fanless machine that throttles its GPU about {D['throttle_pct']:.0f}% under sustained load, and they include the exact low-memory "
-                f"decoder ({min(D['decode_extra_s']):.1f}–{max(D['decode_extra_s']):.1f} s slower than the stock decoder). The like-for-like comparison is the resident run of the same pipeline, "
-                "and against that the streaming changes cost nothing measurable end to end."),
+              P(f"<b>Where the {100 * (D['cold_ratio'] - 1):.0f}% goes.</b> In the cold single-image A/B (exp-065, same day, alternating, three rounds), "
+                f"the exact low-memory decoder adds {min(D['cold_parts']['decode']):.2f}–{max(D['cold_parts']['decode']):.2f} s, the streamed denoise loop "
+                f"{min(D['cold_parts']['denoise']):.2f}–{max(D['cold_parts']['denoise']):.2f} s, and the streamed text encoder saves "
+                f"{-max(D['cold_parts']['encode']):.2f}–{-min(D['cold_parts']['encode']):.2f} s. The earlier steady-state figures are slower for both pipelines "
+                f"because the fanless chip throttles its GPU about {D['throttle_pct']:.0f}% under sustained load; they are kept for completeness."),
               P("<b>What is not claimed yet.</b> We have not run the pipeline on a real 8 GB Mac. 3.5 GB leaves ample room on paper, but "
                 "MLX's memory-limit setting turned out to be a soft limit, so no simulated '8 GB' claim is valid. The real-hardware test is pending."),
               P("<b>Speed.</b> The 1.3× speed goal was closed with evidence. The model's matrix multiplies already run at "
@@ -448,7 +458,9 @@ def build():
                       + ", ".join(f"{k} {v:.2f} GB" for k, v in D["final_stage_fp"].items() if not k.startswith("denoise_run")) + "."),
               precise("Where do the image differences come from? On p3, the hardest prompt, three resident diagnostics settle it (exp-063). "
                       f"With mflux's whole-model compile and the new decoder, the image is {D['diag']['rcomp']['baselines/bf16_free_te']['psnr_db']:.1f} dB from the "
-                      "baseline, so the decoder is not the cause. With per-block compile, or with no compilation at all, the image is "
+                      "baseline, so the decoder is not the cause"
+                      + (" (that run's swap grew, so its time is not used; R3 invalidates timing only, and swapping cannot change computed values, "
+                         "so its quality figure stands)" if D["diag_rcomp_swap"] else "") + ". With per-block compile, or with no compilation at all, the image is "
                       f"{D['diag']['eager']['baselines/bf16_free_te']['psnr_db']:.1f} dB from the baseline and <b>bit-identical to the final pipeline</b>. "
                       "The final pipeline therefore computes exactly what the unmodified model computes when run step by step; the baseline differs "
                       "because the whole-model compiler rounds in a different order, and four denoising steps amplify that on a detailed sign."),

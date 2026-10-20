@@ -1,0 +1,162 @@
+{
+  "exp_id": "exp-065-base-2",
+  "timestamp": "2026-10-20T19:55:58+00:00",
+  "model": "flux2-klein-4b",
+  "config": {
+    "resolution": 1024,
+    "steps": 4,
+    "seed": 42,
+    "prompt_ids": [
+      "p1"
+    ],
+    "weights": "bf16",
+    "lifecycle": "staged",
+    "cache_limit_gb": 0.5
+  },
+  "runs": 1,
+  "text_encode_s": {
+    "median": 1.0302689999807626,
+    "min": 1.0302689999807626,
+    "max": 1.0302689999807626,
+    "n": 1
+  },
+  "text_encode_cached": true,
+  "denoise_s": {
+    "median": 15.591663542028982,
+    "min": 15.591663542028982,
+    "max": 15.591663542028982,
+    "n": 1
+  },
+  "vae_s": {
+    "median": 2.0947411250090227,
+    "min": 2.0947411250090227,
+    "max": 2.0947411250090227,
+    "n": 1
+  },
+  "total_s": {
+    "median": 18.75229987502098,
+    "min": 18.75229987502098,
+    "max": 18.75229987502098,
+    "n": 1
+  },
+  "total_s_by_prompt": {
+    "p1": {
+      "median": 18.75229987502098,
+      "min": 18.75229987502098,
+      "max": 18.75229987502098,
+      "n": 1
+    }
+  },
+  "first_vs_last_round_total_s": [
+    18.75229987502098,
+    18.75229987502098
+  ],
+  "peak_mem_mlx_gb": 9.495,
+  "mem_by_stage_gb": {
+    "weights": {
+      "text_encoder": 7.492,
+      "transformer": 7.219,
+      "vae": 0.157
+    },
+    "text_encoder_peak": 6.34,
+    "denoise_peak": 8.574,
+    "vae_peak": 9.495
+  },
+  "prepare": {
+    "text_encode_peak_gb": 6.34,
+    "active_before_free_gb": 5.818,
+    "active_after_free_gb": 0.007,
+    "text_encode_s": [
+      1.0302689999807626
+    ]
+  },
+  "adapter": {
+    "model": "flux2-klein-4b",
+    "revision": "e7b7dc27f91deacad38e78976d1f2b499d76a294",
+    "opts": {
+      "weights": "bf16",
+      "quantize": null,
+      "lifecycle": "staged",
+      "tile_vae": false,
+      "mem_limit_gb": null,
+      "cache_limit_gb": 0.5,
+      "vae_impl": "stock",
+      "vae_rows": 128
+    },
+    "load_s": 0.37409670802298933,
+    "mem_after_load_gb": 0.0,
+    "weights_gb": {
+      "text_encoder": 7.492,
+      "transformer": 7.219,
+      "vae": 0.157
+    }
+  },
+  "warmup_s": null,
+  "swap_used_mb_before_after": [
+    2674.31,
+    2674.31
+  ],
+  "swap_grew": false,
+  "deterministic_across_runs": true,
+  "memtrace": {
+    "peak_footprint_gb": 10.236,
+    "peak_at_s": 18.95,
+    "peak_stage": "vae",
+    "per_stage": {
+      "load": {
+        "footprint_peak_gb": 0.218,
+        "mlx_active_peak_gb": 0
+      },
+      "prepare": {
+        "footprint_peak_gb": 6.456,
+        "mlx_active_peak_gb": 6.216
+      },
+      "free_text_encoder": {
+        "footprint_peak_gb": 5.68,
+        "mlx_active_peak_gb": 0.007
+      },
+      "denoise": {
+        "footprint_peak_gb": 9.297,
+        "mlx_active_peak_gb": 8.574
+      },
+      "vae": {
+        "footprint_peak_gb": 10.236,
+        "mlx_active_peak_gb": 9.495
+      },
+      "post": {
+        "footprint_peak_gb": 0.889,
+        "mlx_active_peak_gb": 0.1
+      }
+    }
+  },
+  "power": {
+    "n_samples": 19,
+    "busy_samples": 17,
+    "gpu_mhz_busy_median": 1369,
+    "gpu_mhz_busy_min": 1218,
+    "gpu_mw_busy_median": 12842,
+    "thermal_levels": [
+      "Nominal"
+    ],
+    "thermal_at_start": "Nominal"
+  },
+  "ref": "baselines/bf16_free_te",
+  "verify": {
+    "p1": {
+      "psnr_db": 999.0,
+      "max_abs_pixel_diff": 0,
+      "mean_abs_pixel_diff": 0.0,
+      "identical": true
+    }
+  },
+  "psnr_db_vs_baseline": 999.0,
+  "max_abs_pixel_diff": 0,
+  "idle_check": "Processes: 518 total, 2 running, 516 sleeping, 2639 threads \n2026/10/21 01:25:58\nLoad Avg: 1.64, 1.54, 1.51 \nCPU usage: 2.84% user, 9.9% sys, 88.6% idle \nSharedLibs: 550M resident, 61M data, 80M linkedit.\nMemRegions: 273416 total, 1879M resident, 161M private, 771M shared.\nPhysMem: 13G used (2180M wired, 292M compressor), 2485M unused.\nVM: 227T vsize, 6144M framework vsize, 162429388(0) swapins, 205247715(0) swapouts.\nNetworks: packets: 163806146/466G in, 125380995/394G out.\nDisks: 185150533/8131G read, 110113401/4724G written.\n\nPID    COMMAND       %CPU TIME     #TH #WQ #PORTS MEM   PURG CMPRS PGRP  PPID STATE    BOOSTS     %CPU_ME %CPU_OTHRS UID FAULTS  COW MSGSENT MSGRECV SYSBSD  SYSMACH CSW    PAGEINS IDLEW POWER INSTRS CYCLES JETPRI USER    #MREGS RPRVT VPRVT VSIZE KPRVT KSHRD\n",
+  "mlx_version": "0.32.4",
+  "process": {
+    "peak_footprint_gb": 10.245,
+    "max_rss_gb": 6.068,
+    "process_wall_s": 20.81
+  },
+  "returncode": 0
+}

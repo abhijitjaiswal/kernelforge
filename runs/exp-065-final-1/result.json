@@ -1,0 +1,99 @@
+{
+  "exp_id": "exp-065-final-1",
+  "kind": "streaming",
+  "mode": "prefetch_blockc",
+  "purge_steps": true,
+  "config": {
+    "weights": "bf16",
+    "prompt_ids": [
+      "p1"
+    ],
+    "stream": "prefetch_blockc-cold-lag1",
+    "te_stream": true,
+    "vae_impl": "chunked",
+    "cache_limit_gb": 0.5
+  },
+  "runs": [
+    {
+      "run": 0,
+      "step_s": [
+        3.9819650830468163,
+        3.898463665973395,
+        3.984507416957058,
+        4.065400124993175
+      ],
+      "total_s": 15.930336290970445,
+      "stall_s": 0.0985620473511517,
+      "block_s": 15.209117210528348
+    }
+  ],
+  "step_s_median": 3.983236250001937,
+  "denoise_s_median": 15.930336290970445,
+  "encode_s": 0.8264997500227764,
+  "decode_s": 2.9627226660377346,
+  "e2e_image_s": 19.719558707030956,
+  "stall_per_step_s": 0.024640511837787926,
+  "resident_after_load_gb": 0.370615566149354,
+  "peak_mlx_gb": 2.8117863927036524,
+  "memtrace": {
+    "peak_footprint_gb": 3.496,
+    "peak_at_s": 2.63,
+    "peak_stage": "denoise_run0",
+    "per_stage": {
+      "encode": {
+        "footprint_peak_gb": 0.891,
+        "mlx_active_peak_gb": 0.618
+      },
+      "load_transformer": {
+        "footprint_peak_gb": 0.526,
+        "mlx_active_peak_gb": 0.371
+      },
+      "denoise_run0": {
+        "footprint_peak_gb": 3.496,
+        "mlx_active_peak_gb": 2.78
+      },
+      "decode": {
+        "footprint_peak_gb": 2.41,
+        "mlx_active_peak_gb": 1.767
+      }
+    }
+  },
+  "power": {
+    "n_samples": 22,
+    "busy_samples": 17,
+    "gpu_mhz_busy_median": 1406,
+    "gpu_mhz_busy_min": 1322,
+    "gpu_mw_busy_median": 12726,
+    "thermal_levels": [
+      "Nominal"
+    ]
+  },
+  "verify": {
+    "runs/exp-061-full-1": {
+      "psnr_db": 999.0,
+      "max_abs_pixel_diff": 0,
+      "mean_abs_pixel_diff": 0.0,
+      "identical": true
+    },
+    "baselines/bf16_free_te": {
+      "psnr_db": 46.89275251221304,
+      "max_abs_pixel_diff": 55,
+      "mean_abs_pixel_diff": 0.6371332804361979,
+      "identical": false
+    }
+  },
+  "swap_used_mb_before_after": [
+    2682.31,
+    2682.31
+  ],
+  "swap_grew": false,
+  "mlx_version": "0.32.4",
+  "per_block_stall_s_median": 1.1228985385969281e-05,
+  "per_block_s_median": 0.1513174170104321,
+  "process": {
+    "peak_footprint_gb": 3.496,
+    "max_rss_gb": 2.282,
+    "process_wall_s": 24.01
+  },
+  "returncode": 0
+}

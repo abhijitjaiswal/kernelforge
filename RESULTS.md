@@ -1,5 +1,40 @@
 # RESULTS (newest first)
 
+### exp-066-eager-p2: p2 uncompiled (eager) resident reference
+- total 17.77 s (denoise 17.77, VAE 0.00, text 0.00); peak footprint 9.526 GB, MLX peak 8.521368224173784 GB; swap grew: False
+- PSNR vs ref: runs/exp-062-full-p2 999.0, baselines/bf16_free_te 39.0 dB, max abs diff None
+- tier E, verdict **keep**. final pipeline p2 bit-identical to the uncompiled stock model
+
+### exp-065-final-3: cold single image A/B round 3: final 3.5 GB pipeline
+- total 16.08 s (denoise 16.08, VAE 0.00, text 0.00); peak footprint 3.692 GB, MLX peak 2.8117863927036524 GB; swap grew: False
+- PSNR vs ref: runs/exp-061-full-1 999.0, baselines/bf16_free_te 46.9 dB, max abs diff None
+- tier E, verdict **keep**. +7.1% median vs same-day baseline; bit-identical to exp-061
+
+### exp-065-base-3: cold single image A/B round 3: baseline config (exp-011)
+- total 18.80 s (denoise 15.64, VAE 2.09, text 1.03); peak footprint 10.245 GB, MLX peak 9.495 GB; swap grew: False
+- PSNR vs ref: p1 999.0 dB, max abs diff 0
+- tier E, verdict **keep**. same-day baseline
+
+### exp-065-final-2: cold single image A/B round 2: final 3.5 GB pipeline
+- total 16.03 s (denoise 16.03, VAE 0.00, text 0.00); peak footprint 3.692 GB, MLX peak 2.8117863927036524 GB; swap grew: False
+- PSNR vs ref: runs/exp-061-full-1 999.0, baselines/bf16_free_te 46.9 dB, max abs diff None
+- tier E, verdict **keep**. +7.1% median vs same-day baseline; bit-identical to exp-061
+
+### exp-065-base-2: cold single image A/B round 2: baseline config (exp-011)
+- total 18.75 s (denoise 15.59, VAE 2.09, text 1.03); peak footprint 10.245 GB, MLX peak 9.495 GB; swap grew: False
+- PSNR vs ref: p1 999.0 dB, max abs diff 0
+- tier E, verdict **keep**. same-day baseline
+
+### exp-065-final-1: cold single image A/B round 1: final 3.5 GB pipeline
+- total 15.93 s (denoise 15.93, VAE 0.00, text 0.00); peak footprint 3.496 GB, MLX peak 2.8117863927036524 GB; swap grew: False
+- PSNR vs ref: runs/exp-061-full-1 999.0, baselines/bf16_free_te 46.9 dB, max abs diff None
+- tier E, verdict **keep**. +7.1% median vs same-day baseline; bit-identical to exp-061
+
+### exp-065-base-1: cold single image A/B round 1: baseline config (exp-011)
+- total 18.59 s (denoise 15.43, VAE 2.10, text 1.03); peak footprint 9.742 GB, MLX peak 9.495 GB; swap grew: False
+- PSNR vs ref: p1 999.0 dB, max abs diff 0
+- tier E, verdict **keep**. same-day baseline
+
 ### exp-063-eager-p3: diagnostic: resident eager (no compile) + chunked VAE, p3
 - total 17.98 s (denoise 17.98, VAE 0.00, text 0.00); peak footprint 9.526 GB, MLX peak 8.521366316825151 GB; swap grew: False
 - PSNR vs ref: runs/exp-062-full-p3 999.0, baselines/bf16_free_te 30.4 dB, max abs diff None
@@ -483,6 +518,13 @@ Speedup vs **exp-011-bf16** = 18.92 s (median of 3). *memory-only* = swap grew, 
 | exp-063-eager-p3 | bf16 | 0.5 GB | – | – | – | 8.52 | 9.53 | runs/exp-062-full-p3 = · baselines/bf16_free_te 30.4 | flat |
 | exp-063-rblockc-p3 | bf16 | 0.5 GB | – | – | – | 8.57 | 9.56 | runs/exp-062-full-p3 = · baselines/bf16_free_te 30.4 | flat |
 | exp-063-rcomp-p3 | bf16 | 0.5 GB | – | – | memory-only | 8.57 | 9.45 | runs/exp-062-full-p3 30.4 · baselines/bf16_free_te 45.9 | grew |
+| exp-065-base-1 | bf16 · staged | 0.5 GB | bf16_free_te | 18.59 | 1.02× | 9.49 | 9.74 | p1 = | flat |
+| exp-065-base-2 | bf16 · staged | 0.5 GB | bf16_free_te | 18.75 | 1.01× | 9.49 | 10.24 | p1 = | flat |
+| exp-065-base-3 | bf16 · staged | 0.5 GB | bf16_free_te | 18.80 | 1.01× | 9.49 | 10.24 | p1 = | flat |
+| exp-065-final-1 | bf16 | 0.5 GB | – | – | – | 2.81 | 3.50 | runs/exp-061-full-1 = · baselines/bf16_free_te 46.9 | flat |
+| exp-065-final-2 | bf16 | 0.5 GB | – | – | – | 2.81 | 3.69 | runs/exp-061-full-1 = · baselines/bf16_free_te 46.9 | flat |
+| exp-065-final-3 | bf16 | 0.5 GB | – | – | – | 2.81 | 3.69 | runs/exp-061-full-1 = · baselines/bf16_free_te 46.9 | flat |
+| exp-066-eager-p2 | bf16 | 0.5 GB | – | – | – | 8.52 | 9.53 | runs/exp-062-full-p2 = · baselines/bf16_free_te 39.0 | flat |
 <!-- summary:end -->
 
 ## Log
