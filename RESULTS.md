@@ -1,5 +1,13 @@
 # RESULTS (newest first)
 
+### exp-041: Exp A1 rerun with mean-centered token similarity
+- total 0.00 s (denoise 0.00, VAE 0.00, text 0.00); peak footprint None GB, MLX peak None GB; swap grew: None
+- tier A, verdict **keep**. Centered near-dup >0.95: 0.016% (0% per prompt). The raw 53.9% is anisotropy (a direction shared by all tokens), not redundancy; median centered max-cos 0.38-0.84.
+
+### exp-040: Exp A1 probe: block-step output similarity + token near-duplicates, bf16 4 steps, p1-p3 (eager, hooked)
+- total 0.00 s (denoise 0.00, VAE 0.00, text 0.00); peak footprint None GB, MLX peak None GB; swap grew: None
+- tier A, verdict **keep**. Block-steps cos_out>0.98: 28.4% (p1 34.7, p2 37.3, p3 13.3); own-contribution cos>0.98 only 4.9%. Only double blocks 0-3 are static (~13% of compute) -> caching ceiling ~1.09x. Raw token near-dup 53.9%.
+
 ### exp-032: per-layer quantization sensitivity scan (engine/sensitivity.py), 109 Linears x {q8,q4}, one real denoise step
 - total 0.00 s (denoise 0.00, VAE 0.00, text 0.00); peak footprint None GB, MLX peak None GB; swap grew: None
 - tier A, verdict **keep**. Metric floor verified 0 (deterministic; fp32 recompute bit-identical). q8 per-layer rel 1.9e-3..2.3e-2 (median 1.0e-2); q4 5.6e-3..5.7e-2. Most sensitive: embedders, modulation, proj_out, first blocks; least: double-block attn q/k, ff, norm_out.
@@ -237,6 +245,8 @@ Speedup vs **exp-011-bf16** = 18.92 s (median of 3). *memory-only* = swap grew, 
 | exp-031-arch-default | microbench | none | – | – | – | – | – | – | – |
 | exp-031-arch-g16g | microbench | none | – | – | – | – | – | – | – |
 | exp-032 | bf16 | none | – | – | – | – | – | – | – |
+| exp-040 | bf16 | none | – | – | – | – | – | – | – |
+| exp-041 | bf16 | none | – | – | – | – | – | – | – |
 <!-- summary:end -->
 
 ## Log

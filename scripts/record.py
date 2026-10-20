@@ -36,7 +36,7 @@ def main():
         for k, st in (("text_encode_s", "text_encode"), ("denoise_s", "denoise"), ("vae_s", "vae_decode")):
             r.setdefault(k, {"median": r["stages"][st]["compute_s"]["median"]})
         r.setdefault("peak_mem_mlx_gb", max(v["peak_mlx_gb"] for v in r["stages"].values()))
-    if r.get("kind") in ("denoise_profile", "microbench", "sensitivity"):
+    if r.get("kind") in ("denoise_profile", "microbench", "sensitivity", "probe"):
         r["total_s"] = {"median": r.get("compiled_step_s")}
         r["text_encode_s"] = r["denoise_s"] = r["vae_s"] = {"median": 0.0}
         r.setdefault("peak_mem_mlx_gb", (r.get("e2e_profile") or {}).get("peak_gb"))
