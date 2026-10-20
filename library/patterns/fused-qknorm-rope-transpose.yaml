@@ -1,0 +1,9 @@
+id: fused-qknorm-rope-transpose
+kind: fusion
+numerics_changing: true   # fp32 RMSNorm and RoPE in registers instead of materialised fp32 copies
+tier: E (expected)
+status: deferred
+deferred_reason: "Klein 4B on M5 is compute-bound (matmuls ~95% of NAX peak); whole non-matmul remainder is 12% of a step, this candidate <=4% end-to-end. Revisit on a bandwidth-bound target (batch-1 LLM decode)."
+matches:
+  graph: "linear(qkv) -> split -> reshape(B,L,H,D) -> transpose -> rmsnorm(q), rmsnorm(k) [fp32] -> rope(q,k)"
+estimates: {model: flux2-klein-4b, hw: apple_m5_8gpu_16gb, eager_cost_s_per_step: 0.6, upper_bound_saving_s_per_step: 0.2}

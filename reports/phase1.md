@@ -146,3 +146,15 @@ plausible). The fallback is a Tier A **mixed-precision recipe** from the sensiti
 ~60 % of params saves ~2.3 GB, validated with LPIPS on p1–p3.
 
 **Stopping at Gate 1 for your decision.**
+
+## Gate 1 decisions (user, 2026-10-20)
+
+- **1.3× Tier E speed goal dropped.** Reason: the roofline finding. Denoise matmuls run at ~95 % of the measured NAX bf16 peak
+  and attention at 76 %, so 88 % of a step is compute-bound work already near peak. The exact-fusion ceiling is ~1.07–1.10×.
+- **Fusion candidate 1 (QK-RMSNorm + RoPE + transpose): deferred until a bandwidth-bound target exists**, e.g. batch-1 LLM
+  decode, where elementwise and weight traffic dominate.
+- **8 GB-Mac claims need a real 8 GB machine.** The `mx.set_memory_limit` simulation is invalid: it is a soft limit that
+  allocations exceed (exp-022). No 8 GB or 6 GB "fits" claim is made from it.
+- Run order: A1 probe (light) → weight-streaming prototype (2-block residency; deliverable = prefetch-overlap measurement) →
+  mixed-precision recipe (text encoder kept bf16; LPIPS + grids) → A2/A3 only if A1 passes. The Tier A speed track
+  (timeboxed 4 days, ship at ≥ 1.3× with LPIPS < 0.05 on all prompts) runs after the footprint batch, never interleaved with it.

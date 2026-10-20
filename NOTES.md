@@ -40,3 +40,9 @@
 
 ## Where an LLM proposer would plug in (Phase 3 note)
 - (to fill in Phase 3)
+
+## Decisions log
+- 2026-10-20 Gate 1: 1.3x Tier E speed goal dropped (roofline: compute-bound at ~95% of NAX peak). Fusion candidate 1 deferred
+  until a bandwidth-bound target exists. mx.set_memory_limit is a soft limit: smaller-machine simulation is invalid; 8 GB claims
+  need a real 8 GB Mac. New Tier A speed track (A1 probe -> A2 -> A3), timeboxed 4 days, after the footprint batch.
+- xctrace unavailable (m5-test has Command Line Tools only; Xcode not installed). Profiling uses MLX timing + microbenchmarks.
