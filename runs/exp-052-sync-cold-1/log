@@ -1,0 +1,3 @@
+[stream] sync run0: steps [5.128, 5.247, 5.333, 5.466] stall 4.28s
+[stream] sync run1: steps [5.553, 5.583, 5.64, 5.679] stall 4.36s
+[stream] sync run2: steps [5.732, 5.803, 5.839, 5.81] stall 4.36s

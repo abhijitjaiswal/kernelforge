@@ -51,3 +51,6 @@
 - 2026-10-20 **Stated prediction before the cold-SSD streaming test (user):** a block is ~0.29 GB; at >= 2 GB/s cold reads it
   loads in < 150 ms vs ~180 ms block compute, so prefetch should hide cold reads with margin. The test (exp-052, purge before
   every denoise step) confirms or refutes this. Real-8GB-machine test stays open regardless of the purge results.
+- 2026-10-20 **Prediction CONFIRMED (exp-052):** cold reads 6.2-6.5 GB/s, block 0.274 GB -> ~44 ms load vs ~180 ms compute;
+  prefetch stall 0.001 s/step cold (sync-cold 1.09-1.16 s/step) -> 99.9% of cold load hidden. Remaining streaming overhead
+  (+0.46 s/step, +10% vs eager resident) is barriers (+0.30) + load contention (+0.10 warm / +0.16 cold).

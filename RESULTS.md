@@ -1,5 +1,73 @@
 # RESULTS (newest first)
 
+### exp-052-prefetch-cold-2: streaming prefetch, page cache purged before every step (cold SSD), round 2
+- total 19.94 s (denoise 19.94, VAE 0.00, text 0.00); peak footprint 6.65 GB, MLX peak 2.220408022403717 GB; swap grew: False
+- PSNR vs ref: runs/exp-051-resident-1 999.0, baselines/bf16_free_te 46.9 dB, max abs diff None
+- tier E, verdict **keep**. cold sync stall 1.09-1.16 s/step; prefetch hides it (0.001 s/step)
+
+### exp-052-sync-cold-2: streaming sync, page cache purged before every step (cold SSD), round 2
+- total 23.41 s (denoise 23.41, VAE 0.00, text 0.00); peak footprint 6.65 GB, MLX peak 1.7633758187294006 GB; swap grew: False
+- PSNR vs ref: runs/exp-051-resident-1 999.0, baselines/bf16_free_te 46.9 dB, max abs diff None
+- tier E, verdict **keep**. cold sync stall 1.09-1.16 s/step; prefetch hides it (0.001 s/step)
+
+### exp-052-barrier-2: resident weights + mx.eval barrier after every block (isolates barrier cost), round 2
+- total 19.18 s (denoise 19.18, VAE 0.00, text 0.00); peak footprint 9.559 GB, MLX peak 8.343055810779333 GB; swap grew: False
+- PSNR vs ref: runs/exp-051-resident-1 999.0, baselines/bf16_free_te 46.9 dB, max abs diff None
+- tier E, verdict **keep**. barriers alone cost +0.30 s/step (+6.6%)
+
+### exp-051-prefetch-2: streaming A/B round 2: prefetch (warm page cache), eager, 2-block residency
+- total 19.70 s (denoise 19.70, VAE 0.00, text 0.00); peak footprint 6.65 GB, MLX peak 2.2204004637897015 GB; swap grew: False
+- PSNR vs ref: runs/exp-051-resident-1 999.0, baselines/bf16_free_te 46.9 dB, max abs diff None
+- tier E, verdict **keep**. see phase2 streaming summary
+
+### exp-051-sync-2: streaming A/B round 2: sync (warm page cache), eager, 2-block residency
+- total 20.17 s (denoise 20.17, VAE 0.00, text 0.00); peak footprint 6.65 GB, MLX peak 1.763368260115385 GB; swap grew: False
+- PSNR vs ref: runs/exp-051-resident-1 999.0, baselines/bf16_free_te 46.9 dB, max abs diff None
+- tier E, verdict **keep**. see phase2 streaming summary
+
+### exp-051-resident-2: streaming A/B round 2: resident (warm page cache), eager, 2-block residency
+- total 18.22 s (denoise 18.22, VAE 0.00, text 0.00); peak footprint 9.591 GB, MLX peak 8.521366316825151 GB; swap grew: False
+- PSNR vs ref: runs/exp-051-resident-1 999.0, baselines/bf16_free_te 46.9 dB, max abs diff None
+- tier E, verdict **keep**. see phase2 streaming summary
+
+### exp-052-prefetch-cold-1: streaming prefetch, page cache purged before every step (cold SSD), round 1
+- total 20.01 s (denoise 20.01, VAE 0.00, text 0.00); peak footprint 6.65 GB, MLX peak 2.220408022403717 GB; swap grew: False
+- PSNR vs ref: runs/exp-051-resident-1 999.0, baselines/bf16_free_te 46.9 dB, max abs diff None
+- tier E, verdict **keep**. cold sync stall 1.09-1.16 s/step; prefetch hides it (0.001 s/step)
+
+### exp-052-sync-cold-1: streaming sync, page cache purged before every step (cold SSD), round 1
+- total 22.82 s (denoise 22.82, VAE 0.00, text 0.00); peak footprint 6.65 GB, MLX peak 1.7633777260780334 GB; swap grew: False
+- PSNR vs ref: runs/exp-051-resident-1 999.0, baselines/bf16_free_te 46.9 dB, max abs diff None
+- tier E, verdict **keep**. cold sync stall 1.09-1.16 s/step; prefetch hides it (0.001 s/step)
+
+### exp-052-barrier-1: resident weights + mx.eval barrier after every block (isolates barrier cost), round 1
+- total 19.22 s (denoise 19.22, VAE 0.00, text 0.00); peak footprint 9.526 GB, MLX peak 8.343055810779333 GB; swap grew: False
+- PSNR vs ref: runs/exp-051-resident-1 999.0, baselines/bf16_free_te 46.9 dB, max abs diff None
+- tier E, verdict **keep**. barriers alone cost +0.30 s/step (+6.6%)
+
+### exp-051-prefetch-1: streaming A/B round 1: prefetch (warm page cache), eager, 2-block residency
+- total 19.71 s (denoise 19.71, VAE 0.00, text 0.00); peak footprint 6.65 GB, MLX peak 2.2204023711383343 GB; swap grew: False
+- PSNR vs ref: runs/exp-051-resident-1 999.0, baselines/bf16_free_te 46.9 dB, max abs diff None
+- tier E, verdict **keep**. see phase2 streaming summary
+
+### exp-051-sync-1: streaming A/B round 1: sync (warm page cache), eager, 2-block residency
+- total 20.12 s (denoise 20.12, VAE 0.00, text 0.00); peak footprint 6.65 GB, MLX peak 1.7633701674640179 GB; swap grew: False
+- PSNR vs ref: runs/exp-051-resident-1 999.0, baselines/bf16_free_te 46.9 dB, max abs diff None
+- tier E, verdict **keep**. see phase2 streaming summary
+
+### exp-051-resident-1: streaming A/B round 1: resident (warm page cache), eager, 2-block residency
+- total 18.06 s (denoise 18.06, VAE 0.00, text 0.00); peak footprint 9.526 GB, MLX peak 8.521368224173784 GB; swap grew: True
+- PSNR vs ref: runs/exp-051-resident-1 999.0, baselines/bf16_free_te 46.9 dB, max abs diff None
+- tier E, verdict **keep**. see phase2 streaming summary
+
+### exp-052-disk: block-file read speed with purge (cold SSD) vs warm page cache
+- total 0.00 s (denoise 0.00, VAE 0.00, text 0.00); peak footprint None GB, MLX peak None GB; swap grew: None
+- tier E, verdict **keep**. cold 6.22-6.46 GB/s, warm 17.4-17.8 GB/s; mean block 0.274 GB -> ~44 ms cold load
+
+### exp-050: block-file read speed (first measurement)
+- total 0.00 s (denoise 0.00, VAE 0.00, text 0.00); peak footprint None GB, MLX peak None GB; swap grew: None
+- tier E, verdict **keep**. 6.4 GB/s; in hindsight this read was already cold (warm page cache reads 17.6 GB/s, exp-052-disk)
+
 ### exp-041: Exp A1 rerun with mean-centered token similarity
 - total 0.00 s (denoise 0.00, VAE 0.00, text 0.00); peak footprint None GB, MLX peak None GB; swap grew: None
 - tier A, verdict **keep**. Centered near-dup >0.95: 0.016% (0% per prompt). The raw 53.9% is anisotropy (a direction shared by all tokens), not redundancy; median centered max-cos 0.38-0.84.
@@ -247,6 +315,20 @@ Speedup vs **exp-011-bf16** = 18.92 s (median of 3). *memory-only* = swap grew, 
 | exp-032 | bf16 | none | – | – | – | – | – | – | – |
 | exp-040 | bf16 | none | – | – | – | – | – | – | – |
 | exp-041 | bf16 | none | – | – | – | – | – | – | – |
+| exp-050 | disk | none | – | – | – | – | – | – | – |
+| exp-051-prefetch-1 | bf16 | 0.5 GB | – | – | – | 2.22 | 6.65 | runs/exp-051-resident-1 = · baselines/bf16_free_te 46.9 | flat |
+| exp-051-prefetch-2 | bf16 | 0.5 GB | – | – | – | 2.22 | 6.65 | runs/exp-051-resident-1 = · baselines/bf16_free_te 46.9 | flat |
+| exp-051-resident-1 | bf16 | 0.5 GB | – | – | memory-only | 8.52 | 9.53 | runs/exp-051-resident-1 = · baselines/bf16_free_te 46.9 | grew |
+| exp-051-resident-2 | bf16 | 0.5 GB | – | – | – | 8.52 | 9.59 | runs/exp-051-resident-1 = · baselines/bf16_free_te 46.9 | flat |
+| exp-051-sync-1 | bf16 | 0.5 GB | – | – | – | 1.76 | 6.65 | runs/exp-051-resident-1 = · baselines/bf16_free_te 46.9 | flat |
+| exp-051-sync-2 | bf16 | 0.5 GB | – | – | – | 1.76 | 6.65 | runs/exp-051-resident-1 = · baselines/bf16_free_te 46.9 | flat |
+| exp-052-barrier-1 | bf16 | 0.5 GB | – | – | – | 8.34 | 9.53 | runs/exp-051-resident-1 = · baselines/bf16_free_te 46.9 | flat |
+| exp-052-barrier-2 | bf16 | 0.5 GB | – | – | – | 8.34 | 9.56 | runs/exp-051-resident-1 = · baselines/bf16_free_te 46.9 | flat |
+| exp-052-disk | disk | none | – | – | – | – | – | – | – |
+| exp-052-prefetch-cold-1 | bf16 | 0.5 GB | – | – | – | 2.22 | 6.65 | runs/exp-051-resident-1 = · baselines/bf16_free_te 46.9 | flat |
+| exp-052-prefetch-cold-2 | bf16 | 0.5 GB | – | – | – | 2.22 | 6.65 | runs/exp-051-resident-1 = · baselines/bf16_free_te 46.9 | flat |
+| exp-052-sync-cold-1 | bf16 | 0.5 GB | – | – | – | 1.76 | 6.65 | runs/exp-051-resident-1 = · baselines/bf16_free_te 46.9 | flat |
+| exp-052-sync-cold-2 | bf16 | 0.5 GB | – | – | – | 1.76 | 6.65 | runs/exp-051-resident-1 = · baselines/bf16_free_te 46.9 | flat |
 <!-- summary:end -->
 
 ## Log

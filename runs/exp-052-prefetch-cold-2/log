@@ -1,0 +1,3 @@
+[stream] prefetch run0: steps [4.384, 4.472, 4.616, 4.721] stall 0.08s
+[stream] prefetch run1: steps [4.798, 4.879, 4.945, 4.959] stall 0.01s
+[stream] prefetch run2: steps [5.012, 5.087, 5.096, 5.104] stall 0.01s
