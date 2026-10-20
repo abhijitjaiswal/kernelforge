@@ -1,0 +1,64 @@
+{
+  "exp_id": "exp-060-stock-1",
+  "kind": "text_encoder",
+  "variant": "stock",
+  "config": {
+    "weights": "bf16",
+    "prompt_ids": [
+      "p1"
+    ],
+    "te_variant": "stock",
+    "cache_limit_gb": 0.5
+  },
+  "anatomy": {
+    "n_layers": 36,
+    "layer_gb": 0.18799829483032227,
+    "embed_gb": 0.7244873046875,
+    "all_weights_gb": 7.492430925369263,
+    "used_layers": 27,
+    "used_weights_gb": 5.800441265106201
+  },
+  "embeds_shape": [
+    1,
+    512,
+    7680
+  ],
+  "encode_s": [
+    0.900570624973625,
+    0.3319098330102861,
+    0.3256376250064932
+  ],
+  "encode_s_first": 0.900570624973625,
+  "encode_s_median": 0.3319098330102861,
+  "peak_mlx_gb": 6.4973755069077015,
+  "peak_mlx_first_gb": 6.340048659592867,
+  "active_after_gb": 5.817531354725361,
+  "memtrace": {
+    "peak_footprint_gb": 6.815,
+    "peak_at_s": 1.58,
+    "peak_stage": "encode1",
+    "per_stage": {
+      "encode0": {
+        "footprint_peak_gb": 6.632,
+        "mlx_active_peak_gb": 6.231
+      },
+      "encode1": {
+        "footprint_peak_gb": 6.815,
+        "mlx_active_peak_gb": 6.495
+      },
+      "encode2": {
+        "footprint_peak_gb": 6.815,
+        "mlx_active_peak_gb": 6.497
+      }
+    }
+  },
+  "identical_to_ref": null,
+  "stream_stall_s": null,
+  "mlx_version": "0.32.4",
+  "process": {
+    "peak_footprint_gb": 6.815,
+    "max_rss_gb": 5.73,
+    "process_wall_s": 2.57
+  },
+  "returncode": 0
+}

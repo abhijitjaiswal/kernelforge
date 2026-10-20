@@ -1,5 +1,37 @@
 # RESULTS (newest first)
 
+### exp-060-stream-2: text encoder stream, round 2
+- total 0.42 s (denoise 0.00, VAE 0.00, text 0.42); peak footprint 0.931 GB, MLX peak 0.6300162021070719 GB; swap grew: None
+- tier E, verdict **keep**. see te anatomy summary
+
+### exp-060-truncate-2: text encoder truncate, round 2
+- total 0.36 s (denoise 0.00, VAE 0.00, text 0.36); peak footprint 6.813 GB, MLX peak 6.4973755069077015 GB; swap grew: None
+- tier E, verdict **keep**. see te anatomy summary
+
+### exp-060-barrier-2: text encoder barrier, round 2
+- total 0.65 s (denoise 0.00, VAE 0.00, text 0.65); peak footprint 8.074 GB, MLX peak 7.76841763406992 GB; swap grew: None
+- tier E, verdict **revert**. see te anatomy summary
+
+### exp-060-stock-2: text encoder stock, round 2
+- total 0.37 s (denoise 0.00, VAE 0.00, text 0.37); peak footprint 6.813 GB, MLX peak 6.4973755069077015 GB; swap grew: None
+- tier E, verdict **keep**. see te anatomy summary
+
+### exp-060-stream-1: text encoder stream, round 1
+- total 0.43 s (denoise 0.00, VAE 0.00, text 0.43); peak footprint 0.931 GB, MLX peak 0.6300162021070719 GB; swap grew: None
+- tier E, verdict **keep**. see te anatomy summary
+
+### exp-060-truncate-1: text encoder truncate, round 1
+- total 0.38 s (denoise 0.00, VAE 0.00, text 0.38); peak footprint 6.813 GB, MLX peak 6.4973755069077015 GB; swap grew: None
+- tier E, verdict **keep**. see te anatomy summary
+
+### exp-060-barrier-1: text encoder barrier, round 1
+- total 0.75 s (denoise 0.00, VAE 0.00, text 0.75); peak footprint 8.074 GB, MLX peak 7.76841763406992 GB; swap grew: None
+- tier E, verdict **revert**. see te anatomy summary
+
+### exp-060-stock-1: text encoder stock, round 1
+- total 0.33 s (denoise 0.00, VAE 0.00, text 0.33); peak footprint 6.815 GB, MLX peak 6.4973755069077015 GB; swap grew: None
+- tier E, verdict **keep**. see te anatomy summary
+
 ### exp-054-lag2-2: compiled streaming, lag=2, cold SSD, round 2
 - total 17.82 s (denoise 17.82, VAE 0.00, text 0.00); peak footprint 6.686 GB, MLX peak 3.295169971883297 GB; swap grew: False
 - PSNR vs ref: runs/exp-053-rblockc-1 999.0, baselines/bf16_free_te 46.9 dB, max abs diff None

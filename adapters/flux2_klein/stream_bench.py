@@ -69,6 +69,7 @@ def main():
     ap.add_argument("--exp")
     ap.add_argument("--mode", choices=["resident", "barrier", "sync", "prefetch", "resident_compiled", "resident_blockc", "prefetch_blockc"])
     ap.add_argument("--lag", type=int, default=0, help="prefetch_blockc: blocks kept in flight before the host waits")
+    ap.add_argument("--te-stream", action="store_true", help="stream the text encoder too (te_probe.setup_te_streaming)")
     ap.add_argument("--purge-steps", action="store_true", help="purge the page cache before every denoise step (untimed): cold-SSD reads")
     ap.add_argument("--prep", action="store_true")
     ap.add_argument("--disk", action="store_true")
@@ -127,11 +128,18 @@ def main():
     prompt = json.loads((ROOT / "bench" / "prompts.json").read_text())[a.prompt]
     ad = Adapter({"weights": "bf16", "lifecycle": "staged", "vae_impl": "chunked", "vae_rows": 64})
     m = ad.model
+    te_streamer = None
+    if a.te_stream:
+        from adapters.flux2_klein.te_probe import setup_te_streaming
+        te_streamer = setup_te_streaming(m.text_encoder)
     trace.mark("encode")
     t_enc = time.perf_counter()
     emb, tid, _, _ = ad._orig_encode(prompt=prompt, negative_prompt=" ", guidance=DEFAULTS["guidance"])
     mx.eval(emb, tid)
     encode_s = time.perf_counter() - t_enc  # includes lazy text-encoder load (cold process, as a user would run it)
+    if te_streamer:
+        te_streamer.detach()
+        te_streamer.pending.clear()
     m.text_encoder = None
     gc.collect()
     mx.clear_cache()
@@ -234,7 +242,7 @@ def main():
     timed = runs[1:]
     swap1 = swap_used_mb()
     res = {"exp_id": a.exp, "kind": "streaming", "mode": a.mode, "purge_steps": a.purge_steps,
-           "config": {"weights": "bf16", "prompt_ids": [a.prompt], "stream": a.mode + ("-cold" if a.purge_steps else "") + (f"-lag{a.lag}" if a.lag else ""), "vae_impl": "chunked", "cache_limit_gb": 0.5},
+           "config": {"weights": "bf16", "prompt_ids": [a.prompt], "stream": a.mode + ("-cold" if a.purge_steps else "") + (f"-lag{a.lag}" if a.lag else ""), "te_stream": a.te_stream, "vae_impl": "chunked", "cache_limit_gb": 0.5},
            "runs": runs, "step_s_median": statistics.median([s for r in timed for s in r["step_s"]]),
            "denoise_s_median": statistics.median([r["total_s"] for r in timed]),
            "encode_s": encode_s, "decode_s": decode_s,

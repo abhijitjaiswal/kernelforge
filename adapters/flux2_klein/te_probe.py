@@ -33,6 +33,27 @@ LAYERS = (9, 18, 27)   # hidden states used by FLUX.2 (index 0 = embedding outpu
 N_USED = max(LAYERS)   # decoder layers 0..26 feed hidden state 27
 
 
+def setup_te_streaming(te, prefetch=True):
+    """Exact text-encoder streaming: drop dead layers, stream used layers, gather embedding rows from file."""
+    import numpy as np
+
+    from engine.rowgather import gather_rows
+    from engine.streaming import WeightStreamer
+    te.layers = te.layers[:N_USED]
+    streamer = WeightStreamer(list(te.layers), [TE_DIR / f"layer{i:03d}.safetensors" for i in range(N_USED)], prefetch=prefetch)
+    streamer.release_all()
+    te.embed_tokens.update({"weight": mx.zeros((0,), dtype=mx.bfloat16)})
+    embed_file = str(TE_DIR / "embed.safetensors")
+
+    class RowEmbedding:  # exact lookup from file: only the prompt's rows are read
+        def __call__(self, ids):
+            return gather_rows(embed_file, "weight", np.array(ids))
+
+    te.embed_tokens = RowEmbedding()
+    streamer.attach()
+    return streamer
+
+
 def nbytes(tree):
     return sum(v.nbytes for _, v in tree_flatten(tree))
 

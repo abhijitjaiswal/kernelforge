@@ -1,0 +1,67 @@
+{
+  "exp_id": "exp-060-truncate-2",
+  "kind": "text_encoder",
+  "variant": "truncate",
+  "config": {
+    "weights": "bf16",
+    "prompt_ids": [
+      "p1"
+    ],
+    "te_variant": "truncate",
+    "cache_limit_gb": 0.5
+  },
+  "anatomy": {
+    "n_layers": 36,
+    "layer_gb": 0.18799829483032227,
+    "embed_gb": 0.7244873046875,
+    "all_weights_gb": 7.492430925369263,
+    "used_layers": 27,
+    "used_weights_gb": 5.800441265106201
+  },
+  "embeds_shape": [
+    1,
+    512,
+    7680
+  ],
+  "encode_s": [
+    1.0342973750084639,
+    0.3634142500231974,
+    0.32455987500725314
+  ],
+  "encode_s_first": 1.0342973750084639,
+  "encode_s_median": 0.3634142500231974,
+  "peak_mlx_gb": 6.4973755069077015,
+  "peak_mlx_first_gb": 6.340054381638765,
+  "active_after_gb": 5.822414167225361,
+  "memtrace": {
+    "peak_footprint_gb": 6.813,
+    "peak_at_s": 2.08,
+    "peak_stage": "encode2",
+    "per_stage": {
+      "encode0": {
+        "footprint_peak_gb": 6.386,
+        "mlx_active_peak_gb": 6.075
+      },
+      "encode1": {
+        "footprint_peak_gb": 6.799,
+        "mlx_active_peak_gb": 6.497
+      },
+      "encode2": {
+        "footprint_peak_gb": 6.813,
+        "mlx_active_peak_gb": 6.497
+      }
+    }
+  },
+  "identical_to_ref": {
+    "identical": true,
+    "max_abs": 0.0
+  },
+  "stream_stall_s": null,
+  "mlx_version": "0.32.4",
+  "process": {
+    "peak_footprint_gb": 6.813,
+    "max_rss_gb": 6.083,
+    "process_wall_s": 2.71
+  },
+  "returncode": 0
+}
