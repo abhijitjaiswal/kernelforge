@@ -48,3 +48,6 @@
 - xctrace unavailable (m5-test has Command Line Tools only; Xcode not installed). Profiling uses MLX timing + microbenchmarks.
 - 2026-10-20: speed track CLOSED, A2/A3 skipped (user decision). Finding: reports/speed_track_closure.md. Eager-vs-compiled
   numerics promoted to protocol rule R1 (README) + library/notes/eager-vs-compiled-numerics.md.
+- 2026-10-20 **Stated prediction before the cold-SSD streaming test (user):** a block is ~0.29 GB; at >= 2 GB/s cold reads it
+  loads in < 150 ms vs ~180 ms block compute, so prefetch should hide cold reads with margin. The test (exp-052, purge before
+  every denoise step) confirms or refutes this. Real-8GB-machine test stays open regardless of the purge results.
