@@ -39,11 +39,18 @@ def block_files(n):
     return [BLOCK_DIR / f"{i:03d}.safetensors" for i in range(n)]
 
 
-def disk_speed(files):
-    """Read every block file twice: with F_NOCACHE (bypasses the page cache) and normally."""
+def purge():
+    subprocess.run(["sudo", "-n", "/usr/sbin/purge"], check=True)
+
+
+def disk_speed(files, cold=False):
+    """Read every block file: F_NOCACHE then normal. cold=True purges the page cache before each pass."""
     res = {}
     total = sum(f.stat().st_size for f in files)
     for label, nocache in (("nocache", True), ("cached", False)):
+        if cold:
+            purge()
+            label = "purged_" + label
         t = time.perf_counter()
         for f in files:
             fd = os.open(f, os.O_RDONLY)
@@ -60,7 +67,8 @@ def disk_speed(files):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--exp")
-    ap.add_argument("--mode", choices=["resident", "sync", "prefetch"])
+    ap.add_argument("--mode", choices=["resident", "barrier", "sync", "prefetch"])
+    ap.add_argument("--purge-steps", action="store_true", help="purge the page cache before every denoise step (untimed): cold-SSD reads")
     ap.add_argument("--prep", action="store_true")
     ap.add_argument("--disk", action="store_true")
     ap.add_argument("--runs", type=int, default=2)
@@ -86,7 +94,8 @@ def main():
     out.mkdir(parents=True, exist_ok=True)
     if a.disk:
         files = sorted(BLOCK_DIR.glob("*.safetensors"))
-        r = {"exp_id": a.exp, "kind": "disk", "disk": disk_speed(files), "n_files": len(files)}
+        r = {"exp_id": a.exp, "kind": "disk", "disk": {**disk_speed(files), **disk_speed(files, cold=True)}, "n_files": len(files),
+             "block_gb_mean": sum(f.stat().st_size for f in files) / len(files) / G}
         (out / "result.json").write_text(json.dumps(r, indent=2))
         print(json.dumps(r, indent=1))
         return
@@ -128,8 +137,18 @@ def main():
     blocks = block_list(tr)
     streamer = None
     trace.mark("load_transformer")
-    if a.mode == "resident":
+    if a.mode in ("resident", "barrier"):
         mx.eval(tr.parameters())
+        if a.mode == "barrier":  # resident weights, but mx.eval after every block: isolates the barrier cost
+            for b in blocks:
+                cls = type(b)
+
+                def call(self_, *args, _orig=cls.__call__, **kw):
+                    o = _orig(self_, *args, **kw)
+                    mx.eval(o)
+                    return o
+
+                b.__class__ = type(cls.__name__, (cls,), {"__call__": call})
     else:
         streamer = WeightStreamer(blocks, block_files(len(blocks)), prefetch=(a.mode == "prefetch"))
         streamer.release_all()
@@ -150,6 +169,9 @@ def main():
         steps = []
         n0 = len(streamer.stats) if streamer else 0
         for s in range(4):
+            if a.purge_steps:
+                purge()
+                time.sleep(0.5)
             t = time.perf_counter()
             noise = tr(hidden_states=lat, encoder_hidden_states=emb, timestep=cfg.scheduler.timesteps[s], img_ids=lid, txt_ids=tid, guidance=None)
             lat = cfg.scheduler.step(noise=noise, timestep=s, latents=lat, sigmas=cfg.scheduler.sigmas)
@@ -187,8 +209,8 @@ def main():
             verify[ref] = compare(img, np.asarray(Image.open(rp).convert("RGB")))
     timed = runs[1:]
     swap1 = swap_used_mb()
-    res = {"exp_id": a.exp, "kind": "streaming", "mode": a.mode,
-           "config": {"weights": "bf16", "prompt_ids": [a.prompt], "stream": a.mode, "vae_impl": "chunked", "cache_limit_gb": 0.5},
+    res = {"exp_id": a.exp, "kind": "streaming", "mode": a.mode, "purge_steps": a.purge_steps,
+           "config": {"weights": "bf16", "prompt_ids": [a.prompt], "stream": a.mode + ("-cold" if a.purge_steps else ""), "vae_impl": "chunked", "cache_limit_gb": 0.5},
            "runs": runs, "step_s_median": statistics.median([s for r in timed for s in r["step_s"]]),
            "denoise_s_median": statistics.median([r["total_s"] for r in timed]),
            "stall_per_step_s": statistics.median([r["stall_s"] for r in timed]) / 4 if streamer else 0.0,
