@@ -110,7 +110,7 @@ plt.rcParams.update({"font.family": "sans-serif", "font.sans-serif": ["Arial", "
 def chart_waterfall():
     ref_label, ref_val, ref_exp = D["waterfall_ref"]
     steps = D["waterfall"]
-    labels = [f"{ref_label}\n{ref_exp} · reference"] + [f"{s[0]}\n{s[2]} · Tier {s[3]}" for s in steps]
+    labels = [f"{ref_label}\n{ref_exp}\nreference"] + [f"{s[0]}\n{s[2]}\nTier {s[3]}" for s in steps]
     vals = [ref_val] + [s[1] for s in steps]
     fig_, ax = plt.subplots(figsize=(8.6, 4.0))
     x = np.arange(len(vals))
@@ -300,21 +300,26 @@ def build():
     story += [P("Klein 4B on an Apple M5: running a 16 GB image model in 3.5 GB", "title"),
               P("Project report · FLUX.2 [klein] 4B, text-to-image, 1024×1024 · measured on a MacBook Air M5 (16 GB) · October 2026", "sub"),
               P("Executive summary", "h1"),
-              P("Same model, same math, pixel-equivalent (Tier E; weight streaming itself proven bit-identical): peak RAM "
-                f"{D['base_fp']:.1f} {ARW} {D['final_fp'][0]:.1f} GB, for ~2–3% extra time. Separately established: Klein's compute is already at "
-                f"~{D['matmul_eff_vs_bf16_peak']:.0f}% of this chip's ceiling, so we stopped chasing speed with evidence, not fatigue.", "quote")]
-    psnr_rows = " · ".join(f"{k}: {v['psnr_db']:.1f} dB" + (" <b>(worst)</b>" if k == worst else "") for k, v in sorted(psnr.items()))
+              P(f"Same model, same math: the low-memory pipeline reproduces the stock model's uncompiled output bit for bit, with peak RAM "
+                f"{D['base_fp']:.1f} {ARW} {min(D['final_fp_all']):.1f}–{max(D['final_fp_all']):.1f} GB, for ~2–3% extra time. Against the compiled "
+                f"baseline image it differs only by the compiler's rounding order (LPIPS ≤ {max(D['final_lpips'].values()):.3f}). Separately established: "
+                f"Klein's compute is already at ~{D['matmul_eff_vs_bf16_peak']:.0f}% of this chip's ceiling, so we stopped chasing speed with evidence, not fatigue.", "quote")]
+    psnr_rows = " · ".join(f"{k}: {v['psnr_db']:.1f} dB / LPIPS {D['final_lpips'][k]:.4f}" + (" <b>(worst)</b>" if k == worst else "")
+                           for k, v in sorted(psnr.items()))
     story += [table([
         ["", "Baseline", "Final exact pipeline"],
         ["Peak memory (macOS)", f"<b>{D['base_fp']:.2f} GB</b> (exp-011, median of 3; range {min(D['base_fps']):.2f}–{max(D['base_fps']):.2f})",
-         f"<b>{D['final_fp'][0]:.2f} GB</b> (exp-061, both rounds)" + (f"; p2/p3 runs: {', '.join(f2(x) for x in D.get('final_fp_p23', []))} GB" if D.get("final_fp_p23") else "")],
+         f"<b>{min(D['final_fp_all']):.2f}–{max(D['final_fp_all']):.2f} GB</b> across prompts: p1 {D['final_fp'][0]:.2f} (exp-061, both rounds), "
+         f"p2 {D['final_fp_p23'][0]:.2f}, p3 {D['final_fp_p23'][1]:.2f} (exp-062)"],
         ["End-to-end time per image", f"<b>{D['base_total']:.2f} s</b>: cold single image, stock decode, whole-model compile",
          f"<b>{e2e_lo:.2f}–{e2e_hi:.2f} s</b>: warm, throttled steady state, exact chunked decode. The same pipeline with everything "
          f"resident measured {res_lo:.2f}–{res_hi:.2f} s, so streaming adds no measurable end-to-end time"],
         ["Cost inside the denoise loop", "–", f"+{lag_lo:.1f}–{lag_hi:.1f}% per step (exp-054, two rounds)"],
-        ["Quality vs baseline image", "–", f"Streaming is <b>bit-identical</b> to the same-mode resident run ({D['n_stream_runs']}/{D['n_stream_runs']} runs). "
-                                           f"End-to-end vs the baseline image: <b>Tier E</b>, {psnr_rows}; worst max pixel diff "
-                                           f"{max(v['max_abs_pixel_diff'] for v in psnr.values())}/255, from float rounding in the chunked decode and per-block compile"],
+        ["Quality", "–", f"<b>Bit-identical</b> to the stock model run without whole-model compilation, verified on p1 (vs exp-051 eager) and p3 (exp-063); "
+                         f"p2 has no uncompiled reference run. Also bit-identical to the "
+                         f"same-mode resident run ({D['n_stream_runs']}/{D['n_stream_runs']} streaming runs). Vs the compiled baseline image: {psnr_rows}. "
+                         f"p2 and p3 fall below the 40 dB Tier E bound; the stock model itself, run uncompiled, differs from the baseline by exactly as much, "
+                         f"so the gap is the compiler's rounding order. Visually equivalent: LPIPS well under 0.05 on all prompts"],
         ["Swap", "flat", "flat in every final-pipeline run"],
     ], [3.6 * cm, 5.2 * cm, 8.2 * cm])]
     story += [Spacer(1, 6),
@@ -341,12 +346,14 @@ def build():
                       f"{D['waterfall_ref'][1]:.2f} GB and swaps (exp-002). A fully resident bf16 stack exceeds 16 GB and was never runnable."),
               P("The project had two goals of equal weight:", "body"),
               P(f"<b>Speed:</b> at least 1.3× faster end to end with equivalent output. <b>Outcome: closed.</b> The model is already efficient on this chip; section 2 shows the evidence.<br/>"
-                f"<b>Memory:</b> peak memory at or below 8 GB (stretch: 6 GB) without worse quality. <b>Outcome: {D['final_fp'][0]:.2f} GB with "
-                f"pixel-equivalent output</b>, pending confirmation on real 8 GB hardware."),
+                f"<b>Memory:</b> peak memory at or below 8 GB (stretch: 6 GB) without worse quality. <b>Outcome: {min(D['final_fp_all']):.2f}–{max(D['final_fp_all']):.2f} GB, "
+                f"bit-identical to the stock model run uncompiled and visually equivalent to the compiled baseline (LPIPS ≤ {max(D['final_lpips'].values()):.3f})</b>, "
+                "pending confirmation on real 8 GB hardware."),
               fig(fw, 17.0, f"<b>Figure 1. The memory waterfall.</b> Peak process memory (macOS footprint) as each exact technique is added, bf16 throughout. "
                   f"The hatched bar is the stock 8-bit mflux configuration ({D['waterfall_ref'][2]}), shown for reference. A fully resident bf16 pipeline "
                   "exceeds the machine's 16 GB and was never runnable, so the bf16 chain starts with the text encoder freed after use. "
-                  "The first bf16 step still swapped. Every drop is Tier E; the dB range is the chunked decoder's PSNR on the three test prompts."),
+                  f"The first bf16 step still swapped. The last bar is p1; p2 and p3 peaked at {D['final_fp_p23'][0]:.2f} and {D['final_fp_p23'][1]:.2f} GB. "
+                  "'identical' means bit-identical to the same-mode reference (R1). The dB range is the chunked decoder's PSNR on the three test prompts."),
               PageBreak()]
 
     # ---------- 3. speed
@@ -434,12 +441,21 @@ def build():
                       f"<b>{te['stream']['peak_mlx_first_gb']:.2f} GB</b>, bit-identical, and the cold encode got faster "
                       f"({te['stream']['encode_s_first']:.2f} s vs {te['stock']['encode_s_first']:.2f} s; exp-060)."),
               P("3.4 The composed pipeline", "h2"),
-              precise(f"All three together (exp-061, cold SSD, two rounds): <b>{D['final_fp'][0]:.2f} GB</b> peak process memory, swap flat, image "
+              precise(f"All three together (exp-061, cold SSD, two rounds): <b>{D['final_fp'][0]:.2f} GB</b> peak process memory on p1 "
+                      f"({D['final_fp_p23'][0]:.2f} and {D['final_fp_p23'][1]:.2f} GB on p2 and p3), swap flat, image "
                       "bit-identical to the same pipeline with a resident text encoder. The peak is now the denoise stage "
                       f"({D['final_mlx'][0]:.2f} GB of MLX arrays plus the Python and MLX runtime). Stage peaks: "
                       + ", ".join(f"{k} {v:.2f} GB" for k, v in D["final_stage_fp"].items() if not k.startswith("denoise_run")) + "."),
-              fig(fg, 15.5, f"<b>Figure 7. Baseline vs the final 3.5 GB pipeline</b>, prompts {', '.join(grid_prompts)}. PSNR vs baseline: {ps_str} "
-                  f"(worst: {worst}). The difference images are amplified ten times; they show float-rounding noise, not structure."),
+              precise("Where do the image differences come from? On p3, the hardest prompt, three resident diagnostics settle it (exp-063). "
+                      f"With mflux's whole-model compile and the new decoder, the image is {D['diag']['rcomp']['baselines/bf16_free_te']['psnr_db']:.1f} dB from the "
+                      "baseline, so the decoder is not the cause. With per-block compile, or with no compilation at all, the image is "
+                      f"{D['diag']['eager']['baselines/bf16_free_te']['psnr_db']:.1f} dB from the baseline and <b>bit-identical to the final pipeline</b>. "
+                      "The final pipeline therefore computes exactly what the unmodified model computes when run step by step; the baseline differs "
+                      "because the whole-model compiler rounds in a different order, and four denoising steps amplify that on a detailed sign."),
+              fig(fg, 15.5, f"<b>Figure 7. Baseline (compiled) vs the final 3.5 GB pipeline</b>, prompts {', '.join(grid_prompts)}. PSNR / LPIPS vs baseline: "
+                  + ", ".join(f"{k} {v['psnr_db']:.1f} dB / {D['final_lpips'][k]:.4f}" for k, v in sorted(psnr.items()))
+                  + f" (worst: {worst}). Difference images are amplified ten times. The p3 differences sit in the letter shapes: the sampler took a "
+                  "slightly different path, which the uncompiled stock model takes too."),
               PageBreak()]
 
     # ---------- 5. honesty
@@ -470,7 +486,10 @@ def build():
                     "decimal places. If we compared a step-by-step candidate against an all-at-once reference, we could blame our change for a "
                     "difference it did not cause."),
               precise("Eager vs compiled latents after four steps: cosine " + ", ".join(f"{k} {v['cos']:.4f}" for k, v in eg.items())
-                      + " (exp-040). Every bit-identity claim is made against a reference produced in the same execution mode."),
+                      + " (exp-040). At image level this is large on a detailed prompt: the unmodified model, run eagerly vs compiled, differs by "
+                      f"{D['diag']['eager']['baselines/bf16_free_te']['psnr_db']:.1f} dB on p3 (exp-063). A cross-mode PSNR threshold would therefore "
+                      "fail two legitimate runs of the same model. Every exactness claim is made against a reference in the same execution mode; "
+                      "cross-mode equivalence is judged with LPIPS."),
               P("Swapping runs don't count (R3) and simulations aren't evidence (R2)", "h2"),
               precise(f"Any run whose swap usage grew is marked 'memory-only', and its time is never quoted. MLX's memory limit is soft: capped at 8 GB, a run "
                       f"still peaked at {D['cap_runs'][8][1]:.2f} GB; capped at 6 GB, at {D['cap_runs'][6][1]:.2f} GB (exp-022). So no '8 GB machine' "

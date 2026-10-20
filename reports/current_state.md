@@ -5,8 +5,9 @@
 
 ## Headline
 
-> **Same model, same math, pixel-equivalent (Tier E; weight streaming itself proven bit-identical): peak RAM 10.1 → 3.5 GB,
-> for ~2–3 % extra time.**
+> **Same model, same math: the low-memory pipeline reproduces the stock model's uncompiled output bit for bit, with peak RAM
+> 10.1 → 3.5–3.7 GB, for ~2–3 % extra time. Against the compiled baseline image it differs only by the compiler's rounding order
+> (LPIPS ≤ 0.009).**
 > Separately established: Klein's compute is already at ~95 % of this chip's ceiling, so we stopped chasing speed with
 > evidence, not fatigue.
 
@@ -19,6 +20,11 @@ compile, prefetch and a lag-1 barrier (exp-054, cold SSD, 2 rounds; the GPU alwa
 measured 2–3.5 % unified-memory contention floor. Without the lag it was +7.5–7.8 % (exp-053). The ~95 % is matmul throughput vs the measured
 NAX bf16 peak (exp-031). The text encoder went from 6.34 to 0.62 GB MLX by streaming its 27 used layers and reading only the prompt's 512 embedding rows from file (exp-060, bit-identical).
 
+
+*Correction (exp-062..064):* the final pipeline vs the compiled baseline image is 46.9 / 39.0 / 30.4 dB (p1/p2/p3), so p2 and p3
+are below the 40 dB Tier E bound. LPIPS is 0.0015 / 0.0034 / 0.0093. On p3 the final pipeline is bit-identical to the stock model
+run without whole-model compilation; mflux's whole-model `mx.compile` rounding is the entire gap (the chunked decoder alone is 45.9 dB).
+Peak memory across prompts: 3.50 / 3.53 / 3.67 GB.
 
 ## Where we started vs where we are
 

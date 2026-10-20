@@ -1,0 +1,3 @@
+[stream] resident_blockc run0: steps [3.722, 3.818, 3.906, 4.041] stall 0.00s
+[stream] resident_blockc run1: steps [4.135, 4.166, 4.216, 4.251] stall 0.00s
+[stream] resident_blockc run2: steps [4.274, 4.318, 4.387, 4.418] stall 0.00s

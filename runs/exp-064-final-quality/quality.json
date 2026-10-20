@@ -1,0 +1,31 @@
+{
+  "cand": "runs/exp-064-final-quality/cand",
+  "ref": "baselines/bf16_free_te",
+  "label": "final 3.5 GB pipeline vs bf16 baseline",
+  "per_prompt": {
+    "p1": {
+      "psnr_db": 46.89275251221304,
+      "max_abs_pixel_diff": 55,
+      "mean_abs_pixel_diff": 0.6371332804361979,
+      "identical": false,
+      "lpips": 0.001458796439692378
+    },
+    "p2": {
+      "psnr_db": 39.02225183494556,
+      "max_abs_pixel_diff": 165,
+      "mean_abs_pixel_diff": 1.4325199127197266,
+      "identical": false,
+      "lpips": 0.0033767116256058216
+    },
+    "p3": {
+      "psnr_db": 30.42653103129822,
+      "max_abs_pixel_diff": 249,
+      "mean_abs_pixel_diff": 2.5805784861246743,
+      "identical": false,
+      "lpips": 0.00934191606938839
+    }
+  },
+  "lpips_max": 0.00934191606938839,
+  "psnr_min": 30.42653103129822,
+  "tier_a_pass_lpips": true
+}

@@ -1,5 +1,30 @@
 # RESULTS (newest first)
 
+### exp-063-eager-p3: diagnostic: resident eager (no compile) + chunked VAE, p3
+- total 17.98 s (denoise 17.98, VAE 0.00, text 0.00); peak footprint 9.526 GB, MLX peak 8.521366316825151 GB; swap grew: False
+- PSNR vs ref: runs/exp-062-full-p3 999.0, baselines/bf16_free_te 30.4 dB, max abs diff None
+- tier E, verdict **keep**. bit-identical to final pipeline p3: final pipeline = eager stock model; the gap to the baseline is mflux whole-model compile rounding
+
+### exp-063-rblockc-p3: diagnostic: resident per-block compile + chunked VAE, p3
+- total 17.08 s (denoise 17.08, VAE 0.00, text 0.00); peak footprint 9.56 GB, MLX peak 8.57409499026835 GB; swap grew: False
+- PSNR vs ref: runs/exp-062-full-p3 999.0, baselines/bf16_free_te 30.4 dB, max abs diff None
+- tier E, verdict **keep**. bit-identical to final pipeline p3; 30.4 dB vs compiled baseline
+
+### exp-063-rcomp-p3: diagnostic: resident mflux whole-compile + chunked VAE, p3
+- total 16.94 s (denoise 16.94, VAE 0.00, text 0.00); peak footprint 9.45 GB, MLX peak 8.574102517217398 GB; swap grew: True
+- PSNR vs ref: runs/exp-062-full-p3 30.4, baselines/bf16_free_te 45.9 dB, max abs diff None
+- tier E, verdict **keep**. 45.9 dB vs baseline: chunked decoder cleared
+
+### exp-062-full-p3: final exact pipeline on p3 (report grid)
+- total 17.52 s (denoise 17.52, VAE 0.00, text 0.00); peak footprint 3.665 GB, MLX peak 2.81177113391459 GB; swap grew: False
+- PSNR vs ref: baselines/bf16_free_te 30.4 dB, max abs diff None
+- tier E, verdict **keep**. vs compiled baseline: see exp-063 attribution
+
+### exp-062-full-p2: final exact pipeline on p2 (report grid)
+- total 17.13 s (denoise 17.13, VAE 0.00, text 0.00); peak footprint 3.534 GB, MLX peak 2.8117863927036524 GB; swap grew: False
+- PSNR vs ref: baselines/bf16_free_te 39.0 dB, max abs diff None
+- tier E, verdict **keep**. vs compiled baseline: see exp-063 attribution
+
 ### exp-061-full-2: full exact pipeline: streamed text encoder + compiled lag-1 streamed transformer + chunked VAE, cold SSD, round 2
 - total 17.44 s (denoise 17.44, VAE 0.00, text 0.00); peak footprint 3.496 GB, MLX peak 2.8117863927036524 GB; swap grew: False
 - PSNR vs ref: runs/exp-054-lag1-1 999.0, baselines/bf16_free_te 46.9 dB, max abs diff None
@@ -453,6 +478,11 @@ Speedup vs **exp-011-bf16** = 18.92 s (median of 3). *memory-only* = swap grew, 
 | exp-060-truncate-2 | bf16 | 0.5 GB | – | – | – | 6.50 | 6.81 | – | – |
 | exp-061-full-1 | bf16 | 0.5 GB | – | – | – | 2.81 | 3.50 | runs/exp-054-lag1-1 = · baselines/bf16_free_te 46.9 | flat |
 | exp-061-full-2 | bf16 | 0.5 GB | – | – | – | 2.81 | 3.50 | runs/exp-054-lag1-1 = · baselines/bf16_free_te 46.9 | flat |
+| exp-062-full-p2 | bf16 | 0.5 GB | – | – | – | 2.81 | 3.53 | baselines/bf16_free_te 39.0 | flat |
+| exp-062-full-p3 | bf16 | 0.5 GB | – | – | – | 2.81 | 3.67 | baselines/bf16_free_te 30.4 | flat |
+| exp-063-eager-p3 | bf16 | 0.5 GB | – | – | – | 8.52 | 9.53 | runs/exp-062-full-p3 = · baselines/bf16_free_te 30.4 | flat |
+| exp-063-rblockc-p3 | bf16 | 0.5 GB | – | – | – | 8.57 | 9.56 | runs/exp-062-full-p3 = · baselines/bf16_free_te 30.4 | flat |
+| exp-063-rcomp-p3 | bf16 | 0.5 GB | – | – | memory-only | 8.57 | 9.45 | runs/exp-062-full-p3 30.4 · baselines/bf16_free_te 45.9 | grew |
 <!-- summary:end -->
 
 ## Log

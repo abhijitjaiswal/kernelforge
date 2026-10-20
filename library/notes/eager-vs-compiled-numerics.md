@@ -11,3 +11,7 @@ changes rounding order, and 4 denoise steps amplify the difference.
 - The same applies to any graph compiler (torch.compile, XLA): compare like with like.
 
 **Protocol rule:** see README "Protocol rules" R1.
+
+**Image-level magnitude (exp-063, p3 "text sign"):** the unmodified model run eagerly vs through mflux's whole-model compile
+differs by **PSNR 30.4 dB, max pixel diff 249, LPIPS 0.009** after 4 steps; p1 46.9 dB, p2 39.0 dB. A cross-mode PSNR > 40 dB
+bound therefore fails on legitimate executions; use same-mode bit-identity for exactness and LPIPS for cross-mode visual equivalence.

@@ -53,6 +53,10 @@ def collect():
             d.setdefault("final_fp_p23", []).append(fp(e))
             d.setdefault("final_swap_p23", []).append(R(e)["swap_grew"])
     d["final_psnr"] = psnr
+    d["final_fp_all"] = d["final_fp"] + d.get("final_fp_p23", [])
+    q = json.loads((ROOT / "runs/exp-064-final-quality/quality.json").read_text())["per_prompt"]
+    d["final_lpips"] = {k: v["lpips"] for k, v in q.items()}
+    d["diag"] = {t: R(f"exp-063-{t}-p3")["verify"] for t in ("rcomp", "rblockc", "eager")}
     d["final_stage_fp"] = {k: v["footprint_peak_gb"] for k, v in R("exp-061-full-1")["memtrace"]["per_stage"].items()}
     # like-for-like resident (same exact pipeline, resident transformer + encoder)
     d["resident_e2e"] = [R(f"exp-054-rblockc-{i}")["e2e_image_s"] for i in (1, 2)]

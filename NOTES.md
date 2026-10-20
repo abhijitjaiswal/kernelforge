@@ -54,3 +54,8 @@
 - 2026-10-20 **Prediction CONFIRMED (exp-052):** cold reads 6.2-6.5 GB/s, block 0.274 GB -> ~44 ms load vs ~180 ms compute;
   prefetch stall 0.001 s/step cold (sync-cold 1.09-1.16 s/step) -> 99.9% of cold load hidden. Remaining streaming overhead
   (+0.46 s/step, +10% vs eager resident) is barriers (+0.30) + load contention (+0.10 warm / +0.16 cold).
+- 2026-10-21 **p2/p3 attribution (exp-062..064):** final pipeline vs compiled baseline: p1 46.9, p2 39.0, p3 30.4 dB; LPIPS
+  0.0015/0.0034/0.0093. Diagnostics on p3: final pipeline is bit-identical to the stock model run EAGERLY (and to per-block
+  compile); mflux whole-model compile + chunked decoder is 45.9 dB vs baseline. So the gap is whole-model mx.compile rounding,
+  not streaming/decoder. Two valid executions of the unmodified model differ by 30 dB on p3 -> R1 is essential; PSNR>40 across
+  execution modes is not a valid Tier E test on sensitive prompts.
