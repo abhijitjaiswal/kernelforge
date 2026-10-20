@@ -1,5 +1,17 @@
 # RESULTS (newest first)
 
+### exp-031-arch-g16g: microbench with MLX_METAL_GPU_ARCH=applegpu_g16g (pre-M5: no NAX kernels)
+- total 0.00 s (denoise 0.00, VAE 0.00, text 0.00); peak footprint None GB, MLX peak None GB; swap grew: None
+- tier E, verdict **keep**. Matmul 2.9-3.0 TF and SDPA 2.5 TF without NAX: the baseline already gets ~3.7x from the M5 neural accelerators.
+
+### exp-031-arch-default: microbench: matmul peak, bandwidth, Klein linear + SDPA shapes, detected arch
+- total 0.00 s (denoise 0.00, VAE 0.00, text 0.00); peak footprint None GB, MLX peak None GB; swap grew: None
+- tier E, verdict **keep**. bf16 peak 11.5 TF, Klein matmuls 10-11.5 TF (compute-bound, ~95% of peak); SDPA 8.7 TF; 135 GB/s; q8/q4 matmuls slower than bf16.
+
+### exp-030: denoise op profile, one step bf16 1024^2 (MLX eager per-module; xctrace unavailable: no Xcode)
+- total 3.87 s (denoise 0.00, VAE 0.00, text 0.00); peak footprint None GB, MLX peak 8.521366279572248 GB; swap grew: None
+- tier E, verdict **keep**. Compiled step 3.87 s (eager 4.41). Single-stream blocks 77%: to_qkv_mlp_proj 36%, to_out 15%, attention+RoPE ~23%. ~35 TFLOP/step -> ~9 TFLOPS achieved.
+
 ### exp-022-cap6: simulated 6 GB limit: mx.set_memory_limit(6 GB), bf16 + chunked VAE
 - total 23.59 s (denoise 19.15, VAE 3.39, text 1.04); peak footprint 8.059 GB, MLX peak 7.704 GB; swap grew: False
 - PSNR vs ref: p1 52.3 dB, max abs diff 42
@@ -217,6 +229,9 @@ Speedup vs **exp-011-bf16** = 18.92 s (median of 3). *memory-only* = swap grew, 
 | exp-021-stock-3 | bf16 · staged | 0.5 GB | bf16_free_te | 19.07 | 0.99× | 9.49 | 10.28 | p1 = | flat |
 | exp-022-cap6 | bf16 · staged | 0.5 GB | bf16_free_te | 23.59 | 0.80× | 7.70 | 8.06 | p1 52.3 | flat |
 | exp-022-cap8 | bf16 · staged | 0.5 GB | bf16_free_te | 20.37 | 0.93× | 8.21 | 8.54 | p1 52.3 | flat |
+| exp-030 | bf16 | none | – | – | – | – | – | – | – |
+| exp-031-arch-default | microbench | none | – | – | – | – | – | – | – |
+| exp-031-arch-g16g | microbench | none | – | – | – | – | – | – | – |
 <!-- summary:end -->
 
 ## Log

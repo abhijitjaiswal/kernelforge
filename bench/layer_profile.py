@@ -65,7 +65,12 @@ def profile(module, inputs, max_depth=3):
             o = orig(self, *a, **k)
             mx.eval(o)
             pk = mx.get_peak_memory()
+            arr_in = next((x for x in a if isinstance(x, mx.array)), None)
+            w = getattr(self, "weight", None) if "weight" in self else None
             records.append({"module": name, "type": cls.__name__, "depth": depth, "peak_gb": pk / G,
+                            "in_shape": list(arr_in.shape) if arr_in is not None else None,
+                            "weight_shape": list(w.shape) if isinstance(w, mx.array) else None,
+                            "quantized": "scales" in self,
                             "delta_gb": (pk - before) / G, "out_gb": _nbytes(o) / G,
                             "out_shape": list(o.shape) if isinstance(o, mx.array) else None,
                             "time_s": time.perf_counter() - t0})
@@ -89,3 +94,35 @@ def profile(module, inputs, max_depth=3):
         for mod, cls in patched:
             mod.__class__ = cls
     return out, records, e2e
+
+
+def aggregate(records):
+    """Group records by module path with block indices wildcarded (blocks.3.attn -> blocks.*.attn)."""
+    import re
+    agg = {}
+    for r in records:
+        key = (re.sub(r"\.\d+(?=\.|$)", ".*", r["module"]), r["type"], r["depth"])
+        g = agg.setdefault(key, {"module": key[0], "type": key[1], "depth": key[2], "calls": 0, "time_s": 0.0, "max_delta_gb": 0.0})
+        g["calls"] += 1
+        g["time_s"] += r["time_s"]
+        g["max_delta_gb"] = max(g["max_delta_gb"], r["delta_gb"])
+    return sorted(agg.values(), key=lambda g: -g["time_s"])
+
+
+def linear_shapes(records):
+    """(M, K, N, calls, name) for every distinct Linear-like call (has a 2-D weight)."""
+    import re
+    from math import prod
+    out = {}
+    for r in records:
+        if r["weight_shape"] and len(r["weight_shape"]) == 2 and r["in_shape"] and r["type"].endswith("Linear"):
+            M = prod(r["in_shape"][:-1])
+            K = r["in_shape"][-1]
+            N = r["weight_shape"][0]
+            key = (M, K, N)
+            name = re.sub(r"\.\d+(?=\.|$)", ".*", r["module"])
+            if key in out:
+                out[key][3] += 1
+            else:
+                out[key] = [M, K, N, 1, name]
+    return list(out.values())

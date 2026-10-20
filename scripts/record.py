@@ -36,6 +36,10 @@ def main():
         for k, st in (("text_encode_s", "text_encode"), ("denoise_s", "denoise"), ("vae_s", "vae_decode")):
             r.setdefault(k, {"median": r["stages"][st]["compute_s"]["median"]})
         r.setdefault("peak_mem_mlx_gb", max(v["peak_mlx_gb"] for v in r["stages"].values()))
+    if r.get("kind") in ("denoise_profile", "microbench"):
+        r["total_s"] = {"median": r.get("compiled_step_s")}
+        r["text_encode_s"] = r["denoise_s"] = r["vae_s"] = {"median": 0.0}
+        r.setdefault("peak_mem_mlx_gb", (r.get("e2e_profile") or {}).get("peak_gb"))
     if "total_s" not in r:  # VAE-only runs: the decode is the whole measured time
         r["total_s"] = {"median": (r.get("e2e") or {}).get("time_s") or r.get("time_s_median")}
         r["text_encode_s"] = r["denoise_s"] = {"median": 0.0}
@@ -101,7 +105,7 @@ def main():
     with open(ROOT / "dataset" / "candidates.jsonl", "a") as f:
         f.write(json.dumps(ds) + "\n")
 
-    t = r["total_s"]["median"]
+    t = r["total_s"]["median"] or 0.0
     psnr_list = ", ".join("%s %.1f" % (k, x.get("psnr_db") or 0) for k, x in v.items())
     md = (
         f"### {a.exp}: {a.change}\n"

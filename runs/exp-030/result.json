@@ -1,0 +1,7308 @@
+{
+  "exp_id": "exp-030",
+  "kind": "denoise_profile",
+  "weights": "bf16",
+  "config": {
+    "weights": "bf16",
+    "prompt_ids": [
+      "p1"
+    ],
+    "resolution": 1024
+  },
+  "tokens": {
+    "image": 4096,
+    "text": 512
+  },
+  "compiled_step_s": 3.8665844589704648,
+  "compiled_runs_s": [
+    3.7457935420097783,
+    3.817770874942653,
+    3.8665844589704648,
+    3.9306370829581283,
+    4.034321791958064
+  ],
+  "eager_step_s": 4.407560249965172,
+  "eager_runs_s": [
+    4.348517125006765,
+    4.357287416991312,
+    4.407560249965172,
+    4.432959541969467,
+    4.450648416997865
+  ],
+  "instrumented_step_s": 4.877254833059851,
+  "e2e_profile": {
+    "peak_gb": 8.521366279572248,
+    "delta_gb": 1.2942324802279472,
+    "time_s": 4.47077229100978,
+    "weights_gb": 7.218764305114746
+  },
+  "aggregate": [
+    {
+      "module": "single_transformer_blocks.*",
+      "type": "Flux2SingleTransformerBlock",
+      "depth": 1,
+      "calls": 20,
+      "time_s": 3.831732666178141,
+      "max_delta_gb": 0.5302734375,
+      "pct_of_instrumented_step": 78.56330655936263
+    },
+    {
+      "module": "single_transformer_blocks.*.attn",
+      "type": "Flux2ParallelSelfAttention",
+      "depth": 2,
+      "calls": 20,
+      "time_s": 3.77041879191529,
+      "max_delta_gb": 0.5273380260914564,
+      "pct_of_instrumented_step": 77.30616752600226
+    },
+    {
+      "module": "single_transformer_blocks.*.attn.to_qkv_mlp_proj",
+      "type": "Linear",
+      "depth": 3,
+      "calls": 20,
+      "time_s": 1.759946750011295,
+      "max_delta_gb": 0.23729896545410156,
+      "pct_of_instrumented_step": 36.0847815062219
+    },
+    {
+      "module": "transformer_blocks.*",
+      "type": "Flux2TransformerBlock",
+      "depth": 1,
+      "calls": 5,
+      "time_s": 1.022252166934777,
+      "max_delta_gb": 0.134033203125,
+      "pct_of_instrumented_step": 20.95958078724062
+    },
+    {
+      "module": "single_transformer_blocks.*.attn.to_out",
+      "type": "Linear",
+      "depth": 3,
+      "calls": 20,
+      "time_s": 0.7426205389783718,
+      "max_delta_gb": 0.0263671875,
+      "pct_of_instrumented_step": 15.226199253412247
+    },
+    {
+      "module": "transformer_blocks.*.attn",
+      "type": "Flux2Attention",
+      "depth": 2,
+      "calls": 5,
+      "time_s": 0.5294178330223076,
+      "max_delta_gb": 0.1428222618997097,
+      "pct_of_instrumented_step": 10.85483230102549
+    },
+    {
+      "module": "transformer_blocks.*.ff",
+      "type": "Flux2FeedForward",
+      "depth": 2,
+      "calls": 5,
+      "time_s": 0.3949349989416078,
+      "max_delta_gb": 0.0937423687428236,
+      "pct_of_instrumented_step": 8.097485418735785
+    },
+    {
+      "module": "transformer_blocks.*.ff.linear_in",
+      "type": "Linear",
+      "depth": 3,
+      "calls": 5,
+      "time_s": 0.25371358200209215,
+      "max_delta_gb": 0.140625,
+      "pct_of_instrumented_step": 5.201975100466905
+    },
+    {
+      "module": "transformer_blocks.*.ff.linear_out",
+      "type": "Linear",
+      "depth": 3,
+      "calls": 5,
+      "time_s": 0.12334212509449571,
+      "max_delta_gb": 0.0,
+      "pct_of_instrumented_step": 2.528925170332229
+    },
+    {
+      "module": "single_transformer_blocks.*.attn.mlp_act",
+      "type": "Flux2SwiGLU",
+      "depth": 3,
+      "calls": 20,
+      "time_s": 0.08477433590451255,
+      "max_delta_gb": 0.0791015513241291,
+      "pct_of_instrumented_step": 1.738156787090158
+    },
+    {
+      "module": "transformer_blocks.*.ff_context",
+      "type": "Flux2FeedForward",
+      "depth": 2,
+      "calls": 5,
+      "time_s": 0.059687625034712255,
+      "max_delta_gb": 0.0292892437428236,
+      "pct_of_instrumented_step": 1.2237954972155092
+    },
+    {
+      "module": "transformer_blocks.*.attn.to_v",
+      "type": "Linear",
+      "depth": 3,
+      "calls": 5,
+      "time_s": 0.04514262394513935,
+      "max_delta_gb": 0.0234375,
+      "pct_of_instrumented_step": 0.9255744366512453
+    },
+    {
+      "module": "transformer_blocks.*.attn.to_k",
+      "type": "Linear",
+      "depth": 3,
+      "calls": 5,
+      "time_s": 0.042881958943326026,
+      "max_delta_gb": 0.0234375,
+      "pct_of_instrumented_step": 0.879223260032593
+    },
+    {
+      "module": "transformer_blocks.*.attn.to_q",
+      "type": "Linear",
+      "depth": 3,
+      "calls": 5,
+      "time_s": 0.04240666801342741,
+      "max_delta_gb": 0.0234298687428236,
+      "pct_of_instrumented_step": 0.8694782098728818
+    },
+    {
+      "module": "transformer_blocks.*.attn.to_out",
+      "type": "Linear",
+      "depth": 3,
+      "calls": 5,
+      "time_s": 0.04095933499047533,
+      "max_delta_gb": 0.0234375,
+      "pct_of_instrumented_step": 0.8398030529968967
+    },
+    {
+      "module": "transformer_blocks.*.ff_context.linear_in",
+      "type": "Linear",
+      "depth": 3,
+      "calls": 5,
+      "time_s": 0.03716954094124958,
+      "max_delta_gb": 0.0175704937428236,
+      "pct_of_instrumented_step": 0.7620996280387192
+    },
+    {
+      "module": "single_transformer_blocks.*.attn.norm_k",
+      "type": "RMSNorm",
+      "depth": 3,
+      "calls": 20,
+      "time_s": 0.02344495919533074,
+      "max_delta_gb": 0.0527348518371582,
+      "pct_of_instrumented_step": 0.48069990184667133
+    },
+    {
+      "module": "single_transformer_blocks.*.attn.norm_q",
+      "type": "RMSNorm",
+      "depth": 3,
+      "calls": 20,
+      "time_s": 0.02297712181461975,
+      "max_delta_gb": 0.0527348518371582,
+      "pct_of_instrumented_step": 0.47110767431859935
+    },
+    {
+      "module": "transformer_blocks.*.ff_context.linear_out",
+      "type": "Linear",
+      "depth": 3,
+      "calls": 5,
+      "time_s": 0.01880024914862588,
+      "max_delta_gb": 0.0029296875,
+      "pct_of_instrumented_step": 0.3854678459938321
+    },
+    {
+      "module": "transformer_blocks.*.ff.act",
+      "type": "Flux2SwiGLU",
+      "depth": 3,
+      "calls": 5,
+      "time_s": 0.017766499950084835,
+      "max_delta_gb": 0.0703125,
+      "pct_of_instrumented_step": 0.36427253769183593
+    },
+    {
+      "module": "single_transformer_blocks.*.norm",
+      "type": "LayerNorm",
+      "depth": 2,
+      "calls": 20,
+      "time_s": 0.013943502097390592,
+      "max_delta_gb": 0.0263671912252903,
+      "pct_of_instrumented_step": 0.28588832395790226
+    },
+    {
+      "module": "transformer_blocks.*.attn.norm_q",
+      "type": "RMSNorm",
+      "depth": 3,
+      "calls": 5,
+      "time_s": 0.012830624007619917,
+      "max_delta_gb": 0.0468754768371582,
+      "pct_of_instrumented_step": 0.26307060932410514
+    },
+    {
+      "module": "transformer_blocks.*.attn.norm_k",
+      "type": "RMSNorm",
+      "depth": 3,
+      "calls": 5,
+      "time_s": 0.012076749990228564,
+      "max_delta_gb": 0.0468754768371582,
+      "pct_of_instrumented_step": 0.2476136762091628
+    },
+    {
+      "module": "transformer_blocks.*.attn.to_add_out",
+      "type": "Linear",
+      "depth": 3,
+      "calls": 5,
+      "time_s": 0.011459793022368103,
+      "max_delta_gb": 0.0,
+      "pct_of_instrumented_step": 0.23496399951647706
+    },
+    {
+      "module": "transformer_blocks.*.attn.add_q_proj",
+      "type": "Linear",
+      "depth": 3,
+      "calls": 5,
+      "time_s": 0.007274417032022029,
+      "max_delta_gb": 0.0029220562428236008,
+      "pct_of_instrumented_step": 0.14914982466598461
+    },
+    {
+      "module": "transformer_blocks.*.attn.add_v_proj",
+      "type": "Linear",
+      "depth": 3,
+      "calls": 5,
+      "time_s": 0.0067070830264128745,
+      "max_delta_gb": 0.0029296875,
+      "pct_of_instrumented_step": 0.13751758429659583
+    },
+    {
+      "module": "transformer_blocks.*.attn.add_k_proj",
+      "type": "Linear",
+      "depth": 3,
+      "calls": 5,
+      "time_s": 0.006694374023936689,
+      "max_delta_gb": 0.0029296875,
+      "pct_of_instrumented_step": 0.1372570073345302
+    },
+    {
+      "module": "transformer_blocks.*.norm1",
+      "type": "LayerNorm",
+      "depth": 2,
+      "calls": 5,
+      "time_s": 0.006657582940533757,
+      "max_delta_gb": 0.0234375037252903,
+      "pct_of_instrumented_step": 0.1365026673489804
+    },
+    {
+      "module": "time_guidance_embed",
+      "type": "Flux2TimestepGuidanceEmbeddings",
+      "depth": 1,
+      "calls": 1,
+      "time_s": 0.006202791002579033,
+      "max_delta_gb": 0.03518007230013609,
+      "pct_of_instrumented_step": 0.12717791493145292
+    },
+    {
+      "module": "transformer_blocks.*.norm2",
+      "type": "LayerNorm",
+      "depth": 2,
+      "calls": 5,
+      "time_s": 0.005414043087512255,
+      "max_delta_gb": 0.0234375037252903,
+      "pct_of_instrumented_step": 0.11100595053622896
+    },
+    {
+      "module": "norm_out",
+      "type": "AdaLayerNormContinuous",
+      "depth": 1,
+      "calls": 1,
+      "time_s": 0.004286792012862861,
+      "max_delta_gb": 0.02345466800034046,
+      "pct_of_instrumented_step": 0.08789354174822663
+    },
+    {
+      "module": "transformer_blocks.*.ff_context.act",
+      "type": "Flux2SwiGLU",
+      "depth": 3,
+      "calls": 5,
+      "time_s": 0.003648167010396719,
+      "max_delta_gb": 0.0087890625,
+      "pct_of_instrumented_step": 0.07479959803756989
+    },
+    {
+      "module": "transformer_blocks.*.norm1_context",
+      "type": "LayerNorm",
+      "depth": 2,
+      "calls": 5,
+      "time_s": 0.0036080420832149684,
+      "max_delta_gb": 0.0029296912252902985,
+      "pct_of_instrumented_step": 0.07397690312916017
+    },
+    {
+      "module": "time_guidance_embed.linear_1",
+      "type": "Linear",
+      "depth": 2,
+      "calls": 1,
+      "time_s": 0.003595291986130178,
+      "max_delta_gb": 0.002938736230134964,
+      "pct_of_instrumented_step": 0.07371548359048104
+    },
+    {
+      "module": "context_embedder",
+      "type": "Linear",
+      "depth": 1,
+      "calls": 1,
+      "time_s": 0.0031926249503158033,
+      "max_delta_gb": 0.0029296875,
+      "pct_of_instrumented_step": 0.06545946561321753
+    },
+    {
+      "module": "double_stream_modulation_img",
+      "type": "Flux2Modulation",
+      "depth": 1,
+      "calls": 1,
+      "time_s": 0.002434374997392297,
+      "max_delta_gb": 5.7220458984375e-05,
+      "pct_of_instrumented_step": 0.04991281121690004
+    },
+    {
+      "module": "double_stream_modulation_txt",
+      "type": "Flux2Modulation",
+      "depth": 1,
+      "calls": 1,
+      "time_s": 0.002409040986094624,
+      "max_delta_gb": 5.340576171875e-05,
+      "pct_of_instrumented_step": 0.04939337944298596
+    },
+    {
+      "module": "double_stream_modulation_txt.linear",
+      "type": "Linear",
+      "depth": 2,
+      "calls": 1,
+      "time_s": 0.0021864999434910715,
+      "max_delta_gb": 4.57763671875e-05,
+      "pct_of_instrumented_step": 0.04483054542629514
+    },
+    {
+      "module": "double_stream_modulation_img.linear",
+      "type": "Linear",
+      "depth": 2,
+      "calls": 1,
+      "time_s": 0.0021672919974662364,
+      "max_delta_gb": 6.103515625e-05,
+      "pct_of_instrumented_step": 0.04443671843381083
+    },
+    {
+      "module": "time_guidance_embed.linear_2",
+      "type": "Linear",
+      "depth": 2,
+      "calls": 1,
+      "time_s": 0.002145125006791204,
+      "max_delta_gb": 0.035167694091796875,
+      "pct_of_instrumented_step": 0.04398222115134824
+    },
+    {
+      "module": "norm_out.linear",
+      "type": "Linear",
+      "depth": 2,
+      "calls": 1,
+      "time_s": 0.001972416997887194,
+      "max_delta_gb": 1.1444091796875e-05,
+      "pct_of_instrumented_step": 0.04044113062367413
+    },
+    {
+      "module": "transformer_blocks.*.attn.norm_added_k",
+      "type": "RMSNorm",
+      "depth": 3,
+      "calls": 5,
+      "time_s": 0.001924875017721206,
+      "max_delta_gb": 0.005859851837158203,
+      "pct_of_instrumented_step": 0.03946636137758654
+    },
+    {
+      "module": "transformer_blocks.*.attn.norm_added_q",
+      "type": "RMSNorm",
+      "depth": 3,
+      "calls": 5,
+      "time_s": 0.0019069170230068266,
+      "max_delta_gb": 0.005859851837158203,
+      "pct_of_instrumented_step": 0.039098162558188106
+    },
+    {
+      "module": "single_stream_modulation",
+      "type": "Flux2Modulation",
+      "depth": 1,
+      "calls": 1,
+      "time_s": 0.0018434999510645866,
+      "max_delta_gb": 3.814697265625e-05,
+      "pct_of_instrumented_step": 0.037797900953804114
+    },
+    {
+      "module": "single_stream_modulation.linear",
+      "type": "Linear",
+      "depth": 2,
+      "calls": 1,
+      "time_s": 0.0015632909489795566,
+      "max_delta_gb": 3.0517578125e-05,
+      "pct_of_instrumented_step": 0.032052681323579565
+    },
+    {
+      "module": "x_embedder",
+      "type": "Linear",
+      "depth": 1,
+      "calls": 1,
+      "time_s": 0.0013317500124685466,
+      "max_delta_gb": 0.0234375,
+      "pct_of_instrumented_step": 0.027305319448175
+    },
+    {
+      "module": "transformer_blocks.*.norm2_context",
+      "type": "LayerNorm",
+      "depth": 2,
+      "calls": 5,
+      "time_s": 0.0013090840075165033,
+      "max_delta_gb": 0.0029296912252902985,
+      "pct_of_instrumented_step": 0.026840590707769542
+    },
+    {
+      "module": "norm_out.norm",
+      "type": "LayerNorm",
+      "depth": 2,
+      "calls": 1,
+      "time_s": 0.001062834053300321,
+      "max_delta_gb": 0.0234375037252903,
+      "pct_of_instrumented_step": 0.021791644883839896
+    },
+    {
+      "module": "pos_embed",
+      "type": "Flux2PosEmbed",
+      "depth": 1,
+      "calls": 2,
+      "time_s": 0.0008231259998865426,
+      "max_delta_gb": 0.004944127053022385,
+      "pct_of_instrumented_step": 0.016876829857383865
+    },
+    {
+      "module": "proj_out",
+      "type": "Linear",
+      "depth": 1,
+      "calls": 1,
+      "time_s": 0.0007460000342689455,
+      "max_delta_gb": 0.0009593963623046875,
+      "pct_of_instrumented_step": 0.015295490184607111
+    }
+  ],
+  "records": [
+    {
+      "module": "time_guidance_embed.linear_1",
+      "type": "Linear",
+      "depth": 2,
+      "peak_gb": 7.230075888335705,
+      "in_shape": [
+        1,
+        256
+      ],
+      "weight_shape": [
+        3072,
+        256
+      ],
+      "quantized": false,
+      "delta_gb": 0.002938736230134964,
+      "out_gb": 1.1444091796875e-05,
+      "out_shape": [
+        1,
+        3072
+      ],
+      "time_s": 0.003595291986130178
+    },
+    {
+      "module": "time_guidance_embed.linear_2",
+      "type": "Linear",
+      "depth": 2,
+      "peak_gb": 7.262313894927502,
+      "in_shape": [
+        1,
+        3072
+      ],
+      "weight_shape": [
+        3072,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": 0.035167694091796875,
+      "out_gb": 1.1444091796875e-05,
+      "out_shape": [
+        1,
+        3072
+      ],
+      "time_s": 0.002145125006791204
+    },
+    {
+      "module": "time_guidance_embed",
+      "type": "Flux2TimestepGuidanceEmbeddings",
+      "depth": 1,
+      "peak_gb": 7.262313894927502,
+      "in_shape": [
+        1
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.03518007230013609,
+      "out_gb": 1.1444091796875e-05,
+      "out_shape": [
+        1,
+        3072
+      ],
+      "time_s": 0.006202791002579033
+    },
+    {
+      "module": "x_embedder",
+      "type": "Linear",
+      "depth": 1,
+      "peak_gb": 7.250582747161388,
+      "in_shape": [
+        1,
+        4096,
+        128
+      ],
+      "weight_shape": [
+        3072,
+        128
+      ],
+      "quantized": false,
+      "delta_gb": 0.0234375,
+      "out_gb": 0.0234375,
+      "out_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "time_s": 0.0013317500124685466
+    },
+    {
+      "module": "context_embedder",
+      "type": "Linear",
+      "depth": 1,
+      "peak_gb": 7.253512434661388,
+      "in_shape": [
+        1,
+        512,
+        7680
+      ],
+      "weight_shape": [
+        3072,
+        7680
+      ],
+      "quantized": false,
+      "delta_gb": 0.0029296875,
+      "out_gb": 0.0029296875,
+      "out_shape": [
+        1,
+        512,
+        3072
+      ],
+      "time_s": 0.0031926249503158033
+    },
+    {
+      "module": "pos_embed",
+      "type": "Flux2PosEmbed",
+      "depth": 1,
+      "peak_gb": 7.258517604321241,
+      "in_shape": [
+        4096,
+        4
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.004944127053022385,
+      "out_gb": 0.001953125,
+      "out_shape": null,
+      "time_s": 0.0004985840059816837
+    },
+    {
+      "module": "pos_embed",
+      "type": "Flux2PosEmbed",
+      "depth": 1,
+      "peak_gb": 7.256156302988529,
+      "in_shape": [
+        512,
+        4
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0006182603538036346,
+      "out_gb": 0.000244140625,
+      "out_shape": null,
+      "time_s": 0.00032454199390485883
+    },
+    {
+      "module": "double_stream_modulation_img.linear",
+      "type": "Linear",
+      "depth": 2,
+      "peak_gb": 7.255845122039318,
+      "in_shape": [
+        1,
+        3072
+      ],
+      "weight_shape": [
+        18432,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": 6.103515625e-05,
+      "out_gb": 3.4332275390625e-05,
+      "out_shape": [
+        1,
+        18432
+      ],
+      "time_s": 0.0021672919974662364
+    },
+    {
+      "module": "double_stream_modulation_img",
+      "type": "Flux2Modulation",
+      "depth": 1,
+      "peak_gb": 7.255845122039318,
+      "in_shape": [
+        1,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 5.7220458984375e-05,
+      "out_gb": 3.4332275390625e-05,
+      "out_shape": null,
+      "time_s": 0.002434374997392297
+    },
+    {
+      "module": "double_stream_modulation_txt.linear",
+      "type": "Linear",
+      "depth": 2,
+      "peak_gb": 7.255890898406506,
+      "in_shape": [
+        1,
+        3072
+      ],
+      "weight_shape": [
+        18432,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": 4.57763671875e-05,
+      "out_gb": 3.4332275390625e-05,
+      "out_shape": [
+        1,
+        18432
+      ],
+      "time_s": 0.0021864999434910715
+    },
+    {
+      "module": "double_stream_modulation_txt",
+      "type": "Flux2Modulation",
+      "depth": 1,
+      "peak_gb": 7.255890898406506,
+      "in_shape": [
+        1,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 5.340576171875e-05,
+      "out_gb": 3.4332275390625e-05,
+      "out_shape": null,
+      "time_s": 0.002409040986094624
+    },
+    {
+      "module": "transformer_blocks.0.norm1",
+      "type": "LayerNorm",
+      "depth": 2,
+      "peak_gb": 7.279320772737265,
+      "in_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0234375037252903,
+      "out_gb": 0.0234375,
+      "out_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "time_s": 0.0010565409902483225
+    },
+    {
+      "module": "transformer_blocks.0.norm1_context",
+      "type": "LayerNorm",
+      "depth": 2,
+      "peak_gb": 7.28225046209991,
+      "in_shape": [
+        1,
+        512,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0029296912252902985,
+      "out_gb": 0.0029296875,
+      "out_shape": [
+        1,
+        512,
+        3072
+      ],
+      "time_s": 0.0002989170025102794
+    },
+    {
+      "module": "transformer_blocks.0.attn.to_q",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.3056879583746195,
+      "in_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "weight_shape": [
+        3072,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": 0.0234298687428236,
+      "out_gb": 0.0234375,
+      "out_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "time_s": 0.00856129202293232
+    },
+    {
+      "module": "transformer_blocks.0.attn.to_k",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.3291254583746195,
+      "in_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "weight_shape": [
+        3072,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": 0.0234375,
+      "out_gb": 0.0234375,
+      "out_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "time_s": 0.008467041014228016
+    },
+    {
+      "module": "transformer_blocks.0.attn.to_v",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.3525629583746195,
+      "in_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "weight_shape": [
+        3072,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": 0.0234375,
+      "out_gb": 0.0234375,
+      "out_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "time_s": 0.008575957966968417
+    },
+    {
+      "module": "transformer_blocks.0.attn.norm_q",
+      "type": "RMSNorm",
+      "depth": 3,
+      "peak_gb": 7.446313435211778,
+      "in_shape": [
+        1,
+        24,
+        4096,
+        128
+      ],
+      "weight_shape": [
+        128
+      ],
+      "quantized": false,
+      "delta_gb": 0.0468754768371582,
+      "out_gb": 0.046875,
+      "out_shape": [
+        1,
+        24,
+        4096,
+        128
+      ],
+      "time_s": 0.002568707976024598
+    },
+    {
+      "module": "transformer_blocks.0.attn.norm_k",
+      "type": "RMSNorm",
+      "depth": 3,
+      "peak_gb": 7.469750935211778,
+      "in_shape": [
+        1,
+        24,
+        4096,
+        128
+      ],
+      "weight_shape": [
+        128
+      ],
+      "quantized": false,
+      "delta_gb": 0.0468754768371582,
+      "out_gb": 0.046875,
+      "out_shape": [
+        1,
+        24,
+        4096,
+        128
+      ],
+      "time_s": 0.0017021250096149743
+    },
+    {
+      "module": "transformer_blocks.0.attn.add_q_proj",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.402367644011974,
+      "in_shape": [
+        1,
+        512,
+        3072
+      ],
+      "weight_shape": [
+        3072,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": 0.0029220562428236008,
+      "out_gb": 0.0029296875,
+      "out_shape": [
+        1,
+        512,
+        3072
+      ],
+      "time_s": 0.00139216601382941
+    },
+    {
+      "module": "transformer_blocks.0.attn.add_k_proj",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.405297331511974,
+      "in_shape": [
+        1,
+        512,
+        3072
+      ],
+      "weight_shape": [
+        3072,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": 0.0029296875,
+      "out_gb": 0.0029296875,
+      "out_shape": [
+        1,
+        512,
+        3072
+      ],
+      "time_s": 0.0012687499984167516
+    },
+    {
+      "module": "transformer_blocks.0.attn.add_v_proj",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.408227019011974,
+      "in_shape": [
+        1,
+        512,
+        3072
+      ],
+      "weight_shape": [
+        3072,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": 0.0029296875,
+      "out_gb": 0.0029296875,
+      "out_shape": [
+        1,
+        512,
+        3072
+      ],
+      "time_s": 0.0013612079783342779
+    },
+    {
+      "module": "transformer_blocks.0.attn.norm_added_q",
+      "type": "RMSNorm",
+      "depth": 3,
+      "peak_gb": 7.4199462458491325,
+      "in_shape": [
+        1,
+        24,
+        512,
+        128
+      ],
+      "weight_shape": [
+        128
+      ],
+      "quantized": false,
+      "delta_gb": 0.005859851837158203,
+      "out_gb": 0.005859375,
+      "out_shape": [
+        1,
+        24,
+        512,
+        128
+      ],
+      "time_s": 0.00037233298644423485
+    },
+    {
+      "module": "transformer_blocks.0.attn.norm_added_k",
+      "type": "RMSNorm",
+      "depth": 3,
+      "peak_gb": 7.4228759333491325,
+      "in_shape": [
+        1,
+        24,
+        512,
+        128
+      ],
+      "weight_shape": [
+        128
+      ],
+      "quantized": false,
+      "delta_gb": 0.005859851837158203,
+      "out_gb": 0.005859375,
+      "out_shape": [
+        1,
+        24,
+        512,
+        128
+      ],
+      "time_s": 0.0003761670086532831
+    },
+    {
+      "module": "transformer_blocks.0.attn.to_add_out",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.401635222136974,
+      "in_shape": [
+        1,
+        512,
+        3072
+      ],
+      "weight_shape": [
+        3072,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": -0.0498046875,
+      "out_gb": 0.0029296875,
+      "out_shape": [
+        1,
+        512,
+        3072
+      ],
+      "time_s": 0.0017595000099390745
+    },
+    {
+      "module": "transformer_blocks.0.attn.to_out",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.425072722136974,
+      "in_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "weight_shape": [
+        3072,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": 0.0234375,
+      "out_gb": 0.0234375,
+      "out_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "time_s": 0.008549041987862438
+    },
+    {
+      "module": "transformer_blocks.0.attn",
+      "type": "Flux2Attention",
+      "depth": 2,
+      "peak_gb": 7.425072722136974,
+      "in_shape": null,
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.1428222618997097,
+      "out_gb": 0.0263671875,
+      "out_shape": null,
+      "time_s": 0.10576362500432879
+    },
+    {
+      "module": "transformer_blocks.0.norm2",
+      "type": "LayerNorm",
+      "depth": 2,
+      "peak_gb": 7.357689913362265,
+      "in_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0234375037252903,
+      "out_gb": 0.0234375,
+      "out_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "time_s": 0.001206084038130939
+    },
+    {
+      "module": "transformer_blocks.0.ff.linear_in",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.474877409636974,
+      "in_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "weight_shape": [
+        18432,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": 0.1406173687428236,
+      "out_gb": 0.140625,
+      "out_shape": [
+        1,
+        4096,
+        18432
+      ],
+      "time_s": 0.05044924997491762
+    },
+    {
+      "module": "transformer_blocks.0.ff.act",
+      "type": "Flux2SwiGLU",
+      "depth": 3,
+      "peak_gb": 7.545189909636974,
+      "in_shape": [
+        1,
+        4096,
+        18432
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0703125,
+      "out_gb": 0.0703125,
+      "out_shape": [
+        1,
+        4096,
+        9216
+      ],
+      "time_s": 0.004598167026415467
+    },
+    {
+      "module": "transformer_blocks.0.ff.linear_out",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.428002409636974,
+      "in_shape": [
+        1,
+        4096,
+        9216
+      ],
+      "weight_shape": [
+        3072,
+        9216
+      ],
+      "quantized": false,
+      "delta_gb": -0.1171875,
+      "out_gb": 0.0234375,
+      "out_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "time_s": 0.02469920803559944
+    },
+    {
+      "module": "transformer_blocks.0.ff",
+      "type": "Flux2FeedForward",
+      "depth": 2,
+      "peak_gb": 7.428002409636974,
+      "in_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0937423687428236,
+      "out_gb": 0.0234375,
+      "out_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "time_s": 0.07977483299328014
+    },
+    {
+      "module": "transformer_blocks.0.norm2_context",
+      "type": "LayerNorm",
+      "depth": 2,
+      "peak_gb": 7.363549288362265,
+      "in_shape": [
+        1,
+        512,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0029296912252902985,
+      "out_gb": 0.0029296875,
+      "out_shape": [
+        1,
+        512,
+        3072
+      ],
+      "time_s": 0.0002823329996317625
+    },
+    {
+      "module": "transformer_blocks.0.ff_context.linear_in",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.378197722136974,
+      "in_shape": [
+        1,
+        512,
+        3072
+      ],
+      "weight_shape": [
+        18432,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": 0.0175704937428236,
+      "out_gb": 0.017578125,
+      "out_shape": [
+        1,
+        512,
+        18432
+      ],
+      "time_s": 0.007447583018802106
+    },
+    {
+      "module": "transformer_blocks.0.ff_context.act",
+      "type": "Flux2SwiGLU",
+      "depth": 3,
+      "peak_gb": 7.386986784636974,
+      "in_shape": [
+        1,
+        512,
+        18432
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0087890625,
+      "out_gb": 0.0087890625,
+      "out_shape": [
+        1,
+        512,
+        9216
+      ],
+      "time_s": 0.0007336669950746
+    },
+    {
+      "module": "transformer_blocks.0.ff_context.linear_out",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.389916472136974,
+      "in_shape": [
+        1,
+        512,
+        9216
+      ],
+      "weight_shape": [
+        3072,
+        9216
+      ],
+      "quantized": false,
+      "delta_gb": 0.0029296875,
+      "out_gb": 0.0029296875,
+      "out_shape": [
+        1,
+        512,
+        3072
+      ],
+      "time_s": 0.00372270803200081
+    },
+    {
+      "module": "transformer_blocks.0.ff_context",
+      "type": "Flux2FeedForward",
+      "depth": 2,
+      "peak_gb": 7.389916472136974,
+      "in_shape": [
+        1,
+        512,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0292892437428236,
+      "out_gb": 0.0029296875,
+      "out_shape": [
+        1,
+        512,
+        3072
+      ],
+      "time_s": 0.011917916999664158
+    },
+    {
+      "module": "transformer_blocks.0",
+      "type": "Flux2TransformerBlock",
+      "depth": 1,
+      "peak_gb": 7.389916472136974,
+      "in_shape": null,
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.134033203125,
+      "out_gb": 0.0263671875,
+      "out_shape": null,
+      "time_s": 0.2048072079778649
+    },
+    {
+      "module": "transformer_blocks.1.norm1",
+      "type": "LayerNorm",
+      "depth": 2,
+      "peak_gb": 7.281518038362265,
+      "in_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0234375037252903,
+      "out_gb": 0.0234375,
+      "out_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "time_s": 0.0014008330181241035
+    },
+    {
+      "module": "transformer_blocks.1.norm1_context",
+      "type": "LayerNorm",
+      "depth": 2,
+      "peak_gb": 7.28444772772491,
+      "in_shape": [
+        1,
+        512,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0029296875,
+      "out_gb": 0.0029296875,
+      "out_shape": [
+        1,
+        512,
+        3072
+      ],
+      "time_s": 0.0025011670077219605
+    },
+    {
+      "module": "transformer_blocks.1.attn.to_q",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.3078852239996195,
+      "in_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "weight_shape": [
+        3072,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": 0.0234298687428236,
+      "out_gb": 0.0234375,
+      "out_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "time_s": 0.008323291956912726
+    },
+    {
+      "module": "transformer_blocks.1.attn.to_k",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.3313227239996195,
+      "in_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "weight_shape": [
+        3072,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": 0.0234375,
+      "out_gb": 0.0234375,
+      "out_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "time_s": 0.00854987499769777
+    },
+    {
+      "module": "transformer_blocks.1.attn.to_v",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.3547602239996195,
+      "in_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "weight_shape": [
+        3072,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": 0.0234375,
+      "out_gb": 0.0234375,
+      "out_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "time_s": 0.008600415952969342
+    },
+    {
+      "module": "transformer_blocks.1.attn.norm_q",
+      "type": "RMSNorm",
+      "depth": 3,
+      "peak_gb": 7.448510700836778,
+      "in_shape": [
+        1,
+        24,
+        4096,
+        128
+      ],
+      "weight_shape": [
+        128
+      ],
+      "quantized": false,
+      "delta_gb": 0.0468754768371582,
+      "out_gb": 0.046875,
+      "out_shape": [
+        1,
+        24,
+        4096,
+        128
+      ],
+      "time_s": 0.0025415419950149953
+    },
+    {
+      "module": "transformer_blocks.1.attn.norm_k",
+      "type": "RMSNorm",
+      "depth": 3,
+      "peak_gb": 7.471948200836778,
+      "in_shape": [
+        1,
+        24,
+        4096,
+        128
+      ],
+      "weight_shape": [
+        128
+      ],
+      "quantized": false,
+      "delta_gb": 0.0468754768371582,
+      "out_gb": 0.046875,
+      "out_shape": [
+        1,
+        24,
+        4096,
+        128
+      ],
+      "time_s": 0.0026174159720540047
+    },
+    {
+      "module": "transformer_blocks.1.attn.add_q_proj",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.404564909636974,
+      "in_shape": [
+        1,
+        512,
+        3072
+      ],
+      "weight_shape": [
+        3072,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": 0.0029220562428236008,
+      "out_gb": 0.0029296875,
+      "out_shape": [
+        1,
+        512,
+        3072
+      ],
+      "time_s": 0.0015032090013846755
+    },
+    {
+      "module": "transformer_blocks.1.attn.add_k_proj",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.407494597136974,
+      "in_shape": [
+        1,
+        512,
+        3072
+      ],
+      "weight_shape": [
+        3072,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": 0.0029296875,
+      "out_gb": 0.0029296875,
+      "out_shape": [
+        1,
+        512,
+        3072
+      ],
+      "time_s": 0.0014129169867374003
+    },
+    {
+      "module": "transformer_blocks.1.attn.add_v_proj",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.410424284636974,
+      "in_shape": [
+        1,
+        512,
+        3072
+      ],
+      "weight_shape": [
+        3072,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": 0.0029296875,
+      "out_gb": 0.0029296875,
+      "out_shape": [
+        1,
+        512,
+        3072
+      ],
+      "time_s": 0.001277333009056747
+    },
+    {
+      "module": "transformer_blocks.1.attn.norm_added_q",
+      "type": "RMSNorm",
+      "depth": 3,
+      "peak_gb": 7.4221435114741325,
+      "in_shape": [
+        1,
+        24,
+        512,
+        128
+      ],
+      "weight_shape": [
+        128
+      ],
+      "quantized": false,
+      "delta_gb": 0.005859851837158203,
+      "out_gb": 0.005859375,
+      "out_shape": [
+        1,
+        24,
+        512,
+        128
+      ],
+      "time_s": 0.0003765840083360672
+    },
+    {
+      "module": "transformer_blocks.1.attn.norm_added_k",
+      "type": "RMSNorm",
+      "depth": 3,
+      "peak_gb": 7.4250731989741325,
+      "in_shape": [
+        1,
+        24,
+        512,
+        128
+      ],
+      "weight_shape": [
+        128
+      ],
+      "quantized": false,
+      "delta_gb": 0.005859851837158203,
+      "out_gb": 0.005859375,
+      "out_shape": [
+        1,
+        24,
+        512,
+        128
+      ],
+      "time_s": 0.0003759170067496598
+    },
+    {
+      "module": "transformer_blocks.1.attn.to_add_out",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.401635222136974,
+      "in_shape": [
+        1,
+        512,
+        3072
+      ],
+      "weight_shape": [
+        3072,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": -0.0498046875,
+      "out_gb": 0.0029296875,
+      "out_shape": [
+        1,
+        512,
+        3072
+      ],
+      "time_s": 0.0025345419999212027
+    },
+    {
+      "module": "transformer_blocks.1.attn.to_out",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.425072722136974,
+      "in_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "weight_shape": [
+        3072,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": 0.0234375,
+      "out_gb": 0.0234375,
+      "out_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "time_s": 0.008045374997891486
+    },
+    {
+      "module": "transformer_blocks.1.attn",
+      "type": "Flux2Attention",
+      "depth": 2,
+      "peak_gb": 7.425072722136974,
+      "in_shape": null,
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.1406249962747097,
+      "out_gb": 0.0263671875,
+      "out_shape": null,
+      "time_s": 0.10546820797026157
+    },
+    {
+      "module": "transformer_blocks.1.norm2",
+      "type": "LayerNorm",
+      "depth": 2,
+      "peak_gb": 7.357689913362265,
+      "in_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0234375037252903,
+      "out_gb": 0.0234375,
+      "out_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "time_s": 0.0010715830139815807
+    },
+    {
+      "module": "transformer_blocks.1.ff.linear_in",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.474877409636974,
+      "in_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "weight_shape": [
+        18432,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": 0.1406173687428236,
+      "out_gb": 0.140625,
+      "out_shape": [
+        1,
+        4096,
+        18432
+      ],
+      "time_s": 0.050459541962482035
+    },
+    {
+      "module": "transformer_blocks.1.ff.act",
+      "type": "Flux2SwiGLU",
+      "depth": 3,
+      "peak_gb": 7.545189909636974,
+      "in_shape": [
+        1,
+        4096,
+        18432
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0703125,
+      "out_gb": 0.0703125,
+      "out_shape": [
+        1,
+        4096,
+        9216
+      ],
+      "time_s": 0.003370082995388657
+    },
+    {
+      "module": "transformer_blocks.1.ff.linear_out",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.428002409636974,
+      "in_shape": [
+        1,
+        4096,
+        9216
+      ],
+      "weight_shape": [
+        3072,
+        9216
+      ],
+      "quantized": false,
+      "delta_gb": -0.1171875,
+      "out_gb": 0.0234375,
+      "out_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "time_s": 0.024791125033516437
+    },
+    {
+      "module": "transformer_blocks.1.ff",
+      "type": "Flux2FeedForward",
+      "depth": 2,
+      "peak_gb": 7.428002409636974,
+      "in_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0937423687428236,
+      "out_gb": 0.0234375,
+      "out_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "time_s": 0.07863820798229426
+    },
+    {
+      "module": "transformer_blocks.1.norm2_context",
+      "type": "LayerNorm",
+      "depth": 2,
+      "peak_gb": 7.363549288362265,
+      "in_shape": [
+        1,
+        512,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0029296912252902985,
+      "out_gb": 0.0029296875,
+      "out_shape": [
+        1,
+        512,
+        3072
+      ],
+      "time_s": 0.00026537501253187656
+    },
+    {
+      "module": "transformer_blocks.1.ff_context.linear_in",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.378197722136974,
+      "in_shape": [
+        1,
+        512,
+        3072
+      ],
+      "weight_shape": [
+        18432,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": 0.0175704937428236,
+      "out_gb": 0.017578125,
+      "out_shape": [
+        1,
+        512,
+        18432
+      ],
+      "time_s": 0.007484707981348038
+    },
+    {
+      "module": "transformer_blocks.1.ff_context.act",
+      "type": "Flux2SwiGLU",
+      "depth": 3,
+      "peak_gb": 7.386986784636974,
+      "in_shape": [
+        1,
+        512,
+        18432
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0087890625,
+      "out_gb": 0.0087890625,
+      "out_shape": [
+        1,
+        512,
+        9216
+      ],
+      "time_s": 0.0007204170105978847
+    },
+    {
+      "module": "transformer_blocks.1.ff_context.linear_out",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.389916472136974,
+      "in_shape": [
+        1,
+        512,
+        9216
+      ],
+      "weight_shape": [
+        3072,
+        9216
+      ],
+      "quantized": false,
+      "delta_gb": 0.0029296875,
+      "out_gb": 0.0029296875,
+      "out_shape": [
+        1,
+        512,
+        3072
+      ],
+      "time_s": 0.003754583012778312
+    },
+    {
+      "module": "transformer_blocks.1.ff_context",
+      "type": "Flux2FeedForward",
+      "depth": 2,
+      "peak_gb": 7.389916472136974,
+      "in_shape": [
+        1,
+        512,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0292892437428236,
+      "out_gb": 0.0029296875,
+      "out_shape": [
+        1,
+        512,
+        3072
+      ],
+      "time_s": 0.01197391701862216
+    },
+    {
+      "module": "transformer_blocks.1",
+      "type": "Flux2TransformerBlock",
+      "depth": 1,
+      "peak_gb": 7.389916472136974,
+      "in_shape": null,
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.1318359375,
+      "out_gb": 0.0263671875,
+      "out_shape": null,
+      "time_s": 0.20549699995899573
+    },
+    {
+      "module": "transformer_blocks.2.norm1",
+      "type": "LayerNorm",
+      "depth": 2,
+      "peak_gb": 7.281518038362265,
+      "in_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0234375037252903,
+      "out_gb": 0.0234375,
+      "out_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "time_s": 0.001362041977699846
+    },
+    {
+      "module": "transformer_blocks.2.norm1_context",
+      "type": "LayerNorm",
+      "depth": 2,
+      "peak_gb": 7.28444772772491,
+      "in_shape": [
+        1,
+        512,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0029296875,
+      "out_gb": 0.0029296875,
+      "out_shape": [
+        1,
+        512,
+        3072
+      ],
+      "time_s": 0.00030454201623797417
+    },
+    {
+      "module": "transformer_blocks.2.attn.to_q",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.3078852239996195,
+      "in_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "weight_shape": [
+        3072,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": 0.0234298687428236,
+      "out_gb": 0.0234375,
+      "out_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "time_s": 0.008474167028907686
+    },
+    {
+      "module": "transformer_blocks.2.attn.to_k",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.3313227239996195,
+      "in_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "weight_shape": [
+        3072,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": 0.0234375,
+      "out_gb": 0.0234375,
+      "out_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "time_s": 0.008570041973143816
+    },
+    {
+      "module": "transformer_blocks.2.attn.to_v",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.3547602239996195,
+      "in_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "weight_shape": [
+        3072,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": 0.0234375,
+      "out_gb": 0.0234375,
+      "out_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "time_s": 0.008599124965257943
+    },
+    {
+      "module": "transformer_blocks.2.attn.norm_q",
+      "type": "RMSNorm",
+      "depth": 3,
+      "peak_gb": 7.448510700836778,
+      "in_shape": [
+        1,
+        24,
+        4096,
+        128
+      ],
+      "weight_shape": [
+        128
+      ],
+      "quantized": false,
+      "delta_gb": 0.0468754768371582,
+      "out_gb": 0.046875,
+      "out_shape": [
+        1,
+        24,
+        4096,
+        128
+      ],
+      "time_s": 0.0026583329890854657
+    },
+    {
+      "module": "transformer_blocks.2.attn.norm_k",
+      "type": "RMSNorm",
+      "depth": 3,
+      "peak_gb": 7.471948200836778,
+      "in_shape": [
+        1,
+        24,
+        4096,
+        128
+      ],
+      "weight_shape": [
+        128
+      ],
+      "quantized": false,
+      "delta_gb": 0.0468754768371582,
+      "out_gb": 0.046875,
+      "out_shape": [
+        1,
+        24,
+        4096,
+        128
+      ],
+      "time_s": 0.002568916999734938
+    },
+    {
+      "module": "transformer_blocks.2.attn.add_q_proj",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.404564909636974,
+      "in_shape": [
+        1,
+        512,
+        3072
+      ],
+      "weight_shape": [
+        3072,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": 0.0029220562428236008,
+      "out_gb": 0.0029296875,
+      "out_shape": [
+        1,
+        512,
+        3072
+      ],
+      "time_s": 0.001451499992981553
+    },
+    {
+      "module": "transformer_blocks.2.attn.add_k_proj",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.407494597136974,
+      "in_shape": [
+        1,
+        512,
+        3072
+      ],
+      "weight_shape": [
+        3072,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": 0.0029296875,
+      "out_gb": 0.0029296875,
+      "out_shape": [
+        1,
+        512,
+        3072
+      ],
+      "time_s": 0.0012961659813299775
+    },
+    {
+      "module": "transformer_blocks.2.attn.add_v_proj",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.410424284636974,
+      "in_shape": [
+        1,
+        512,
+        3072
+      ],
+      "weight_shape": [
+        3072,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": 0.0029296875,
+      "out_gb": 0.0029296875,
+      "out_shape": [
+        1,
+        512,
+        3072
+      ],
+      "time_s": 0.0013062499929219484
+    },
+    {
+      "module": "transformer_blocks.2.attn.norm_added_q",
+      "type": "RMSNorm",
+      "depth": 3,
+      "peak_gb": 7.4221435114741325,
+      "in_shape": [
+        1,
+        24,
+        512,
+        128
+      ],
+      "weight_shape": [
+        128
+      ],
+      "quantized": false,
+      "delta_gb": 0.005859851837158203,
+      "out_gb": 0.005859375,
+      "out_shape": [
+        1,
+        24,
+        512,
+        128
+      ],
+      "time_s": 0.0003893329994753003
+    },
+    {
+      "module": "transformer_blocks.2.attn.norm_added_k",
+      "type": "RMSNorm",
+      "depth": 3,
+      "peak_gb": 7.4250731989741325,
+      "in_shape": [
+        1,
+        24,
+        512,
+        128
+      ],
+      "weight_shape": [
+        128
+      ],
+      "quantized": false,
+      "delta_gb": 0.005859851837158203,
+      "out_gb": 0.005859375,
+      "out_shape": [
+        1,
+        24,
+        512,
+        128
+      ],
+      "time_s": 0.000365958025213331
+    },
+    {
+      "module": "transformer_blocks.2.attn.to_add_out",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.401635222136974,
+      "in_shape": [
+        1,
+        512,
+        3072
+      ],
+      "weight_shape": [
+        3072,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": -0.0498046875,
+      "out_gb": 0.0029296875,
+      "out_shape": [
+        1,
+        512,
+        3072
+      ],
+      "time_s": 0.0023995839874260128
+    },
+    {
+      "module": "transformer_blocks.2.attn.to_out",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.425072722136974,
+      "in_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "weight_shape": [
+        3072,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": 0.0234375,
+      "out_gb": 0.0234375,
+      "out_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "time_s": 0.00806766701862216
+    },
+    {
+      "module": "transformer_blocks.2.attn",
+      "type": "Flux2Attention",
+      "depth": 2,
+      "peak_gb": 7.425072722136974,
+      "in_shape": null,
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.1406249925494194,
+      "out_gb": 0.0263671875,
+      "out_shape": null,
+      "time_s": 0.10533099999884143
+    },
+    {
+      "module": "transformer_blocks.2.norm2",
+      "type": "LayerNorm",
+      "depth": 2,
+      "peak_gb": 7.357689913362265,
+      "in_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0234375037252903,
+      "out_gb": 0.0234375,
+      "out_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "time_s": 0.0010889589902944863
+    },
+    {
+      "module": "transformer_blocks.2.ff.linear_in",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.474877409636974,
+      "in_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "weight_shape": [
+        18432,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": 0.140625,
+      "out_gb": 0.140625,
+      "out_shape": [
+        1,
+        4096,
+        18432
+      ],
+      "time_s": 0.05124983302084729
+    },
+    {
+      "module": "transformer_blocks.2.ff.act",
+      "type": "Flux2SwiGLU",
+      "depth": 3,
+      "peak_gb": 7.545189909636974,
+      "in_shape": [
+        1,
+        4096,
+        18432
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0703125,
+      "out_gb": 0.0703125,
+      "out_shape": [
+        1,
+        4096,
+        9216
+      ],
+      "time_s": 0.003220624988898635
+    },
+    {
+      "module": "transformer_blocks.2.ff.linear_out",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.428002409636974,
+      "in_shape": [
+        1,
+        4096,
+        9216
+      ],
+      "weight_shape": [
+        3072,
+        9216
+      ],
+      "quantized": false,
+      "delta_gb": -0.1171875,
+      "out_gb": 0.0234375,
+      "out_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "time_s": 0.024661916017066687
+    },
+    {
+      "module": "transformer_blocks.2.ff",
+      "type": "Flux2FeedForward",
+      "depth": 2,
+      "peak_gb": 7.428002409636974,
+      "in_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0937423687428236,
+      "out_gb": 0.0234375,
+      "out_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "time_s": 0.07915308297378942
+    },
+    {
+      "module": "transformer_blocks.2.norm2_context",
+      "type": "LayerNorm",
+      "depth": 2,
+      "peak_gb": 7.363549288362265,
+      "in_shape": [
+        1,
+        512,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0029296912252902985,
+      "out_gb": 0.0029296875,
+      "out_shape": [
+        1,
+        512,
+        3072
+      ],
+      "time_s": 0.00024970900267362595
+    },
+    {
+      "module": "transformer_blocks.2.ff_context.linear_in",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.378197722136974,
+      "in_shape": [
+        1,
+        512,
+        3072
+      ],
+      "weight_shape": [
+        18432,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": 0.0175704937428236,
+      "out_gb": 0.017578125,
+      "out_shape": [
+        1,
+        512,
+        18432
+      ],
+      "time_s": 0.007445624971296638
+    },
+    {
+      "module": "transformer_blocks.2.ff_context.act",
+      "type": "Flux2SwiGLU",
+      "depth": 3,
+      "peak_gb": 7.386986784636974,
+      "in_shape": [
+        1,
+        512,
+        18432
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0087890625,
+      "out_gb": 0.0087890625,
+      "out_shape": [
+        1,
+        512,
+        9216
+      ],
+      "time_s": 0.00076299998909235
+    },
+    {
+      "module": "transformer_blocks.2.ff_context.linear_out",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.389916472136974,
+      "in_shape": [
+        1,
+        512,
+        9216
+      ],
+      "weight_shape": [
+        3072,
+        9216
+      ],
+      "quantized": false,
+      "delta_gb": 0.0029296875,
+      "out_gb": 0.0029296875,
+      "out_shape": [
+        1,
+        512,
+        3072
+      ],
+      "time_s": 0.003936250053811818
+    },
+    {
+      "module": "transformer_blocks.2.ff_context",
+      "type": "Flux2FeedForward",
+      "depth": 2,
+      "peak_gb": 7.389916472136974,
+      "in_shape": [
+        1,
+        512,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0292892437428236,
+      "out_gb": 0.0029296875,
+      "out_shape": [
+        1,
+        512,
+        3072
+      ],
+      "time_s": 0.012160665995907038
+    },
+    {
+      "module": "transformer_blocks.2",
+      "type": "Flux2TransformerBlock",
+      "depth": 1,
+      "peak_gb": 7.389916472136974,
+      "in_shape": null,
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.1318359375,
+      "out_gb": 0.0263671875,
+      "out_shape": null,
+      "time_s": 0.20375520800007507
+    },
+    {
+      "module": "transformer_blocks.3.norm1",
+      "type": "LayerNorm",
+      "depth": 2,
+      "peak_gb": 7.281518038362265,
+      "in_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0234375037252903,
+      "out_gb": 0.0234375,
+      "out_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "time_s": 0.0014373749727383256
+    },
+    {
+      "module": "transformer_blocks.3.norm1_context",
+      "type": "LayerNorm",
+      "depth": 2,
+      "peak_gb": 7.28444772772491,
+      "in_shape": [
+        1,
+        512,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0029296912252902985,
+      "out_gb": 0.0029296875,
+      "out_shape": [
+        1,
+        512,
+        3072
+      ],
+      "time_s": 0.00026483304100111127
+    },
+    {
+      "module": "transformer_blocks.3.attn.to_q",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.3078852239996195,
+      "in_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "weight_shape": [
+        3072,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": 0.0234298687428236,
+      "out_gb": 0.0234375,
+      "out_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "time_s": 0.0085054169758223
+    },
+    {
+      "module": "transformer_blocks.3.attn.to_k",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.3313227239996195,
+      "in_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "weight_shape": [
+        3072,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": 0.0234375,
+      "out_gb": 0.0234375,
+      "out_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "time_s": 0.008676333993207663
+    },
+    {
+      "module": "transformer_blocks.3.attn.to_v",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.3547602239996195,
+      "in_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "weight_shape": [
+        3072,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": 0.0234375,
+      "out_gb": 0.0234375,
+      "out_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "time_s": 0.008557750028558075
+    },
+    {
+      "module": "transformer_blocks.3.attn.norm_q",
+      "type": "RMSNorm",
+      "depth": 3,
+      "peak_gb": 7.448510700836778,
+      "in_shape": [
+        1,
+        24,
+        4096,
+        128
+      ],
+      "weight_shape": [
+        128
+      ],
+      "quantized": false,
+      "delta_gb": 0.0468754768371582,
+      "out_gb": 0.046875,
+      "out_shape": [
+        1,
+        24,
+        4096,
+        128
+      ],
+      "time_s": 0.002543291018810123
+    },
+    {
+      "module": "transformer_blocks.3.attn.norm_k",
+      "type": "RMSNorm",
+      "depth": 3,
+      "peak_gb": 7.471948200836778,
+      "in_shape": [
+        1,
+        24,
+        4096,
+        128
+      ],
+      "weight_shape": [
+        128
+      ],
+      "quantized": false,
+      "delta_gb": 0.0468754768371582,
+      "out_gb": 0.046875,
+      "out_shape": [
+        1,
+        24,
+        4096,
+        128
+      ],
+      "time_s": 0.002555167011450976
+    },
+    {
+      "module": "transformer_blocks.3.attn.add_q_proj",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.404564909636974,
+      "in_shape": [
+        1,
+        512,
+        3072
+      ],
+      "weight_shape": [
+        3072,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": 0.0029220562428236008,
+      "out_gb": 0.0029296875,
+      "out_shape": [
+        1,
+        512,
+        3072
+      ],
+      "time_s": 0.001488042005803436
+    },
+    {
+      "module": "transformer_blocks.3.attn.add_k_proj",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.407494597136974,
+      "in_shape": [
+        1,
+        512,
+        3072
+      ],
+      "weight_shape": [
+        3072,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": 0.0029296875,
+      "out_gb": 0.0029296875,
+      "out_shape": [
+        1,
+        512,
+        3072
+      ],
+      "time_s": 0.0013907080283388495
+    },
+    {
+      "module": "transformer_blocks.3.attn.add_v_proj",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.410424284636974,
+      "in_shape": [
+        1,
+        512,
+        3072
+      ],
+      "weight_shape": [
+        3072,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": 0.0029296875,
+      "out_gb": 0.0029296875,
+      "out_shape": [
+        1,
+        512,
+        3072
+      ],
+      "time_s": 0.0013424170319922268
+    },
+    {
+      "module": "transformer_blocks.3.attn.norm_added_q",
+      "type": "RMSNorm",
+      "depth": 3,
+      "peak_gb": 7.4221435114741325,
+      "in_shape": [
+        1,
+        24,
+        512,
+        128
+      ],
+      "weight_shape": [
+        128
+      ],
+      "quantized": false,
+      "delta_gb": 0.005859851837158203,
+      "out_gb": 0.005859375,
+      "out_shape": [
+        1,
+        24,
+        512,
+        128
+      ],
+      "time_s": 0.0003796250093728304
+    },
+    {
+      "module": "transformer_blocks.3.attn.norm_added_k",
+      "type": "RMSNorm",
+      "depth": 3,
+      "peak_gb": 7.4250731989741325,
+      "in_shape": [
+        1,
+        24,
+        512,
+        128
+      ],
+      "weight_shape": [
+        128
+      ],
+      "quantized": false,
+      "delta_gb": 0.005859851837158203,
+      "out_gb": 0.005859375,
+      "out_shape": [
+        1,
+        24,
+        512,
+        128
+      ],
+      "time_s": 0.00039437500527128577
+    },
+    {
+      "module": "transformer_blocks.3.attn.to_add_out",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.401635222136974,
+      "in_shape": [
+        1,
+        512,
+        3072
+      ],
+      "weight_shape": [
+        3072,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": -0.0498046875,
+      "out_gb": 0.0029296875,
+      "out_shape": [
+        1,
+        512,
+        3072
+      ],
+      "time_s": 0.0023535420186817646
+    },
+    {
+      "module": "transformer_blocks.3.attn.to_out",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.425072722136974,
+      "in_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "weight_shape": [
+        3072,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": 0.0234375,
+      "out_gb": 0.0234375,
+      "out_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "time_s": 0.008161959005519748
+    },
+    {
+      "module": "transformer_blocks.3.attn",
+      "type": "Flux2Attention",
+      "depth": 2,
+      "peak_gb": 7.425072722136974,
+      "in_shape": null,
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.1406249925494194,
+      "out_gb": 0.0263671875,
+      "out_shape": null,
+      "time_s": 0.10532091604545712
+    },
+    {
+      "module": "transformer_blocks.3.norm2",
+      "type": "LayerNorm",
+      "depth": 2,
+      "peak_gb": 7.357689913362265,
+      "in_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0234375037252903,
+      "out_gb": 0.0234375,
+      "out_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "time_s": 0.0010346670169383287
+    },
+    {
+      "module": "transformer_blocks.3.ff.linear_in",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.474877409636974,
+      "in_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "weight_shape": [
+        18432,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": 0.1406173687428236,
+      "out_gb": 0.140625,
+      "out_shape": [
+        1,
+        4096,
+        18432
+      ],
+      "time_s": 0.0507085410063155
+    },
+    {
+      "module": "transformer_blocks.3.ff.act",
+      "type": "Flux2SwiGLU",
+      "depth": 3,
+      "peak_gb": 7.545189909636974,
+      "in_shape": [
+        1,
+        4096,
+        18432
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0703125,
+      "out_gb": 0.0703125,
+      "out_shape": [
+        1,
+        4096,
+        9216
+      ],
+      "time_s": 0.003189291979651898
+    },
+    {
+      "module": "transformer_blocks.3.ff.linear_out",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.428002409636974,
+      "in_shape": [
+        1,
+        4096,
+        9216
+      ],
+      "weight_shape": [
+        3072,
+        9216
+      ],
+      "quantized": false,
+      "delta_gb": -0.1171875,
+      "out_gb": 0.0234375,
+      "out_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "time_s": 0.024615583999548107
+    },
+    {
+      "module": "transformer_blocks.3.ff",
+      "type": "Flux2FeedForward",
+      "depth": 2,
+      "peak_gb": 7.428002409636974,
+      "in_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0937423687428236,
+      "out_gb": 0.0234375,
+      "out_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "time_s": 0.07854066701838747
+    },
+    {
+      "module": "transformer_blocks.3.norm2_context",
+      "type": "LayerNorm",
+      "depth": 2,
+      "peak_gb": 7.363549288362265,
+      "in_shape": [
+        1,
+        512,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0029296912252902985,
+      "out_gb": 0.0029296875,
+      "out_shape": [
+        1,
+        512,
+        3072
+      ],
+      "time_s": 0.00025154202012345195
+    },
+    {
+      "module": "transformer_blocks.3.ff_context.linear_in",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.378197722136974,
+      "in_shape": [
+        1,
+        512,
+        3072
+      ],
+      "weight_shape": [
+        18432,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": 0.0175704937428236,
+      "out_gb": 0.017578125,
+      "out_shape": [
+        1,
+        512,
+        18432
+      ],
+      "time_s": 0.007394833955913782
+    },
+    {
+      "module": "transformer_blocks.3.ff_context.act",
+      "type": "Flux2SwiGLU",
+      "depth": 3,
+      "peak_gb": 7.386986784636974,
+      "in_shape": [
+        1,
+        512,
+        18432
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0087890625,
+      "out_gb": 0.0087890625,
+      "out_shape": [
+        1,
+        512,
+        9216
+      ],
+      "time_s": 0.0007103329990059137
+    },
+    {
+      "module": "transformer_blocks.3.ff_context.linear_out",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.389916472136974,
+      "in_shape": [
+        1,
+        512,
+        9216
+      ],
+      "weight_shape": [
+        3072,
+        9216
+      ],
+      "quantized": false,
+      "delta_gb": 0.0029296875,
+      "out_gb": 0.0029296875,
+      "out_shape": [
+        1,
+        512,
+        3072
+      ],
+      "time_s": 0.003719500033184886
+    },
+    {
+      "module": "transformer_blocks.3.ff_context",
+      "type": "Flux2FeedForward",
+      "depth": 2,
+      "peak_gb": 7.389916472136974,
+      "in_shape": [
+        1,
+        512,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0292892437428236,
+      "out_gb": 0.0029296875,
+      "out_shape": [
+        1,
+        512,
+        3072
+      ],
+      "time_s": 0.011837708007078618
+    },
+    {
+      "module": "transformer_blocks.3",
+      "type": "Flux2TransformerBlock",
+      "depth": 1,
+      "peak_gb": 7.389916472136974,
+      "in_shape": null,
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.1318359375,
+      "out_gb": 0.0263671875,
+      "out_shape": null,
+      "time_s": 0.20285558397881687
+    },
+    {
+      "module": "transformer_blocks.4.norm1",
+      "type": "LayerNorm",
+      "depth": 2,
+      "peak_gb": 7.281518038362265,
+      "in_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0234375037252903,
+      "out_gb": 0.0234375,
+      "out_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "time_s": 0.0014007919817231596
+    },
+    {
+      "module": "transformer_blocks.4.norm1_context",
+      "type": "LayerNorm",
+      "depth": 2,
+      "peak_gb": 7.28444772772491,
+      "in_shape": [
+        1,
+        512,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0029296912252902985,
+      "out_gb": 0.0029296875,
+      "out_shape": [
+        1,
+        512,
+        3072
+      ],
+      "time_s": 0.00023858301574364305
+    },
+    {
+      "module": "transformer_blocks.4.attn.to_q",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.3078852239996195,
+      "in_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "weight_shape": [
+        3072,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": 0.0234298687428236,
+      "out_gb": 0.0234375,
+      "out_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "time_s": 0.008542500028852373
+    },
+    {
+      "module": "transformer_blocks.4.attn.to_k",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.3313227239996195,
+      "in_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "weight_shape": [
+        3072,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": 0.0234375,
+      "out_gb": 0.0234375,
+      "out_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "time_s": 0.00861866696504876
+    },
+    {
+      "module": "transformer_blocks.4.attn.to_v",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.3547602239996195,
+      "in_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "weight_shape": [
+        3072,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": 0.0234375,
+      "out_gb": 0.0234375,
+      "out_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "time_s": 0.01080937503138557
+    },
+    {
+      "module": "transformer_blocks.4.attn.norm_q",
+      "type": "RMSNorm",
+      "depth": 3,
+      "peak_gb": 7.448510700836778,
+      "in_shape": [
+        1,
+        24,
+        4096,
+        128
+      ],
+      "weight_shape": [
+        128
+      ],
+      "quantized": false,
+      "delta_gb": 0.0468754768371582,
+      "out_gb": 0.046875,
+      "out_shape": [
+        1,
+        24,
+        4096,
+        128
+      ],
+      "time_s": 0.0025187500286847353
+    },
+    {
+      "module": "transformer_blocks.4.attn.norm_k",
+      "type": "RMSNorm",
+      "depth": 3,
+      "peak_gb": 7.471948200836778,
+      "in_shape": [
+        1,
+        24,
+        4096,
+        128
+      ],
+      "weight_shape": [
+        128
+      ],
+      "quantized": false,
+      "delta_gb": 0.0468754768371582,
+      "out_gb": 0.046875,
+      "out_shape": [
+        1,
+        24,
+        4096,
+        128
+      ],
+      "time_s": 0.0026331249973736703
+    },
+    {
+      "module": "transformer_blocks.4.attn.add_q_proj",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.404564909636974,
+      "in_shape": [
+        1,
+        512,
+        3072
+      ],
+      "weight_shape": [
+        3072,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": 0.0029220562428236008,
+      "out_gb": 0.0029296875,
+      "out_shape": [
+        1,
+        512,
+        3072
+      ],
+      "time_s": 0.0014395000180229545
+    },
+    {
+      "module": "transformer_blocks.4.attn.add_k_proj",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.407494597136974,
+      "in_shape": [
+        1,
+        512,
+        3072
+      ],
+      "weight_shape": [
+        3072,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": 0.0029296875,
+      "out_gb": 0.0029296875,
+      "out_shape": [
+        1,
+        512,
+        3072
+      ],
+      "time_s": 0.00132583302911371
+    },
+    {
+      "module": "transformer_blocks.4.attn.add_v_proj",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.410424284636974,
+      "in_shape": [
+        1,
+        512,
+        3072
+      ],
+      "weight_shape": [
+        3072,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": 0.0029296875,
+      "out_gb": 0.0029296875,
+      "out_shape": [
+        1,
+        512,
+        3072
+      ],
+      "time_s": 0.0014198750141076744
+    },
+    {
+      "module": "transformer_blocks.4.attn.norm_added_q",
+      "type": "RMSNorm",
+      "depth": 3,
+      "peak_gb": 7.4221435114741325,
+      "in_shape": [
+        1,
+        24,
+        512,
+        128
+      ],
+      "weight_shape": [
+        128
+      ],
+      "quantized": false,
+      "delta_gb": 0.005859851837158203,
+      "out_gb": 0.005859375,
+      "out_shape": [
+        1,
+        24,
+        512,
+        128
+      ],
+      "time_s": 0.0003890420193783939
+    },
+    {
+      "module": "transformer_blocks.4.attn.norm_added_k",
+      "type": "RMSNorm",
+      "depth": 3,
+      "peak_gb": 7.4250731989741325,
+      "in_shape": [
+        1,
+        24,
+        512,
+        128
+      ],
+      "weight_shape": [
+        128
+      ],
+      "quantized": false,
+      "delta_gb": 0.005859851837158203,
+      "out_gb": 0.005859375,
+      "out_shape": [
+        1,
+        24,
+        512,
+        128
+      ],
+      "time_s": 0.0004124579718336463
+    },
+    {
+      "module": "transformer_blocks.4.attn.to_add_out",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.401635222136974,
+      "in_shape": [
+        1,
+        512,
+        3072
+      ],
+      "weight_shape": [
+        3072,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": -0.0498046875,
+      "out_gb": 0.0029296875,
+      "out_shape": [
+        1,
+        512,
+        3072
+      ],
+      "time_s": 0.0024126250064000487
+    },
+    {
+      "module": "transformer_blocks.4.attn.to_out",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.425072722136974,
+      "in_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "weight_shape": [
+        3072,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": 0.0234375,
+      "out_gb": 0.0234375,
+      "out_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "time_s": 0.008135291980579495
+    },
+    {
+      "module": "transformer_blocks.4.attn",
+      "type": "Flux2Attention",
+      "depth": 2,
+      "peak_gb": 7.425072722136974,
+      "in_shape": null,
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.1406249925494194,
+      "out_gb": 0.0263671875,
+      "out_shape": null,
+      "time_s": 0.10753408400341868
+    },
+    {
+      "module": "transformer_blocks.4.norm2",
+      "type": "LayerNorm",
+      "depth": 2,
+      "peak_gb": 7.357689913362265,
+      "in_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0234375037252903,
+      "out_gb": 0.0234375,
+      "out_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "time_s": 0.00101275002816692
+    },
+    {
+      "module": "transformer_blocks.4.ff.linear_in",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.474877409636974,
+      "in_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "weight_shape": [
+        18432,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": 0.1171798687428236,
+      "out_gb": 0.140625,
+      "out_shape": [
+        1,
+        4096,
+        18432
+      ],
+      "time_s": 0.05084641603752971
+    },
+    {
+      "module": "transformer_blocks.4.ff.act",
+      "type": "Flux2SwiGLU",
+      "depth": 3,
+      "peak_gb": 7.545189909636974,
+      "in_shape": [
+        1,
+        4096,
+        18432
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0703125,
+      "out_gb": 0.0703125,
+      "out_shape": [
+        1,
+        4096,
+        9216
+      ],
+      "time_s": 0.003388332959730178
+    },
+    {
+      "module": "transformer_blocks.4.ff.linear_out",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.428002409636974,
+      "in_shape": [
+        1,
+        4096,
+        9216
+      ],
+      "weight_shape": [
+        3072,
+        9216
+      ],
+      "quantized": false,
+      "delta_gb": -0.1171875,
+      "out_gb": 0.0234375,
+      "out_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "time_s": 0.024574292008765042
+    },
+    {
+      "module": "transformer_blocks.4.ff",
+      "type": "Flux2FeedForward",
+      "depth": 2,
+      "peak_gb": 7.428002409636974,
+      "in_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0703048687428236,
+      "out_gb": 0.0234375,
+      "out_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "time_s": 0.07882820797385648
+    },
+    {
+      "module": "transformer_blocks.4.norm2_context",
+      "type": "LayerNorm",
+      "depth": 2,
+      "peak_gb": 7.363549288362265,
+      "in_shape": [
+        1,
+        512,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0029296912252902985,
+      "out_gb": 0.0029296875,
+      "out_shape": [
+        1,
+        512,
+        3072
+      ],
+      "time_s": 0.00026012497255578637
+    },
+    {
+      "module": "transformer_blocks.4.ff_context.linear_in",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.378197722136974,
+      "in_shape": [
+        1,
+        512,
+        3072
+      ],
+      "weight_shape": [
+        18432,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": 0.0175704937428236,
+      "out_gb": 0.017578125,
+      "out_shape": [
+        1,
+        512,
+        18432
+      ],
+      "time_s": 0.007396791013889015
+    },
+    {
+      "module": "transformer_blocks.4.ff_context.act",
+      "type": "Flux2SwiGLU",
+      "depth": 3,
+      "peak_gb": 7.386986784636974,
+      "in_shape": [
+        1,
+        512,
+        18432
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0087890625,
+      "out_gb": 0.0087890625,
+      "out_shape": [
+        1,
+        512,
+        9216
+      ],
+      "time_s": 0.0007207500166259706
+    },
+    {
+      "module": "transformer_blocks.4.ff_context.linear_out",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.389916472136974,
+      "in_shape": [
+        1,
+        512,
+        9216
+      ],
+      "weight_shape": [
+        3072,
+        9216
+      ],
+      "quantized": false,
+      "delta_gb": 0.0029296875,
+      "out_gb": 0.0029296875,
+      "out_shape": [
+        1,
+        512,
+        3072
+      ],
+      "time_s": 0.0036672080168500543
+    },
+    {
+      "module": "transformer_blocks.4.ff_context",
+      "type": "Flux2FeedForward",
+      "depth": 2,
+      "peak_gb": 7.389916472136974,
+      "in_shape": [
+        1,
+        512,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0292892437428236,
+      "out_gb": 0.0029296875,
+      "out_shape": [
+        1,
+        512,
+        3072
+      ],
+      "time_s": 0.011797417013440281
+    },
+    {
+      "module": "transformer_blocks.4",
+      "type": "Flux2TransformerBlock",
+      "depth": 1,
+      "peak_gb": 7.389916472136974,
+      "in_shape": null,
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.1318359375,
+      "out_gb": 0.0263671875,
+      "out_shape": null,
+      "time_s": 0.2053371670190245
+    },
+    {
+      "module": "single_stream_modulation.linear",
+      "type": "Linear",
+      "depth": 2,
+      "peak_gb": 7.258118681609631,
+      "in_shape": [
+        1,
+        3072
+      ],
+      "weight_shape": [
+        9216,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": 3.0517578125e-05,
+      "out_gb": 1.71661376953125e-05,
+      "out_shape": [
+        1,
+        9216
+      ],
+      "time_s": 0.0015632909489795566
+    },
+    {
+      "module": "single_stream_modulation",
+      "type": "Flux2Modulation",
+      "depth": 1,
+      "peak_gb": 7.258118681609631,
+      "in_shape": [
+        1,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 3.814697265625e-05,
+      "out_gb": 1.71661376953125e-05,
+      "out_shape": null,
+      "time_s": 0.0018434999510645866
+    },
+    {
+      "module": "single_transformer_blocks.0.norm",
+      "type": "LayerNorm",
+      "depth": 2,
+      "peak_gb": 7.28740793094039,
+      "in_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0029296912252902985,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.0006837920518592
+    },
+    {
+      "module": "single_transformer_blocks.0.attn.to_qkv_mlp_proj",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.524712614715099,
+      "in_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "weight_shape": [
+        27648,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": 0.2372970562428236,
+      "out_gb": 0.2373046875,
+      "out_shape": [
+        1,
+        4608,
+        27648
+      ],
+      "time_s": 0.0859511669841595
+    },
+    {
+      "module": "single_transformer_blocks.0.attn.norm_q",
+      "type": "RMSNorm",
+      "depth": 3,
+      "peak_gb": 7.6301818415522575,
+      "in_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "weight_shape": [
+        128
+      ],
+      "quantized": false,
+      "delta_gb": 0.0527348518371582,
+      "out_gb": 0.052734375,
+      "out_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "time_s": 0.0020766659872606397
+    },
+    {
+      "module": "single_transformer_blocks.0.attn.norm_k",
+      "type": "RMSNorm",
+      "depth": 3,
+      "peak_gb": 7.6829162165522575,
+      "in_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "weight_shape": [
+        128
+      ],
+      "quantized": false,
+      "delta_gb": 0.0527348518371582,
+      "out_gb": 0.052734375,
+      "out_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "time_s": 0.0019810000085271895
+    },
+    {
+      "module": "single_transformer_blocks.0.attn.mlp_act",
+      "type": "Flux2SwiGLU",
+      "depth": 3,
+      "peak_gb": 7.709282927215099,
+      "in_shape": [
+        1,
+        4608,
+        18432
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0791015513241291,
+      "out_gb": 0.0791015625,
+      "out_shape": [
+        1,
+        4608,
+        9216
+      ],
+      "time_s": 0.005143041955307126
+    },
+    {
+      "module": "single_transformer_blocks.0.attn.to_out",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.788384489715099,
+      "in_shape": [
+        1,
+        4608,
+        12288
+      ],
+      "weight_shape": [
+        3072,
+        12288
+      ],
+      "quantized": false,
+      "delta_gb": 0.0,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.03922487504314631
+    },
+    {
+      "module": "single_transformer_blocks.0.attn",
+      "type": "Flux2ParallelSelfAttention",
+      "depth": 2,
+      "peak_gb": 7.788384489715099,
+      "in_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.5009689312428236,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.19144841702654958
+    },
+    {
+      "module": "single_transformer_blocks.0",
+      "type": "Flux2SingleTransformerBlock",
+      "depth": 1,
+      "peak_gb": 7.788384489715099,
+      "in_shape": null,
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.5302734375,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.1951095000258647
+    },
+    {
+      "module": "single_transformer_blocks.1.norm",
+      "type": "LayerNorm",
+      "depth": 2,
+      "peak_gb": 7.28740793094039,
+      "in_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0263671912252903,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.0007106669945642352
+    },
+    {
+      "module": "single_transformer_blocks.1.attn.to_qkv_mlp_proj",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.524712614715099,
+      "in_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "weight_shape": [
+        27648,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": 0.2372970562428236,
+      "out_gb": 0.2373046875,
+      "out_shape": [
+        1,
+        4608,
+        27648
+      ],
+      "time_s": 0.08904333302052692
+    },
+    {
+      "module": "single_transformer_blocks.1.attn.norm_q",
+      "type": "RMSNorm",
+      "depth": 3,
+      "peak_gb": 7.6301818415522575,
+      "in_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "weight_shape": [
+        128
+      ],
+      "quantized": false,
+      "delta_gb": 0.0527348518371582,
+      "out_gb": 0.052734375,
+      "out_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "time_s": 0.0011223750188946724
+    },
+    {
+      "module": "single_transformer_blocks.1.attn.norm_k",
+      "type": "RMSNorm",
+      "depth": 3,
+      "peak_gb": 7.6829162165522575,
+      "in_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "weight_shape": [
+        128
+      ],
+      "quantized": false,
+      "delta_gb": 0.0527348518371582,
+      "out_gb": 0.052734375,
+      "out_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "time_s": 0.0010596659849397838
+    },
+    {
+      "module": "single_transformer_blocks.1.attn.mlp_act",
+      "type": "Flux2SwiGLU",
+      "depth": 3,
+      "peak_gb": 7.709282927215099,
+      "in_shape": [
+        1,
+        4608,
+        18432
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0791015513241291,
+      "out_gb": 0.0791015625,
+      "out_shape": [
+        1,
+        4608,
+        9216
+      ],
+      "time_s": 0.0036377920187078416
+    },
+    {
+      "module": "single_transformer_blocks.1.attn.to_out",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.788384489715099,
+      "in_shape": [
+        1,
+        4608,
+        12288
+      ],
+      "weight_shape": [
+        3072,
+        12288
+      ],
+      "quantized": false,
+      "delta_gb": 0.0263671875,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.03675837500486523
+    },
+    {
+      "module": "single_transformer_blocks.1.attn",
+      "type": "Flux2ParallelSelfAttention",
+      "depth": 2,
+      "peak_gb": 7.788384489715099,
+      "in_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.5009689312428236,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.18932983401464298
+    },
+    {
+      "module": "single_transformer_blocks.1",
+      "type": "Flux2SingleTransformerBlock",
+      "depth": 1,
+      "peak_gb": 7.788384489715099,
+      "in_shape": null,
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.52734375,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.19228762498823926
+    },
+    {
+      "module": "single_transformer_blocks.2.norm",
+      "type": "LayerNorm",
+      "depth": 2,
+      "peak_gb": 7.28740793094039,
+      "in_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0263671912252903,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.0007176660001277924
+    },
+    {
+      "module": "single_transformer_blocks.2.attn.to_qkv_mlp_proj",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.524712614715099,
+      "in_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "weight_shape": [
+        27648,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": 0.2372989635914564,
+      "out_gb": 0.2373046875,
+      "out_shape": [
+        1,
+        4608,
+        27648
+      ],
+      "time_s": 0.08835912501672283
+    },
+    {
+      "module": "single_transformer_blocks.2.attn.norm_q",
+      "type": "RMSNorm",
+      "depth": 3,
+      "peak_gb": 7.6301818415522575,
+      "in_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "weight_shape": [
+        128
+      ],
+      "quantized": false,
+      "delta_gb": 0.0527348518371582,
+      "out_gb": 0.052734375,
+      "out_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "time_s": 0.0011388329439796507
+    },
+    {
+      "module": "single_transformer_blocks.2.attn.norm_k",
+      "type": "RMSNorm",
+      "depth": 3,
+      "peak_gb": 7.6829162165522575,
+      "in_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "weight_shape": [
+        128
+      ],
+      "quantized": false,
+      "delta_gb": 0.0527348518371582,
+      "out_gb": 0.052734375,
+      "out_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "time_s": 0.0011036249925382435
+    },
+    {
+      "module": "single_transformer_blocks.2.attn.mlp_act",
+      "type": "Flux2SwiGLU",
+      "depth": 3,
+      "peak_gb": 7.709282927215099,
+      "in_shape": [
+        1,
+        4608,
+        18432
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0791015513241291,
+      "out_gb": 0.0791015625,
+      "out_shape": [
+        1,
+        4608,
+        9216
+      ],
+      "time_s": 0.0037147909752093256
+    },
+    {
+      "module": "single_transformer_blocks.2.attn.to_out",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.788384489715099,
+      "in_shape": [
+        1,
+        4608,
+        12288
+      ],
+      "weight_shape": [
+        3072,
+        12288
+      ],
+      "quantized": false,
+      "delta_gb": 0.0,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.03678120800759643
+    },
+    {
+      "module": "single_transformer_blocks.2.attn",
+      "type": "Flux2ParallelSelfAttention",
+      "depth": 2,
+      "peak_gb": 7.788384489715099,
+      "in_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.5009708385914564,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.189441499998793
+    },
+    {
+      "module": "single_transformer_blocks.2",
+      "type": "Flux2SingleTransformerBlock",
+      "depth": 1,
+      "peak_gb": 7.788384489715099,
+      "in_shape": null,
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.52734375,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.19247033301508054
+    },
+    {
+      "module": "single_transformer_blocks.3.norm",
+      "type": "LayerNorm",
+      "depth": 2,
+      "peak_gb": 7.28740793094039,
+      "in_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0263671912252903,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.0006696670316159725
+    },
+    {
+      "module": "single_transformer_blocks.3.attn.to_qkv_mlp_proj",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.524712614715099,
+      "in_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "weight_shape": [
+        27648,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": 0.2372989635914564,
+      "out_gb": 0.2373046875,
+      "out_shape": [
+        1,
+        4608,
+        27648
+      ],
+      "time_s": 0.08808712498284876
+    },
+    {
+      "module": "single_transformer_blocks.3.attn.norm_q",
+      "type": "RMSNorm",
+      "depth": 3,
+      "peak_gb": 7.6301818415522575,
+      "in_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "weight_shape": [
+        128
+      ],
+      "quantized": false,
+      "delta_gb": 0.0527348518371582,
+      "out_gb": 0.052734375,
+      "out_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "time_s": 0.0010655829682946205
+    },
+    {
+      "module": "single_transformer_blocks.3.attn.norm_k",
+      "type": "RMSNorm",
+      "depth": 3,
+      "peak_gb": 7.6829162165522575,
+      "in_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "weight_shape": [
+        128
+      ],
+      "quantized": false,
+      "delta_gb": 0.0527348518371582,
+      "out_gb": 0.052734375,
+      "out_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "time_s": 0.0010575830237939954
+    },
+    {
+      "module": "single_transformer_blocks.3.attn.mlp_act",
+      "type": "Flux2SwiGLU",
+      "depth": 3,
+      "peak_gb": 7.709282927215099,
+      "in_shape": [
+        1,
+        4608,
+        18432
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0791015513241291,
+      "out_gb": 0.0791015625,
+      "out_shape": [
+        1,
+        4608,
+        9216
+      ],
+      "time_s": 0.0035762919578701258
+    },
+    {
+      "module": "single_transformer_blocks.3.attn.to_out",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.788384489715099,
+      "in_shape": [
+        1,
+        4608,
+        12288
+      ],
+      "weight_shape": [
+        3072,
+        12288
+      ],
+      "quantized": false,
+      "delta_gb": 0.0,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.03747141599887982
+    },
+    {
+      "module": "single_transformer_blocks.3.attn",
+      "type": "Flux2ParallelSelfAttention",
+      "depth": 2,
+      "peak_gb": 7.788384489715099,
+      "in_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.5009708385914564,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.18809133296599612
+    },
+    {
+      "module": "single_transformer_blocks.3",
+      "type": "Flux2SingleTransformerBlock",
+      "depth": 1,
+      "peak_gb": 7.788384489715099,
+      "in_shape": null,
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.52734375,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.19114658399485052
+    },
+    {
+      "module": "single_transformer_blocks.4.norm",
+      "type": "LayerNorm",
+      "depth": 2,
+      "peak_gb": 7.28740793094039,
+      "in_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0263671912252903,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.0007120830123312771
+    },
+    {
+      "module": "single_transformer_blocks.4.attn.to_qkv_mlp_proj",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.524712614715099,
+      "in_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "weight_shape": [
+        27648,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": 0.2372989635914564,
+      "out_gb": 0.2373046875,
+      "out_shape": [
+        1,
+        4608,
+        27648
+      ],
+      "time_s": 0.08727579104015604
+    },
+    {
+      "module": "single_transformer_blocks.4.attn.norm_q",
+      "type": "RMSNorm",
+      "depth": 3,
+      "peak_gb": 7.6301818415522575,
+      "in_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "weight_shape": [
+        128
+      ],
+      "quantized": false,
+      "delta_gb": 0.0527348518371582,
+      "out_gb": 0.052734375,
+      "out_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "time_s": 0.0011322079808451235
+    },
+    {
+      "module": "single_transformer_blocks.4.attn.norm_k",
+      "type": "RMSNorm",
+      "depth": 3,
+      "peak_gb": 7.6829162165522575,
+      "in_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "weight_shape": [
+        128
+      ],
+      "quantized": false,
+      "delta_gb": 0.0527348518371582,
+      "out_gb": 0.052734375,
+      "out_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "time_s": 0.00104750000173226
+    },
+    {
+      "module": "single_transformer_blocks.4.attn.mlp_act",
+      "type": "Flux2SwiGLU",
+      "depth": 3,
+      "peak_gb": 7.709282927215099,
+      "in_shape": [
+        1,
+        4608,
+        18432
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0791015513241291,
+      "out_gb": 0.0791015625,
+      "out_shape": [
+        1,
+        4608,
+        9216
+      ],
+      "time_s": 0.005709916993509978
+    },
+    {
+      "module": "single_transformer_blocks.4.attn.to_out",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.788384489715099,
+      "in_shape": [
+        1,
+        4608,
+        12288
+      ],
+      "weight_shape": [
+        3072,
+        12288
+      ],
+      "quantized": false,
+      "delta_gb": 0.0,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.037272582994773984
+    },
+    {
+      "module": "single_transformer_blocks.4.attn",
+      "type": "Flux2ParallelSelfAttention",
+      "depth": 2,
+      "peak_gb": 7.788384489715099,
+      "in_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.5009708385914564,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.18862295901635662
+    },
+    {
+      "module": "single_transformer_blocks.4",
+      "type": "Flux2SingleTransformerBlock",
+      "depth": 1,
+      "peak_gb": 7.788384489715099,
+      "in_shape": null,
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.52734375,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.19168699998408556
+    },
+    {
+      "module": "single_transformer_blocks.5.norm",
+      "type": "LayerNorm",
+      "depth": 2,
+      "peak_gb": 7.28740793094039,
+      "in_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0263671912252903,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.0006372079951688647
+    },
+    {
+      "module": "single_transformer_blocks.5.attn.to_qkv_mlp_proj",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.524712614715099,
+      "in_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "weight_shape": [
+        27648,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": 0.2372989635914564,
+      "out_gb": 0.2373046875,
+      "out_shape": [
+        1,
+        4608,
+        27648
+      ],
+      "time_s": 0.08859749999828637
+    },
+    {
+      "module": "single_transformer_blocks.5.attn.norm_q",
+      "type": "RMSNorm",
+      "depth": 3,
+      "peak_gb": 7.6301818415522575,
+      "in_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "weight_shape": [
+        128
+      ],
+      "quantized": false,
+      "delta_gb": 0.0527348518371582,
+      "out_gb": 0.052734375,
+      "out_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "time_s": 0.0011032079928554595
+    },
+    {
+      "module": "single_transformer_blocks.5.attn.norm_k",
+      "type": "RMSNorm",
+      "depth": 3,
+      "peak_gb": 7.6829162165522575,
+      "in_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "weight_shape": [
+        128
+      ],
+      "quantized": false,
+      "delta_gb": 0.0527348518371582,
+      "out_gb": 0.052734375,
+      "out_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "time_s": 0.0011100000119768083
+    },
+    {
+      "module": "single_transformer_blocks.5.attn.mlp_act",
+      "type": "Flux2SwiGLU",
+      "depth": 3,
+      "peak_gb": 7.709282927215099,
+      "in_shape": [
+        1,
+        4608,
+        18432
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0791015513241291,
+      "out_gb": 0.0791015625,
+      "out_shape": [
+        1,
+        4608,
+        9216
+      ],
+      "time_s": 0.0051759579801000655
+    },
+    {
+      "module": "single_transformer_blocks.5.attn.to_out",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.788384489715099,
+      "in_shape": [
+        1,
+        4608,
+        12288
+      ],
+      "weight_shape": [
+        3072,
+        12288
+      ],
+      "quantized": false,
+      "delta_gb": 0.0,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.036749124992638826
+    },
+    {
+      "module": "single_transformer_blocks.5.attn",
+      "type": "Flux2ParallelSelfAttention",
+      "depth": 2,
+      "peak_gb": 7.788384489715099,
+      "in_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.5009708385914564,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.18925254099303856
+    },
+    {
+      "module": "single_transformer_blocks.5",
+      "type": "Flux2SingleTransformerBlock",
+      "depth": 1,
+      "peak_gb": 7.788384489715099,
+      "in_shape": null,
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.52734375,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.19223720801528543
+    },
+    {
+      "module": "single_transformer_blocks.6.norm",
+      "type": "LayerNorm",
+      "depth": 2,
+      "peak_gb": 7.28740793094039,
+      "in_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0263671912252903,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.0006892500096000731
+    },
+    {
+      "module": "single_transformer_blocks.6.attn.to_qkv_mlp_proj",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.524712614715099,
+      "in_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "weight_shape": [
+        27648,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": 0.2372989635914564,
+      "out_gb": 0.2373046875,
+      "out_shape": [
+        1,
+        4608,
+        27648
+      ],
+      "time_s": 0.0884054169873707
+    },
+    {
+      "module": "single_transformer_blocks.6.attn.norm_q",
+      "type": "RMSNorm",
+      "depth": 3,
+      "peak_gb": 7.6301818415522575,
+      "in_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "weight_shape": [
+        128
+      ],
+      "quantized": false,
+      "delta_gb": 0.0527348518371582,
+      "out_gb": 0.052734375,
+      "out_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "time_s": 0.0011397079797461629
+    },
+    {
+      "module": "single_transformer_blocks.6.attn.norm_k",
+      "type": "RMSNorm",
+      "depth": 3,
+      "peak_gb": 7.6829162165522575,
+      "in_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "weight_shape": [
+        128
+      ],
+      "quantized": false,
+      "delta_gb": 0.0527348518371582,
+      "out_gb": 0.052734375,
+      "out_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "time_s": 0.0010773749672807753
+    },
+    {
+      "module": "single_transformer_blocks.6.attn.mlp_act",
+      "type": "Flux2SwiGLU",
+      "depth": 3,
+      "peak_gb": 7.709282927215099,
+      "in_shape": [
+        1,
+        4608,
+        18432
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0791015513241291,
+      "out_gb": 0.0791015625,
+      "out_shape": [
+        1,
+        4608,
+        9216
+      ],
+      "time_s": 0.0036329589784145355
+    },
+    {
+      "module": "single_transformer_blocks.6.attn.to_out",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.788384489715099,
+      "in_shape": [
+        1,
+        4608,
+        12288
+      ],
+      "weight_shape": [
+        3072,
+        12288
+      ],
+      "quantized": false,
+      "delta_gb": 0.0,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.03678558400133625
+    },
+    {
+      "module": "single_transformer_blocks.6.attn",
+      "type": "Flux2ParallelSelfAttention",
+      "depth": 2,
+      "peak_gb": 7.788384489715099,
+      "in_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.5009708385914564,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.18783108302159235
+    },
+    {
+      "module": "single_transformer_blocks.6",
+      "type": "Flux2SingleTransformerBlock",
+      "depth": 1,
+      "peak_gb": 7.788384489715099,
+      "in_shape": null,
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.52734375,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.19080016599036753
+    },
+    {
+      "module": "single_transformer_blocks.7.norm",
+      "type": "LayerNorm",
+      "depth": 2,
+      "peak_gb": 7.31377511844039,
+      "in_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0263671912252903,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.0007303750026039779
+    },
+    {
+      "module": "single_transformer_blocks.7.attn.to_qkv_mlp_proj",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.524712614715099,
+      "in_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "weight_shape": [
+        27648,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": 0.2372989635914564,
+      "out_gb": 0.2373046875,
+      "out_shape": [
+        1,
+        4608,
+        27648
+      ],
+      "time_s": 0.08793112501734868
+    },
+    {
+      "module": "single_transformer_blocks.7.attn.norm_q",
+      "type": "RMSNorm",
+      "depth": 3,
+      "peak_gb": 7.6301818415522575,
+      "in_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "weight_shape": [
+        128
+      ],
+      "quantized": false,
+      "delta_gb": 0.0527348518371582,
+      "out_gb": 0.052734375,
+      "out_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "time_s": 0.00105945800896734
+    },
+    {
+      "module": "single_transformer_blocks.7.attn.norm_k",
+      "type": "RMSNorm",
+      "depth": 3,
+      "peak_gb": 7.6829162165522575,
+      "in_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "weight_shape": [
+        128
+      ],
+      "quantized": false,
+      "delta_gb": 0.0527348518371582,
+      "out_gb": 0.052734375,
+      "out_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "time_s": 0.0010956249898299575
+    },
+    {
+      "module": "single_transformer_blocks.7.attn.mlp_act",
+      "type": "Flux2SwiGLU",
+      "depth": 3,
+      "peak_gb": 7.709282927215099,
+      "in_shape": [
+        1,
+        4608,
+        18432
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0791015513241291,
+      "out_gb": 0.0791015625,
+      "out_shape": [
+        1,
+        4608,
+        9216
+      ],
+      "time_s": 0.003595624992158264
+    },
+    {
+      "module": "single_transformer_blocks.7.attn.to_out",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.788384489715099,
+      "in_shape": [
+        1,
+        4608,
+        12288
+      ],
+      "weight_shape": [
+        3072,
+        12288
+      ],
+      "quantized": false,
+      "delta_gb": 0.0,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.037133082980290055
+    },
+    {
+      "module": "single_transformer_blocks.7.attn",
+      "type": "Flux2ParallelSelfAttention",
+      "depth": 2,
+      "peak_gb": 7.788384489715099,
+      "in_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.5009708385914564,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.1875235839979723
+    },
+    {
+      "module": "single_transformer_blocks.7",
+      "type": "Flux2SingleTransformerBlock",
+      "depth": 1,
+      "peak_gb": 7.788384489715099,
+      "in_shape": null,
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.5009765625,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.1906689999741502
+    },
+    {
+      "module": "single_transformer_blocks.8.norm",
+      "type": "LayerNorm",
+      "depth": 2,
+      "peak_gb": 7.28740793094039,
+      "in_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0263671912252903,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.0006894170073792338
+    },
+    {
+      "module": "single_transformer_blocks.8.attn.to_qkv_mlp_proj",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.524712614715099,
+      "in_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "weight_shape": [
+        27648,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": 0.2372989635914564,
+      "out_gb": 0.2373046875,
+      "out_shape": [
+        1,
+        4608,
+        27648
+      ],
+      "time_s": 0.08749612496467307
+    },
+    {
+      "module": "single_transformer_blocks.8.attn.norm_q",
+      "type": "RMSNorm",
+      "depth": 3,
+      "peak_gb": 7.6301818415522575,
+      "in_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "weight_shape": [
+        128
+      ],
+      "quantized": false,
+      "delta_gb": 0.0527348518371582,
+      "out_gb": 0.052734375,
+      "out_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "time_s": 0.0010924999951384962
+    },
+    {
+      "module": "single_transformer_blocks.8.attn.norm_k",
+      "type": "RMSNorm",
+      "depth": 3,
+      "peak_gb": 7.6829162165522575,
+      "in_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "weight_shape": [
+        128
+      ],
+      "quantized": false,
+      "delta_gb": 0.0527348518371582,
+      "out_gb": 0.052734375,
+      "out_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "time_s": 0.001076167041901499
+    },
+    {
+      "module": "single_transformer_blocks.8.attn.mlp_act",
+      "type": "Flux2SwiGLU",
+      "depth": 3,
+      "peak_gb": 7.709282927215099,
+      "in_shape": [
+        1,
+        4608,
+        18432
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0791015513241291,
+      "out_gb": 0.0791015625,
+      "out_shape": [
+        1,
+        4608,
+        9216
+      ],
+      "time_s": 0.003676875028759241
+    },
+    {
+      "module": "single_transformer_blocks.8.attn.to_out",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.788384489715099,
+      "in_shape": [
+        1,
+        4608,
+        12288
+      ],
+      "weight_shape": [
+        3072,
+        12288
+      ],
+      "quantized": false,
+      "delta_gb": 0.0,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.0368589999852702
+    },
+    {
+      "module": "single_transformer_blocks.8.attn",
+      "type": "Flux2ParallelSelfAttention",
+      "depth": 2,
+      "peak_gb": 7.788384489715099,
+      "in_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.5009708385914564,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.18697037501260638
+    },
+    {
+      "module": "single_transformer_blocks.8",
+      "type": "Flux2SingleTransformerBlock",
+      "depth": 1,
+      "peak_gb": 7.788384489715099,
+      "in_shape": null,
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.52734375,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.19010550004895777
+    },
+    {
+      "module": "single_transformer_blocks.9.norm",
+      "type": "LayerNorm",
+      "depth": 2,
+      "peak_gb": 7.28740793094039,
+      "in_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0263671912252903,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.0006518750451505184
+    },
+    {
+      "module": "single_transformer_blocks.9.attn.to_qkv_mlp_proj",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.524712614715099,
+      "in_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "weight_shape": [
+        27648,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": 0.2372989635914564,
+      "out_gb": 0.2373046875,
+      "out_shape": [
+        1,
+        4608,
+        27648
+      ],
+      "time_s": 0.08802016597473994
+    },
+    {
+      "module": "single_transformer_blocks.9.attn.norm_q",
+      "type": "RMSNorm",
+      "depth": 3,
+      "peak_gb": 7.6301818415522575,
+      "in_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "weight_shape": [
+        128
+      ],
+      "quantized": false,
+      "delta_gb": 0.0527348518371582,
+      "out_gb": 0.052734375,
+      "out_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "time_s": 0.0010640409891493618
+    },
+    {
+      "module": "single_transformer_blocks.9.attn.norm_k",
+      "type": "RMSNorm",
+      "depth": 3,
+      "peak_gb": 7.6829162165522575,
+      "in_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "weight_shape": [
+        128
+      ],
+      "quantized": false,
+      "delta_gb": 0.0527348518371582,
+      "out_gb": 0.052734375,
+      "out_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "time_s": 0.0010538329952396452
+    },
+    {
+      "module": "single_transformer_blocks.9.attn.mlp_act",
+      "type": "Flux2SwiGLU",
+      "depth": 3,
+      "peak_gb": 7.709282927215099,
+      "in_shape": [
+        1,
+        4608,
+        18432
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0791015513241291,
+      "out_gb": 0.0791015625,
+      "out_shape": [
+        1,
+        4608,
+        9216
+      ],
+      "time_s": 0.00361108296783641
+    },
+    {
+      "module": "single_transformer_blocks.9.attn.to_out",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.788384489715099,
+      "in_shape": [
+        1,
+        4608,
+        12288
+      ],
+      "weight_shape": [
+        3072,
+        12288
+      ],
+      "quantized": false,
+      "delta_gb": 0.0,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.037171666976064444
+    },
+    {
+      "module": "single_transformer_blocks.9.attn",
+      "type": "Flux2ParallelSelfAttention",
+      "depth": 2,
+      "peak_gb": 7.788384489715099,
+      "in_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.5009708385914564,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.18784724996658042
+    },
+    {
+      "module": "single_transformer_blocks.9",
+      "type": "Flux2SingleTransformerBlock",
+      "depth": 1,
+      "peak_gb": 7.788384489715099,
+      "in_shape": null,
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.52734375,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.19081904203630984
+    },
+    {
+      "module": "single_transformer_blocks.10.norm",
+      "type": "LayerNorm",
+      "depth": 2,
+      "peak_gb": 7.28740793094039,
+      "in_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0263671912252903,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.0006407080218195915
+    },
+    {
+      "module": "single_transformer_blocks.10.attn.to_qkv_mlp_proj",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.524712614715099,
+      "in_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "weight_shape": [
+        27648,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": 0.2372989635914564,
+      "out_gb": 0.2373046875,
+      "out_shape": [
+        1,
+        4608,
+        27648
+      ],
+      "time_s": 0.08906620898051187
+    },
+    {
+      "module": "single_transformer_blocks.10.attn.norm_q",
+      "type": "RMSNorm",
+      "depth": 3,
+      "peak_gb": 7.6301818415522575,
+      "in_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "weight_shape": [
+        128
+      ],
+      "quantized": false,
+      "delta_gb": 0.0527348518371582,
+      "out_gb": 0.052734375,
+      "out_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "time_s": 0.0011419999646022916
+    },
+    {
+      "module": "single_transformer_blocks.10.attn.norm_k",
+      "type": "RMSNorm",
+      "depth": 3,
+      "peak_gb": 7.6829162165522575,
+      "in_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "weight_shape": [
+        128
+      ],
+      "quantized": false,
+      "delta_gb": 0.0527348518371582,
+      "out_gb": 0.052734375,
+      "out_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "time_s": 0.0010582089889794588
+    },
+    {
+      "module": "single_transformer_blocks.10.attn.mlp_act",
+      "type": "Flux2SwiGLU",
+      "depth": 3,
+      "peak_gb": 7.709282927215099,
+      "in_shape": [
+        1,
+        4608,
+        18432
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0791015513241291,
+      "out_gb": 0.0791015625,
+      "out_shape": [
+        1,
+        4608,
+        9216
+      ],
+      "time_s": 0.005417582986410707
+    },
+    {
+      "module": "single_transformer_blocks.10.attn.to_out",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.788384489715099,
+      "in_shape": [
+        1,
+        4608,
+        12288
+      ],
+      "weight_shape": [
+        3072,
+        12288
+      ],
+      "quantized": false,
+      "delta_gb": 0.0,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.03672287502558902
+    },
+    {
+      "module": "single_transformer_blocks.10.attn",
+      "type": "Flux2ParallelSelfAttention",
+      "depth": 2,
+      "peak_gb": 7.788384489715099,
+      "in_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.5009708385914564,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.18969116697553545
+    },
+    {
+      "module": "single_transformer_blocks.10",
+      "type": "Flux2SingleTransformerBlock",
+      "depth": 1,
+      "peak_gb": 7.788384489715099,
+      "in_shape": null,
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.52734375,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.19264654099242762
+    },
+    {
+      "module": "single_transformer_blocks.11.norm",
+      "type": "LayerNorm",
+      "depth": 2,
+      "peak_gb": 7.28740793094039,
+      "in_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0263671912252903,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.0007652920321561396
+    },
+    {
+      "module": "single_transformer_blocks.11.attn.to_qkv_mlp_proj",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.524712614715099,
+      "in_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "weight_shape": [
+        27648,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": 0.2372989635914564,
+      "out_gb": 0.2373046875,
+      "out_shape": [
+        1,
+        4608,
+        27648
+      ],
+      "time_s": 0.08770012500463054
+    },
+    {
+      "module": "single_transformer_blocks.11.attn.norm_q",
+      "type": "RMSNorm",
+      "depth": 3,
+      "peak_gb": 7.6301818415522575,
+      "in_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "weight_shape": [
+        128
+      ],
+      "quantized": false,
+      "delta_gb": 0.0527348518371582,
+      "out_gb": 0.052734375,
+      "out_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "time_s": 0.001063042029272765
+    },
+    {
+      "module": "single_transformer_blocks.11.attn.norm_k",
+      "type": "RMSNorm",
+      "depth": 3,
+      "peak_gb": 7.6829162165522575,
+      "in_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "weight_shape": [
+        128
+      ],
+      "quantized": false,
+      "delta_gb": 0.0527348518371582,
+      "out_gb": 0.052734375,
+      "out_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "time_s": 0.0010561250383034348
+    },
+    {
+      "module": "single_transformer_blocks.11.attn.mlp_act",
+      "type": "Flux2SwiGLU",
+      "depth": 3,
+      "peak_gb": 7.709282927215099,
+      "in_shape": [
+        1,
+        4608,
+        18432
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0791015513241291,
+      "out_gb": 0.0791015625,
+      "out_shape": [
+        1,
+        4608,
+        9216
+      ],
+      "time_s": 0.0035920419613830745
+    },
+    {
+      "module": "single_transformer_blocks.11.attn.to_out",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.788384489715099,
+      "in_shape": [
+        1,
+        4608,
+        12288
+      ],
+      "weight_shape": [
+        3072,
+        12288
+      ],
+      "quantized": false,
+      "delta_gb": 0.0,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.03687537496443838
+    },
+    {
+      "module": "single_transformer_blocks.11.attn",
+      "type": "Flux2ParallelSelfAttention",
+      "depth": 2,
+      "peak_gb": 7.788384489715099,
+      "in_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.5009708385914564,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.1871063329745084
+    },
+    {
+      "module": "single_transformer_blocks.11",
+      "type": "Flux2SingleTransformerBlock",
+      "depth": 1,
+      "peak_gb": 7.788384489715099,
+      "in_shape": null,
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.5009765625,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.19012762501370162
+    },
+    {
+      "module": "single_transformer_blocks.12.norm",
+      "type": "LayerNorm",
+      "depth": 2,
+      "peak_gb": 7.28740793094039,
+      "in_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0263671912252903,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.0007615419453941286
+    },
+    {
+      "module": "single_transformer_blocks.12.attn.to_qkv_mlp_proj",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.524712614715099,
+      "in_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "weight_shape": [
+        27648,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": 0.2372989635914564,
+      "out_gb": 0.2373046875,
+      "out_shape": [
+        1,
+        4608,
+        27648
+      ],
+      "time_s": 0.08859187498455867
+    },
+    {
+      "module": "single_transformer_blocks.12.attn.norm_q",
+      "type": "RMSNorm",
+      "depth": 3,
+      "peak_gb": 7.6301818415522575,
+      "in_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "weight_shape": [
+        128
+      ],
+      "quantized": false,
+      "delta_gb": 0.0527348518371582,
+      "out_gb": 0.052734375,
+      "out_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "time_s": 0.0010899999761022627
+    },
+    {
+      "module": "single_transformer_blocks.12.attn.norm_k",
+      "type": "RMSNorm",
+      "depth": 3,
+      "peak_gb": 7.6829162165522575,
+      "in_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "weight_shape": [
+        128
+      ],
+      "quantized": false,
+      "delta_gb": 0.0527348518371582,
+      "out_gb": 0.052734375,
+      "out_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "time_s": 0.0010622500558383763
+    },
+    {
+      "module": "single_transformer_blocks.12.attn.mlp_act",
+      "type": "Flux2SwiGLU",
+      "depth": 3,
+      "peak_gb": 7.709282927215099,
+      "in_shape": [
+        1,
+        4608,
+        18432
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0791015513241291,
+      "out_gb": 0.0791015625,
+      "out_shape": [
+        1,
+        4608,
+        9216
+      ],
+      "time_s": 0.0035689580254256725
+    },
+    {
+      "module": "single_transformer_blocks.12.attn.to_out",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.788384489715099,
+      "in_shape": [
+        1,
+        4608,
+        12288
+      ],
+      "weight_shape": [
+        3072,
+        12288
+      ],
+      "quantized": false,
+      "delta_gb": 0.0,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.03720804100157693
+    },
+    {
+      "module": "single_transformer_blocks.12.attn",
+      "type": "Flux2ParallelSelfAttention",
+      "depth": 2,
+      "peak_gb": 7.788384489715099,
+      "in_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.5009708385914564,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.18847887497395277
+    },
+    {
+      "module": "single_transformer_blocks.12",
+      "type": "Flux2SingleTransformerBlock",
+      "depth": 1,
+      "peak_gb": 7.788384489715099,
+      "in_shape": null,
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.5009765625,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.19160074996761978
+    },
+    {
+      "module": "single_transformer_blocks.13.norm",
+      "type": "LayerNorm",
+      "depth": 2,
+      "peak_gb": 7.28740793094039,
+      "in_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0263671912252903,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.0006870839861221611
+    },
+    {
+      "module": "single_transformer_blocks.13.attn.to_qkv_mlp_proj",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.524712614715099,
+      "in_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "weight_shape": [
+        27648,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": 0.2372989635914564,
+      "out_gb": 0.2373046875,
+      "out_shape": [
+        1,
+        4608,
+        27648
+      ],
+      "time_s": 0.08748600003309548
+    },
+    {
+      "module": "single_transformer_blocks.13.attn.norm_q",
+      "type": "RMSNorm",
+      "depth": 3,
+      "peak_gb": 7.6301818415522575,
+      "in_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "weight_shape": [
+        128
+      ],
+      "quantized": false,
+      "delta_gb": 0.0527348518371582,
+      "out_gb": 0.052734375,
+      "out_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "time_s": 0.0010736669646576047
+    },
+    {
+      "module": "single_transformer_blocks.13.attn.norm_k",
+      "type": "RMSNorm",
+      "depth": 3,
+      "peak_gb": 7.6829162165522575,
+      "in_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "weight_shape": [
+        128
+      ],
+      "quantized": false,
+      "delta_gb": 0.0527348518371582,
+      "out_gb": 0.052734375,
+      "out_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "time_s": 0.0010475839953869581
+    },
+    {
+      "module": "single_transformer_blocks.13.attn.mlp_act",
+      "type": "Flux2SwiGLU",
+      "depth": 3,
+      "peak_gb": 7.709282927215099,
+      "in_shape": [
+        1,
+        4608,
+        18432
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0791015513241291,
+      "out_gb": 0.0791015625,
+      "out_shape": [
+        1,
+        4608,
+        9216
+      ],
+      "time_s": 0.005227832996752113
+    },
+    {
+      "module": "single_transformer_blocks.13.attn.to_out",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.788384489715099,
+      "in_shape": [
+        1,
+        4608,
+        12288
+      ],
+      "weight_shape": [
+        3072,
+        12288
+      ],
+      "quantized": false,
+      "delta_gb": 0.0,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.03730629099300131
+    },
+    {
+      "module": "single_transformer_blocks.13.attn",
+      "type": "Flux2ParallelSelfAttention",
+      "depth": 2,
+      "peak_gb": 7.788384489715099,
+      "in_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.5009708385914564,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.18846462498186156
+    },
+    {
+      "module": "single_transformer_blocks.13",
+      "type": "Flux2SingleTransformerBlock",
+      "depth": 1,
+      "peak_gb": 7.788384489715099,
+      "in_shape": null,
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.52734375,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.19150720804464072
+    },
+    {
+      "module": "single_transformer_blocks.14.norm",
+      "type": "LayerNorm",
+      "depth": 2,
+      "peak_gb": 7.28740793094039,
+      "in_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0263671912252903,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.0007183329435065389
+    },
+    {
+      "module": "single_transformer_blocks.14.attn.to_qkv_mlp_proj",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.524712614715099,
+      "in_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "weight_shape": [
+        27648,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": 0.2372989635914564,
+      "out_gb": 0.2373046875,
+      "out_shape": [
+        1,
+        4608,
+        27648
+      ],
+      "time_s": 0.08806637499947101
+    },
+    {
+      "module": "single_transformer_blocks.14.attn.norm_q",
+      "type": "RMSNorm",
+      "depth": 3,
+      "peak_gb": 7.6301818415522575,
+      "in_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "weight_shape": [
+        128
+      ],
+      "quantized": false,
+      "delta_gb": 0.0527348518371582,
+      "out_gb": 0.052734375,
+      "out_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "time_s": 0.0010886249947361648
+    },
+    {
+      "module": "single_transformer_blocks.14.attn.norm_k",
+      "type": "RMSNorm",
+      "depth": 3,
+      "peak_gb": 7.6829162165522575,
+      "in_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "weight_shape": [
+        128
+      ],
+      "quantized": false,
+      "delta_gb": 0.0527348518371582,
+      "out_gb": 0.052734375,
+      "out_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "time_s": 0.0011323330109007657
+    },
+    {
+      "module": "single_transformer_blocks.14.attn.mlp_act",
+      "type": "Flux2SwiGLU",
+      "depth": 3,
+      "peak_gb": 7.709282927215099,
+      "in_shape": [
+        1,
+        4608,
+        18432
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0791015513241291,
+      "out_gb": 0.0791015625,
+      "out_shape": [
+        1,
+        4608,
+        9216
+      ],
+      "time_s": 0.003588292049244046
+    },
+    {
+      "module": "single_transformer_blocks.14.attn.to_out",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.814751677215099,
+      "in_shape": [
+        1,
+        4608,
+        12288
+      ],
+      "weight_shape": [
+        3072,
+        12288
+      ],
+      "quantized": false,
+      "delta_gb": 0.0263671875,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.03723762498702854
+    },
+    {
+      "module": "single_transformer_blocks.14.attn",
+      "type": "Flux2ParallelSelfAttention",
+      "depth": 2,
+      "peak_gb": 7.814751677215099,
+      "in_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.5273380260914564,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.18796308303717524
+    },
+    {
+      "module": "single_transformer_blocks.14",
+      "type": "Flux2SingleTransformerBlock",
+      "depth": 1,
+      "peak_gb": 7.814751677215099,
+      "in_shape": null,
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.52734375,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.19103241700213403
+    },
+    {
+      "module": "single_transformer_blocks.15.norm",
+      "type": "LayerNorm",
+      "depth": 2,
+      "peak_gb": 7.28740793094039,
+      "in_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0263671912252903,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.0007032499997876585
+    },
+    {
+      "module": "single_transformer_blocks.15.attn.to_qkv_mlp_proj",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.524712614715099,
+      "in_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "weight_shape": [
+        27648,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": 0.2372989635914564,
+      "out_gb": 0.2373046875,
+      "out_shape": [
+        1,
+        4608,
+        27648
+      ],
+      "time_s": 0.08803808299126104
+    },
+    {
+      "module": "single_transformer_blocks.15.attn.norm_q",
+      "type": "RMSNorm",
+      "depth": 3,
+      "peak_gb": 7.6301818415522575,
+      "in_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "weight_shape": [
+        128
+      ],
+      "quantized": false,
+      "delta_gb": 0.0527348518371582,
+      "out_gb": 0.052734375,
+      "out_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "time_s": 0.0011215829872526228
+    },
+    {
+      "module": "single_transformer_blocks.15.attn.norm_k",
+      "type": "RMSNorm",
+      "depth": 3,
+      "peak_gb": 7.6829162165522575,
+      "in_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "weight_shape": [
+        128
+      ],
+      "quantized": false,
+      "delta_gb": 0.0527348518371582,
+      "out_gb": 0.052734375,
+      "out_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "time_s": 0.00203241704730317
+    },
+    {
+      "module": "single_transformer_blocks.15.attn.mlp_act",
+      "type": "Flux2SwiGLU",
+      "depth": 3,
+      "peak_gb": 7.709282927215099,
+      "in_shape": [
+        1,
+        4608,
+        18432
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0791015513241291,
+      "out_gb": 0.0791015625,
+      "out_shape": [
+        1,
+        4608,
+        9216
+      ],
+      "time_s": 0.005513917014468461
+    },
+    {
+      "module": "single_transformer_blocks.15.attn.to_out",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.788384489715099,
+      "in_shape": [
+        1,
+        4608,
+        12288
+      ],
+      "weight_shape": [
+        3072,
+        12288
+      ],
+      "quantized": false,
+      "delta_gb": 0.0,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.036742791009601206
+    },
+    {
+      "module": "single_transformer_blocks.15.attn",
+      "type": "Flux2ParallelSelfAttention",
+      "depth": 2,
+      "peak_gb": 7.788384489715099,
+      "in_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.5009708385914564,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.18956845795037225
+    },
+    {
+      "module": "single_transformer_blocks.15",
+      "type": "Flux2SingleTransformerBlock",
+      "depth": 1,
+      "peak_gb": 7.788384489715099,
+      "in_shape": null,
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.52734375,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.1926201669848524
+    },
+    {
+      "module": "single_transformer_blocks.16.norm",
+      "type": "LayerNorm",
+      "depth": 2,
+      "peak_gb": 7.28740793094039,
+      "in_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0263671912252903,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.0006555840373039246
+    },
+    {
+      "module": "single_transformer_blocks.16.attn.to_qkv_mlp_proj",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.524712614715099,
+      "in_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "weight_shape": [
+        27648,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": 0.2372989635914564,
+      "out_gb": 0.2373046875,
+      "out_shape": [
+        1,
+        4608,
+        27648
+      ],
+      "time_s": 0.0876479169819504
+    },
+    {
+      "module": "single_transformer_blocks.16.attn.norm_q",
+      "type": "RMSNorm",
+      "depth": 3,
+      "peak_gb": 7.6301818415522575,
+      "in_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "weight_shape": [
+        128
+      ],
+      "quantized": false,
+      "delta_gb": 0.0527348518371582,
+      "out_gb": 0.052734375,
+      "out_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "time_s": 0.0010788750369101763
+    },
+    {
+      "module": "single_transformer_blocks.16.attn.norm_k",
+      "type": "RMSNorm",
+      "depth": 3,
+      "peak_gb": 7.6829162165522575,
+      "in_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "weight_shape": [
+        128
+      ],
+      "quantized": false,
+      "delta_gb": 0.0527348518371582,
+      "out_gb": 0.052734375,
+      "out_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "time_s": 0.0011187089839950204
+    },
+    {
+      "module": "single_transformer_blocks.16.attn.mlp_act",
+      "type": "Flux2SwiGLU",
+      "depth": 3,
+      "peak_gb": 7.709282927215099,
+      "in_shape": [
+        1,
+        4608,
+        18432
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0791015513241291,
+      "out_gb": 0.0791015625,
+      "out_shape": [
+        1,
+        4608,
+        9216
+      ],
+      "time_s": 0.00360904197441414
+    },
+    {
+      "module": "single_transformer_blocks.16.attn.to_out",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.788384489715099,
+      "in_shape": [
+        1,
+        4608,
+        12288
+      ],
+      "weight_shape": [
+        3072,
+        12288
+      ],
+      "quantized": false,
+      "delta_gb": 0.0,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.037266582949087024
+    },
+    {
+      "module": "single_transformer_blocks.16.attn",
+      "type": "Flux2ParallelSelfAttention",
+      "depth": 2,
+      "peak_gb": 7.788384489715099,
+      "in_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.5009708385914564,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.18762558297021315
+    },
+    {
+      "module": "single_transformer_blocks.16",
+      "type": "Flux2SingleTransformerBlock",
+      "depth": 1,
+      "peak_gb": 7.788384489715099,
+      "in_shape": null,
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.5009765625,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.19056704203831032
+    },
+    {
+      "module": "single_transformer_blocks.17.norm",
+      "type": "LayerNorm",
+      "depth": 2,
+      "peak_gb": 7.28740793094039,
+      "in_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 3.725290298461914e-09,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.0007396659930236638
+    },
+    {
+      "module": "single_transformer_blocks.17.attn.to_qkv_mlp_proj",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.524712614715099,
+      "in_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "weight_shape": [
+        27648,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": 0.2372989635914564,
+      "out_gb": 0.2373046875,
+      "out_shape": [
+        1,
+        4608,
+        27648
+      ],
+      "time_s": 0.08766583300894126
+    },
+    {
+      "module": "single_transformer_blocks.17.attn.norm_q",
+      "type": "RMSNorm",
+      "depth": 3,
+      "peak_gb": 7.6301818415522575,
+      "in_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "weight_shape": [
+        128
+      ],
+      "quantized": false,
+      "delta_gb": 0.0527348518371582,
+      "out_gb": 0.052734375,
+      "out_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "time_s": 0.0011548339971341193
+    },
+    {
+      "module": "single_transformer_blocks.17.attn.norm_k",
+      "type": "RMSNorm",
+      "depth": 3,
+      "peak_gb": 7.6829162165522575,
+      "in_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "weight_shape": [
+        128
+      ],
+      "quantized": false,
+      "delta_gb": 0.0527348518371582,
+      "out_gb": 0.052734375,
+      "out_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "time_s": 0.0010827920050360262
+    },
+    {
+      "module": "single_transformer_blocks.17.attn.mlp_act",
+      "type": "Flux2SwiGLU",
+      "depth": 3,
+      "peak_gb": 7.709282927215099,
+      "in_shape": [
+        1,
+        4608,
+        18432
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0791015513241291,
+      "out_gb": 0.0791015625,
+      "out_shape": [
+        1,
+        4608,
+        9216
+      ],
+      "time_s": 0.0036397090298123658
+    },
+    {
+      "module": "single_transformer_blocks.17.attn.to_out",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.788384489715099,
+      "in_shape": [
+        1,
+        4608,
+        12288
+      ],
+      "weight_shape": [
+        3072,
+        12288
+      ],
+      "quantized": false,
+      "delta_gb": 0.0,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.037279500043950975
+    },
+    {
+      "module": "single_transformer_blocks.17.attn",
+      "type": "Flux2ParallelSelfAttention",
+      "depth": 2,
+      "peak_gb": 7.788384489715099,
+      "in_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.5009708385914564,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.18787754199001938
+    },
+    {
+      "module": "single_transformer_blocks.17",
+      "type": "Flux2SingleTransformerBlock",
+      "depth": 1,
+      "peak_gb": 7.788384489715099,
+      "in_shape": null,
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.5009765625,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.19092975003877655
+    },
+    {
+      "module": "single_transformer_blocks.18.norm",
+      "type": "LayerNorm",
+      "depth": 2,
+      "peak_gb": 7.28740793094039,
+      "in_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0263671912252903,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.0007004590006545186
+    },
+    {
+      "module": "single_transformer_blocks.18.attn.to_qkv_mlp_proj",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.524712614715099,
+      "in_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "weight_shape": [
+        27648,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": 0.23729896545410156,
+      "out_gb": 0.2373046875,
+      "out_shape": [
+        1,
+        4608,
+        27648
+      ],
+      "time_s": 0.0888039999990724
+    },
+    {
+      "module": "single_transformer_blocks.18.attn.norm_q",
+      "type": "RMSNorm",
+      "depth": 3,
+      "peak_gb": 7.6301818415522575,
+      "in_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "weight_shape": [
+        128
+      ],
+      "quantized": false,
+      "delta_gb": 0.0527348518371582,
+      "out_gb": 0.052734375,
+      "out_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "time_s": 0.0010872079874388874
+    },
+    {
+      "module": "single_transformer_blocks.18.attn.norm_k",
+      "type": "RMSNorm",
+      "depth": 3,
+      "peak_gb": 7.6829162165522575,
+      "in_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "weight_shape": [
+        128
+      ],
+      "quantized": false,
+      "delta_gb": 0.0527348518371582,
+      "out_gb": 0.052734375,
+      "out_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "time_s": 0.001066708005964756
+    },
+    {
+      "module": "single_transformer_blocks.18.attn.mlp_act",
+      "type": "Flux2SwiGLU",
+      "depth": 3,
+      "peak_gb": 7.709282927215099,
+      "in_shape": [
+        1,
+        4608,
+        18432
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0791015513241291,
+      "out_gb": 0.0791015625,
+      "out_shape": [
+        1,
+        4608,
+        9216
+      ],
+      "time_s": 0.0036953340168111026
+    },
+    {
+      "module": "single_transformer_blocks.18.attn.to_out",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.788384489715099,
+      "in_shape": [
+        1,
+        4608,
+        12288
+      ],
+      "weight_shape": [
+        3072,
+        12288
+      ],
+      "quantized": false,
+      "delta_gb": 0.0,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.03684916702331975
+    },
+    {
+      "module": "single_transformer_blocks.18.attn",
+      "type": "Flux2ParallelSelfAttention",
+      "depth": 2,
+      "peak_gb": 7.788384489715099,
+      "in_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.5009708385914564,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.18854362500132993
+    },
+    {
+      "module": "single_transformer_blocks.18",
+      "type": "Flux2SingleTransformerBlock",
+      "depth": 1,
+      "peak_gb": 7.788384489715099,
+      "in_shape": null,
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.52734375,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.19154041697038338
+    },
+    {
+      "module": "single_transformer_blocks.19.norm",
+      "type": "LayerNorm",
+      "depth": 2,
+      "peak_gb": 7.28740793094039,
+      "in_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0263671912252903,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.0006795839872211218
+    },
+    {
+      "module": "single_transformer_blocks.19.attn.to_qkv_mlp_proj",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.524712614715099,
+      "in_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "weight_shape": [
+        27648,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": 0.23729896545410156,
+      "out_gb": 0.2373046875,
+      "out_shape": [
+        1,
+        4608,
+        27648
+      ],
+      "time_s": 0.08771345904096961
+    },
+    {
+      "module": "single_transformer_blocks.19.attn.norm_q",
+      "type": "RMSNorm",
+      "depth": 3,
+      "peak_gb": 7.6301818415522575,
+      "in_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "weight_shape": [
+        128
+      ],
+      "quantized": false,
+      "delta_gb": 0.0527348518371582,
+      "out_gb": 0.052734375,
+      "out_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "time_s": 0.001082708011381328
+    },
+    {
+      "module": "single_transformer_blocks.19.attn.norm_k",
+      "type": "RMSNorm",
+      "depth": 3,
+      "peak_gb": 7.6829162165522575,
+      "in_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "weight_shape": [
+        128
+      ],
+      "quantized": false,
+      "delta_gb": 0.0527348518371582,
+      "out_gb": 0.052734375,
+      "out_shape": [
+        1,
+        24,
+        4608,
+        128
+      ],
+      "time_s": 0.0011254580458626151
+    },
+    {
+      "module": "single_transformer_blocks.19.attn.mlp_act",
+      "type": "Flux2SwiGLU",
+      "depth": 3,
+      "peak_gb": 7.709282927215099,
+      "in_shape": [
+        1,
+        4608,
+        18432
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0791015513241291,
+      "out_gb": 0.0791015625,
+      "out_shape": [
+        1,
+        4608,
+        9216
+      ],
+      "time_s": 0.005447292001917958
+    },
+    {
+      "module": "single_transformer_blocks.19.attn.to_out",
+      "type": "Linear",
+      "depth": 3,
+      "peak_gb": 7.788384489715099,
+      "in_shape": [
+        1,
+        4608,
+        12288
+      ],
+      "weight_shape": [
+        3072,
+        12288
+      ],
+      "quantized": false,
+      "delta_gb": 0.0,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.03692537499591708
+    },
+    {
+      "module": "single_transformer_blocks.19.attn",
+      "type": "Flux2ParallelSelfAttention",
+      "depth": 2,
+      "peak_gb": 7.788384489715099,
+      "in_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.5009708385914564,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.1887406250461936
+    },
+    {
+      "module": "single_transformer_blocks.19",
+      "type": "Flux2SingleTransformerBlock",
+      "depth": 1,
+      "peak_gb": 7.788384489715099,
+      "in_shape": null,
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.5009765625,
+      "out_gb": 0.0263671875,
+      "out_shape": [
+        1,
+        4608,
+        3072
+      ],
+      "time_s": 0.19182879105210304
+    },
+    {
+      "module": "norm_out.linear",
+      "type": "Linear",
+      "depth": 2,
+      "peak_gb": 7.261057905852795,
+      "in_shape": [
+        1,
+        3072
+      ],
+      "weight_shape": [
+        6144,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": 1.1444091796875e-05,
+      "out_gb": 1.1444091796875e-05,
+      "out_shape": [
+        1,
+        6144
+      ],
+      "time_s": 0.001972416997887194
+    },
+    {
+      "module": "norm_out.norm",
+      "type": "LayerNorm",
+      "depth": 2,
+      "peak_gb": 7.2844896875321865,
+      "in_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.0234375037252903,
+      "out_gb": 0.0234375,
+      "out_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "time_s": 0.001062834053300321
+    },
+    {
+      "module": "norm_out",
+      "type": "AdaLayerNormContinuous",
+      "depth": 1,
+      "peak_gb": 7.28449540771544,
+      "in_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 0.02345466800034046,
+      "out_gb": 0.0234375,
+      "out_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "time_s": 0.004286792012862861
+    },
+    {
+      "module": "proj_out",
+      "type": "Linear",
+      "depth": 1,
+      "peak_gb": 7.259087614715099,
+      "in_shape": [
+        1,
+        4096,
+        3072
+      ],
+      "weight_shape": [
+        128,
+        3072
+      ],
+      "quantized": false,
+      "delta_gb": 0.0009593963623046875,
+      "out_gb": 0.0009765625,
+      "out_shape": [
+        1,
+        4096,
+        128
+      ],
+      "time_s": 0.0007460000342689455
+    }
+  ],
+  "mlx_version": "0.32.4"
+}
