@@ -5,18 +5,18 @@
 
 ## Headline
 
-> **Same model, same pixels, proven bit-identical: peak RAM 10.1 → 6.65 GB (next target ~3 GB), for ~7 % extra time.**
+> **Same model, same math, pixel-equivalent (Tier E; weight streaming itself proven bit-identical): peak RAM 10.1 → 6.65 GB
+> (next target ~3 GB), for ~7–8 % extra time.**
 > Separately established: Klein's compute is already at ~95 % of this chip's ceiling, so we stopped chasing speed with
 > evidence, not fatigue.
 
-*Basis:* 6.65 GB OS peak in every streaming run (exp-051/052/053). Bit-identical to the same-mode resident reference in all
-14 streaming runs (R1). The extra time is +7.5–7.8 % per denoise step vs the resident per-block-compiled pipeline (exp-053,
+*Basis:* 6.65 GB OS peak in every streaming run (exp-051/052/053). **Streaming is bit-identical** to the same-mode resident
+reference in all 14 streaming runs (R1). **The end-to-end image is not bit-identical to the original baseline.** The exact
+chunked VAE decode (needed for the 6.65 GB; the stock decode alone peaks at 9.5 GB) and per-block compilation change float
+rounding: PSNR 46.9 dB, max pixel diff 55, mean |Δ| 0.64/255 vs the baseline image (exp-053). That is Tier E. The extra time is +7.5–7.8 % per denoise step vs the resident per-block-compiled pipeline (exp-053,
 cold SSD, 2 rounds); lagged barriers (exp-054) are being measured to reduce it. The ~95 % is matmul throughput vs the measured
 NAX bf16 peak (exp-031). The next target is set by the text encoder, now the largest stage (~6.3 GB bf16).
 
-**Exact (bit-identical) memory reduction works: OS peak 10.1 GB → 6.65 GB, with no change to the image.** It costs about
-10 % of denoise time today. Recovering that cost (per-block compile) is in progress. **There is no low-hanging speed left in
-Klein T2I on this machine**: the matmuls already run at ~95 % of the M5 neural-accelerator peak.
 
 ## Where we started vs where we are
 
@@ -26,9 +26,9 @@ Klein T2I on this machine**: the matmuls already run at ~95 % of the M5 neural-a
 | **End-to-end per image** | **18.92 s** (exp-011: cold single image, stock decode) | **22.71 / 22.84 s** (exp-053, steady state, cold SSD, exact chunked decode). The same pipeline resident: 21.41 / 21.77 s |
 | Denoise (4 steps) | 15.74 s compiled (cold single image) | 18.35 / 18.47 s per-block-compiled streaming vs 17.15 / 17.26 s resident (**+7.5–7.8 %**) |
 | **OS peak footprint** | **10.1 GB** (exp-011) | **6.65 GB** (exp-051/052) |
-| Image vs reference | — | **bit-identical** to the same-mode resident run (10/10 runs; protocol rule R1) |
+| Image vs reference | — | streaming **bit-identical** to the same-mode resident run (14/14 runs, R1); vs the baseline image **46.9 dB** (Tier E: chunked decode + per-block compile rounding) |
 
-*Like-for-like:* of the 18.92 → 22.8 s gap, about 1.3 s is streaming (+7.5–7.8 % of denoise). The rest is measurement context:
+*Like-for-like:* of the 18.92 → 22.8 s gap, about 1.2 s is streaming (+7.5–7.8 % of denoise). The rest is measurement context:
 steady-state throttled steps vs a cold single image, plus the exact chunked decode (3.5 s vs 2.1 s stock). The earlier "~19.8 s"
 was eager denoise-only and is superseded.
 
