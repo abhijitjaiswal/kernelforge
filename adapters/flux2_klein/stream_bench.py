@@ -68,6 +68,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--exp")
     ap.add_argument("--mode", choices=["resident", "barrier", "sync", "prefetch", "resident_compiled", "resident_blockc", "prefetch_blockc"])
+    ap.add_argument("--lag", type=int, default=0, help="prefetch_blockc: blocks kept in flight before the host waits")
     ap.add_argument("--purge-steps", action="store_true", help="purge the page cache before every denoise step (untimed): cold-SSD reads")
     ap.add_argument("--prep", action="store_true")
     ap.add_argument("--disk", action="store_true")
@@ -147,7 +148,7 @@ def main():
         mx.eval(tr.parameters())
         BlockCompiler(blocks).attach()
     elif a.mode == "prefetch_blockc":
-        streamer = WeightStreamer(blocks, block_files(len(blocks)), prefetch=True, compile=True)
+        streamer = WeightStreamer(blocks, block_files(len(blocks)), prefetch=True, compile=True, lag=a.lag)
         streamer.release_all()
         mx.eval(tr.parameters())
         streamer.attach()
@@ -194,6 +195,8 @@ def main():
                 noise = tr(hidden_states=lat, encoder_hidden_states=emb, timestep=cfg.scheduler.timesteps[s], img_ids=lid, txt_ids=tid, guidance=None)
             lat = cfg.scheduler.step(noise=noise, timestep=s, latents=lat, sigmas=cfg.scheduler.sigmas)
             mx.eval(lat)
+            if streamer:
+                streamer.flush()
             steps.append(time.perf_counter() - t)
         st = streamer.stats[n0:] if streamer else []
         runs.append({"run": r, "step_s": steps, "total_s": sum(steps),
@@ -231,7 +234,7 @@ def main():
     timed = runs[1:]
     swap1 = swap_used_mb()
     res = {"exp_id": a.exp, "kind": "streaming", "mode": a.mode, "purge_steps": a.purge_steps,
-           "config": {"weights": "bf16", "prompt_ids": [a.prompt], "stream": a.mode + ("-cold" if a.purge_steps else ""), "vae_impl": "chunked", "cache_limit_gb": 0.5},
+           "config": {"weights": "bf16", "prompt_ids": [a.prompt], "stream": a.mode + ("-cold" if a.purge_steps else "") + (f"-lag{a.lag}" if a.lag else ""), "vae_impl": "chunked", "cache_limit_gb": 0.5},
            "runs": runs, "step_s_median": statistics.median([s for r in timed for s in r["step_s"]]),
            "denoise_s_median": statistics.median([r["total_s"] for r in timed]),
            "encode_s": encode_s, "decode_s": decode_s,

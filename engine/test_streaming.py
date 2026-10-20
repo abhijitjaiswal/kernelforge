@@ -48,17 +48,18 @@ def main():
         bc.detach()
         print("block-compiled resident vs eager: max abs diff", max(mx.abs(a - b).max().item() for a, b in zip(cref, ref)))
         net.update(tree_unflatten_params)  # restore real weights (tracing installed tracers)
-        for prefetch, comp in ((False, False), (True, False), (True, True)):
-            s = WeightStreamer(net.blocks, files, prefetch=prefetch, compile=comp)
+        for prefetch, comp, lag in ((False, False, 0), (True, False, 0), (True, True, 0), (True, True, 1)):
+            s = WeightStreamer(net.blocks, files, prefetch=prefetch, compile=comp, lag=lag)
             s.release_all()
             s.attach()
             outs = [net(x), net(x * 0.5)]  # two "steps": exercises the cyclic prefetch
+            s.flush()
             mx.eval(outs)
             s.detach()
             want = cref if comp else ref
             same = all(mx.array_equal(o, r).item() for o, r in zip(outs, want))
             empty = all(v.size == 0 for b in net.blocks for _, v in __import__("mlx.utils").utils.tree_flatten(b.parameters()))
-            print(f"prefetch={prefetch} compile={comp}: bit-identical to {'block-compiled' if comp else 'eager'} resident={same}  blocks released after run={empty}  block calls={len(s.stats)}")
+            print(f"prefetch={prefetch} compile={comp} lag={lag}: bit-identical to {'block-compiled' if comp else 'eager'} resident={same}  blocks released after run={empty}  block calls={len(s.stats)}")
             assert same and empty
 
 

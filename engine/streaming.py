@@ -91,8 +91,13 @@ class BlockCompiler:
 
 
 class WeightStreamer:
-    def __init__(self, blocks, files, prefetch=True, compile=False):
+    def __init__(self, blocks, files, prefetch=True, compile=False, lag=0):
+        """lag=k (compile mode): block outputs are queued with mx.async_eval and the host only waits for the
+        output of block i-k, so the GPU always has k blocks queued (no idle gap at each barrier). Weights of at
+        most k+2 blocks are alive (k in flight, the current one, the prefetched one)."""
         self.blocks, self.files, self.prefetch, self.compile = blocks, [str(f) for f in files], prefetch, compile
+        self.lag = lag
+        self._inflight = []
         self.n = len(blocks)
         self.pending = {}
         self.stats = []
@@ -122,10 +127,23 @@ class WeightStreamer:
             self._start_load((i + 1) % self.n)
         return stall, params
 
-    def _after(self, i, out, stall, t_start):
-        mx.eval(out)
+    def _after(self, i, out, stall, t_start, params=None):
+        if self.lag and self.compile:
+            # queue this block, wait only for the one `lag` places back; dropping `params` then frees its weights
+            mx.async_eval(out)
+            self._inflight.append((out, params))
+            if len(self._inflight) > self.lag:
+                old_out, _ = self._inflight.pop(0)
+                mx.eval(old_out)
+        else:
+            mx.eval(out)
         self.blocks[i].update(self._empty[i])
         self.stats.append({"block": i, "stall_s": stall, "block_s": time.perf_counter() - t_start})
+
+    def flush(self):
+        for o, _ in self._inflight:
+            mx.eval(o)
+        self._inflight = []
 
     def attach(self):
         streamer = self
@@ -138,7 +156,7 @@ class WeightStreamer:
                 t = time.perf_counter()
                 stall, params = streamer._before(_i)
                 out = _cc(params, k) if _cc is not None else _orig(self_, *a, **k)
-                streamer._after(_i, out, stall, t)
+                streamer._after(_i, out, stall, t, params)
                 return out
 
             b.__class__ = type(cls.__name__, (cls,), {"__call__": call})
