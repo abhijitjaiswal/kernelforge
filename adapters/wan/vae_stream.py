@@ -12,8 +12,10 @@ is one strip instead of every window of the clip.
 """
 
 import mlx.core as mx
+from mlx import nn
 
-from mlx_video.models.wan_2.vae import CausalConv3d
+from engine.chunked import conv_rows  # frozen engine primitive (exact row-chunked 'same' conv), reused unchanged
+from mlx_video.models.wan_2.vae import CausalConv3d, Resample
 
 
 def _chunked_conv3d(self, x, rows):
@@ -50,6 +52,7 @@ class StreamingDecoder:
     def __init__(self, vae, rows=None, chunk_latents=1):
         self.vae, self.rows, self.chunk = vae, rows, chunk_latents
         self.convs = [m for _, m in vae.named_modules() if isinstance(m, CausalConv3d)]
+        self.resamples = [m for _, m in vae.named_modules() if isinstance(m, Resample) and m.mode.startswith("upsample")]
         self._patched = []
 
     def _install(self):
@@ -76,6 +79,13 @@ class StreamingDecoder:
                 members["_conv3d"] = lambda self_, x, _r=rows: _chunked_conv3d(self_, x, _r)
             conv.__class__ = type(cls.__name__, (cls,), members)
             self._patched.append((conv, cls))
+        if rows:  # the spatial upsamplers' 3x3 Conv2d runs on all frames of a chunk at once: row-chunk it (frozen conv_rows)
+            for rs in self.resamples:
+                c2d = rs.resample[1]
+                cls = type(c2d)
+                c2d.__class__ = type(cls.__name__, (cls,), {
+                    "__call__": lambda self_, x, _r=rows, _c=cls: conv_rows(self_, x, _r, call=lambda s_: _c.__call__(self_, s_))})
+                self._patched.append((c2d, cls))
 
     def _remove(self):
         for conv, cls in self._patched:
