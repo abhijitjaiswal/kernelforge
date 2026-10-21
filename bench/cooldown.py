@@ -8,8 +8,9 @@ ap = argparse.ArgumentParser()
 ap.add_argument("--min", type=int, default=150)
 ap.add_argument("--max", type=int, default=900)
 a = ap.parse_args()
+FLOOR = 300  # thermal-normalisation floor between runs (user request 2026-10-21): >= 5 min, then wait for Nominal
 t0 = time.time()
-time.sleep(a.min)
+time.sleep(max(a.min, FLOOR))
 lvl = thermal_now()
 while lvl not in (None, "Nominal") and time.time() - t0 < a.max:
     time.sleep(15)
