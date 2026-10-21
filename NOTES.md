@@ -61,3 +61,6 @@
   execution modes is not a valid Tier E test on sensitive prompts.
 - 2026-10-21 Phase 4b (video) started. Predictions logged in reports/phase4b.md before any measurement. Engine/library frozen at tag
   frozen-phase4b.
+- 2026-10-21 Phase 4b stack: Blaizzy/mlx-video @ 87db56a (MIT) in ~/kf-video-venv (separate from the frozen Klein env), MLX 0.32.4.
+  Wan-AI/Wan2.1-T2V-1.3B (Apache-2.0, 17.57 GB: umT5-XXL enc bf16 11.36 GB, DiT fp32 5.68 GB, VAE 0.51 GB) approved and downloading
+  to ~/kernelforge/models. Wan2.2-TI2V-5B (+22.8 GB incremental) NOT approved yet.
