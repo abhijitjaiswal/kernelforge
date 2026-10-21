@@ -24,6 +24,17 @@ os.environ.setdefault("HF_HOME", str(ROOT / "models" / "hf"))  # tokenizer cache
 G = 1024**3
 
 
+class _StopDecode(Exception):
+    pass
+
+
+def gc_collect():
+    import gc
+    import mlx.core as mx
+    gc.collect()
+    mx.clear_cache()
+
+
 def nbytes(module):
     from mlx.utils import tree_flatten
     return sum(v.nbytes for _, v in tree_flatten(module.parameters()))
@@ -44,6 +55,10 @@ def main():
     ap.add_argument("--cache-limit-gb", type=float, default=None)
     ap.add_argument("--ref", help="run dir with frames.npy to compare against")
     ap.add_argument("--context-ref", help="frozen text-context safetensors (context, context_null): skip the text encoder, feed stock embeddings")
+    ap.add_argument("--te-stream", action="store_true", help="exact streamed text encoder (adapters/wan/te_stream.py)")
+    ap.add_argument("--dit", default="stock", choices=["stock", "blockc", "stream"], help="stock: mlx-video whole-model compile; blockc: per-block compile, resident; stream: per-block compile + streaming (prefetch, lag 1)")
+    ap.add_argument("--vae-stream", action="store_true", help="exact streaming decoder v6 (rows 96, direct, barriers)")
+    ap.add_argument("--stop-after-denoise", action="store_true", help="save latents and skip the VAE decode")
     ap.add_argument("--swap-abort-gb", type=float, default=8.0, help="watchdog: abort (recording the stage) if swap grows by more than this")
     a = ap.parse_args()
     out = ROOT / "runs" / a.exp
@@ -110,12 +125,20 @@ def main():
         mx.eval(m.parameters())
         weights["text_encoder"] = nbytes(m) / G
 
+    dit_state = {}
+
     def after_dit(m):
         weights.setdefault("dit", 0)
         weights["dit"] += nbytes(m) / G
+        dit_state["model"] = m
 
     def after_vae(v):
         weights["vae"] = nbytes(v) / G
+        if a.vae_stream:
+            from adapters.wan.vae_stream import StreamingDecoder
+            sd = StreamingDecoder(v, rows=96, chunk_latents=1, direct=True, barriers=True)
+            v.decode_tiled = lambda z, tiling_config=None, _sd=sd: _sd.decode(z)
+            v.decode = lambda z, _sd=sd: _sd.decode(z)
         for meth in ("decode", "decode_tiled"):
             if hasattr(v, meth):
                 orig = getattr(v, meth)
@@ -123,12 +146,18 @@ def main():
                 def d(*args, _o=orig, **kw):
                     if args and isinstance(args[0], mx.array):  # decoder input = final latents (frozen-reference capture)
                         mx.save_safetensors(str(out / "latents.safetensors"), {"z": args[0]})
+                    if a.stop_after_denoise:
+                        end()
+                        raise _StopDecode()
                     begin("vae_decode")
                     r = _o(*args, **kw)
                     mx.eval(r)
                     return r
                 setattr(v, meth, d)
 
+    if a.te_stream:
+        from adapters.wan.te_stream import load_streamed_t5
+        gen.load_t5_encoder = load_streamed_t5
     if a.context_ref:  # stock embeddings from the frozen capture; everything downstream is unmodified mlx-video
         ref_ctx = mx.load(str(ROOT / a.context_ref))
         queue = [ref_ctx["context"], ref_ctx["context_null"]]
@@ -156,12 +185,27 @@ def main():
             return orig_tqdm(it, *args, **kw)
 
         def gen_():
+            m = dit_state.get("model")
+            if a.dit != "stock" and m is not None:   # after mlx-video's cross-attention K/V precompute (reads every block once)
+                from adapters.wan.dit_stream import PosBlockCompiler, PosWeightStreamer, block_files
+                blocks = list(m.blocks)
+                if a.dit == "blockc":
+                    dit_state["h"] = PosBlockCompiler(blocks)
+                else:
+                    dit_state["h"] = PosWeightStreamer(blocks, block_files(len(blocks)), prefetch=True, compile=True, lag=1)
+                    dit_state["h"].release_all()
+                    gc_collect()
+                dit_state["h"].attach()
             begin("denoise")
             last = time.perf_counter()
-            for x in it:
+            for k, x in enumerate(it):
                 yield x
+                h = dit_state.get("h")
+                if h is not None and hasattr(h, "flush"):
+                    h.flush()
                 now = time.perf_counter()
                 step_times.append(now - last)
+                print(f"[wan] step {k + 1}/{a.steps} {now - last:.1f}s", flush=True)
                 last = now
         return gen_()
     gen.tqdm = tqdm_w
@@ -196,7 +240,10 @@ def main():
     err = None
     try:
         gen.generate_video(model_dir=str(ROOT / a.model_dir), prompt=prompt, width=a.width, height=a.height, num_frames=a.frames,
-                           steps=a.steps, seed=a.seed, output_path=str(out / "video.mp4"), tiling=a.tiling, no_compile=a.no_compile)
+                           steps=a.steps, seed=a.seed, output_path=str(out / "video.mp4"), tiling=a.tiling,
+                           no_compile=a.no_compile or a.dit != "stock")
+    except _StopDecode:
+        pass
     except Exception as e:  # noqa: BLE001  record OOM / failures instead of losing the measurements
         err = f"{type(e).__name__}: {e}"
         end()
@@ -224,7 +271,8 @@ def main():
             verify[a.ref] = compare_videos(frames["v"], np.load(ROOT / a.ref / "frames.npy"))
     res = {"exp_id": a.exp, "kind": "video", "model": Path(a.model_dir).name,
            "config": {"prompt_ids": [a.prompt], "width": a.width, "height": a.height, "frames": a.frames, "steps": a.steps,
-                      "seed": a.seed, "tiling": a.tiling, "compile": not a.no_compile, "cache_limit_gb": a.cache_limit_gb},
+                      "seed": a.seed, "tiling": a.tiling, "compile": not a.no_compile, "cache_limit_gb": a.cache_limit_gb,
+                      "te_stream": a.te_stream, "dit": a.dit, "vae_stream": a.vae_stream, "stop_after_denoise": a.stop_after_denoise},
            "error": err, "total_s": {"median": total} if not err else None, "stage_order": order, "stages": stages,
            "weights_gb": weights, "step_s": step_times,
            "step_s_median": sorted(step_times)[len(step_times) // 2] if step_times else None,
