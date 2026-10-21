@@ -215,7 +215,7 @@ different but valid video). Diagnosis:
 | Text encoder (umT5-XXL, fp32 upcast) | **23.1 GB MLX / 23.9 GB footprint**, swap +5.6 GB, encode 141 s (exp-101): **cannot run in 16 GB without heavy swap** | **2.07 GB MLX / 2.59 GB**, encode 5.3–6.2 s, swap flat (exp-102, exp-127) | **bit-identical** embeddings (exp-102; re-checked inside the pipeline, exp-128) |
 | DiT denoise (30 blocks, 2.64 GB bf16) | 4.6 GB MLX / 5.6 GB footprint, 22.1–22.6 s/step (exp-126) | **2.42 GB MLX / 3.44 GB**, +0.1–0.7 % vs per-block compile (exp-126), 23.1 s/step in the full run | **bit-identical at 50 steps**: exp-130 (stock DiT) = exp-127 (streamed) |
 | VAE decode (fp32) | tiled `auto`: **18.6 GB MLX**, swap, 82.7 s (exp-103); untiled: **cannot run** (11.0 GB single buffer > 9.53 GB Metal limit) | **8.42 GB MLX / 8.19 GB**, 56 s, swap flat (exp-125); 8.58 GB / 56.7 s inside the pipeline (exp-127) | frames 1–16 **bit-identical** to stock untiled (longest prefix stock can decode); all 36 vs stock tiled: Tier E, 46.8 dB min / 56.0 mean, flicker excess 0.016 (exp-125) |
-| **End to end** | **2 of 3 stages cannot run within 16 GB** (encoder swaps, decoder swaps tiled / impossible untiled); the frozen-embeddings baseline peaked at 18.07 GB footprint with swap (exp-103) | **8.57 GB footprint peak, 1266 s (21.1 min), swap flat** (exp-127) | final latents bit-identical to stock (exp-130); end-to-end frames vs stock tiled decode: PENDING exp-132 |
+| **End to end** | **2 of 3 stages cannot run within 16 GB** (encoder swaps, decoder swaps tiled / impossible untiled); the frozen-embeddings baseline peaked at 18.07 GB footprint with swap (exp-103) | **8.57 GB footprint peak, 1266 s (21.1 min), swap flat** (exp-127) | final latents **bit-identical** to stock (exp-130); end-to-end frames vs stock mlx-video's own (tiled) decode of those latents: **Tier E, 49.5 dB min / 58.7 mean, max pixel diff 17, flicker excess 0.002** (exp-132) |
 
 Conditions and caveats:
 - Peak footprint = macOS process `peak_footprint` (`/usr/bin/time -l`); MLX = `mx.get_peak_memory` per stage. Cache cap 0.5 GB on all composed runs.
@@ -226,3 +226,9 @@ Conditions and caveats:
   the initial noise from a shifted point of the seed-42 stream. Real stock latents for seed 42 are exp-130 (stock DiT, exact streamed encoder,
   stock RNG path). **Confirmed (exp-131):** the streamed DiT on the --context-ref path reproduces the frozen latents bit for bit, so the shift alone
   explains the exp-127 mismatch, and streaming = stock at 50 steps holds on both RNG paths (exp-130 and exp-131).
+
+exp-132 (stock tiled `auto` decode of the true-stock latents, after a 5-min cool-down to Nominal): 17.90 GB MLX, 16.92 GB footprint,
+swap grew (+1.2 GB), 113 s. Its frames differ from the composed pipeline's by Tier E only (49.5 dB min), as expected: stock's
+spatial tiling blends tile overlaps, so it is not the exact decode of the latents; the composed decoder reproduces stock's untiled
+decode bit for bit wherever that can run (16-frame prefix, exp-125). The end-to-end claim is therefore: **latents bit-identical to
+stock; video bit-identical to stock's untiled decoder where it can run, and Tier E (≥ 49.5 dB) to stock's default tiled decoder.**
