@@ -207,3 +207,21 @@ different but valid video). Diagnosis:
   The frozen reference is a valid stock DiT+VAE trajectory, just not the one stock mlx-video draws for seed 42.
 - verification queued: exp-130-stock (stock DiT + exact TE, should equal exp-127 latents) and exp-131 (streamed DiT with
   --context-ref, should equal the frozen latents), both 50 steps.
+
+## Wan 2.1 1.3B before/after: stock vs composed exact pipeline (832×480, 33→36 frames, 50 steps, CFG, seed 42, M5 16 GB)
+
+| Stage | Stock mlx-video | Composed exact pipeline | Exactness (composed vs stock) |
+|---|---|---|---|
+| Text encoder (umT5-XXL, fp32 upcast) | **23.1 GB MLX / 23.9 GB footprint**, swap +5.6 GB, encode 141 s (exp-101): **cannot run in 16 GB without heavy swap** | **2.07 GB MLX / 2.59 GB**, encode 5.3–6.2 s, swap flat (exp-102, exp-127) | **bit-identical** embeddings (exp-102; re-checked inside the pipeline, exp-128) |
+| DiT denoise (30 blocks, 2.64 GB bf16) | 4.6 GB MLX / 5.6 GB footprint, 22.1–22.6 s/step (exp-126) | **2.42 GB MLX / 3.44 GB**, +0.1–0.7 % vs per-block compile (exp-126), 23.1 s/step in the full run | **bit-identical at 50 steps**: exp-130 (stock DiT) = exp-127 (streamed) |
+| VAE decode (fp32) | tiled `auto`: **18.6 GB MLX**, swap, 82.7 s (exp-103); untiled: **cannot run** (11.0 GB single buffer > 9.53 GB Metal limit) | **8.42 GB MLX / 8.19 GB**, 56 s, swap flat (exp-125); 8.58 GB / 56.7 s inside the pipeline (exp-127) | frames 1–16 **bit-identical** to stock untiled (longest prefix stock can decode); all 36 vs stock tiled: Tier E, 46.8 dB min / 56.0 mean, flicker excess 0.016 (exp-125) |
+| **End to end** | **2 of 3 stages cannot run within 16 GB** (encoder swaps, decoder swaps tiled / impossible untiled); the frozen-embeddings baseline peaked at 18.07 GB footprint with swap (exp-103) | **8.57 GB footprint peak, 1266 s (21.1 min), swap flat** (exp-127) | final latents bit-identical to stock (exp-130); end-to-end frames vs stock tiled decode: PENDING exp-132 |
+
+Conditions and caveats:
+- Peak footprint = macOS process `peak_footprint` (`/usr/bin/time -l`); MLX = `mx.get_peak_memory` per stage. Cache cap 0.5 GB on all composed runs.
+- Timing is quotable only where swap stayed flat (R3). Stock stages that swapped are reported for memory, not speed.
+- m5-test throttles (fanless; Heavy thermal for most of every 50-step run). A fan was added under it at ~12:30, mid exp-127 (NOTES.md).
+- Stock text-encoder and decoder numbers come from stage-isolated runs; stock mlx-video was never run end to end because its encoder alone exceeds 16 GB.
+- Reference correction: the frozen v1 latents (exp-105) came from the `--context-ref` path, which skips the T5 constructor and so draws
+  the initial noise from a shifted point of the seed-42 stream. Real stock latents for seed 42 are exp-130 (stock DiT, exact streamed encoder,
+  stock RNG path). Confirmation that the shift alone explains the mismatch: PENDING exp-131 (streamed DiT on the --context-ref path vs the frozen latents).

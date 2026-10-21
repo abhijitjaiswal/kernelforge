@@ -1,0 +1,26 @@
+[96m============================================================
+  Wan2.1 Text-to-Video Generation (MLX, single-model)
+============================================================[0m
+[2m  Prompt: A red fox trotting through fresh snow in a pine forest at dawn, soft golden light, the camera tracking slowly beside it, realistic
+  Neg prompt: 色调艳丽，过曝，静态，细节模糊不清，字幕，风格，作品，画作，画面，静止，整体发灰，最差质量，低质量，JPEG压缩残留，丑...
+  Size: 832x480, Frames: 33
+  Steps: 1, Guide: 5.0, Shift: 5.0, Solver: unipc
+[0m
+[2m  Seed: 42[0m
+[2m  Latent shape: (16, 9, 60, 104)
+  Sequence length: 14040[0m
+
+[94mLoading T5 encoder...[0m
+[94mEncoding text...[0m
+[2m  T5 encoding: 7.3s[0m
+
+[94mLoading transformer model(s)...[0m
+[2m  Models loaded: 0.4s[0m
+
+[92mDenoising (1 steps)...[0m
+[wan] step 1/1 18.8s
+[2m  Denoising: 18.9s[0m
+
+[94mDecoding with VAE...[0m
+[2m  Tiling (auto): spatial=512px, temporal=none[0m
+{"error": null, "total_s": {"median": 26.786269917036407}, "weights_gb": {"text_encoder": 1.52587890625e-05, "dit": 2.6435757875442505, "vae": 0.2730475775897503}, "step_s_median": 18.80022683297284}
