@@ -59,3 +59,5 @@
   compile); mflux whole-model compile + chunked decoder is 45.9 dB vs baseline. So the gap is whole-model mx.compile rounding,
   not streaming/decoder. Two valid executions of the unmodified model differ by 30 dB on p3 -> R1 is essential; PSNR>40 across
   execution modes is not a valid Tier E test on sensitive prompts.
+- 2026-10-21 Phase 4b (video) started. Predictions logged in reports/phase4b.md before any measurement. Engine/library frozen at tag
+  frozen-phase4b.
