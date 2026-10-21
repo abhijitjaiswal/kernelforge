@@ -1,4 +1,4 @@
-# fasterllm (kernelforge): verified low-memory inference on Apple silicon
+# kernelforge: verified low-memory inference on Apple silicon
 
 Research log and code for running large diffusion models on a 16 GB Apple M5 laptop (MacBook Air, fanless) **without changing
 their arithmetic**. Every claim is backed by a recorded run (`runs/<exp>/result.json`), and "exact" means bit-identical to the
