@@ -14,7 +14,6 @@ is one strip instead of every window of the clip.
 import mlx.core as mx
 from mlx import nn
 
-from engine.chunked import conv_rows  # frozen engine primitive (exact row-chunked 'same' conv), reused unchanged
 from mlx_video.models.wan_2.vae import CausalConv3d, Resample
 
 
@@ -44,6 +43,25 @@ def _chunked_conv3d(self, x, rows):
         mx.eval(out)
         outputs.append(out)
     return mx.stack(outputs, axis=1)
+
+
+def aligned_conv2d_rows(conv, x, rows):
+    """Row-chunked 'same' Conv2d that stays bit-identical under Winograd: pad rows once (as the full conv does internally),
+    start every strip on the full conv's tile grid, and run each strip with zero row padding. rows must be a multiple of 24
+    (measured, exp-114): misaligned strips (each strip re-padded, like engine.chunked.conv_rows) round differently."""
+    assert rows % 24 == 0, "strip height must be a multiple of 24 to stay on the Winograd tile grid"
+    p = conv.weight.shape[1] // 2
+    H = x.shape[1]
+    xp = mx.pad(x, [(0, 0), (p, p), (0, 0), (0, 0)])
+    outs = []
+    for r0 in range(0, H, rows):
+        r1 = min(r0 + rows, H)
+        o = mx.conv2d(xp[:, r0: r1 + 2 * p], conv.weight, padding=(0, p))
+        if "bias" in conv:
+            o = o + conv.bias
+        mx.eval(o)
+        outs.append(o)
+    return mx.concatenate(outs, axis=1)
 
 
 class StreamingDecoder:
@@ -79,12 +97,11 @@ class StreamingDecoder:
                 members["_conv3d"] = lambda self_, x, _r=rows: _chunked_conv3d(self_, x, _r)
             conv.__class__ = type(cls.__name__, (cls,), members)
             self._patched.append((conv, cls))
-        if rows:  # the spatial upsamplers' 3x3 Conv2d runs on all frames of a chunk at once: row-chunk it (frozen conv_rows)
+        if rows:  # the spatial upsamplers' 3x3 Conv2d runs on all frames of a chunk at once: grid-aligned row strips
             for rs in self.resamples:
                 c2d = rs.resample[1]
                 cls = type(c2d)
-                c2d.__class__ = type(cls.__name__, (cls,), {
-                    "__call__": lambda self_, x, _r=rows, _c=cls: conv_rows(self_, x, _r, call=lambda s_: _c.__call__(self_, s_))})
+                c2d.__class__ = type(cls.__name__, (cls,), {"__call__": lambda self_, x, _r=rows: aligned_conv2d_rows(self_, x, _r)})
                 self._patched.append((c2d, cls))
 
     def _remove(self):
