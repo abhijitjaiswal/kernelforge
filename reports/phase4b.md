@@ -322,3 +322,21 @@ measured change is low) and speed floats with content. So:
 - **If the quality gate fails under dynamic control, the track closes as stated before:** curve recorded, no weaker claim shipped.
 - Thresholds may be swept (more than one point on the curve); the gate applies to whichever threshold is proposed for shipping, on
   all three prompts, with the threshold fixed before that prompt's run.
+
+### A3-d results (threshold 0.022, fixed before both runs)
+
+| Prompt | Skips (steps) | Speed-up end to end | LPIPS max / mean | Frames > 0.05 | Motion | Gate |
+|---|---|---|---|---|---|---|
+| v3 neon (exp-a3d-v3) | 7 (20–32, alternating) | 1.23× (1002 vs 1231 s) | 0.037 / 0.022 | 0 | 1.00× | pass |
+| v2 waves (exp-a3d-v2) | 13 (12–36, alternating) | 1.40× (874 vs 1226 s) | **0.073 / 0.048** | 15 | 0.98× | **fail** |
+
+Peaks 8.64 / 8.67 GB, swap flat. Fox not run (the gate had already failed on waves).
+
+**Under the pre-registered criterion, threshold 0.022 does not ship.** Finding: the block-stack change rate ranks prompt sensitivity
+backwards. Waves measures calmer mid-run (0.014–0.016/step) than neon (0.019–0.023), so the rule skips it more and earlier
+(from step 12, vs 20 for neon), yet waves is the more fragile prompt: its LPIPS barely moved from A2 (0.075 → 0.073) despite fewer skips
+and no late reuse. Waves' damage therefore comes from the early-middle skips (steps 12–20). The cheap residual-change signal does not
+see what makes chaotic content fragile.
+
+Decision pending (user): close the track as pre-registered, or one further point allowed by the threshold-sweep clause (the neon-chosen
+window, skips 20–32 only, as a fixed schedule on waves and fox; ~1.2× at best).
