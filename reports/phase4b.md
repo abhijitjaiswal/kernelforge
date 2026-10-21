@@ -186,3 +186,7 @@ strips broke bit-identity under Winograd (60 dB) until strips were grid-aligned 
   claim reaches all the way to stock.
 - Streaming starts at the first denoising step, after mlx-video's cross-attention K/V precompute (which reads every block once).
 - Engine frozen: positional-argument folding is an adapter subclass (adapters/wan/dit_stream.py).
+
+**Decision (2026-10-21):** decoder closed at v6 (8.19 GB). Micro-steps (~6.5–7 GB projected) skipped: they serve no machine that
+8.2 GB doesn't already serve, and option 2 (spatial halves) would subsume them. Option 2 stays behind its trigger (8 GB-Mac
+decision). Projection miss recorded as library/notes/memory-fixes-are-serial.md.
