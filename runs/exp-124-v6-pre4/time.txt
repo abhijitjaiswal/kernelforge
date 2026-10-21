@@ -1,0 +1,19 @@
+W1021 11:40:41.247000 64038 torch/distributed/elastic/multiprocessing/redirects.py:35] NOTE: Redirects are currently not supported in MacOs.
+       27.50 real         2.44 user        11.74 sys
+          1209810944  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+              158862  page reclaims
+                 111  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+                  36  voluntary context switches
+               11959  involuntary context switches
+        165859291756  instructions retired
+         52376526704  cycles elapsed
+          8658535768  peak memory footprint

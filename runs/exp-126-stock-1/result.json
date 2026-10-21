@@ -1,0 +1,131 @@
+{
+  "exp_id": "exp-126-stock-1",
+  "kind": "video",
+  "model": "wan21_mlx",
+  "config": {
+    "prompt_ids": [
+      "v1"
+    ],
+    "width": 832,
+    "height": 480,
+    "frames": 33,
+    "steps": 8,
+    "seed": 42,
+    "tiling": "auto",
+    "compile": true,
+    "cache_limit_gb": 0.5,
+    "te_stream": false,
+    "dit": "stock",
+    "vae_stream": false,
+    "stop_after_denoise": true
+  },
+  "error": null,
+  "total_s": {
+    "median": 174.1281047919765
+  },
+  "stage_order": [
+    "text_encode",
+    "dit_load",
+    "denoise",
+    "vae_load"
+  ],
+  "stages": {
+    "text_encode": {
+      "s": 0.08520025003235787,
+      "peak_mlx_gb": 0.002366073429584503,
+      "active_start_gb": 9.611248970031738e-07,
+      "active_end_gb": 0.002366073429584503,
+      "resident_weights_gb": 0.0,
+      "activation_gb": 0.002366073429584503
+    },
+    "dit_load": {
+      "s": 0.1633551249979064,
+      "peak_mlx_gb": 2.8320127986371517,
+      "active_start_gb": 0.002366073429584503,
+      "active_end_gb": 2.8317687399685383,
+      "resident_weights_gb": 2.6435757875442505,
+      "activation_gb": 0.18843701109290123
+    },
+    "denoise": {
+      "s": 172.0459426669986,
+      "peak_mlx_gb": 4.622868359088898,
+      "active_start_gb": 2.8317687399685383,
+      "active_end_gb": 2.6727721989154816,
+      "resident_weights_gb": 2.6435757875442505,
+      "activation_gb": 1.7910996191203594
+    },
+    "vae_load": {
+      "s": 0.05265841697109863,
+      "peak_mlx_gb": 2.9458594769239426,
+      "active_start_gb": 2.6727721989154816,
+      "active_end_gb": 2.9458594731986523,
+      "resident_weights_gb": 0.2730475775897503,
+      "activation_gb": 2.6728118993341923
+    }
+  },
+  "weights_gb": {
+    "dit": 2.6435757875442505,
+    "vae": 0.2730475775897503
+  },
+  "step_s": [
+    18.950306084007025,
+    20.87222783296602,
+    21.329875625029672,
+    21.72017079195939,
+    22.108377333031967,
+    22.176756332977675,
+    22.28165020904271,
+    22.54798579099588
+  ],
+  "step_s_median": 22.108377333031967,
+  "frames_shape": null,
+  "memtrace": {
+    "peak_footprint_gb": 5.613,
+    "peak_at_s": 137.92,
+    "peak_stage": "denoise",
+    "per_stage": {
+      "dit_load": {
+        "footprint_peak_gb": 3.253,
+        "mlx_active_peak_gb": 2.744
+      },
+      "denoise": {
+        "footprint_peak_gb": 5.613,
+        "mlx_active_peak_gb": 4.61
+      },
+      "vae_load": {
+        "footprint_peak_gb": 4.019,
+        "mlx_active_peak_gb": 2.673
+      },
+      "done": {
+        "footprint_peak_gb": 4.236,
+        "mlx_active_peak_gb": 2.92
+      }
+    }
+  },
+  "power": {
+    "n_samples": 172,
+    "busy_samples": 170,
+    "gpu_mhz_busy_median": 1107,
+    "gpu_mhz_busy_min": 1067,
+    "gpu_mw_busy_median": 8810,
+    "thermal_levels": [
+      "Moderate",
+      "Nominal"
+    ],
+    "thermal_at_start": "Nominal"
+  },
+  "swap_used_mb_before_after": [
+    1713.19,
+    1713.19
+  ],
+  "swap_grew": false,
+  "ref": null,
+  "verify": {},
+  "mlx_version": "0.32.4",
+  "process": {
+    "peak_footprint_gb": 5.615,
+    "max_rss_gb": 3.752,
+    "process_wall_s": 177.02
+  },
+  "returncode": 0
+}

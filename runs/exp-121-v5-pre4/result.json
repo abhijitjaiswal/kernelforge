@@ -1,0 +1,68 @@
+{
+  "exp_id": "exp-121-v5-pre4",
+  "kind": "video_vae",
+  "impl": "stream",
+  "config": {
+    "latents": "baselines_video/wan21/v1_latents.safetensors",
+    "impl": "stream",
+    "latent_frames": 4,
+    "rows": 96,
+    "chunk_latents": 1,
+    "direct": true
+  },
+  "latents_shape": [
+    1,
+    16,
+    4,
+    60,
+    104
+  ],
+  "vae_weights_gb": 0.2730475775897503,
+  "chunk_peaks_gb": [
+    7.662751946598291,
+    8.537538319826126,
+    8.555391103029251,
+    8.573243886232376
+  ],
+  "decode_s": 24.478172082977835,
+  "peak_mlx_gb": 8.573243886232376,
+  "frames_shape": [
+    16,
+    480,
+    832,
+    3
+  ],
+  "verify": {
+    "runs/exp-109-untiled-pre4": {
+      "identical": true,
+      "psnr_db_min": 999.0,
+      "psnr_db_mean": 999.0,
+      "max_abs_pixel_diff": 0,
+      "flicker_excess_max": 0.0,
+      "flicker_excess_mean": 0.0
+    }
+  },
+  "memtrace": {
+    "peak_footprint_gb": 8.063,
+    "peak_at_s": 12.04,
+    "peak_stage": "decode",
+    "per_stage": {
+      "decode": {
+        "footprint_peak_gb": 8.063,
+        "mlx_active_peak_gb": 8.538
+      }
+    }
+  },
+  "swap_used_mb_before_after": [
+    1737.19,
+    1737.19
+  ],
+  "swap_grew": false,
+  "mlx_version": "0.32.4",
+  "process": {
+    "peak_footprint_gb": 8.39,
+    "max_rss_gb": 1.127,
+    "process_wall_s": 27.09
+  },
+  "returncode": 0
+}

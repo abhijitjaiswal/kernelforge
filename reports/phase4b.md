@@ -170,3 +170,19 @@ strips broke bit-identity under Winograd (60 dB) until strips were grid-aligned 
 - **Quotable decoder (exp-125, R3-valid timing):** 8.19 GB footprint / 8.42 GB MLX, 56.1 s, swap-flat. Bit-identical on frames 1–16
   (the longest prefix stock decodes untiled); vs stock tiled 46.8 dB min / 56.0 mean, max diff 26, flicker excess 0.016.
   Stock: tiled 17.9–18.6 GB (swaps), untiled cannot run (Metal per-buffer limit).
+
+## DiT block streaming (exp-126; frozen engine via adapter subclasses; 8 steps, stop after denoise, cache cap 0.5 GB, alternating A/B)
+
+| Mode | Median step (r1 / r2) | Denoise peak MLX | Footprint | Final latents |
+|---|---|---|---|---|
+| stock (mlx-video whole-model compile) | 22.11 / 22.64 s | 4.62 GB | 5.62 / 5.70 GB | reference |
+| per-block compile, resident (R1 reference) | 22.46 / 22.69 s | 4.60 GB | 5.61 GB | **bit-identical to stock** |
+| **block streaming (prefetch, lag 1)** | **22.63 / 22.72 s** | **2.41 GB** | **3.44 GB** | **bit-identical to both** |
+
+- **Prediction 2 confirmed:** streaming overhead vs the per-block-compiled reference is **+0.74 % / +0.12 %**, below Klein's +2.1–2.8 %.
+  Blocks are small (92.9 MB) and the compute per block is large (about 14k tokens), so prefetch hides the load fully. Vs stock: +2.36 % (round 1,
+  thermally unbalanced) / +0.33 % (round 2).
+- Unlike Klein, per-block compilation does not change Wan's numerics: block-compiled = stock, bit-identical, so the streaming
+  claim reaches all the way to stock.
+- Streaming starts at the first denoising step, after mlx-video's cross-attention K/V precompute (which reads every block once).
+- Engine frozen: positional-argument folding is an adapter subclass (adapters/wan/dit_stream.py).
