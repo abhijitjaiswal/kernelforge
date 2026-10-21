@@ -50,6 +50,7 @@ def main():
     ap.add_argument("--rows", type=int, default=None, help="stream: height-chunk strip size in output rows (none = temporal streaming only)")
     ap.add_argument("--chunk-latents", type=int, default=1, help="stream: latent frames per streamed chunk")
     ap.add_argument("--direct", action="store_true", help="stream: build each frame window directly from state + new frames (option 1)")
+    ap.add_argument("--barriers", action="store_true", help="stream: mx.eval after every decoder layer inside each chunk (frozen pattern)")
     ap.add_argument("--prefix-ref", help="run dir with untiled prefix frames.npy: check the first N output frames bit for bit")
     ap.add_argument("--model-dir", default="models/wan21_mlx")
     ap.add_argument("--latent-frames", type=int, default=None)
@@ -157,9 +158,9 @@ def main():
 
         def on_chunk(t0, o):
             chunk_peaks.append(mx.get_peak_memory() / G)
-        video = StreamingDecoder(vae, rows=a.rows, chunk_latents=a.chunk_latents, direct=a.direct).decode(z, on_chunk=on_chunk)
+        video = StreamingDecoder(vae, rows=a.rows, chunk_latents=a.chunk_latents, direct=a.direct, barriers=a.barriers).decode(z, on_chunk=on_chunk)
         res["chunk_peaks_gb"] = chunk_peaks
-        res["config"].update(rows=a.rows, chunk_latents=a.chunk_latents, direct=a.direct)
+        res["config"].update(rows=a.rows, chunk_latents=a.chunk_latents, direct=a.direct, barriers=a.barriers)
     else:
         from bench.layer_profile import aggregate, profile
         mean = vae.mean.reshape(1, -1, 1, 1, 1)

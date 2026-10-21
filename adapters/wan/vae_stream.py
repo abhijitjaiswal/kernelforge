@@ -141,8 +141,8 @@ def direct_upsample_conv(rs, x, rows):
 class StreamingDecoder:
     """Wraps a stock WanVAE: decode(z) streams latent frames through it with per-conv causal state."""
 
-    def __init__(self, vae, rows=None, chunk_latents=1, direct=False):
-        self.vae, self.rows, self.chunk, self.direct = vae, rows, chunk_latents, direct
+    def __init__(self, vae, rows=None, chunk_latents=1, direct=False, barriers=False):
+        self.vae, self.rows, self.chunk, self.direct, self.barriers = vae, rows, chunk_latents, direct, barriers
         self.convs = [m for _, m in vae.named_modules() if isinstance(m, CausalConv3d)]
         self.resamples = [m for _, m in vae.named_modules() if isinstance(m, Resample) and m.mode.startswith("upsample")]
         self._patched = []
@@ -196,13 +196,31 @@ class StreamingDecoder:
             conv._kf_state = None
         self._patched = []
 
+    def _decode_chunk_barriers(self, z):
+        """Same ops and order as WanVAE.decode + Decoder3d.__call__, with mx.eval after every layer (frozen eval-barriers pattern)."""
+        vae, d = self.vae, self.vae.decoder
+        mean = vae.mean.reshape(1, -1, 1, 1, 1)
+        inv_std = vae.inv_std.reshape(1, -1, 1, 1, 1)
+        x = vae.conv2(z / inv_std + mean)
+        mx.eval(x)
+        x = d.conv1(x)
+        mx.eval(x)
+        for layer in list(d.middle) + list(d.upsamples):
+            x = layer(x)
+            mx.eval(x)
+        x = nn.silu(d.head[0](x))
+        mx.eval(x)
+        x = d.head[2](x)
+        return mx.clip(x, -1, 1)
+
     def decode(self, z, on_chunk=None):
         """z: [B, z_dim, T, H, W]. Returns [B, 3, T_out, H_out, W_out] in [-1, 1], like WanVAE.decode."""
         self._install()
         try:
             outs = []
             for t0 in range(0, z.shape[2], self.chunk):
-                o = self.vae.decode(z[:, :, t0:t0 + self.chunk])
+                zc = z[:, :, t0:t0 + self.chunk]
+                o = self._decode_chunk_barriers(zc) if self.barriers else self.vae.decode(zc)
                 mx.eval(o)
                 outs.append(o)
                 if on_chunk:
