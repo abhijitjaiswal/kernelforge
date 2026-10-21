@@ -6,6 +6,9 @@ Per denoising step the schedule picks one mode:
   skip  all 30 blocks bypassed: block-stack output = fresh block-0 input + R from the last full step. Patch/time embeddings and the
         head still run at the current timestep. Whole-step granularity keeps the weight streamer's block order intact.
   cond  cond half only (B=1); pred_uncond = pred_cond - D from the last full step.
+  auto  dynamic (A3-d): skip if the last measured change rate of R (relative L2 change between consecutive full steps, divided by
+        the steps between them) is below `threshold` and the previous step was not a skip; otherwise full.
+Every full step logs that change rate (self.log), so thresholds can be calibrated from any run.
 Installed on top of whatever already wraps the blocks (resident per-block compile or the weight streamer). Evidence: A1 (exp-104).
 """
 
@@ -28,7 +31,20 @@ def schedule_smoke(n=6):
     return (["full", "full", "skip", "cond"] + ["full"] * n)[:n]
 
 
-SCHEDULES = {"a2": schedule_a2, "smoke": schedule_smoke}
+def schedule_a3a(n=50):
+    """A2 with the skip window starting at step 16 (1-based) instead of 12: full 1-15; 16-34 alternate skip/full; then as A2."""
+    modes = schedule_a2(n)
+    for i in range(10, 15):
+        modes[i] = "full"
+    return modes
+
+
+def schedule_dyn(n=50):
+    """A3-d: full warm-up 1-11 and last 4 steps; dynamic skip decisions in between (no cond steps)."""
+    return ["full"] * 11 + ["auto"] * (n - 15) + ["full"] * 4
+
+
+SCHEDULES = {"a2": schedule_a2, "a3a": schedule_a3a, "dyn": schedule_dyn, "smoke": schedule_smoke}
 
 
 def _b1(v):
@@ -40,8 +56,9 @@ def _b1(v):
 
 
 class StepCache:
-    def __init__(self, model, modes):
-        self.model, self.modes = model, modes
+    def __init__(self, model, modes, threshold=None):
+        self.model, self.modes, self.threshold = model, modes, threshold
+        self.log, self.rate, self.last_full, self.prev_mode, self.taken = [], None, None, None, []
         self.step, self.mode = 0, "full"
         self.R = self.D = self.x_in = None
         self.counts = {"full": 0, "skip": 0, "cond": 0}
@@ -65,7 +82,13 @@ class StepCache:
                     ctl.x_in = x
                 out = _prev(self_, x, *a, **k)
                 if _i == last:
-                    ctl.R = out.astype(mx.float32) - ctl.x_in.astype(mx.float32)
+                    R = out.astype(mx.float32) - ctl.x_in.astype(mx.float32)
+                    if ctl.R is not None:
+                        rel = (mx.sqrt(((R - ctl.R) ** 2).sum()) / mx.sqrt((ctl.R ** 2).sum())).item()
+                        gap = ctl.step - ctl.last_full
+                        ctl.rate = rel / gap
+                        ctl.log.append({"step": ctl.step, "gap": gap, "rel": rel, "rate": ctl.rate})
+                    ctl.R, ctl.last_full = R, ctl.step
                     mx.eval(ctl.R)
                     ctl.x_in = None
                 return out
@@ -77,8 +100,13 @@ class StepCache:
 
         def mcall(self_, x_list, t, context, seq_len, cross_kv_caches=None, y=None, rope_cos_sin=None):
             mode = ctl.modes[ctl.step] if ctl.step < len(ctl.modes) else "full"
+            if mode == "auto":
+                ok = ctl.rate is not None and ctl.threshold is not None and ctl.rate < ctl.threshold and ctl.prev_mode != "skip"
+                mode = "skip" if ok else "full"
             if mode != "full" and (ctl.R is None or ctl.D is None or len(x_list) != 2):
                 mode = "full"
+            ctl.prev_mode = mode
+            ctl.taken.append(mode)
             ctl.step += 1
             ctl.mode = mode
             ctl.counts[mode] += 1

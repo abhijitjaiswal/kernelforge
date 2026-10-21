@@ -59,6 +59,7 @@ def main():
     ap.add_argument("--dit", default="stock", choices=["stock", "blockc", "stream"], help="stock: mlx-video whole-model compile; blockc: per-block compile, resident; stream: per-block compile + streaming (prefetch, lag 1)")
     ap.add_argument("--vae-stream", action="store_true", help="exact streaming decoder v6 (rows 96, direct, barriers)")
     ap.add_argument("--cache-schedule", default=None, help="combined step+CFG reuse schedule (adapters/wan/step_cache.py), e.g. a2")
+    ap.add_argument("--cache-threshold", type=float, default=None, help="dynamic (auto) skip threshold on the block-stack change rate")
     ap.add_argument("--save-noise", action="store_true", help="save the initial latent noise (RNG-parity check)")
     ap.add_argument("--stop-after-denoise", action="store_true", help="save latents and skip the VAE decode")
     ap.add_argument("--swap-abort-gb", type=float, default=8.0, help="watchdog: abort (recording the stage) if swap grows by more than this")
@@ -215,7 +216,7 @@ def main():
                 from adapters.wan.step_cache import SCHEDULES, StepCache
                 modes = SCHEDULES[a.cache_schedule](a.steps)
                 print("[cache]", a.cache_schedule, {k: modes.count(k) for k in ("full", "skip", "cond")}, flush=True)
-                dit_state["cache"] = StepCache(m, modes)
+                dit_state["cache"] = StepCache(m, modes, threshold=a.cache_threshold)
                 dit_state["cache"].attach()
             begin("denoise")
             last = time.perf_counter()
@@ -293,7 +294,7 @@ def main():
     res = {"exp_id": a.exp, "kind": "video", "model": Path(a.model_dir).name,
            "config": {"prompt_ids": [a.prompt], "width": a.width, "height": a.height, "frames": a.frames, "steps": a.steps,
                       "seed": a.seed, "tiling": a.tiling, "compile": not a.no_compile, "cache_limit_gb": a.cache_limit_gb,
-                      "te_stream": a.te_stream, "dit": a.dit, "cache_schedule": a.cache_schedule, "vae_stream": a.vae_stream, "stop_after_denoise": a.stop_after_denoise},
+                      "te_stream": a.te_stream, "dit": a.dit, "cache_schedule": a.cache_schedule, "cache_threshold": a.cache_threshold, "vae_stream": a.vae_stream, "stop_after_denoise": a.stop_after_denoise},
            "error": err, "total_s": {"median": total} if not err else None, "stage_order": order, "stages": stages,
            "weights_gb": weights, "step_s": step_times,
            "step_s_median": sorted(step_times)[len(step_times) // 2] if step_times else None,
@@ -304,7 +305,7 @@ def main():
     if h is not None and getattr(h, "stats", None):  # streamer stalls per step (blocks run only on non-skip steps)
         nb = len(h.blocks)
         cache = dit_state.get("cache")
-        modes = cache.modes if cache is not None else ["full"] * a.steps
+        modes = cache.taken if cache is not None else ["full"] * a.steps
         run_steps = [i for i, md in enumerate(modes[: a.steps]) if md != "skip"]
         per_step = []
         for k, i in enumerate(run_steps):
@@ -314,6 +315,9 @@ def main():
             per_step.append({"step": i, "mode": modes[i], "after": modes[i - 1] if i else None,
                              "block0_stall_s": chunk[0]["stall_s"], "stall_s": sum(c["stall_s"] for c in chunk)})
         res["stream_stalls"] = per_step
+    if dit_state.get("cache") is not None:
+        cache = dit_state["cache"]
+        res["cache"] = {"schedule": a.cache_schedule, "threshold": a.cache_threshold, "counts": cache.counts, "taken": "".join(m[0] for m in cache.taken), "rate_log": cache.log}
     (out / "result.json").write_text(json.dumps(res, indent=2, default=str))
     print(json.dumps({k: res[k] for k in ("error", "total_s", "weights_gb", "step_s_median")}, default=str))
 
