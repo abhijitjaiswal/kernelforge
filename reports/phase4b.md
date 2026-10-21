@@ -152,3 +152,21 @@ chunks (2 frames per 3D conv), plus about 3.3 GB transient per full-resolution 3
 
 Engineering notes: (1) a slice kept every conv's whole chunk input alive until the state was copied; (2) re-padded upsampler
 strips broke bit-identity under Winograd (60 dB) until strips were grid-aligned (library/notes/determinism-taxonomy.md).
+
+### Decoder v4–v6 (option 1 and follow-ups; all cache-capped 0.5 GB, swap-flat, bit-identical on the 12- and 16-frame prefixes and on frames 1–16 of the full decode)
+
+| Version | Change | Full video: peak MLX / footprint | Decode time |
+|---|---|---|---|
+| v4 (exp-119) | each frame's 3-frame window built directly from state + new frames (option 1) | 8.85 / 9.12 GB | 56.3 s |
+| v5 (exp-122) | upsampler strips built directly from input rows (no full 4× nearest tensor) | 8.66 / 8.30 GB | 55.0 s |
+| **v6 (exp-125)** | **+ eval barriers between decoder layers inside each chunk** | **8.42 / 8.19 GB** | **56.1 s** |
+
+- Option 1 did its local job (full-resolution 3D conv transient +3.34 → +2.05 GB; residual-block peak 8.29 → 7.00 GB), but the peak
+  moved to the spatial upsampler (+3.94 GB, the full 4× tensor). v5 removed that.
+- After v5: largest single-module peak 7.00 GB vs a whole-chunk peak of 8.54 GB, a graph-lifetime gap by the diagnosis rule.
+  Barriers within the chunk recovered only 0.24 GB.
+- **Floor: about 3.8 GB of fp32 causal state** (2 frames per 3D conv) carried between chunks. Lower needs whole-decoder spatial
+  tiling (option 2, deferred; NOTES.md).
+- **Quotable decoder (exp-125, R3-valid timing):** 8.19 GB footprint / 8.42 GB MLX, 56.1 s, swap-flat. Bit-identical on frames 1–16
+  (the longest prefix stock decodes untiled); vs stock tiled 46.8 dB min / 56.0 mean, max diff 26, flicker excess 0.016.
+  Stock: tiled 17.9–18.6 GB (swaps), untiled cannot run (Metal per-buffer limit).
