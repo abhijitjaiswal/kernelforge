@@ -1,0 +1,63 @@
+{
+  "exp_id": "exp-132-stock-decode",
+  "kind": "video_vae",
+  "impl": "tiled_auto",
+  "config": {
+    "latents": "runs/exp-130-stock/latents.safetensors",
+    "impl": "tiled_auto",
+    "latent_frames": null
+  },
+  "latents_shape": [
+    1,
+    16,
+    9,
+    60,
+    104
+  ],
+  "vae_weights_gb": 0.2730475775897503,
+  "decode_s": 112.96271062502638,
+  "peak_mlx_gb": 17.901998449116945,
+  "frames_shape": [
+    36,
+    480,
+    832,
+    3
+  ],
+  "verify": {
+    "runs/exp-127-composed": {
+      "identical": false,
+      "psnr_db_min": 49.492896911338605,
+      "psnr_db_mean": 58.69939074836951,
+      "max_abs_pixel_diff": 17,
+      "flicker_excess_max": 0.0017427884615388578,
+      "flicker_excess_mean": -0.004064145489926752
+    }
+  },
+  "memtrace": {
+    "peak_footprint_gb": 16.861,
+    "peak_at_s": 37.6,
+    "peak_stage": "decode",
+    "per_stage": {
+      "decode": {
+        "footprint_peak_gb": 16.861,
+        "mlx_active_peak_gb": 17.902
+      },
+      "done": {
+        "footprint_peak_gb": 10.464,
+        "mlx_active_peak_gb": 0.437
+      }
+    }
+  },
+  "swap_used_mb_before_after": [
+    1273.06,
+    2667.19
+  ],
+  "swap_grew": true,
+  "mlx_version": "0.32.4",
+  "process": {
+    "peak_footprint_gb": 16.919,
+    "max_rss_gb": 1.206,
+    "process_wall_s": 117.2
+  },
+  "returncode": 0
+}

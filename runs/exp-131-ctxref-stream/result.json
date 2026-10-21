@@ -1,0 +1,178 @@
+{
+  "exp_id": "exp-131-ctxref-stream",
+  "kind": "video",
+  "model": "wan21_mlx",
+  "config": {
+    "prompt_ids": [
+      "v1"
+    ],
+    "width": 832,
+    "height": 480,
+    "frames": 33,
+    "steps": 50,
+    "seed": 42,
+    "tiling": "auto",
+    "compile": true,
+    "cache_limit_gb": 0.5,
+    "te_stream": false,
+    "dit": "stream",
+    "vae_stream": false,
+    "stop_after_denoise": true
+  },
+  "error": null,
+  "total_s": {
+    "median": 1150.6149452499812
+  },
+  "stage_order": [
+    "text_encode",
+    "dit_load",
+    "denoise",
+    "vae_load"
+  ],
+  "stages": {
+    "text_encode": {
+      "s": 0.08965279103722423,
+      "peak_mlx_gb": 0.002366073429584503,
+      "active_start_gb": 9.611248970031738e-07,
+      "active_end_gb": 0.002366073429584503,
+      "resident_weights_gb": 0.0,
+      "activation_gb": 0.002366073429584503
+    },
+    "dit_load": {
+      "s": 0.30624933302169666,
+      "peak_mlx_gb": 2.8320127986371517,
+      "active_start_gb": 0.002366073429584503,
+      "active_end_gb": 0.2358786091208458,
+      "resident_weights_gb": 2.6435757875442505,
+      "activation_gb": 0.18843701109290123
+    },
+    "denoise": {
+      "s": 1148.4333748749923,
+      "peak_mlx_gb": 2.4070998895913363,
+      "active_start_gb": 0.2358786091208458,
+      "active_end_gb": 0.1634122859686613,
+      "resident_weights_gb": 2.6435757875442505,
+      "activation_gb": 0.0
+    },
+    "vae_load": {
+      "s": 0.05407995899440721,
+      "peak_mlx_gb": 0.4364995639771223,
+      "active_start_gb": 0.1634122859686613,
+      "active_end_gb": 0.436499560251832,
+      "resident_weights_gb": 0.2730475775897503,
+      "activation_gb": 0.16345198638737202
+    }
+  },
+  "weights_gb": {
+    "dit": 2.6435757875442505,
+    "vae": 0.2730475775897503
+  },
+  "step_s": [
+    19.00911270803772,
+    20.732487250003032,
+    21.410560624965,
+    21.713799291988835,
+    21.903813375043683,
+    21.91737270797603,
+    21.99924379203003,
+    22.10234312497778,
+    22.161338875012007,
+    22.222884332994,
+    22.40506512497086,
+    22.529549167025834,
+    23.317898667010013,
+    23.442093207966536,
+    23.521974833041895,
+    23.561069833987858,
+    23.396010332973674,
+    23.436332375044003,
+    23.610419749980792,
+    23.566634666989557,
+    23.710327416018117,
+    23.539935000007972,
+    23.514625999960117,
+    23.72861804201966,
+    23.585273291973863,
+    23.87394562503323,
+    26.625119415984955,
+    23.709472084010486,
+    23.399828166002408,
+    23.14738350000698,
+    23.22802966699237,
+    22.91654904198367,
+    22.95426149998093,
+    23.192081500019412,
+    22.93945383297978,
+    23.505069667007774,
+    23.255622791009955,
+    22.95791029202519,
+    22.99864812497981,
+    22.895652166975196,
+    23.274183541012462,
+    23.202726749994326,
+    23.032282917003613,
+    23.256298208027147,
+    22.922070833970793,
+    22.93692666600691,
+    23.210864041990135,
+    22.982602792035323,
+    22.86962254100945,
+    23.037369124998804
+  ],
+  "step_s_median": 23.192081500019412,
+  "frames_shape": null,
+  "memtrace": {
+    "peak_footprint_gb": 3.437,
+    "peak_at_s": 1094.31,
+    "peak_stage": "denoise",
+    "per_stage": {
+      "text_encode": {
+        "footprint_peak_gb": 0.473,
+        "mlx_active_peak_gb": 0.0
+      },
+      "dit_load": {
+        "footprint_peak_gb": 3.106,
+        "mlx_active_peak_gb": 2.647
+      },
+      "denoise": {
+        "footprint_peak_gb": 3.437,
+        "mlx_active_peak_gb": 2.407
+      },
+      "vae_load": {
+        "footprint_peak_gb": 2.471,
+        "mlx_active_peak_gb": 0.163
+      },
+      "done": {
+        "footprint_peak_gb": 2.664,
+        "mlx_active_peak_gb": 0.41
+      }
+    }
+  },
+  "power": {
+    "n_samples": 1141,
+    "busy_samples": 1139,
+    "gpu_mhz_busy_median": 1024,
+    "gpu_mhz_busy_min": 501,
+    "gpu_mw_busy_median": 7426,
+    "thermal_levels": [
+      "Heavy",
+      "Moderate",
+      "Nominal"
+    ],
+    "thermal_at_start": "Nominal"
+  },
+  "swap_used_mb_before_after": [
+    1353.19,
+    1273.06
+  ],
+  "swap_grew": false,
+  "ref": null,
+  "verify": {},
+  "mlx_version": "0.32.4",
+  "process": {
+    "peak_footprint_gb": 3.488,
+    "max_rss_gb": 3.469,
+    "process_wall_s": 1154.38
+  },
+  "returncode": 0
+}

@@ -53,3 +53,23 @@
 [wan] step 33/50 23.0s
 [wan] step 34/50 23.2s
 [wan] step 35/50 22.9s
+[wan] step 36/50 23.5s
+[wan] step 37/50 23.3s
+[wan] step 38/50 23.0s
+[wan] step 39/50 23.0s
+[wan] step 40/50 22.9s
+[wan] step 41/50 23.3s
+[wan] step 42/50 23.2s
+[wan] step 43/50 23.0s
+[wan] step 44/50 23.3s
+[wan] step 45/50 22.9s
+[wan] step 46/50 22.9s
+[wan] step 47/50 23.2s
+[wan] step 48/50 23.0s
+[wan] step 49/50 22.9s
+[wan] step 50/50 23.0s
+[2m  Denoising: 1148.4s[0m
+
+[94mDecoding with VAE...[0m
+[2m  Tiling (auto): spatial=512px, temporal=none[0m
+{"error": null, "total_s": {"median": 1150.6149452499812}, "weights_gb": {"dit": 2.6435757875442505, "vae": 0.2730475775897503}, "step_s_median": 23.192081500019412}

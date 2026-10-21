@@ -300,6 +300,20 @@ def main():
            "frames_shape": list(frames["v"].shape) if "v" in frames else None,
            "memtrace": trace.summary(), "power": psum, "swap_used_mb_before_after": [swap0, swap1],
            "swap_grew": (swap1 or 0) - (swap0 or 0) > 32, "ref": a.ref, "verify": verify, "mlx_version": mx.__version__}
+    h = dit_state.get("h")
+    if h is not None and getattr(h, "stats", None):  # streamer stalls per step (blocks run only on non-skip steps)
+        nb = len(h.blocks)
+        cache = dit_state.get("cache")
+        modes = cache.modes if cache is not None else ["full"] * a.steps
+        run_steps = [i for i, md in enumerate(modes[: a.steps]) if md != "skip"]
+        per_step = []
+        for k, i in enumerate(run_steps):
+            chunk = h.stats[k * nb:(k + 1) * nb]
+            if len(chunk) < nb:
+                break
+            per_step.append({"step": i, "mode": modes[i], "after": modes[i - 1] if i else None,
+                             "block0_stall_s": chunk[0]["stall_s"], "stall_s": sum(c["stall_s"] for c in chunk)})
+        res["stream_stalls"] = per_step
     (out / "result.json").write_text(json.dumps(res, indent=2, default=str))
     print(json.dumps({k: res[k] for k in ("error", "total_s", "weights_gb", "step_s_median")}, default=str))
 

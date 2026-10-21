@@ -246,3 +246,33 @@ reproduces it bit for bit). Replaced by exp-130 (true stock RNG path) as the v1 
 
 Klein's memory chapter took two days; Wan's took one working day — this morning's encoder fix to this table — on a model family the
 playbook had never seen, including one genuinely new component (the 3D decoder) and two live debugging detours.
+
+## Step-caching track: A2 (combined step + CFG reuse, one mechanism, one gate; Tier A by design)
+
+Mechanism (adapters/wan/step_cache.py), schedule from A1: steps 1–11 full; 12–34 every second step skipped (block-stack residual
+reused, embeddings and head recomputed); 35–46 cycle full / skip / cond-only (B=1, uncond rebuilt from the last full CFG gap);
+47–50 full. 30 full, 16 skip, 4 cond: ideal denoise speed-up 1.56×. Runs on the composed low-memory pipeline (streamed TE, streamed
+DiT, streaming decoder). Exact timings reused from recorded runs (exp-131 denoise, exp-127 end to end), not re-run.
+
+exp-134 (v1, fox):
+
+| | Exact | A2 | |
+|---|---|---|---|
+| Denoise | 1148 s (exp-131) | **706 s** | 1.63× measured; ~1.55× schedule-attributable (see below) |
+| End to end | 1266 s (exp-127) | **771 s (12.9 min)** | 1.57–1.64× |
+| Denoise peak MLX | 2.41 GB | 2.58 GB | +0.17 GB = the cached residual (2 × 14040 × 1536 fp32), as predicted |
+| Footprint peak | 8.57 GB | 8.61 GB | decoder-bound, unchanged |
+| Swap | flat | flat | |
+
+Quality vs the exact video (exp-127 frames, exp-130 latents): LPIPS max **0.027** (frame 1), mean 0.011: **Tier A passes**.
+PSNR min 31.6 / mean 37.2 dB. Latent cosine 0.998, rel L2 6.2 %.
+- **Temporal:** no flicker spike (largest per-transition excess +0.16 levels on ~5-level frame changes). Systematic effect is mild
+  **motion damping: cached frame-to-frame change is 0.97× exact**, uniform across the clip. The fast-motion prompt (v2) is the stress test.
+- **Speed decomposition:** A2's full steps ran at 22.2 s median vs 23.2 s in exp-131: skipped steps let the passively cooled chip
+  rest, so the remaining work runs faster. Thermally normalised, the schedule itself gives ~1.55×; the extra ~5 % is machine-specific.
+- **Post-skip stall:** not recorded directly in exp-134 (bench did not save streamer stats; fixed for later runs). Upper bound from
+  step times: full steps after a skip 22.21 s median vs 21.95 s after a full step, ≤ 0.26 s/step (≤ 1.2 %), confounded by thermal drift
+  (post-skip steps fall later in the run). Direct block-0 stall measured in exp-a2-v2/v3.
+- **First-frame LPIPS (0.027, worst):** the drift is already in the latents, not the decoder: latent rel L2 7.8 % in latent frames 0–1
+  vs 5.4 % mid-clip. The causal-start-padding explanation is not supported; why the trajectory drifts most at the clip start is open
+  (candidate: latent frame 0 encodes 1 video frame, the others 4 each; untested).
