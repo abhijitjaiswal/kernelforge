@@ -45,3 +45,27 @@ downstream frame comparison by construction. Future encoder iterations verify ag
 
 Prediction 3 (encoder row-gather is the largest single win): **supported so far.** The encoder dominates the weights (21.2 GB fp32
 vs a 2.84 GB bf16 DiT). The DiT and VAE numbers are still to come.
+
+## Phase-0 baseline (exp-103): stock mlx-video downstream of the frozen stock embeddings
+
+Config: Wan2.1 T2V 1.3B bf16, 832×480, 33 frames requested (36 decoded; mlx-video rounds to the 4-frame latent grid),
+50 steps, CFG 5.0 (B=2 per step), seed 42, VAE tiling `auto` (stock default), compile on. Text context fed from
+`baselines_video/wan21/v1_text_context.safetensors`, so the run is stock math throughout.
+
+| Stage | Time | MLX peak | Weights | Activations (peak − weights) |
+|---|---|---|---|---|
+| DiT load | 0.6 s | 2.83 GB | 2.64 GB | – |
+| Denoise (50 steps) | 1158 s | 4.69 GB | 2.64 GB | 1.86 GB |
+| VAE decode | 82.7 s | **18.63 GB** | 0.27 GB | **18.36 GB** |
+
+- Process peak footprint 18.07 GB on a 16 GB machine. Swap grew 2.5 GB (net),
+  during the VAE decode only, so the decode timing is memory-only (R3).
+- Per-step time 19.7 → 27.3 s (median 23.6 s) as the fanless chip heated: GPU busy median
+  993 MHz (min 344), thermal Nominal → Moderate → Heavy.
+
+**Predictions scored so far**
+1. Activations dominate: **yes for the VAE decode** (18.4 GB vs 0.27 GB of weights); **no for
+   denoise** (1.86 GB vs 2.64 GB).
+2. Streaming overhead < Klein: not yet tested.
+3. Encoder is the largest single win: holding (−19.1 GB). The VAE decode (18.6 GB) is the rival.
+4. Stock VAE decode OOMs or swaps: **confirmed**, even with mlx-video's own `auto` tiling.
