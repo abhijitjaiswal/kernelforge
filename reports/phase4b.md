@@ -340,3 +340,66 @@ see what makes chaotic content fragile.
 
 Decision pending (user): close the track as pre-registered, or one further point allowed by the threshold-sweep clause (the neon-chosen
 window, skips 20–32 only, as a fixed schedule on waves and fox; ~1.2× at best).
+
+## Step-caching track: CLOSED (2026-10-21, user decision; as pre-registered)
+
+### Closing figure: speed vs quality, all three prompts (832×480, 36 frames, 50 steps, 8.5–8.7 GB peak, swap flat in every run)
+
+| Prompt | Exact pipeline | A2 (static, 1.56× ideal) | A3-d (dynamic, threshold 0.022) |
+|---|---|---|---|
+| v1 fox | 21.1 min (1266 s)\* | 12.9 min (771 s), LPIPS max 0.027 ✅ | not run (gate already failed on waves) |
+| v2 ocean waves | 20.4 min (1226 s) | 12.5 min (752 s), LPIPS max 0.075 ❌ | 14.6 min (874 s), LPIPS max 0.073 ❌ |
+| v3 neon sign | 20.5 min (1231 s) | 12.5 min (747 s), LPIPS max 0.092 ❌ | 16.7 min (1002 s), LPIPS max 0.037 ✅ |
+
+\* Fan added under m5-test partway through this run; fan-on equivalent ≈ 20.2 min (exp-131 denoise 1148 s + encode + decode).
+
+**No configuration passes all three prompts.** A2 passes only the fox, A3-d passes only neon, nothing passes waves: each mechanism
+rescues a different prompt, which is what a signal that does not generalise looks like in data. The one detail-safe point (A3-d on
+neon, 1.23×) is below the pre-registered 1.3× bar anyway. **No fast mode ships.** The further point allowed by the threshold-sweep
+clause (the neon-chosen window as a fixed schedule) was declined: a schedule chosen by looking at which one passed is what
+pre-registration exists to block, and its safety on a fourth prompt would rest on nothing.
+
+### What the track established
+
+1. **Methodology:** fox-only testing would have shipped A2 at ~1.6× with a silent defect on chaotic and fine-detail content. The
+   three-prompt gate caught in one afternoon what single-prompt benchmarks average away. Published caching results are routinely
+   validated on one smooth prompt.
+2. **Mechanism:** the cheap block-residual change signal measures how much changes, not whether the change matters perceptually,
+   and it ranks prompts backwards on exactly the fragile ones. Waves measures calmest (0.014–0.016/step mid-run) and breaks worst:
+   small residual changes move foam, which is perceptually large. Neon's larger residual changes (0.019–0.023) land in stable structure
+   and are absorbed. **Specified future track:** a skip signal that is perceptual- or content-weighted (e.g. change in the predicted
+   clean latent or in a decoded low-resolution preview, rather than the block residual), or per-prompt calibration, validated on the same
+   three prompts plus a fourth held out, with the threshold fixed before any held-out run.
+3. **Assets kept:** the U-shaped denoise-change curve (library/notes/denoise-change-u-curve.md: skip budget lives in the calm middle,
+   the late rise is untouchable); the three-mode controller (adapters/wan/step_cache.py: full / skip / cond, plus auto with change-rate
+   logging); the post-skip streaming stall measured absent (0.0 ms); the passive-cooling note. Nothing built is discarded; only the claim
+   is withheld.
+
+**Private use, not a claim:** for smooth, stable-background content (fox-class), where the user reviews every clip by eye before use,
+A2 is a reasonable personal tool: ~13 min instead of ~20.5. That is "I use it, checked by eye", not "it is safe". It is not part of
+any published result.
+
+## Hit matrix: frozen patterns × model
+
+| Pattern | Klein 4B (image) | Wan 2.1 1.3B (video) |
+|---|---|---|
+| block-weight-streaming-prefetch | hit: 8.57 → 2.81 GB MLX, +2.1–2.8 % (exp-053/054) | **hit**: DiT 4.60 → 2.41 GB, +0.1–0.7 %, bit-identical to stock at 50 steps (exp-126/130/131) |
+| upcast-on-load-streaming (variant, new on Wan) | — | **hit (new variant)**: umT5 23.1 → 2.07 GB, bit-identical (exp-101/102) |
+| row-gathered embeddings (engine/rowgather.py) | — | **hit**: 256k-row table never resident (with the encoder above) |
+| allocator-cache-cap | hit: footprint 11.54 → 10.26 GB, identical (exp-007/009) | **hit**: 0.5 GB cap on every composed run, swap flat |
+| lifecycle-free-after-last-use | hit: free text encoder 15.99 → 9.51 GB; free transformer before VAE 0 GB (exp-002/006) | not needed: mlx-video already frees between stages |
+| eval-barriers-between-blocks | hit: VAE 9.55 → 7.26 GB, bit-identical (phase 1) | **applies, no effect**: decoder peak is one op's workspace, not graph lifetime (exp-107); 0.24 GB inside the streaming decoder (v6) |
+| vae-tiled-decode (numerics-changing) | hit: 9.5 → 2.5 GB, 26.5 dB (exp-006/008/010) | stock already tiles (17.9–18.6 GB); superseded by the exact streaming decoder |
+| vae-exact-row-chunked-decode (2D) | hit: 1.81 GB, Tier E (phase 1) | **does not apply as-is** (3D causal convs) → new exact 3D streaming decoder: 18.6 → 8.42 GB |
+| kernel-grid-aligned-chunking (new on Wan) | — | **hit**: Winograd-aligned strips keep chunked convs bit-identical (exp-114) |
+| fused-qknorm-rope-transpose | speed estimate only (≤ 0.2 s/step) | not tested (speed track frozen) |
+| step caching | not viable (library/notes/step-caching-viability.md) | **closed, not shipped**: no config passes all three prompts (this section) |
+| token merging | — | **miss**: 2.4 % raw / 0.49 % centered near-duplicate tokens (A1, exp-104) |
+
+## Wan 2.1 1.3B: final
+
+- **Exact mode:** ~20.5 min per 2-second 480p clip, **8.6 GB peak, swap flat**, final latents **bit-identical** to stock mlx-video,
+  video identical to stock's exact (untiled) decode wherever stock can run it and Tier E (≥ 49.5 dB) to stock's default tiled decode,
+  on a 16 GB machine where stock cannot run two of its three stages without swap.
+- **Fast mode:** not shipped; the curve and the reason are on record above.
+- Wan 2.2 5B: not started (its +22.8 GB download was never approved).
