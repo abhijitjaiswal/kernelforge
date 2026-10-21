@@ -283,7 +283,7 @@ PSNR min 31.6 / mean 37.2 dB. Latent cosine 0.998, rel L2 6.2 %.
 |---|---|---|---|---|---|
 | v1 fox (exp-134) | 1.57–1.64× | 0.027 / 0.011 | 31.6 / 37.2 dB | 0.97× | pass |
 | v2 ocean waves (exp-a2-v2 vs exp-ref-v2) | 1.63× (752 vs 1226 s) | **0.075 / 0.049** (16 of 36 frames > 0.05) | 25.7 / 29.4 dB | 0.98× | **fail** |
-| v3 neon sign | pending | | | | |
+| v3 neon sign (exp-a2-v3 vs exp-ref-v3) | 1.65× (747 vs 1231 s) | **0.092 / 0.062** (all 36 frames > 0.05) | 25.9 / 27.5 dB | 1.00× | **fail** |
 
 Failing the gate does not mean the waves video looks bad: by eye it is the same scene (sun, rocks, horizon, where the waves break)
 with differently shaped foam and spray, and the motion is not slowed (0.98×). It means the claim "indistinguishable from exact"
@@ -298,3 +298,15 @@ Sweep plan (A3): A3-a (skip window starts at step 16 instead of 12; ~1.47× idea
 borderline; A3-c (no cond steps) dropped: it removes reuse where the error is already smallest. A3-d: dynamic rule, skip only when the
 last full step's measured block-stack change rate is below a threshold, so the schedule adapts per prompt; thresholds calibrated from
 the change rates logged in A3-a.
+
+Neon by eye: sign, stall, main umbrella figure, reflections and colours match; small background content differs (pedestrians and
+umbrellas on the right appear, vanish or move). Error is uniform over the clip (0.053–0.092), not start-weighted.
+
+**Block-stack change rate per denoising step (logged on every full step, exp-a2-v3):** high in warm-up (0.16 at step 2 → 0.024 by
+step 9), lowest mid-run (0.019–0.026 per step, steps 13–35), then **rising through the late steps** (0.030 at 38, 0.051 at 44, 0.081 at
+47, 0.28 at 50). Correction to the A3-c reasoning: the "error largest at the start" shape is along video time (output frame index),
+not denoising steps. Along the denoising axis, late steps change the most after warm-up, so late skips/cond reuse are not the
+cheapest reuse. A3-d handles this by construction: rising rates stop skipping.
+
+A3-d threshold 0.022: inside the measured mid-run band (0.019–0.026), so on neon it skips about half the mid-run steps A2 skipped and
+none late. Runs exp-a3d-v3 (neon, hardest), then exp-a3d-v2 (waves).
