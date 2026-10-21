@@ -20,6 +20,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
+os.environ.setdefault("HF_HOME", str(ROOT / "models" / "hf"))  # tokenizer cache stays inside the project
 G = 1024**3
 
 
@@ -42,6 +43,7 @@ def main():
     ap.add_argument("--no-compile", action="store_true")
     ap.add_argument("--cache-limit-gb", type=float, default=None)
     ap.add_argument("--ref", help="run dir with frames.npy to compare against")
+    ap.add_argument("--context-ref", help="frozen text-context safetensors (context, context_null): skip the text encoder, feed stock embeddings")
     ap.add_argument("--swap-abort-gb", type=float, default=8.0, help="watchdog: abort (recording the stage) if swap grows by more than this")
     a = ap.parse_args()
     out = ROOT / "runs" / a.exp
@@ -125,7 +127,13 @@ def main():
                     return r
                 setattr(v, meth, d)
 
-    wrap("load_t5_encoder", "text_encoder_load", after_t5)
+    if a.context_ref:  # stock embeddings from the frozen capture; everything downstream is unmodified mlx-video
+        ref_ctx = mx.load(str(ROOT / a.context_ref))
+        queue = [ref_ctx["context"], ref_ctx["context_null"]]
+        gen.load_t5_encoder = lambda *args, **kw: object()
+        gen.encode_text = lambda *args, **kw: queue.pop(0)
+    else:
+        wrap("load_t5_encoder", "text_encoder_load", after_t5)
     orig_encode = gen.encode_text
 
     def encode_w(*args, **kw):
