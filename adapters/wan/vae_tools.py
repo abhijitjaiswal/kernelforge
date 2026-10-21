@@ -45,7 +45,10 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--exp", required=True)
     ap.add_argument("--latents", required=True)
-    ap.add_argument("--impl", required=True, choices=["tiled_auto", "untiled", "barriers", "profile"])
+    ap.add_argument("--impl", required=True, choices=["tiled_auto", "untiled", "barriers", "profile", "stream"])
+    ap.add_argument("--rows", type=int, default=None, help="stream: height-chunk strip size in output rows (none = temporal streaming only)")
+    ap.add_argument("--chunk-latents", type=int, default=1, help="stream: latent frames per streamed chunk")
+    ap.add_argument("--prefix-ref", help="run dir with untiled prefix frames.npy: check the first N output frames bit for bit")
     ap.add_argument("--model-dir", default="models/wan21_mlx")
     ap.add_argument("--latent-frames", type=int, default=None)
     ap.add_argument("--ref", help="run dir with frames.npy (same latents) to compare against")
@@ -125,6 +128,15 @@ def main():
         video = vae.decode(z)
     elif a.impl == "barriers":
         video = barriers_decode(z)
+    elif a.impl == "stream":
+        from adapters.wan.vae_stream import StreamingDecoder
+        chunk_peaks = []
+
+        def on_chunk(t0, o):
+            chunk_peaks.append(mx.get_peak_memory() / G)
+        video = StreamingDecoder(vae, rows=a.rows, chunk_latents=a.chunk_latents).decode(z, on_chunk=on_chunk)
+        res["chunk_peaks_gb"] = chunk_peaks
+        res["config"].update(rows=a.rows, chunk_latents=a.chunk_latents)
     else:
         from bench.layer_profile import aggregate, profile
         mean = vae.mean.reshape(1, -1, 1, 1, 1)
@@ -150,6 +162,12 @@ def main():
         if a.latent_frames:
             ref = ref[: frames.shape[0]]
         res["verify"] = {a.ref: {k: v for k, v in compare_videos(frames, ref).items() if k != "psnr_db_per_frame"}}
+    if a.prefix_ref and (ROOT / a.prefix_ref / "frames.npy").exists():
+        pref = np.load(ROOT / a.prefix_ref / "frames.npy")
+        n = pref.shape[0]
+        same = [bool(np.array_equal(frames[i], pref[i])) for i in range(n)]
+        res["prefix_check"] = {"ref": a.prefix_ref, "n_frames": n, "all_identical": all(same), "identical_per_frame": same,
+                               "max_abs": int(np.abs(frames[:n].astype(int) - pref.astype(int)).max())}
     swap1 = swap_used_mb()
     res.update(memtrace=trace.summary(), swap_used_mb_before_after=[swap0, swap1], swap_grew=(swap1 or 0) - (swap0 or 0) > 32,
                mlx_version=mx.__version__)
