@@ -102,3 +102,11 @@ Config: Wan2.1 T2V 1.3B bf16, 832×480, 33 frames requested (36 decoded; mlx-vid
 - Prediction 5 (caching viable at 30+ steps): **supported by the probe**; implementation and the quality gate are pending (Tier A).
 - The uncompiled run's final latents are saved (runs/exp-104-a1/latents.safetensors, shape [1, 16, 9, 60, 104]). R1: they are
   eager-mode latents, so they are not the frozen decoder reference (that is exp-105).
+
+## Notes for the speed track (queued after the decoder)
+- **Cross-model rule** (library/notes/step-caching-viability.md): step caching is viable at 50 steps (Wan, 77 %) and dead at
+  4 distilled steps (Klein, 4.9 %). That depends on step count and distillation, not architecture. Token merging fails on both
+  (library/notes/token-merging-anisotropy.md).
+- **Do not stack the two caching wins.** Block-step caching and CFG skipping reuse the same redundancy: a step whose blocks barely
+  changed is also one whose CFG gap is small. When implemented, they are measured as **one combined mechanism with one quality
+  gate**, not two multipliers. Any clip-time projection stays out of reports until it has been run.
