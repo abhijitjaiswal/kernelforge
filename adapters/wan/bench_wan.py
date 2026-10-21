@@ -58,6 +58,7 @@ def main():
     ap.add_argument("--te-stream", action="store_true", help="exact streamed text encoder (adapters/wan/te_stream.py)")
     ap.add_argument("--dit", default="stock", choices=["stock", "blockc", "stream"], help="stock: mlx-video whole-model compile; blockc: per-block compile, resident; stream: per-block compile + streaming (prefetch, lag 1)")
     ap.add_argument("--vae-stream", action="store_true", help="exact streaming decoder v6 (rows 96, direct, barriers)")
+    ap.add_argument("--save-noise", action="store_true", help="save the initial latent noise (RNG-parity check)")
     ap.add_argument("--stop-after-denoise", action="store_true", help="save latents and skip the VAE decode")
     ap.add_argument("--swap-abort-gb", type=float, default=8.0, help="watchdog: abort (recording the stage) if swap grows by more than this")
     a = ap.parse_args()
@@ -155,6 +156,15 @@ def main():
                     return r
                 setattr(v, meth, d)
 
+    if a.save_noise:  # record the initial latent noise (the first 4-D mx.random.normal draw) for RNG-parity checks
+        _normal = mx.random.normal
+
+        def normal_w(shape, *args, **kw):
+            r = _normal(shape, *args, **kw)
+            if len(shape) == 4 and not (out / "noise.safetensors").exists():
+                mx.save_safetensors(str(out / "noise.safetensors"), {"noise": r})
+            return r
+        mx.random.normal = normal_w
     if a.te_stream:
         from adapters.wan.te_stream import load_streamed_t5
         gen.load_t5_encoder = load_streamed_t5
@@ -172,7 +182,11 @@ def main():
             begin("text_encode")
         r = orig_encode(*args, **kw)
         mx.eval(r)
+        enc_outs.append(r)
+        if len(enc_outs) == 2:  # prompt + negative prompt, as consumed by the DiT (checked against the frozen capture)
+            mx.save_safetensors(str(out / "text_context.safetensors"), {"context": enc_outs[0], "context_null": enc_outs[1]})
         return r
+    enc_outs = []
     gen.encode_text = encode_w
     wrap("load_wan_model", "dit_load", after_dit)
     wrap("load_vae_decoder", "vae_load", after_vae)

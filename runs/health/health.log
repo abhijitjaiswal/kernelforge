@@ -312,3 +312,34 @@
 2026-10-21 12:15:19 ALERT thermal:Nominal->Moderate
 2026-10-21 12:16:20 free=68% mem[15G used 4526M wired 330M compressor] swap=1641.19MB disk=211GB thermal=Heavy gpu[856MHz 4847mW ] top=python 1.1GB
 2026-10-21 12:16:20 ALERT thermal:Moderate->Heavy
+2026-10-21 12:17:20 free=81% mem[12G used 2500M wired 330M compressor] swap=1641.19MB disk=211GB thermal=Moderate gpu[338MHz 147mW ] top=mediaanalysisd 0.3GB
+2026-10-21 12:17:20 ALERT thermal:Heavy->Moderate
+2026-10-21 12:18:21 free=81% mem[12G used 2497M wired 330M compressor] swap=1641.19MB disk=211GB thermal=Nominal gpu[338MHz 314mW ] top=mediaanalysisd 0.3GB
+2026-10-21 12:18:21 ALERT thermal:Moderate->Nominal
+2026-10-21 12:19:22 free=83% mem[12G used 2163M wired 361M compressor] swap=1385.19MB disk=211GB thermal=Nominal gpu[0MHz 0mW ] top=Spotlight 0.3GB
+2026-10-21 12:20:22 free=83% mem[12G used 2200M wired 361M compressor] swap=1377.19MB disk=211GB thermal=Nominal gpu[0MHz 0mW ] top=Spotlight 0.3GB
+2026-10-21 12:21:23 free=83% mem[12G used 2167M wired 361M compressor] swap=1377.19MB disk=211GB thermal=Nominal gpu[0MHz 0mW ] top=Spotlight 0.3GB
+2026-10-21 12:22:24 free=69% mem[15G used 4239M wired 558M compressor] swap=1377.19MB disk=211GB thermal=Nominal gpu[1107MHz 8620mW ] top=python 1.1GB
+2026-10-21 12:23:24 free=70% mem[15G used 4085M wired 539M compressor] swap=1377.19MB disk=211GB thermal=Moderate gpu[1077MHz 7347mW ] top=python 1.1GB
+2026-10-21 12:23:24 ALERT thermal:Nominal->Moderate
+2026-10-21 12:24:25 free=70% mem[15G used 4125M wired 536M compressor] swap=1377.19MB disk=211GB thermal=Heavy gpu[866MHz 6648mW ] top=python 1.1GB
+2026-10-21 12:24:25 ALERT thermal:Moderate->Heavy
+2026-10-21 12:25:25 free=73% mem[15G used 4123M wired 521M compressor] swap=1377.19MB disk=211GB thermal=Heavy gpu[708MHz 4438mW ] top=python 1.1GB
+2026-10-21 12:26:26 free=73% mem[15G used 4123M wired 520M compressor] swap=1377.19MB disk=211GB thermal=Heavy gpu[708MHz 4359mW ] top=python 1.1GB
+2026-10-21 12:27:27 free=70% mem[15G used 4081M wired 520M compressor] swap=1377.19MB disk=211GB thermal=Heavy gpu[722MHz 3764mW ] top=python 1.1GB
+2026-10-21 12:28:27 free=70% mem[15G used 4392M wired 519M compressor] swap=1377.19MB disk=211GB thermal=Heavy gpu[811MHz 4146mW ] top=python 1.1GB
+2026-10-21 12:29:28 free=68% mem[15G used 4386M wired 518M compressor] swap=1377.19MB disk=211GB thermal=Heavy gpu[743MHz 3510mW ] top=python 1.1GB
+2026-10-21 12:30:29 free=73% mem[15G used 4022M wired 514M compressor] swap=1377.19MB disk=211GB thermal=Heavy gpu[762MHz 4411mW ] top=python 1.1GB
+2026-10-21 12:31:29 free=70% mem[15G used 4122M wired 515M compressor] swap=1377.19MB disk=211GB thermal=Heavy gpu[768MHz 4226mW ] top=python 1.1GB
+2026-10-21 12:32:30 free=70% mem[15G used 4149M wired 515M compressor] swap=1377.19MB disk=211GB thermal=Heavy gpu[850MHz 4910mW ] top=python 1.1GB
+2026-10-21 12:33:31 free=70% mem[15G used 4136M wired 513M compressor] swap=1377.19MB disk=211GB thermal=Heavy gpu[918MHz 4532mW ] top=python 1.1GB
+2026-10-21 12:33:31 ALERT thermal=Heavy(10min)
+2026-10-21 12:34:31 free=70% mem[15G used 4016M wired 513M compressor] swap=1377.19MB disk=211GB thermal=Heavy gpu[913MHz 5133mW ] top=python 1.1GB
+2026-10-21 12:35:32 free=70% mem[15G used 4124M wired 518M compressor] swap=1369.19MB disk=211GB thermal=Heavy gpu[918MHz 5251mW ] top=python 1.1GB
+2026-10-21 12:36:32 free=69% mem[15G used 4200M wired 517M compressor] swap=1369.19MB disk=211GB thermal=Heavy gpu[935MHz 7561mW ] top=python 1.1GB
+2026-10-21 12:37:33 free=70% mem[15G used 4165M wired 467M compressor] swap=1369.19MB disk=211GB thermal=Heavy gpu[916MHz 7251mW ] top=python 1.1GB
+2026-10-21 12:38:34 free=70% mem[15G used 4136M wired 466M compressor] swap=1369.19MB disk=211GB thermal=Heavy gpu[899MHz 5468mW ] top=python 1.1GB
+2026-10-21 12:39:34 free=71% mem[15G used 4166M wired 464M compressor] swap=1369.19MB disk=211GB thermal=Heavy gpu[960MHz 5589mW ] top=python 1.1GB
+2026-10-21 12:40:35 free=70% mem[15G used 4121M wired 463M compressor] swap=1369.19MB disk=211GB thermal=Heavy gpu[912MHz 5695mW ] top=python 1.1GB
+2026-10-21 12:41:35 free=70% mem[15G used 4129M wired 460M compressor] swap=1369.19MB disk=211GB thermal=Heavy gpu[898MHz 6810mW ] top=python 1.1GB
+2026-10-21 12:42:36 free=56% mem[15G used 6170M wired 983M compressor] swap=1369.19MB disk=211GB thermal=Heavy gpu[1189MHz 3892mW ] top=python 0.3GB
