@@ -66,7 +66,8 @@ class StreamingDecoder:
                     b, c, _, h, w = x.shape
                     self_._kf_state = mx.zeros((b, c, _kt - 1, h, w), dtype=x.dtype)
                 full = mx.concatenate([self_._kf_state, x], axis=2)
-                self_._kf_state = full[:, :, -(_kt - 1):]
+                # copy into its own buffer: a slice would share (and keep alive) the whole chunk input of every conv
+                self_._kf_state = mx.contiguous(full[:, :, -(_kt - 1):])
                 mx.eval(self_._kf_state)
                 return _orig(self_, x, cache_x=full[:, :, : _kt - 1])  # conv concatenates cache_x and skips its own padding
 
