@@ -1,0 +1,20 @@
+W1021 08:43:10.440000 40799 torch/distributed/elastic/multiprocessing/redirects.py:35] NOTE: Redirects are currently not supported in MacOs.
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+      160.63 real       133.31 user        22.02 sys
+          1770733568  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+              768854  page reclaims
+               18613  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                 187  messages sent
+                1276  messages received
+                   0  signals received
+             1102355  voluntary context switches
+              386330  involuntary context switches
+       3896977486926  instructions retired
+        631283795351  cycles elapsed
+         25665768688  peak memory footprint

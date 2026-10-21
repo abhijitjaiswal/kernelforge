@@ -1,0 +1,16 @@
+{
+  "prompt": "A red fox trotting through fresh snow in a pine forest at dawn, soft golden light, the camera tracking slowly beside it, realistic",
+  "source": "exp-101-te-stock",
+  "mlx_video_commit": "87db56a",
+  "shapes": [
+    [
+      29,
+      4096
+    ],
+    [
+      126,
+      4096
+    ]
+  ],
+  "dtype": "mlx.core.float32"
+}

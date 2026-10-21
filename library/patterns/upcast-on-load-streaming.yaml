@@ -1,0 +1,17 @@
+id: upcast-on-load-streaming
+kind: memory-streaming (variant of block-weight-streaming-prefetch)
+numerics_changing: false
+tier: E
+status: validated
+matches:
+  graph: "sequential block stack whose reference implementation upcasts ALL weights to a wider dtype at load (fp32-pinned encoders)"
+preconditions:
+  - weights stored in a narrower dtype (bf16) whose cast to the compute dtype (fp32) is exact
+  - per-block weight files (or addressable ranges)
+rewrite: "stream blocks from the bf16 files; cast each block to fp32 as it is loaded (inside the prefetch), release after use"
+justification: "bf16 -> fp32 is exact and the ops/order are unchanged; verified bit-identical (measured, not argued: R1)"
+results:
+  - {model: wan2.1-t2v-1.3b umT5-XXL encoder, hw: apple_m5_8gpu_16gb, peak_mlx_gb: "23.12 -> 2.07", footprint_gb: "23.90 -> 2.59",
+     encode_s: "141 (swapping) -> 6.17", identical: "context + context_null bit-identical to the stock capture", exps: [exp-101, exp-102]}
+combines_with: [block-weight-streaming-prefetch, row-gathered-embeddings]
+upstream_candidate: "Blaizzy/mlx-video load_t5_encoder upcasts the whole umT5-XXL to fp32 (21.2 GB) -> unrunnable on 16 GB Macs"

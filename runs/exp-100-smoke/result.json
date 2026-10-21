@@ -1,0 +1,34 @@
+{
+  "exp_id": "exp-100-smoke",
+  "kind": "video",
+  "error": "ABORTED by swap watchdog: swap +11.2 GB during stage text_encoder_load",
+  "aborted_stage": "text_encoder_load",
+  "stages_completed": {},
+  "weights_gb": {
+    "text_encoder": 21.163040161132812
+  },
+  "step_s": [],
+  "swap_used_mb_before_after": [
+    3138.12,
+    14599.19
+  ],
+  "swap_grew": true,
+  "config": {
+    "prompt_ids": [
+      "v1"
+    ],
+    "width": 832,
+    "height": 480,
+    "frames": 9,
+    "steps": 2,
+    "seed": 42,
+    "tiling": "auto",
+    "compile": true
+  },
+  "process": {
+    "peak_footprint_gb": 23.5,
+    "max_rss_gb": 1.651,
+    "process_wall_s": 18.89
+  },
+  "returncode": 3
+}

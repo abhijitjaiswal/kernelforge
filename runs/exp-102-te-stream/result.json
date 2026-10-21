@@ -1,0 +1,64 @@
+{
+  "exp_id": "exp-102-te-stream",
+  "kind": "video_text_encoder",
+  "mode": "stream",
+  "config": {
+    "prompt_ids": [
+      "v1"
+    ],
+    "te": "stream"
+  },
+  "load_s": 0.007679916976485401,
+  "encode_s": 6.166870541987009,
+  "load_peak_mlx_gb": 2.4743378162384033e-05,
+  "peak_mlx_gb": 2.0679974667727947,
+  "te_weights_gb": 1.52587890625e-05,
+  "context_shapes": [
+    [
+      29,
+      4096
+    ],
+    [
+      126,
+      4096
+    ]
+  ],
+  "context_dtype": "mlx.core.float32",
+  "memtrace": {
+    "peak_footprint_gb": 2.589,
+    "peak_at_s": 4.45,
+    "peak_stage": "text_encode",
+    "per_stage": {
+      "text_encode": {
+        "footprint_peak_gb": 2.589,
+        "mlx_active_peak_gb": 2.064
+      },
+      "done": {
+        "footprint_peak_gb": 2.531,
+        "mlx_active_peak_gb": 0.734
+      }
+    }
+  },
+  "swap_used_mb_before_after": [
+    2967.81,
+    2935.81
+  ],
+  "swap_grew": false,
+  "mlx_version": "0.32.4",
+  "stream_stall_s": 0.07741866318974644,
+  "identical_to_ref": {
+    "context": true,
+    "context_null": true
+  },
+  "max_abs_vs_ref": {
+    "context": 0.0,
+    "context_null": 0.0
+  },
+  "ref": "baselines_video/wan21/v1_text_context.safetensors",
+  "process": {
+    "peak_footprint_gb": 2.589,
+    "max_rss_gb": 1.186,
+    "process_wall_s": 9.67
+  },
+  "returncode": 0
+}
