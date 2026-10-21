@@ -1,5 +1,9 @@
 # Determinism taxonomy: when "the same computation" gives different bits
 
+**General rule:** bits vary across compiled vs eager execution AND across input-size-dependent algorithm selection. Both recur on
+every framework (PyTorch/cuDNN choose algorithms by heuristic too). A bit-identity claim is valid only against a reference in
+the same execution mode, computed through the same kernel paths.
+
 A growing list of measured reasons why two runs of mathematically identical work differ. Each changes what a bit-identity
 claim may be checked against.
 

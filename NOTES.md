@@ -72,3 +72,10 @@
   Winograd it differs (exp-114). The Wan adapter uses a grid-aligned variant (adapters/wan/vae_stream.aligned_conv2d_rows).
   Candidate engine fix after the frozen test: pad once, grid-aligned strips, height a multiple of 24. Klein's exp-019
   (45–52 dB) may partly be this effect; recheck then.
+- 2026-10-21 DEFERRED (option 2, Wan decoder): spatial tiling of the whole decoder. Trigger: only if the real 8 GB Mac test or Wan
+  2.2 5B needs the decoder under ~6 GB. Sketch: split each frame into vertical bands (e.g. left/right halves); run the full
+  streaming decoder per band with a halo equal to the decoder's spatial receptive field; crop the halo; temporal causal state
+  per band. That roughly halves the causal state (~3.8 GB) and activations. Halo concern: the receptive field grows through every
+  3x3 conv and 2x upsample (~22 3x3 convs across 3 upsampling stages), so it may be 100+ output pixels per side: large
+  recompute overhead, and bit-identity needs the band boundaries grid-aligned at every stage (kernel-grid-aligned-chunking).
+  Measure the receptive field before designing.

@@ -1,0 +1,13 @@
+id: kernel-grid-aligned-chunking
+kind: rule (applies to every chunking pattern)
+numerics_changing: false
+tier: E (bit-identical when the rule holds)
+status: validated
+rule: >
+  Chunk boundaries must keep every strip on the same kernel and algorithm path as the full-size op. When chunking, align to
+  the framework's kernel-selection grid: pad once as the full op does, start each strip on the full op's tile grid, and choose
+  strip sizes that keep the same algorithm (MLX Winograd 3x3: heights in multiples of 24 rows).
+evidence:
+  - {op: "Conv2d 3x3 (Wan VAE upsamplers)", re_padded_strips: "60.0 dB min, max diff 5 (exp-112)", grid_aligned_strips: "bit-identical (exp-114, exp-115)", winograd_off: "bit-identical at any strip size"}
+applies_to: [vae-exact-row-chunked-decode, wan-exact-streaming-decoder, engine.chunked.conv_rows (frozen; misaligned form)]
+related: library/notes/determinism-taxonomy.md
