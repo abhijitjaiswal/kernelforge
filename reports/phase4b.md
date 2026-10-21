@@ -276,3 +276,25 @@ PSNR min 31.6 / mean 37.2 dB. Latent cosine 0.998, rel L2 6.2 %.
 - **First-frame LPIPS (0.027, worst):** the drift is already in the latents, not the decoder: latent rel L2 7.8 % in latent frames 0–1
   vs 5.4 % mid-clip. The causal-start-padding explanation is not supported; why the trajectory drifts most at the clip start is open
   (candidate: latent frame 0 encodes 1 video frame, the others 4 each; untested).
+
+### A2 on all three prompts
+
+| Prompt | Speed-up end to end | LPIPS max / mean | PSNR min / mean | Motion vs exact | Tier A |
+|---|---|---|---|---|---|
+| v1 fox (exp-134) | 1.57–1.64× | 0.027 / 0.011 | 31.6 / 37.2 dB | 0.97× | pass |
+| v2 ocean waves (exp-a2-v2 vs exp-ref-v2) | 1.63× (752 vs 1226 s) | **0.075 / 0.049** (16 of 36 frames > 0.05) | 25.7 / 29.4 dB | 0.98× | **fail** |
+| v3 neon sign | pending | | | | |
+
+Failing the gate does not mean the waves video looks bad: by eye it is the same scene (sun, rocks, horizon, where the waves break)
+with differently shaped foam and spray, and the motion is not slowed (0.98×). It means the claim "indistinguishable from exact"
+cannot be made at 1.56× on chaotic content. The strictness is the product; a looser gate would just be marketing.
+Error shape: largest at the clip start (LPIPS 0.074 on frame 1) easing to 0.036 at the end, the same shape as the fox at ~3× the size.
+Exact v2 reference: 1226 s, 8.52 GB footprint, swap flat (exp-ref-v2).
+
+Post-skip streaming stall (exp-a2-v2, recorded directly): block-0 stall 0.0 ms after a skip (n=16) vs 0.0 ms after a normal step;
+total stall 0.7 ms/step either way. Recorded in library/patterns/block-weight-streaming-prefetch.yaml as a measured-absent interaction.
+
+Sweep plan (A3): A3-a (skip window starts at step 16 instead of 12; ~1.47× ideal) on waves first; A3-b (skip every third step) if a is
+borderline; A3-c (no cond steps) dropped: it removes reuse where the error is already smallest. A3-d: dynamic rule, skip only when the
+last full step's measured block-stack change rate is below a threshold, so the schedule adapts per prompt; thresholds calibrated from
+the change rates logged in A3-a.

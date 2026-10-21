@@ -1,0 +1,79 @@
+[96m============================================================
+  Wan2.1 Text-to-Video Generation (MLX, single-model)
+============================================================[0m
+[2m  Prompt: A street vendor's neon sign that reads "NOODLES" flickering on a rainy night street, reflections on wet pavement, people with umbrellas walking past
+  Neg prompt: 色调艳丽，过曝，静态，细节模糊不清，字幕，风格，作品，画作，画面，静止，整体发灰，最差质量，低质量，JPEG压缩残留，丑...
+  Size: 832x480, Frames: 33
+  Steps: 50, Guide: 5.0, Shift: 5.0, Solver: unipc
+[0m
+[2m  Seed: 42[0m
+[2m  Latent shape: (16, 9, 60, 104)
+  Sequence length: 14040[0m
+
+[94mLoading T5 encoder...[0m
+[94mEncoding text...[0m
+[2m  T5 encoding: 7.0s[0m
+
+[94mLoading transformer model(s)...[0m
+[2m  Models loaded: 0.4s[0m
+
+[92mDenoising (50 steps)...[0m
+[wan] step 1/50 19.0s
+[wan] step 2/50 20.4s
+[wan] step 3/50 21.0s
+[wan] step 4/50 21.5s
+[wan] step 5/50 21.8s
+[wan] step 6/50 21.8s
+[wan] step 7/50 21.9s
+[wan] step 8/50 21.9s
+[wan] step 9/50 22.0s
+[wan] step 10/50 22.1s
+[wan] step 11/50 22.1s
+[wan] step 12/50 22.2s
+[wan] step 13/50 22.3s
+[wan] step 14/50 22.3s
+[wan] step 15/50 22.7s
+[wan] step 16/50 23.0s
+[wan] step 17/50 23.4s
+[wan] step 18/50 23.5s
+[wan] step 19/50 23.5s
+[wan] step 20/50 23.6s
+[wan] step 21/50 23.6s
+[wan] step 22/50 23.7s
+[wan] step 23/50 23.8s
+[wan] step 24/50 23.6s
+[wan] step 25/50 23.8s
+[wan] step 26/50 23.7s
+[wan] step 27/50 23.8s
+[wan] step 28/50 23.9s
+[wan] step 29/50 24.2s
+[wan] step 30/50 24.0s
+[wan] step 31/50 24.0s
+[wan] step 32/50 24.1s
+[wan] step 33/50 24.1s
+[wan] step 34/50 24.0s
+[wan] step 35/50 24.2s
+[wan] step 36/50 24.1s
+[wan] step 37/50 24.2s
+[wan] step 38/50 24.3s
+[wan] step 39/50 24.0s
+[wan] step 40/50 24.2s
+[wan] step 41/50 24.0s
+[wan] step 42/50 24.1s
+[wan] step 43/50 24.4s
+[wan] step 44/50 24.3s
+[wan] step 45/50 24.4s
+[wan] step 46/50 24.2s
+[wan] step 47/50 24.2s
+[wan] step 48/50 24.3s
+[wan] step 49/50 24.2s
+[wan] step 50/50 24.2s
+[2m  Denoising: 1164.0s[0m
+
+[94mDecoding with VAE...[0m
+[2m  Tiling (auto): spatial=512px, temporal=none[0m
+[2m  VAE decode: 58.6s[0m
+
+[92m✓ Video saved to ~/kernelforge/runs/exp-ref-v3/video.mp4[0m
+[2m  Total time: 1230.5s[0m
+{"error": null, "total_s": {"median": 1230.634877540986}, "weights_gb": {"text_encoder": 1.52587890625e-05, "dit": 2.6435757875442505, "vae": 0.2730475775897503}, "step_s_median": 23.767095166025683}

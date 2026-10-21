@@ -15,6 +15,13 @@ results:
      step_s: "4.54 -> 5.00 (+10.1%, cold SSD)", stall_hidden: "99.9% of cold load (1.12 -> 0.001 s/step)", exps: [exp-051, exp-052]}
   - {model: flux2-klein-4b, hw: apple_m5_8gpu_16gb, mode: "per-block mx.compile + prefetch + lag-1 barrier", peak_mlx_gb: "8.57 -> 2.81", footprint_gb: "9.53 -> 6.65",
      step_s: "4.34 -> 4.45 (+2.1-2.8%, cold SSD)", identical_to: "resident per-block-compiled (R1)", exps: [exp-053, exp-054]}
+  - {model: wan2.1-t2v-1.3b, hw: apple_m5_8gpu_16gb, mode: "per-block mx.compile + prefetch + lag-1 (adapter subclass, positional-arg fold)",
+     peak_mlx_gb: "4.60 -> 2.41", footprint_gb: "5.61 -> 3.44 (denoise only)", step_s: "+0.1-0.7% vs per-block-compiled resident",
+     identical_to: "stock whole-model compile, at 8 and 50 steps, on both RNG paths", exps: [exp-126, exp-130, exp-131]}
+interactions:
+  - {with: "step caching (whole-step skips, adapters/wan/step_cache.py)", measured: "block-0 weight stall after a skipped step 0.0 ms (n=16),
+     same as after a normal step; total stall 0.7 ms/step either way: the prefetched block 0 waits in memory across the skip",
+     verdict: "measured absent, not assumed absent", exps: [exp-a2-v2]}
 recommended: {compile: per_block, lag: 1, residency_blocks: 3}
 cost_breakdown: {eval_barriers: "+6.6%", load_contention: "+2-3.5% (hardware floor)"}
 failure_cases:
