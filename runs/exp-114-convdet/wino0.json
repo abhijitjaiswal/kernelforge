@@ -1,0 +1,127 @@
+{
+  "env": {
+    "MLX_CONV_WINOGRAD": "0"
+  },
+  "mlx_version": "0.32.4",
+  "results": [
+    {
+      "upsampler": 0,
+      "mode": "upsample2d",
+      "input_shape": [
+        1,
+        120,
+        208,
+        192
+      ],
+      "out_channels": 96,
+      "strips": {
+        "16": {
+          "identical": true,
+          "max_abs": 0.0
+        },
+        "32": {
+          "identical": true,
+          "max_abs": 0.0
+        },
+        "48": {
+          "identical": true,
+          "max_abs": 0.0
+        },
+        "64": {
+          "identical": true,
+          "max_abs": 0.0
+        },
+        "96": {
+          "identical": true,
+          "max_abs": 0.0
+        }
+      }
+    },
+    {
+      "upsampler": 1,
+      "mode": "upsample3d",
+      "input_shape": [
+        2,
+        240,
+        416,
+        384
+      ],
+      "out_channels": 192,
+      "strips": {
+        "16": {
+          "identical": true,
+          "max_abs": 0.0
+        },
+        "32": {
+          "identical": true,
+          "max_abs": 0.0
+        },
+        "48": {
+          "identical": true,
+          "max_abs": 0.0
+        },
+        "64": {
+          "identical": true,
+          "max_abs": 0.0
+        },
+        "96": {
+          "identical": true,
+          "max_abs": 0.0
+        },
+        "120": {
+          "identical": true,
+          "max_abs": 0.0
+        },
+        "160": {
+          "identical": true,
+          "max_abs": 0.0
+        }
+      }
+    },
+    {
+      "upsampler": 2,
+      "mode": "upsample3d",
+      "input_shape": [
+        4,
+        480,
+        832,
+        384
+      ],
+      "out_channels": 192,
+      "strips": {
+        "16": {
+          "identical": true,
+          "max_abs": 0.0
+        },
+        "32": {
+          "identical": true,
+          "max_abs": 0.0
+        },
+        "48": {
+          "identical": true,
+          "max_abs": 0.0
+        },
+        "64": {
+          "identical": true,
+          "max_abs": 0.0
+        },
+        "96": {
+          "identical": true,
+          "max_abs": 0.0
+        },
+        "120": {
+          "identical": true,
+          "max_abs": 0.0
+        },
+        "160": {
+          "identical": true,
+          "max_abs": 0.0
+        },
+        "240": {
+          "identical": true,
+          "max_abs": 0.0
+        }
+      }
+    }
+  ]
+}

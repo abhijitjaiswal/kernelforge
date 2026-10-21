@@ -1,0 +1,189 @@
+{
+  "env": {},
+  "mlx_version": "0.32.4",
+  "results": [
+    {
+      "upsampler": 0,
+      "mode": "upsample2d",
+      "input_shape": [
+        1,
+        120,
+        208,
+        192
+      ],
+      "out_channels": 96,
+      "strips": {
+        "12": {
+          "identical": false,
+          "max_abs": 0.07340408861637115
+        },
+        "aligned12": {
+          "identical": false,
+          "max_abs": 0.07340408861637115
+        },
+        "16": {
+          "identical": false,
+          "max_abs": 0.07340408861637115
+        },
+        "aligned16": {
+          "identical": false,
+          "max_abs": 0.07340408861637115
+        },
+        "24": {
+          "identical": false,
+          "max_abs": 0.08262324333190918
+        },
+        "aligned24": {
+          "identical": true,
+          "max_abs": 0.0
+        },
+        "48": {
+          "identical": false,
+          "max_abs": 0.08237814903259277
+        },
+        "aligned48": {
+          "identical": true,
+          "max_abs": 0.0
+        },
+        "96": {
+          "identical": false,
+          "max_abs": 0.06687736511230469
+        },
+        "aligned96": {
+          "identical": true,
+          "max_abs": 0.0
+        }
+      }
+    },
+    {
+      "upsampler": 1,
+      "mode": "upsample3d",
+      "input_shape": [
+        2,
+        240,
+        416,
+        384
+      ],
+      "out_channels": 192,
+      "strips": {
+        "12": {
+          "identical": false,
+          "max_abs": 0.1167287826538086
+        },
+        "aligned12": {
+          "identical": true,
+          "max_abs": 0.0
+        },
+        "16": {
+          "identical": false,
+          "max_abs": 0.10011458396911621
+        },
+        "aligned16": {
+          "identical": false,
+          "max_abs": 0.08721232414245605
+        },
+        "24": {
+          "identical": false,
+          "max_abs": 0.1167287826538086
+        },
+        "aligned24": {
+          "identical": true,
+          "max_abs": 0.0
+        },
+        "48": {
+          "identical": false,
+          "max_abs": 0.1167287826538086
+        },
+        "aligned48": {
+          "identical": true,
+          "max_abs": 0.0
+        },
+        "96": {
+          "identical": false,
+          "max_abs": 0.1167287826538086
+        },
+        "aligned96": {
+          "identical": true,
+          "max_abs": 0.0
+        },
+        "120": {
+          "identical": false,
+          "max_abs": 0.1167287826538086
+        },
+        "aligned120": {
+          "identical": true,
+          "max_abs": 0.0
+        }
+      }
+    },
+    {
+      "upsampler": 2,
+      "mode": "upsample3d",
+      "input_shape": [
+        4,
+        480,
+        832,
+        384
+      ],
+      "out_channels": 192,
+      "strips": {
+        "12": {
+          "identical": false,
+          "max_abs": 0.2000105381011963
+        },
+        "aligned12": {
+          "identical": true,
+          "max_abs": 0.0
+        },
+        "16": {
+          "identical": false,
+          "max_abs": 0.17442750930786133
+        },
+        "aligned16": {
+          "identical": false,
+          "max_abs": 0.1733870506286621
+        },
+        "24": {
+          "identical": false,
+          "max_abs": 0.2000105381011963
+        },
+        "aligned24": {
+          "identical": true,
+          "max_abs": 0.0
+        },
+        "48": {
+          "identical": false,
+          "max_abs": 0.2000105381011963
+        },
+        "aligned48": {
+          "identical": true,
+          "max_abs": 0.0
+        },
+        "96": {
+          "identical": false,
+          "max_abs": 0.2000105381011963
+        },
+        "aligned96": {
+          "identical": true,
+          "max_abs": 0.0
+        },
+        "120": {
+          "identical": false,
+          "max_abs": 0.2000105381011963
+        },
+        "aligned120": {
+          "identical": true,
+          "max_abs": 0.0
+        },
+        "240": {
+          "identical": false,
+          "max_abs": 0.1854255199432373
+        },
+        "aligned240": {
+          "identical": true,
+          "max_abs": 0.0
+        }
+      }
+    }
+  ]
+}

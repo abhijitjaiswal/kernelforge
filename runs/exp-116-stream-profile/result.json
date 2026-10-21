@@ -1,0 +1,456 @@
+{
+  "exp_id": "exp-116-stream-profile",
+  "kind": "video_vae",
+  "impl": "stream_profile",
+  "config": {
+    "latents": "baselines_video/wan21/v1_latents.safetensors",
+    "impl": "stream_profile",
+    "latent_frames": 2,
+    "rows": 96
+  },
+  "latents_shape": [
+    1,
+    16,
+    2,
+    60,
+    104
+  ],
+  "vae_weights_gb": 0.2730475775897503,
+  "profile_e2e": {
+    "peak_gb": 8.388688828796148,
+    "delta_gb": 4.576263435184956,
+    "time_s": 5.773961334023625,
+    "weights_gb": 0.2730463854968548
+  },
+  "profile_top": [
+    {
+      "module": "upsamples.12.residual.2",
+      "type": "CausalConv3d",
+      "depth": 2,
+      "peak_gb": 8.290345933288336,
+      "in_shape": [
+        1,
+        96,
+        4,
+        480,
+        832
+      ],
+      "weight_shape": [
+        96,
+        3,
+        3,
+        3,
+        96
+      ],
+      "quantized": false,
+      "delta_gb": 3.335342414677143,
+      "out_gb": 0.5712890625,
+      "out_shape": [
+        1,
+        96,
+        4,
+        480,
+        832
+      ],
+      "time_s": 0.4831474579987116
+    },
+    {
+      "module": "upsamples.12.residual.6",
+      "type": "CausalConv3d",
+      "depth": 2,
+      "peak_gb": 8.290345933288336,
+      "in_shape": [
+        1,
+        96,
+        4,
+        480,
+        832
+      ],
+      "weight_shape": [
+        96,
+        3,
+        3,
+        3,
+        96
+      ],
+      "quantized": false,
+      "delta_gb": 3.335342414677143,
+      "out_gb": 0.5712890625,
+      "out_shape": [
+        1,
+        96,
+        4,
+        480,
+        832
+      ],
+      "time_s": 0.28073879098519683
+    },
+    {
+      "module": "upsamples.12",
+      "type": "ResidualBlock",
+      "depth": 1,
+      "peak_gb": 8.290345933288336,
+      "in_shape": [
+        1,
+        96,
+        4,
+        480,
+        832
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 3.906631477177143,
+      "out_gb": 0.5712890625,
+      "out_shape": [
+        1,
+        96,
+        4,
+        480,
+        832
+      ],
+      "time_s": 1.0567173750023358
+    },
+    {
+      "module": "upsamples.13.residual.2",
+      "type": "CausalConv3d",
+      "depth": 2,
+      "peak_gb": 8.290345933288336,
+      "in_shape": [
+        1,
+        96,
+        4,
+        480,
+        832
+      ],
+      "weight_shape": [
+        96,
+        3,
+        3,
+        3,
+        96
+      ],
+      "quantized": false,
+      "delta_gb": 3.335342414677143,
+      "out_gb": 0.5712890625,
+      "out_shape": [
+        1,
+        96,
+        4,
+        480,
+        832
+      ],
+      "time_s": 0.29073725000489503
+    },
+    {
+      "module": "upsamples.13.residual.6",
+      "type": "CausalConv3d",
+      "depth": 2,
+      "peak_gb": 8.290345933288336,
+      "in_shape": [
+        1,
+        96,
+        4,
+        480,
+        832
+      ],
+      "weight_shape": [
+        96,
+        3,
+        3,
+        3,
+        96
+      ],
+      "quantized": false,
+      "delta_gb": 3.335342414677143,
+      "out_gb": 0.5712890625,
+      "out_shape": [
+        1,
+        96,
+        4,
+        480,
+        832
+      ],
+      "time_s": 0.30642158299451694
+    },
+    {
+      "module": "upsamples.13",
+      "type": "ResidualBlock",
+      "depth": 1,
+      "peak_gb": 8.290345933288336,
+      "in_shape": [
+        1,
+        96,
+        4,
+        480,
+        832
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 3.906631477177143,
+      "out_gb": 0.5712890625,
+      "out_shape": [
+        1,
+        96,
+        4,
+        480,
+        832
+      ],
+      "time_s": 0.719838333025109
+    },
+    {
+      "module": "upsamples.14.residual.2",
+      "type": "CausalConv3d",
+      "depth": 2,
+      "peak_gb": 8.290345933288336,
+      "in_shape": [
+        1,
+        96,
+        4,
+        480,
+        832
+      ],
+      "weight_shape": [
+        96,
+        3,
+        3,
+        3,
+        96
+      ],
+      "quantized": false,
+      "delta_gb": 3.335342414677143,
+      "out_gb": 0.5712890625,
+      "out_shape": [
+        1,
+        96,
+        4,
+        480,
+        832
+      ],
+      "time_s": 0.29115154198370874
+    },
+    {
+      "module": "upsamples.14.residual.6",
+      "type": "CausalConv3d",
+      "depth": 2,
+      "peak_gb": 8.290345933288336,
+      "in_shape": [
+        1,
+        96,
+        4,
+        480,
+        832
+      ],
+      "weight_shape": [
+        96,
+        3,
+        3,
+        3,
+        96
+      ],
+      "quantized": false,
+      "delta_gb": 3.335342414677143,
+      "out_gb": 0.5712890625,
+      "out_shape": [
+        1,
+        96,
+        4,
+        480,
+        832
+      ],
+      "time_s": 0.29885599995031953
+    },
+    {
+      "module": "upsamples.14",
+      "type": "ResidualBlock",
+      "depth": 1,
+      "peak_gb": 8.290345933288336,
+      "in_shape": [
+        1,
+        96,
+        4,
+        480,
+        832
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 3.906631477177143,
+      "out_gb": 0.5712890625,
+      "out_shape": [
+        1,
+        96,
+        4,
+        480,
+        832
+      ],
+      "time_s": 0.7138800420216285
+    },
+    {
+      "module": "upsamples.11.resample.1",
+      "type": "Conv2d",
+      "depth": 2,
+      "peak_gb": 8.042192243039608,
+      "in_shape": [
+        4,
+        480,
+        832,
+        192
+      ],
+      "weight_shape": [
+        96,
+        3,
+        3,
+        192
+      ],
+      "quantized": false,
+      "delta_gb": 2.2302551306784153,
+      "out_gb": 0.5712890625,
+      "out_shape": [
+        4,
+        480,
+        832,
+        96
+      ],
+      "time_s": 0.21966387500287965
+    },
+    {
+      "module": "upsamples.11",
+      "type": "Resample",
+      "depth": 1,
+      "peak_gb": 8.042192243039608,
+      "in_shape": [
+        1,
+        192,
+        4,
+        240,
+        416
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 3.9441223181784153,
+      "out_gb": 0.5712890625,
+      "out_shape": [
+        1,
+        96,
+        4,
+        480,
+        832
+      ],
+      "time_s": 0.2624278340372257
+    },
+    {
+      "module": "head.2",
+      "type": "CausalConv3d",
+      "depth": 1,
+      "peak_gb": 7.392381452023983,
+      "in_shape": [
+        1,
+        96,
+        4,
+        480,
+        832
+      ],
+      "weight_shape": [
+        3,
+        3,
+        3,
+        3,
+        96
+      ],
+      "quantized": false,
+      "delta_gb": 3.0086669959127903,
+      "out_gb": 0.017852783203125,
+      "out_shape": [
+        1,
+        3,
+        4,
+        480,
+        832
+      ],
+      "time_s": 0.158612750004977
+    },
+    {
+      "module": "upsamples.7.resample.1",
+      "type": "Conv2d",
+      "depth": 2,
+      "peak_gb": 6.5052507147192955,
+      "in_shape": [
+        4,
+        240,
+        416,
+        384
+      ],
+      "weight_shape": [
+        192,
+        3,
+        3,
+        384
+      ],
+      "quantized": false,
+      "delta_gb": 1.6216583289206028,
+      "out_gb": 0.28564453125,
+      "out_shape": [
+        4,
+        240,
+        416,
+        192
+      ],
+      "time_s": 0.1240743329981342
+    },
+    {
+      "module": "upsamples.7",
+      "type": "Resample",
+      "depth": 1,
+      "peak_gb": 6.5052507147192955,
+      "in_shape": [
+        1,
+        384,
+        2,
+        120,
+        208
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 2.478591922670603,
+      "out_gb": 0.28564453125,
+      "out_shape": [
+        1,
+        192,
+        4,
+        240,
+        416
+      ],
+      "time_s": 0.20310733298538253
+    }
+  ],
+  "decode_s": 16.174158292007633,
+  "peak_mlx_gb": 7.392381452023983,
+  "frames_shape": [
+    8,
+    480,
+    832,
+    3
+  ],
+  "memtrace": {
+    "peak_footprint_gb": 12.088,
+    "peak_at_s": 3.05,
+    "peak_stage": "decode",
+    "per_stage": {
+      "decode": {
+        "footprint_peak_gb": 12.088,
+        "mlx_active_peak_gb": 8.29
+      }
+    }
+  },
+  "swap_used_mb_before_after": [
+    1958.75,
+    2113.19
+  ],
+  "swap_grew": true,
+  "mlx_version": "0.32.4",
+  "process": {
+    "peak_footprint_gb": 12.465,
+    "max_rss_gb": 0.721,
+    "process_wall_s": 19.64
+  },
+  "returncode": 0
+}

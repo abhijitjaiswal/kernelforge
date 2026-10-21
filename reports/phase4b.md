@@ -131,3 +131,24 @@ lazy-graph-lifetime fix) does not fire here.
   per-buffer limit), not merely swapping. Only mlx-video's approximate tiling runs, at 17.9–18.6 GB.
 - Exactness consequence: no untiled stock reference exists for the full video. Exact decoders are bit-checked against the untiled
   stock decode on prefixes where it runs, and compared to the stock tiled frames with PSNR, LPIPS and flicker for the full video.
+
+## Exact streaming decoder (v3): temporal streaming + Winograd-aligned height chunking, fp32
+
+| Run | Frames | Peak MLX | Process footprint | Swap | vs stock |
+|---|---|---|---|---|---|
+| exp-115 v3, 12-frame prefix | 12 | 8.41 GB | – | – | **bit-identical** to stock untiled |
+| exp-115 v3, 16-frame prefix | 16 | 8.76 GB | – | – | **bit-identical** to stock untiled |
+| exp-115 v3, full | 36 | 8.78 GB (flat per chunk: 7.99 → 8.78) | 12.47 GB (cache uncapped) | grew | frames 1–16 **bit-identical** to the untiled 16-frame prefix; frames vs stock tiled: 46.8 dB min / 56.0 mean, max diff 26, flicker excess 0.016 |
+| exp-117 v3, full, cache cap 0.5 GB | 36 | 8.85 GB | **9.23 GB** | **none** | frames 1–16 **bit-identical** |
+
+Stock: tiled `auto` 17.9–18.6 GB (swaps), 134 s; untiled 36 frames cannot run (Metal per-buffer limit). v3 decodes in 47–51 s.
+The **layered claim**: bit-identical on the first 16 frames (the longest prefix stock can decode untiled), and Tier E vs stock
+tiled on the rest, where stock tiled is itself the approximation. Memory is flat in video length, so lengths stock cannot
+decode untiled are decodable.
+
+Remaining peak (exp-116, per-module profile inside the streaming decoder): about 3.8 GB of fp32 causal state carried between
+chunks (2 frames per 3D conv), plus about 3.3 GB transient per full-resolution 3D conv (stock concatenates, pads and transposes the
+6-frame state + chunk block).
+
+Engineering notes: (1) a slice kept every conv's whole chunk input alive until the state was copied; (2) re-padded upsampler
+strips broke bit-identity under Winograd (60 dB) until strips were grid-aligned (library/notes/determinism-taxonomy.md).

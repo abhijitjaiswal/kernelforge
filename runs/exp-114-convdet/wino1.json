@@ -1,0 +1,127 @@
+{
+  "env": {
+    "MLX_CONV_WINOGRAD": "1"
+  },
+  "mlx_version": "0.32.4",
+  "results": [
+    {
+      "upsampler": 0,
+      "mode": "upsample2d",
+      "input_shape": [
+        1,
+        120,
+        208,
+        192
+      ],
+      "out_channels": 96,
+      "strips": {
+        "16": {
+          "identical": false,
+          "max_abs": 0.07340408861637115
+        },
+        "32": {
+          "identical": false,
+          "max_abs": 0.08134746551513672
+        },
+        "48": {
+          "identical": false,
+          "max_abs": 0.08237814903259277
+        },
+        "64": {
+          "identical": false,
+          "max_abs": 0.07523965835571289
+        },
+        "96": {
+          "identical": false,
+          "max_abs": 0.06687736511230469
+        }
+      }
+    },
+    {
+      "upsampler": 1,
+      "mode": "upsample3d",
+      "input_shape": [
+        2,
+        240,
+        416,
+        384
+      ],
+      "out_channels": 192,
+      "strips": {
+        "16": {
+          "identical": false,
+          "max_abs": 0.10011458396911621
+        },
+        "32": {
+          "identical": false,
+          "max_abs": 0.10173684358596802
+        },
+        "48": {
+          "identical": false,
+          "max_abs": 0.1167287826538086
+        },
+        "64": {
+          "identical": false,
+          "max_abs": 0.10739850997924805
+        },
+        "96": {
+          "identical": false,
+          "max_abs": 0.1167287826538086
+        },
+        "120": {
+          "identical": false,
+          "max_abs": 0.1167287826538086
+        },
+        "160": {
+          "identical": false,
+          "max_abs": 0.0847507119178772
+        }
+      }
+    },
+    {
+      "upsampler": 2,
+      "mode": "upsample3d",
+      "input_shape": [
+        4,
+        480,
+        832,
+        384
+      ],
+      "out_channels": 192,
+      "strips": {
+        "16": {
+          "identical": false,
+          "max_abs": 0.17442750930786133
+        },
+        "32": {
+          "identical": false,
+          "max_abs": 0.19792771339416504
+        },
+        "48": {
+          "identical": false,
+          "max_abs": 0.2000105381011963
+        },
+        "64": {
+          "identical": false,
+          "max_abs": 0.19836902618408203
+        },
+        "96": {
+          "identical": false,
+          "max_abs": 0.2000105381011963
+        },
+        "120": {
+          "identical": false,
+          "max_abs": 0.2000105381011963
+        },
+        "160": {
+          "identical": false,
+          "max_abs": 0.17544841766357422
+        },
+        "240": {
+          "identical": false,
+          "max_abs": 0.1854255199432373
+        }
+      }
+    }
+  ]
+}

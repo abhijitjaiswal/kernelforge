@@ -1,0 +1,96 @@
+{
+  "exp_id": "exp-117-v3-full-cap",
+  "kind": "video_vae",
+  "impl": "stream",
+  "config": {
+    "latents": "baselines_video/wan21/v1_latents.safetensors",
+    "impl": "stream",
+    "latent_frames": null,
+    "rows": 96,
+    "chunk_latents": 1
+  },
+  "latents_shape": [
+    1,
+    16,
+    9,
+    60,
+    104
+  ],
+  "vae_weights_gb": 0.2730475775897503,
+  "chunk_peaks_gb": [
+    7.987230088561773,
+    8.72812059149146,
+    8.745973374694586,
+    8.76382615789771,
+    8.781678941100836,
+    8.79953172430396,
+    8.817384507507086,
+    8.83523729071021,
+    8.853090073913336
+  ],
+  "decode_s": 51.41200700000627,
+  "peak_mlx_gb": 8.853090073913336,
+  "frames_shape": [
+    36,
+    480,
+    832,
+    3
+  ],
+  "verify": {
+    "runs/ref-v1": {
+      "identical": false,
+      "psnr_db_min": 46.835235569881476,
+      "psnr_db_mean": 56.01405032048163,
+      "max_abs_pixel_diff": 26,
+      "flicker_excess_max": 0.015723490918803762,
+      "flicker_excess_mean": 0.002506438873626062
+    }
+  },
+  "prefix_check": {
+    "ref": "runs/exp-109-untiled-pre4",
+    "n_frames": 16,
+    "all_identical": true,
+    "identical_per_frame": [
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true
+    ],
+    "max_abs": 0
+  },
+  "memtrace": {
+    "peak_footprint_gb": 9.143,
+    "peak_at_s": 33.13,
+    "peak_stage": "decode",
+    "per_stage": {
+      "decode": {
+        "footprint_peak_gb": 9.143,
+        "mlx_active_peak_gb": 8.8
+      }
+    }
+  },
+  "swap_used_mb_before_after": [
+    1985.19,
+    1969.19
+  ],
+  "swap_grew": false,
+  "mlx_version": "0.32.4",
+  "process": {
+    "peak_footprint_gb": 9.226,
+    "max_rss_gb": 1.637,
+    "process_wall_s": 55.2
+  },
+  "returncode": 0
+}
