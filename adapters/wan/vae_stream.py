@@ -64,17 +64,57 @@ def aligned_conv2d_rows(conv, x, rows):
     return mx.concatenate(outs, axis=1)
 
 
+def direct_window_conv(conv, state, x, rows):
+    """Causal 3D conv over [state | x] without stock's whole-block concat/pad/transpose (option 1).
+    For each output frame, build its kt-frame window straight from state + x, apply the same spatial zero padding and the
+    same channels-last layout (taps major, channels minor) as stock, then run the identical conv2d (grid-aligned strips).
+    Conv inputs are byte-identical to stock's; only the big intermediate copies disappear.
+    state: [B, C, kt-1, H, W]; x: [B, C, T, H, W] -> [B, O, T, H', W']"""
+    kt, kh, kw = conv.kernel_size
+    st, sh, sw = conv.stride
+    assert st == 1, "temporal stride 1 only (decoder convs)"
+    b, c, t, h, w = x.shape
+    w_2d = conv.weight.transpose(0, 2, 3, 1, 4).reshape(conv.weight.shape[0], kh, kw, kt * c)
+    ph, pw = conv._pad_h, conv._pad_w
+
+    def frame(i):  # frame i of the virtual sequence [state | x]
+        return state[:, :, i] if i < kt - 1 else x[:, :, i - (kt - 1)]
+
+    outs = []
+    for ti in range(t):
+        fr = mx.stack([frame(ti + k) for k in range(kt)], axis=2)               # [B, C, kt, H, W]
+        if ph or pw:
+            fr = mx.pad(fr, [(0, 0), (0, 0), (0, 0), (ph, ph), (pw, pw)])
+        hp, wp = fr.shape[3], fr.shape[4]
+        win = fr.transpose(0, 3, 4, 2, 1).reshape(b, hp, wp, kt * c)            # stock's window layout
+        h_out = (hp - kh) // sh + 1
+        if rows and h_out > rows:
+            strips = []
+            for r0 in range(0, h_out, rows):
+                r1 = min(r0 + rows, h_out)
+                o = mx.conv2d(win[:, r0 * sh: (r1 - 1) * sh + kh], w_2d, stride=(sh, sw)) + conv.bias
+                mx.eval(o)
+                strips.append(o)
+            o = mx.concatenate(strips, axis=1)
+        else:
+            o = mx.conv2d(win, w_2d, stride=(sh, sw)) + conv.bias
+        mx.eval(o)
+        outs.append(o)
+    return mx.stack(outs, axis=1).transpose(0, 4, 1, 2, 3)
+
+
 class StreamingDecoder:
     """Wraps a stock WanVAE: decode(z) streams latent frames through it with per-conv causal state."""
 
-    def __init__(self, vae, rows=None, chunk_latents=1):
-        self.vae, self.rows, self.chunk = vae, rows, chunk_latents
+    def __init__(self, vae, rows=None, chunk_latents=1, direct=False):
+        self.vae, self.rows, self.chunk, self.direct = vae, rows, chunk_latents, direct
         self.convs = [m for _, m in vae.named_modules() if isinstance(m, CausalConv3d)]
         self.resamples = [m for _, m in vae.named_modules() if isinstance(m, Resample) and m.mode.startswith("upsample")]
         self._patched = []
 
     def _install(self):
         rows = self.rows
+        direct = self.direct
         for conv in self.convs:
             cls = type(conv)
             kt = conv.kernel_size[0]
@@ -86,6 +126,12 @@ class StreamingDecoder:
                 if self_._kf_state is None:                  # zeros == the conv's own causal zero padding
                     b, c, _, h, w = x.shape
                     self_._kf_state = mx.zeros((b, c, _kt - 1, h, w), dtype=x.dtype)
+                if direct:
+                    out = direct_window_conv(self_, self_._kf_state, x, rows)
+                    tail = [self_._kf_state[:, :, i] for i in range(_kt - 1)] + [x[:, :, i] for i in range(x.shape[2])]
+                    self_._kf_state = mx.contiguous(mx.stack(tail[-(_kt - 1):], axis=2))
+                    mx.eval(self_._kf_state)
+                    return out
                 full = mx.concatenate([self_._kf_state, x], axis=2)
                 # copy into its own buffer: a slice would share (and keep alive) the whole chunk input of every conv
                 self_._kf_state = mx.contiguous(full[:, :, -(_kt - 1):])
