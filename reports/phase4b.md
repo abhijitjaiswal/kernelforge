@@ -310,3 +310,15 @@ cheapest reuse. A3-d handles this by construction: rising rates stop skipping.
 
 A3-d threshold 0.022: inside the measured mid-run band (0.019–0.026), so on neon it skips about half the mid-run steps A2 skipped and
 none late. Runs exp-a3d-v3 (neon, hardest), then exp-a3d-v2 (waves).
+
+### Pre-registered before any A3-d result (2026-10-21 15:39; exp-a3d-v3 still denoising, no gate exists)
+
+**Ship criterion for the dynamic mode (A3-d), revised before its data:** the "≥ 1.3× on all three prompts" bar was written for a static
+schedule (speed fixed, quality floats). A dynamic threshold inverts that: quality is held by construction (skip only when the
+measured change is low) and speed floats with content. So:
+- **Hard gate:** LPIPS < 0.05 on every frame of all three prompts (v1 fox, v2 waves, v3 neon).
+- **Speed:** reported per prompt. The mode ships if the quality gate holds everywhere and the speed-up is meaningful on the easy/medium
+  prompts, even if neon lands at ~1.1–1.2×. Product sentence if it ships: "fast mode: up to ~1.6×, content-dependent, quality-bounded".
+- **If the quality gate fails under dynamic control, the track closes as stated before:** curve recorded, no weaker claim shipped.
+- Thresholds may be swept (more than one point on the curve); the gate applies to whichever threshold is proposed for shipping, on
+  all three prompts, with the threshold fixed before that prompt's run.
