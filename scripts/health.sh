@@ -7,7 +7,7 @@ mkdir -p "$(dirname "$LOG")"
 swap0=$(sysctl -n vm.swapusage | sed -E 's/.*used = ([0-9.]+)M.*/\1/')
 echo "# start $(date '+%F %T') swap0=${swap0}MB interval=${INT}s" >> "$LOG"
 hist="$swap0 $swap0 $swap0 $swap0 $swap0"   # last 5 swap samples
-lastth="Nominal"
+lastth="Nominal"; heavyn=0
 while true; do
   t=$(date '+%F %T')
   free=$(memory_pressure | awk -F': ' '/free percentage/{gsub("%","",$2); print $2}')
@@ -28,7 +28,10 @@ while true; do
   # thermal: alert on any change of level, and every sample at Heavy or worse
   if [ -n "$therm" ]; then
     [ "$therm" != "$lastth" ] && a="$a thermal:$lastth->$therm"
-    case "$therm" in Heavy|Trapping|Sleeping|Critical) a="$a thermal=$therm" ;; esac
+    case "$therm" in
+      Heavy|Trapping|Sleeping|Critical) heavyn=$((heavyn + 1)); [ $((heavyn % 10)) -eq 0 ] && a="$a thermal=$therm(${heavyn}min)" ;;
+      *) heavyn=0 ;;
+    esac
     lastth=$therm
   fi
   [ -n "$a" ] && echo "$t ALERT$a" >> "$LOG"
