@@ -67,3 +67,8 @@
 - 2026-10-21 UPSTREAM CANDIDATE: mlx-video (87db56a) load_t5_encoder upcasts whole umT5-XXL to fp32 (21.16 GB) -> Wan2.1 1.3B unrunnable
   on 16 GB Macs (exp-101: 23.9 GB footprint, swap). Fix: per-block streaming with upcast-on-load + row-gathered embedding, bit-identical
   (exp-102: 2.59 GB footprint, 6.2 s). Pattern: library/patterns/upcast-on-load-streaming.yaml.
+- 2026-10-21 FROZEN-ENGINE LIMITATION (not changed; Phase 4b freeze): engine.chunked.conv_rows re-pads each strip (slice + halo,
+  then the conv's own padding), which is bit-exact only when the framework does not use a tiled algorithm. Under MLX's default
+  Winograd it differs (exp-114). The Wan adapter uses a grid-aligned variant (adapters/wan/vae_stream.aligned_conv2d_rows).
+  Candidate engine fix after the frozen test: pad once, grid-aligned strips, height a multiple of 24. Klein's exp-019
+  (45–52 dB) may partly be this effect; recheck then.
