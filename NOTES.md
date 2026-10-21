@@ -79,3 +79,6 @@
   3x3 conv and 2x upsample (~22 3x3 convs across 3 upsampling stages), so it may be 100+ output pixels per side: large
   recompute overhead, and bit-identity needs the band boundaries grid-aligned at every stage (kernel-grid-aligned-chunking).
   Measure the receptive field before designing.
+- 2026-10-21 ~12:30 TEST CONDITION CHANGE: user added a fan under m5-test. Mid-run of exp-127 (step ~20; step time 27.7 s -> 25.4 s
+  within 4 steps, GPU 720 -> 816 MHz). Timings before 12:30 (no fan) are not directly comparable with later ones; all A/B pairs
+  from now on run with the fan on. Memory and bit-identity results are unaffected.
