@@ -121,6 +121,8 @@ def main():
                 orig = getattr(v, meth)
 
                 def d(*args, _o=orig, **kw):
+                    if args and isinstance(args[0], mx.array):  # decoder input = final latents (frozen-reference capture)
+                        mx.save_safetensors(str(out / "latents.safetensors"), {"z": args[0]})
                     begin("vae_decode")
                     r = _o(*args, **kw)
                     mx.eval(r)

@@ -8,6 +8,8 @@ bit-identity claim). Every WanAttentionBlock is hooked; all statistics use the c
   the block's own contribution, which is what output caching reuses); delta_share = |delta| / |output|
   tokens (blocks 0, mid, last; each step): fraction of 512 sampled tokens with a near-duplicate (cos > 0.95), raw and
   mean-centred (engine/similarity.py)
+CFG (third redundancy): per block-step, cos between the conditional and unconditional halves of the batch (output and
+own contribution); per step, cos and relative gap |cond - uncond| / |cond| of the two noise predictions.
 The final latents (decoder input) are saved so VAE experiments can iterate on decode alone. The decode itself is skipped.
 """
 
@@ -54,10 +56,22 @@ def main():
     gen.encode_text = lambda *args, **kw: queue.pop(0)
 
     state = {"step": 0}
-    prev, rows, tok_rows = {}, [], []
+    prev, rows, tok_rows, cfg_rows = {}, [], [], []
     n_blocks = {}
 
+    pred_rows = []
+
     def hook_model(model):
+        mcls = type(model)
+
+        def mcall(self_, *args, _o=mcls.__call__, **kw):
+            preds = _o(self_, *args, **kw)
+            if isinstance(preds, (list, tuple)) and len(preds) == 2:
+                pc, pu = preds[0].astype(mx.float32), preds[1].astype(mx.float32)
+                pred_rows.append({"step": state["step"] + 1, "cos": cosine(pc, pu),
+                                  "rel_gap": (mx.linalg.norm(pc - pu) / mx.linalg.norm(pc)).item()})
+            return preds
+        model.__class__ = type(mcls.__name__, (mcls,), {"__call__": mcall})
         blocks = model.blocks
         n = len(blocks)
         n_blocks["n"] = n
@@ -76,6 +90,9 @@ def main():
                 y0 = y[0]
                 d = y0 - x0
                 mx.eval(y0, d)
+                if y.shape[0] == 2:  # CFG batch: [cond, uncond]
+                    d1 = y[1] - x[1]
+                    cfg_rows.append({"step": state["step"] + 1, "block": _i, "cos_out": cosine(y0, y[1]), "cos_delta": cosine(d, d1)})
                 if _i in prev:
                     py, pd = prev[_i]
                     rows.append({"step": state["step"] + 1, "block": _i, "cos_out": cosine(y0, py), "cos_delta": cosine(d, pd),
@@ -137,10 +154,14 @@ def main():
             "pct_late_block_steps_cos_delta_gt_0.98": pct(late, "cos_delta"),
             "pct_tokens_near_dup_gt_0.95": 100 * sum(r["frac_gt"] for r in raw) / len(raw),
             "pct_tokens_near_dup_gt_0.95_centered": 100 * sum(r["frac_gt"] for r in cen) / len(cen),
+            "pct_cfg_block_steps_cos_out_gt_0.98": pct(cfg_rows, "cos_out"),
+            "pct_cfg_block_steps_cos_delta_gt_0.98": pct(cfg_rows, "cos_delta"),
+            "cfg_pred_rel_gap_median": sorted(r["rel_gap"] for r in pred_rows)[len(pred_rows) // 2] if pred_rows else None,
+            "pct_steps_cfg_pred_cos_gt_0.98": pct(pred_rows, "cos"),
             "n_block_steps": n, "n_blocks": n_blocks.get("n")}
     res = {"exp_id": a.exp, "kind": "probe", "model": Path(a.model_dir).name,
            "config": {"prompt_ids": [a.prompt], "width": a.width, "height": a.height, "frames": a.frames, "steps": a.steps, "seed": a.seed,
-                      "compile": False}, "headline": head, "block_rows": rows, "token_rows": tok_rows, "latents": f"runs/{a.exp}/latents.safetensors",
+                      "compile": False}, "headline": head, "block_rows": rows, "token_rows": tok_rows, "cfg_rows": cfg_rows, "pred_rows": pred_rows, "latents": f"runs/{a.exp}/latents.safetensors",
            "latents_shape": list(lat["z"].shape), "wall_s": time.perf_counter() - t0, "mlx_version": mx.__version__}
     (out / "result.json").write_text(json.dumps(res, indent=2))
     print(json.dumps(head, indent=1))
