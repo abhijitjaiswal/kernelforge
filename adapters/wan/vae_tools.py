@@ -45,7 +45,8 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--exp", required=True)
     ap.add_argument("--latents", required=True)
-    ap.add_argument("--impl", required=True, choices=["tiled_auto", "untiled", "barriers", "profile", "stream"])
+    ap.add_argument("--impl", required=True, choices=["tiled_auto", "untiled", "barriers", "profile", "stream", "stream_profile"])
+    ap.add_argument("--cache-limit-gb", type=float, default=None, help="mx.set_cache_limit (MLX freed-buffer cache counts in the OS footprint)")
     ap.add_argument("--rows", type=int, default=None, help="stream: height-chunk strip size in output rows (none = temporal streaming only)")
     ap.add_argument("--chunk-latents", type=int, default=1, help="stream: latent frames per streamed chunk")
     ap.add_argument("--prefix-ref", help="run dir with untiled prefix frames.npy: check the first N output frames bit for bit")
@@ -89,6 +90,8 @@ def main():
                 os._exit(3)
     threading.Thread(target=watchdog, daemon=True).start()
 
+    if a.cache_limit_gb is not None:
+        mx.set_cache_limit(int(a.cache_limit_gb * G))
     trace = MemTrace().start()
     model_dir = ROOT / a.model_dir
     cfg = load_config(model_dir)
@@ -128,6 +131,25 @@ def main():
         video = vae.decode(z)
     elif a.impl == "barriers":
         video = barriers_decode(z)
+    elif a.impl == "stream_profile":  # frozen per-module profiler inside the streaming decoder, on chunk 2 (state warm)
+        from adapters.wan.vae_stream import StreamingDecoder
+        from bench.layer_profile import aggregate, profile
+        sd = StreamingDecoder(vae, rows=a.rows, chunk_latents=1)
+        sd._install()
+        try:
+            mean = vae.mean.reshape(1, -1, 1, 1, 1)
+            inv_std = vae.inv_std.reshape(1, -1, 1, 1, 1)
+            o0 = vae.decode(z[:, :, 0:1])
+            mx.eval(o0)
+            x = vae.conv2(z[:, :, 1:2] / inv_std + mean)
+            mx.eval(x)
+            dec, records, e2e = profile(vae.decoder, [x], max_depth=3)
+            video = mx.concatenate([o0, mx.clip(dec, -1, 1)], axis=2)
+        finally:
+            sd._remove()
+        res["profile_e2e"] = e2e
+        res["profile_top"] = sorted(records, key=lambda r: -r["peak_gb"])[:14]
+        res["config"].update(rows=a.rows)
     elif a.impl == "stream":
         from adapters.wan.vae_stream import StreamingDecoder
         chunk_peaks = []
