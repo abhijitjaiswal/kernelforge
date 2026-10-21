@@ -80,3 +80,25 @@ Config: Wan2.1 T2V 1.3B bf16, 832×480, 33 frames requested (36 decoded; mlx-vid
 - **A1 probes three redundancies:** block outputs across steps, token near-duplicates (raw and mean-centred), and the two CFG
   passes (cond vs uncond per block, plus the noise-prediction gap per step). At 100 transformer passes per video, speed has
   room to matter here.
+
+## Exp A1 (exp-104): three redundancies at 50 steps, uncompiled, v1
+
+| Redundancy | Wan 2.1 1.3B | Klein (4 steps) | ≥ 20 % threshold |
+|---|---|---|---|
+| Block output vs previous step, cos > 0.98 | **95.6 %** of 1470 block-steps | 28.4 % | pass |
+| Block's own contribution vs previous step | **77.3 %**; 88.1 % after step 10 | 4.9 % | **pass** |
+| Token near-duplicates, raw / mean-centred | 2.4 % / 0.49 % | 53.9 % / 0.016 % | **fail: drop token merging** |
+| CFG cond vs uncond block outputs | **80.1 %** | (no CFG) | pass |
+| CFG cond vs uncond own contributions | 39.9 % | – | pass |
+| CFG noise predictions cos > 0.98 / median relative gap | 100 % of steps / 3.6 % | – | – |
+
+- **Three phases over the steps:** steps 1–13 change a lot (7–50 % of blocks stable); **steps 14–47 are 90–100 % stable**;
+  steps 48–50 change again (17 % at step 50).
+- Every block is stable in the middle phase. The edge blocks (0–4, 26–29) are near 1.000; blocks 21–24 are the least stable (0.976–0.979).
+- The CFG gap between cond and uncond predictions shrinks from 17 % (step 1) to 2.5–3 % (steps 40–45): reusing or skipping the
+  uncond pass is most plausible late in the run.
+- **Upper bound (not a measurement):** reusing blocks on about 2 of every 3 steps in the stable window skips about 23 of 50 steps,
+  so denoise ≤ about 1.8×. Quality gates (LPIPS, flicker) decide. This is the first lever in the project with room above 1.3×.
+- Prediction 5 (caching viable at 30+ steps): **supported by the probe**; implementation and the quality gate are pending (Tier A).
+- The uncompiled run's final latents are saved (runs/exp-104-a1/latents.safetensors, shape [1, 16, 9, 60, 104]). R1: they are
+  eager-mode latents, so they are not the frozen decoder reference (that is exp-105).

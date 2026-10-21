@@ -1,5 +1,9 @@
 # RESULTS (newest first)
 
+### exp-104-a1: Wan A1 probe: step/block, token and CFG redundancy, 50 steps uncompiled, v1
+- total 0.00 s (denoise 0.00, VAE 0.00, text 0.00); peak footprint None GB, MLX peak None GB; swap grew: None
+- tier A, verdict **keep**. own-contribution cos>0.98 in 77% of block-steps (88% after step 10, 90-100% in steps 14-47); tokens 0.5% centred (drop merging); CFG gap 17% -> 2.5%
+
 ### exp-066-eager-p2: p2 uncompiled (eager) resident reference
 - total 17.77 s (denoise 17.77, VAE 0.00, text 0.00); peak footprint 9.526 GB, MLX peak 8.521368224173784 GB; swap grew: False
 - PSNR vs ref: runs/exp-062-full-p2 999.0, baselines/bf16_free_te 39.0 dB, max abs diff None
