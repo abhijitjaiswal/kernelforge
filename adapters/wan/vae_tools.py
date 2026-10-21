@@ -135,7 +135,7 @@ def main():
     elif a.impl == "stream_profile":  # frozen per-module profiler inside the streaming decoder, on chunk 2 (state warm)
         from adapters.wan.vae_stream import StreamingDecoder
         from bench.layer_profile import aggregate, profile
-        sd = StreamingDecoder(vae, rows=a.rows, chunk_latents=1)
+        sd = StreamingDecoder(vae, rows=a.rows, chunk_latents=1, direct=a.direct)
         sd._install()
         try:
             mean = vae.mean.reshape(1, -1, 1, 1, 1)

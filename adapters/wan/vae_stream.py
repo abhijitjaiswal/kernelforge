@@ -103,6 +103,41 @@ def direct_window_conv(conv, state, x, rows):
     return mx.stack(outs, axis=1).transpose(0, 4, 1, 2, 3)
 
 
+def direct_upsample_conv(rs, x, rows):
+    """Resample (upsample2d / upsample3d) without materialising the 4x nearest-upsampled tensor.
+    The temporal part (upsample3d time_conv + interleave) is stock code. For the spatial part, each grid-aligned output strip
+    gets its zero-padded, nearest-2x input rows built straight from the input rows it needs, then the same conv2d
+    (padding (0, 1)) as aligned_conv2d_rows. Conv inputs are byte-identical to stock's."""
+    assert rows % 24 == 0
+    b, c, t, h, w = x.shape
+    if rs.mode == "upsample3d":
+        x_t = rs.time_conv(x)                                   # stateful CausalConv3d in streaming
+        x_t = x_t.reshape(b, 2, c, t, h, w)
+        x = mx.stack([x_t[:, 0], x_t[:, 1]], axis=3).reshape(b, c, t * 2, h, w)
+        t = t * 2
+    conv = rs.resample[1]
+    p = conv.weight.shape[1] // 2
+    xs = x.transpose(0, 2, 3, 4, 1).reshape(b * t, h, w, c)     # channels-last, input resolution (1/4 of the upsampled size)
+    mx.eval(xs)
+    H2, W2 = 2 * h, 2 * w
+    zero_row = mx.zeros((b * t, 1, w, c), dtype=xs.dtype)
+    outs = []
+    for r0 in range(0, H2, rows):
+        r1 = min(r0 + rows, H2)
+        parts = []
+        for pr in range(r0, r1 + 2 * p):                        # rows of the row-padded upsampled image
+            u = pr - p
+            parts.append(zero_row if (u < 0 or u >= H2) else xs[:, u // 2: u // 2 + 1])
+        strip = mx.repeat(mx.concatenate(parts, axis=1), 2, axis=2)   # nearest 2x along W
+        o = mx.conv2d(strip, conv.weight, padding=(0, p))
+        if "bias" in conv:
+            o = o + conv.bias
+        mx.eval(o)
+        outs.append(o)
+    out = mx.concatenate(outs, axis=1)
+    return out.reshape(b, t, H2, W2, out.shape[-1]).transpose(0, 4, 1, 2, 3)
+
+
 class StreamingDecoder:
     """Wraps a stock WanVAE: decode(z) streams latent frames through it with per-conv causal state."""
 
@@ -143,7 +178,12 @@ class StreamingDecoder:
                 members["_conv3d"] = lambda self_, x, _r=rows: _chunked_conv3d(self_, x, _r)
             conv.__class__ = type(cls.__name__, (cls,), members)
             self._patched.append((conv, cls))
-        if rows:  # the spatial upsamplers' 3x3 Conv2d runs on all frames of a chunk at once: grid-aligned row strips
+        if rows and direct:  # build the upsampled strips directly (no full 4x tensor)
+            for rs in self.resamples:
+                cls = type(rs)
+                rs.__class__ = type(cls.__name__, (cls,), {"__call__": lambda self_, x, feat_cache=None, feat_idx=None, _r=rows: direct_upsample_conv(self_, x, _r)})
+                self._patched.append((rs, cls))
+        elif rows:  # the spatial upsamplers' 3x3 Conv2d runs on all frames of a chunk at once: grid-aligned row strips
             for rs in self.resamples:
                 c2d = rs.resample[1]
                 cls = type(c2d)
