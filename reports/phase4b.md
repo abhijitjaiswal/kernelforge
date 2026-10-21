@@ -69,3 +69,14 @@ Config: Wan2.1 T2V 1.3B bf16, 832×480, 33 frames requested (36 decoded; mlx-vid
 2. Streaming overhead < Klein: not yet tested.
 3. Encoder is the largest single win: holding (−19.1 GB). The VAE decode (18.6 GB) is the rival.
 4. Stock VAE decode OOMs or swaps: **confirmed**, even with mlx-video's own `auto` tiling.
+
+## Protocol additions (2026-10-21)
+- **Frozen latents, one stage downstream of the frozen embeddings.** exp-103 did not save its latents, so exp-105 reruns the
+  identical compiled config with decoder-input capture. Its frames must be bit-identical to exp-103 (determinism check). Its
+  latents then become the frozen decoder reference: decoder variants iterate from them in about 80 s and bit-check against
+  the stock frames.
+- **Memory experiments at 4–8 steps.** Memory does not depend on the step count; 50-step runs are reserved for quality checks
+  and finals.
+- **A1 probes three redundancies:** block outputs across steps, token near-duplicates (raw and mean-centred), and the two CFG
+  passes (cond vs uncond per block, plus the noise-prediction gap per step). At 100 transformer passes per video, speed has
+  room to matter here.
