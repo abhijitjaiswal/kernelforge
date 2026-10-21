@@ -182,8 +182,8 @@ strips broke bit-identity under Winograd (60 dB) until strips were grid-aligned 
 - **Prediction 2 confirmed:** streaming overhead vs the per-block-compiled reference is **+0.74 % / +0.12 %**, below Klein's +2.1–2.8 %.
   Blocks are small (92.9 MB) and the compute per block is large (about 14k tokens), so prefetch hides the load fully. Vs stock: +2.36 % (round 1,
   thermally unbalanced) / +0.33 % (round 2).
-- PROVISIONAL (8-step evidence only; 50-step verification pending, exp-130/131): unlike Klein, per-block compilation did not
-  change Wan's numerics at 8 steps (block-compiled = stock, bit-identical). Not claimed for the 50-step shipping schedule until verified.
+- Unlike Klein, streaming with per-block compilation does not change Wan's numerics: bit-identical to stock at 8 steps (exp-126) and,
+  verified at the shipping schedule, at 50 steps on both RNG paths (exp-130 = exp-127; exp-131 = frozen exp-105).
 - Streaming starts at the first denoising step, after mlx-video's cross-attention K/V precompute (which reads every block once).
 - Engine frozen: positional-argument folding is an adapter subclass (adapters/wan/dit_stream.py).
 
@@ -224,4 +224,5 @@ Conditions and caveats:
 - Stock text-encoder and decoder numbers come from stage-isolated runs; stock mlx-video was never run end to end because its encoder alone exceeds 16 GB.
 - Reference correction: the frozen v1 latents (exp-105) came from the `--context-ref` path, which skips the T5 constructor and so draws
   the initial noise from a shifted point of the seed-42 stream. Real stock latents for seed 42 are exp-130 (stock DiT, exact streamed encoder,
-  stock RNG path). Confirmation that the shift alone explains the mismatch: PENDING exp-131 (streamed DiT on the --context-ref path vs the frozen latents).
+  stock RNG path). **Confirmed (exp-131):** the streamed DiT on the --context-ref path reproduces the frozen latents bit for bit, so the shift alone
+  explains the exp-127 mismatch, and streaming = stock at 50 steps holds on both RNG paths (exp-130 and exp-131).
