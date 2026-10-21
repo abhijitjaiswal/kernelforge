@@ -182,11 +182,28 @@ strips broke bit-identity under Winograd (60 dB) until strips were grid-aligned 
 - **Prediction 2 confirmed:** streaming overhead vs the per-block-compiled reference is **+0.74 % / +0.12 %**, below Klein's +2.1–2.8 %.
   Blocks are small (92.9 MB) and the compute per block is large (about 14k tokens), so prefetch hides the load fully. Vs stock: +2.36 % (round 1,
   thermally unbalanced) / +0.33 % (round 2).
-- Unlike Klein, per-block compilation does not change Wan's numerics: block-compiled = stock, bit-identical, so the streaming
-  claim reaches all the way to stock.
+- PROVISIONAL (8-step evidence only; 50-step verification pending, exp-130/131): unlike Klein, per-block compilation did not
+  change Wan's numerics at 8 steps (block-compiled = stock, bit-identical). Not claimed for the 50-step shipping schedule until verified.
 - Streaming starts at the first denoising step, after mlx-video's cross-attention K/V precompute (which reads every block once).
 - Engine frozen: positional-argument folding is an adapter subclass (adapters/wan/dit_stream.py).
 
 **Decision (2026-10-21):** decoder closed at v6 (8.19 GB). Micro-steps (~6.5–7 GB projected) skipped: they serve no machine that
 8.2 GB doesn't already serve, and option 2 (spatial halves) would subsume them. Option 2 stays behind its trigger (8 GB-Mac
 decision). Projection miss recorded as library/notes/memory-fixes-are-serial.md.
+
+## Composed pipeline exp-127 (50 steps, streamed TE + streamed DiT + streaming decoder v6, cache cap 0.5 GB)
+
+Memory and time (swap-flat, valid under R3): text encode 2.07 GB MLX, denoise 2.42 GB, decode 8.58 GB; process footprint peak
+**8.57 GB**; total 1266 s (21.1 min; fan added at ~step 20, see NOTES.md).
+
+**Exactness: NOT claimed yet.** Final latents vs the frozen v1 latents: cosine 0.06, 0 % identical elements (uncorrelated, a
+different but valid video). Diagnosis:
+- text embeddings produced inside the pipeline: bit-identical to the frozen capture (exp-128)
+- streamed encoder construction consumes the global RNG exactly as the stock constructor (bench/rng_probe.py)
+- initial noise: bit-identical to a replay of stock mlx-video's RNG order (seed -> T5Encoder ctor -> load_wan_model -> normal) (exp-129)
+- **cause: the frozen baseline (exp-103) and frozen latents (exp-105) were run with `--context-ref`, whose stub loader never
+  constructs the T5Encoder.** Model constructors draw random init weights, so the baseline's initial noise came from a shifted
+  point of the seed-42 stream. The composed run reproduces real stock mlx-video's RNG; the frozen latent reference does not.
+  The frozen reference is a valid stock DiT+VAE trajectory, just not the one stock mlx-video draws for seed 42.
+- verification queued: exp-130-stock (stock DiT + exact TE, should equal exp-127 latents) and exp-131 (streamed DiT with
+  --context-ref, should equal the frozen latents), both 50 steps.
