@@ -1,0 +1,537 @@
+{
+  "exp_id": "exp-107-profile-pre3",
+  "kind": "video_vae",
+  "impl": "profile",
+  "config": {
+    "latents": "baselines_video/wan21/v1_latents.safetensors",
+    "impl": "profile",
+    "latent_frames": 3
+  },
+  "latents_shape": [
+    1,
+    16,
+    3,
+    60,
+    104
+  ],
+  "vae_weights_gb": 0.2730475775897503,
+  "profile_e2e": {
+    "peak_gb": 16.771379362791777,
+    "delta_gb": 16.490387074649334,
+    "time_s": 16.776235750003252,
+    "weights_gb": 0.2730463854968548
+  },
+  "profile_top": [
+    {
+      "module": "upsamples.12.residual.2",
+      "type": "CausalConv3d",
+      "depth": 2,
+      "peak_gb": 16.749757569283247,
+      "in_shape": [
+        1,
+        96,
+        12,
+        480,
+        832
+      ],
+      "weight_shape": [
+        96,
+        3,
+        3,
+        3,
+        96
+      ],
+      "quantized": false,
+      "delta_gb": 13.044448874890804,
+      "out_gb": 1.7138671875,
+      "out_shape": [
+        1,
+        96,
+        12,
+        480,
+        832
+      ],
+      "time_s": 2.341358457983006
+    },
+    {
+      "module": "upsamples.13.residual.2",
+      "type": "CausalConv3d",
+      "depth": 2,
+      "peak_gb": 16.749757569283247,
+      "in_shape": [
+        1,
+        96,
+        12,
+        480,
+        832
+      ],
+      "weight_shape": [
+        96,
+        3,
+        3,
+        3,
+        96
+      ],
+      "quantized": false,
+      "delta_gb": 13.044448874890804,
+      "out_gb": 1.7138671875,
+      "out_shape": [
+        1,
+        96,
+        12,
+        480,
+        832
+      ],
+      "time_s": 2.270844249986112
+    },
+    {
+      "module": "upsamples.13.residual.6",
+      "type": "CausalConv3d",
+      "depth": 2,
+      "peak_gb": 16.749757569283247,
+      "in_shape": [
+        1,
+        96,
+        12,
+        480,
+        832
+      ],
+      "weight_shape": [
+        96,
+        3,
+        3,
+        3,
+        96
+      ],
+      "quantized": false,
+      "delta_gb": 13.044448874890804,
+      "out_gb": 1.7138671875,
+      "out_shape": [
+        1,
+        96,
+        12,
+        480,
+        832
+      ],
+      "time_s": 1.1845038749743253
+    },
+    {
+      "module": "upsamples.13",
+      "type": "ResidualBlock",
+      "depth": 1,
+      "peak_gb": 16.749757569283247,
+      "in_shape": [
+        1,
+        96,
+        12,
+        480,
+        832
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 14.758316062390804,
+      "out_gb": 1.7138671875,
+      "out_shape": [
+        1,
+        96,
+        12,
+        480,
+        832
+      ],
+      "time_s": 18.480035834014416
+    },
+    {
+      "module": "upsamples.14.residual.2",
+      "type": "CausalConv3d",
+      "depth": 2,
+      "peak_gb": 16.749757569283247,
+      "in_shape": [
+        1,
+        96,
+        12,
+        480,
+        832
+      ],
+      "weight_shape": [
+        96,
+        3,
+        3,
+        3,
+        96
+      ],
+      "quantized": false,
+      "delta_gb": 13.044448874890804,
+      "out_gb": 1.7138671875,
+      "out_shape": [
+        1,
+        96,
+        12,
+        480,
+        832
+      ],
+      "time_s": 2.7684022919856943
+    },
+    {
+      "module": "upsamples.14.residual.6",
+      "type": "CausalConv3d",
+      "depth": 2,
+      "peak_gb": 16.749757569283247,
+      "in_shape": [
+        1,
+        96,
+        12,
+        480,
+        832
+      ],
+      "weight_shape": [
+        96,
+        3,
+        3,
+        3,
+        96
+      ],
+      "quantized": false,
+      "delta_gb": 13.044448874890804,
+      "out_gb": 1.7138671875,
+      "out_shape": [
+        1,
+        96,
+        12,
+        480,
+        832
+      ],
+      "time_s": 1.40167054196354
+    },
+    {
+      "module": "upsamples.14",
+      "type": "ResidualBlock",
+      "depth": 1,
+      "peak_gb": 16.749757569283247,
+      "in_shape": [
+        1,
+        96,
+        12,
+        480,
+        832
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 14.758316062390804,
+      "out_gb": 1.7138671875,
+      "out_shape": [
+        1,
+        96,
+        12,
+        480,
+        832
+      ],
+      "time_s": 20.657344457984436
+    },
+    {
+      "module": "upsamples.12.residual.6",
+      "type": "CausalConv3d",
+      "depth": 2,
+      "peak_gb": 16.592286862432957,
+      "in_shape": [
+        1,
+        96,
+        12,
+        480,
+        832
+      ],
+      "weight_shape": [
+        96,
+        3,
+        3,
+        3,
+        96
+      ],
+      "quantized": false,
+      "delta_gb": 12.886978168040514,
+      "out_gb": 1.7138671875,
+      "out_shape": [
+        1,
+        96,
+        12,
+        480,
+        832
+      ],
+      "time_s": 1.227840291976463
+    },
+    {
+      "module": "upsamples.12",
+      "type": "ResidualBlock",
+      "depth": 1,
+      "peak_gb": 16.592286862432957,
+      "in_shape": [
+        1,
+        96,
+        12,
+        480,
+        832
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 14.600845355540514,
+      "out_gb": 1.7138671875,
+      "out_shape": [
+        1,
+        96,
+        12,
+        480,
+        832
+      ],
+      "time_s": 11.271289041964337
+    },
+    {
+      "module": "upsamples.8.residual.6",
+      "type": "CausalConv3d",
+      "depth": 2,
+      "peak_gb": 13.725831806659698,
+      "in_shape": [
+        1,
+        192,
+        12,
+        240,
+        416
+      ],
+      "weight_shape": [
+        192,
+        3,
+        3,
+        3,
+        192
+      ],
+      "quantized": false,
+      "delta_gb": 11.734390299767256,
+      "out_gb": 0.85693359375,
+      "out_shape": [
+        1,
+        192,
+        12,
+        240,
+        416
+      ],
+      "time_s": 0.5219918339862488
+    },
+    {
+      "module": "upsamples.8",
+      "type": "ResidualBlock",
+      "depth": 1,
+      "peak_gb": 13.725831806659698,
+      "in_shape": [
+        1,
+        192,
+        12,
+        240,
+        416
+      ],
+      "weight_shape": null,
+      "quantized": false,
+      "delta_gb": 12.591323893517256,
+      "out_gb": 0.85693359375,
+      "out_shape": [
+        1,
+        192,
+        12,
+        240,
+        416
+      ],
+      "time_s": 1.3319089580327272
+    },
+    {
+      "module": "upsamples.9.residual.2",
+      "type": "CausalConv3d",
+      "depth": 2,
+      "peak_gb": 13.725831806659698,
+      "in_shape": [
+        1,
+        192,
+        12,
+        240,
+        416
+      ],
+      "weight_shape": [
+        192,
+        3,
+        3,
+        3,
+        192
+      ],
+      "quantized": false,
+      "delta_gb": 11.734390299767256,
+      "out_gb": 0.85693359375,
+      "out_shape": [
+        1,
+        192,
+        12,
+        240,
+        416
+      ],
+      "time_s": 0.5310288750333712
+    }
+  ],
+  "profile_aggregate": [
+    {
+      "module": "upsamples.*",
+      "type": "ResidualBlock",
+      "depth": 1,
+      "calls": 12,
+      "time_s": 55.91573362599593,
+      "max_delta_gb": 14.758316062390804
+    },
+    {
+      "module": "upsamples.*.residual.*",
+      "type": "CausalConv3d",
+      "depth": 2,
+      "calls": 24,
+      "time_s": 15.793893582129385,
+      "max_delta_gb": 13.044448874890804
+    },
+    {
+      "module": "upsamples.*.residual.*",
+      "type": "RMS_norm",
+      "depth": 2,
+      "calls": 24,
+      "time_s": 3.3712231231620535,
+      "max_delta_gb": 3.4455871656537056
+    },
+    {
+      "module": "upsamples.*",
+      "type": "Resample",
+      "depth": 1,
+      "calls": 3,
+      "time_s": 1.3028878339682706,
+      "max_delta_gb": 8.85357666388154
+    },
+    {
+      "module": "upsamples.*.resample.*",
+      "type": "Conv2d",
+      "depth": 2,
+      "calls": 3,
+      "time_s": 0.773569833021611,
+      "max_delta_gb": 5.85430908575654
+    },
+    {
+      "module": "head.*",
+      "type": "CausalConv3d",
+      "depth": 1,
+      "calls": 1,
+      "time_s": 0.5685472079785541,
+      "max_delta_gb": 7.2328948974609375
+    },
+    {
+      "module": "middle.*",
+      "type": "ResidualBlock",
+      "depth": 1,
+      "calls": 2,
+      "time_s": 0.31580437504453585,
+      "max_delta_gb": 0.891311664134264
+    },
+    {
+      "module": "middle.*.residual.*",
+      "type": "CausalConv3d",
+      "depth": 2,
+      "calls": 4,
+      "time_s": 0.2971915830858052,
+      "max_delta_gb": 0.8645324893295765
+    },
+    {
+      "module": "head.*",
+      "type": "RMS_norm",
+      "depth": 1,
+      "calls": 1,
+      "time_s": 0.18534566700691357,
+      "max_delta_gb": 3.4455871656537056
+    },
+    {
+      "module": "upsamples.*.time_conv",
+      "type": "CausalConv3d",
+      "depth": 2,
+      "calls": 2,
+      "time_s": 0.17409391701221466,
+      "max_delta_gb": 1.7852783203125
+    },
+    {
+      "module": "conv1",
+      "type": "CausalConv3d",
+      "depth": 1,
+      "calls": 1,
+      "time_s": 0.07859066699165851,
+      "max_delta_gb": 0.0623321607708931
+    },
+    {
+      "module": "middle.*",
+      "type": "AttentionBlock",
+      "depth": 1,
+      "calls": 1,
+      "time_s": 0.06840795901371166,
+      "max_delta_gb": 0.2410125732421875
+    },
+    {
+      "module": "upsamples.*.shortcut",
+      "type": "CausalConv3d",
+      "depth": 2,
+      "calls": 1,
+      "time_s": 0.01883091701893136,
+      "max_delta_gb": 0.428466796875
+    },
+    {
+      "module": "middle.*.to_qkv",
+      "type": "Conv2d",
+      "depth": 2,
+      "calls": 1,
+      "time_s": 0.014461332990322262,
+      "max_delta_gb": 0.10711669921875
+    },
+    {
+      "module": "middle.*.residual.*",
+      "type": "RMS_norm",
+      "depth": 2,
+      "calls": 4,
+      "time_s": 0.013082250021398067,
+      "max_delta_gb": 0.0558776929974556
+    }
+  ],
+  "decode_s": 75.32028562499909,
+  "peak_mlx_gb": 9.22433640435338,
+  "frames_shape": [
+    12,
+    480,
+    832,
+    3
+  ],
+  "verify": {
+    "runs/exp-107-untiled-pre3": {
+      "identical": true,
+      "psnr_db_min": 999.0,
+      "psnr_db_mean": 999.0,
+      "max_abs_pixel_diff": 0,
+      "flicker_excess_max": 0.0,
+      "flicker_excess_mean": 0.0
+    }
+  },
+  "memtrace": {
+    "peak_footprint_gb": 15.07,
+    "peak_at_s": 59.02,
+    "peak_stage": "decode",
+    "per_stage": {
+      "decode": {
+        "footprint_peak_gb": 15.07,
+        "mlx_active_peak_gb": 16.771
+      }
+    }
+  },
+  "swap_used_mb_before_after": [
+    2496.62,
+    3039.12
+  ],
+  "swap_grew": true,
+  "mlx_version": "0.32.4",
+  "process": {
+    "peak_footprint_gb": 15.1,
+    "max_rss_gb": 0.724,
+    "process_wall_s": 79.47
+  },
+  "returncode": 0
+}

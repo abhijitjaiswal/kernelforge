@@ -164,3 +164,24 @@
 2026-10-21 10:13:58 free=20% mem[14G used 12G wired 1932M compressor] swap=7858.06MB disk=209GB thermal=Heavy gpu[338MHz 229mW ] top=AppleCentauriAlpha 0.0GB
 2026-10-21 10:13:58 ALERT swap+>1GB/5min
 2026-10-21 10:14:59 free=81% mem[3580M used 2473M wired 143M compressor] swap=2293.56MB disk=214GB thermal=Heavy gpu[338MHz 113mW ] top=claude 0.1GB
+2026-10-21 10:16:00 free=80% mem[4708M used 2546M wired 239M compressor] swap=2093.50MB disk=214GB thermal=Nominal gpu[338MHz 113mW ] top=claude 0.1GB
+2026-10-21 10:16:00 ALERT thermal:Heavy->Nominal
+2026-10-21 10:17:01 free=80% mem[4506M used 2531M wired 242M compressor] swap=2069.50MB disk=214GB thermal=Nominal gpu[338MHz 108mW ] top=Google 0.1GB
+2026-10-21 10:18:01 free=41% mem[13G used 8882M wired 101M compressor] swap=2955.31MB disk=213GB thermal=Nominal gpu[338MHz 167mW ] top=claude 0.1GB
+2026-10-21 10:18:01 ALERT swap+>1GB/5min
+2026-10-21 10:19:02 free=23% mem[13G used 7803M wired 3116M compressor] swap=5998.38MB disk=210GB thermal=Nominal gpu[1110MHz 3712mW ] top=Google 0.0GB
+2026-10-21 10:20:03 free=81% mem[3869M used 2444M wired 189M compressor] swap=2051.25MB disk=214GB thermal=Moderate gpu[338MHz 108mW ] top=claude 0.1GB
+2026-10-21 10:20:03 ALERT thermal:Nominal->Moderate
+2026-10-21 10:21:03 free=81% mem[4353M used 2402M wired 205M compressor] swap=1955.25MB disk=214GB thermal=Nominal gpu[338MHz 108mW ] top=claude 0.1GB
+2026-10-21 10:21:03 ALERT thermal:Moderate->Nominal
+2026-10-21 10:22:04 free=81% mem[4856M used 2483M wired 271M compressor] swap=2184.44MB disk=214GB thermal=Nominal gpu[338MHz 108mW ] top=claude 0.1GB
+2026-10-21 10:23:05 free=81% mem[5213M used 2488M wired 260M compressor] swap=2136.44MB disk=214GB thermal=Nominal gpu[338MHz 108mW ] top=claude 0.2GB
+2026-10-21 10:24:05 free=81% mem[3942M used 2417M wired 245M compressor] swap=2568.62MB disk=213GB thermal=Nominal gpu[338MHz 123mW ] top=claude 0.1GB
+2026-10-21 10:25:06 free=81% mem[4725M used 2421M wired 232M compressor] swap=2496.62MB disk=213GB thermal=Nominal gpu[338MHz 123mW ] top=python 0.4GB
+2026-10-21 10:26:06 free=43% mem[15G used 4512M wired 4722M compressor] swap=4493.25MB disk=212GB thermal=Nominal gpu[338MHz 173mW ] top=AppleCentauriAlpha 0.0GB
+2026-10-21 10:26:06 ALERT swap+>1GB/5min
+2026-10-21 10:27:07 free=81% mem[4327M used 2396M wired 194M compressor] swap=1954.25MB disk=214GB thermal=Nominal gpu[338MHz 118mW ] top=claude 0.1GB
+2026-10-21 10:28:08 free=81% mem[4420M used 2396M wired 209M compressor] swap=1922.25MB disk=214GB thermal=Nominal gpu[338MHz 109mW ] top=claude 0.1GB
+2026-10-21 10:29:08 free=6% mem[15G used 13G wired 2090M compressor] swap=4676.94MB disk=212GB thermal=Nominal gpu[338MHz 192mW ] top=AppleCentauriAlpha 0.0GB
+2026-10-21 10:29:08 ALERT mem_free<20% swap+>1GB/5min
+2026-10-21 10:30:11 free=81% mem[4030M used 2399M wired 184M compressor] swap=1992.81MB disk=214GB thermal=Nominal gpu[338MHz 113mW ] top=claude 0.1GB

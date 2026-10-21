@@ -110,3 +110,24 @@ Config: Wan2.1 T2V 1.3B bf16, 832×480, 33 frames requested (36 decoded; mlx-vid
 - **Do not stack the two caching wins.** Block-step caching and CFG skipping reuse the same redundancy: a step whose blocks barely
   changed is also one whose CFG gap is small. When implemented, they are measured as **one combined mechanism with one quality
   gate**, not two multipliers. Any clip-time projection stays out of reports until it has been run.
+
+## Decoder: frozen-pattern tests from the frozen latents (exp-106..108)
+
+| Run | Frames | Peak MLX | vs reference | Note |
+|---|---|---|---|---|
+| exp-106 stock `tiled_auto` | 36 | 17.90 GB | **bit-identical** to the frozen stock frames | validates the decode-only tool |
+| exp-107 stock untiled | 9 (3 latent) | 16.77 GB | (reference) | a 9-frame prefix already needs 16.8 GB |
+| exp-107 **eval barriers** (frozen pattern) | 9 | 16.77 GB | **bit-identical** to untiled | **no saving** (Klein: 9.55 → 7.26 GB) |
+| exp-108 eval barriers, untiled | 36 | – | – | **crash:** `metal::malloc` asked for one 11.04 GB buffer, over the 9.53 GB per-buffer limit |
+
+**Cause (exp-107 per-module profile):** a single `CausalConv3d` (96→96, 3×3×3) on a 1.71 GB fp32 input (12 frames × 480×832 × 96
+ch) needs **+13.0 GB of working memory**, about 7.6× its input. Half-resolution layers: 0.86 GB input, +11.7 GB. The peak is the
+**workspace inside one 3D convolution**, not intermediates kept alive across the graph. That is why the barrier pattern (a
+lazy-graph-lifetime fix) does not fire here.
+
+- Hit matrix: `eval-barriers-between-blocks` **applies but has no effect** on Wan's decoder (a different failure mode). The frozen
+  2D `vae-exact-row-chunked-decode` does not apply as-is (3D causal convolutions, temporal cache).
+- **Prediction 4 is strengthened:** the untiled stock decode of 36 frames is **impossible** on this machine (exceeds Metal's
+  per-buffer limit), not merely swapping. Only mlx-video's approximate tiling runs, at 17.9–18.6 GB.
+- Exactness consequence: no untiled stock reference exists for the full video. Exact decoders are bit-checked against the untiled
+  stock decode on prefixes where it runs, and compared to the stock tiled frames with PSNR, LPIPS and flicker for the full video.

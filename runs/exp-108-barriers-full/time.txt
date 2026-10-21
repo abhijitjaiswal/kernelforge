@@ -1,0 +1,30 @@
+W1021 10:28:26.156000 54640 torch/distributed/elastic/multiprocessing/redirects.py:35] NOTE: Redirects are currently not supported in MacOs.
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "~/kernelforge/adapters/wan/vae_tools.py", line 160, in <module>
+    main()
+  File "~/kernelforge/adapters/wan/vae_tools.py", line 127, in main
+    video = barriers_decode(z)
+            ^^^^^^^^^^^^^^^^^^
+  File "~/kernelforge/adapters/wan/vae_tools.py", line 110, in barriers_decode
+    mx.eval(x)
+RuntimeError: [metal::malloc] Attempting to allocate 11041505280 bytes which is greater than the maximum allowed buffer size of 9534832640 bytes.
+       61.19 real         2.12 user        20.45 sys
+           775880704  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+              177225  page reclaims
+               23051  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+              326665  voluntary context switches
+              220166  involuntary context switches
+        212675472809  instructions retired
+         92052405280  cycles elapsed
+         17078617408  peak memory footprint

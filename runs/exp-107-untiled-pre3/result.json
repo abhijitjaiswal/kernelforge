@@ -1,0 +1,59 @@
+{
+  "exp_id": "exp-107-untiled-pre3",
+  "kind": "video_vae",
+  "impl": "untiled",
+  "config": {
+    "latents": "baselines_video/wan21/v1_latents.safetensors",
+    "impl": "untiled",
+    "latent_frames": 3
+  },
+  "latents_shape": [
+    1,
+    16,
+    3,
+    60,
+    104
+  ],
+  "vae_weights_gb": 0.2730475775897503,
+  "decode_s": 18.51830695901299,
+  "peak_mlx_gb": 16.770250219851732,
+  "frames_shape": [
+    12,
+    480,
+    832,
+    3
+  ],
+  "verify": {
+    "runs/exp-107-untiled-pre3": {
+      "identical": true,
+      "psnr_db_min": 999.0,
+      "psnr_db_mean": 999.0,
+      "max_abs_pixel_diff": 0,
+      "flicker_excess_max": 0.0,
+      "flicker_excess_mean": 0.0
+    }
+  },
+  "memtrace": {
+    "peak_footprint_gb": 13.524,
+    "peak_at_s": 14.8,
+    "peak_stage": "decode",
+    "per_stage": {
+      "decode": {
+        "footprint_peak_gb": 13.524,
+        "mlx_active_peak_gb": 16.77
+      }
+    }
+  },
+  "swap_used_mb_before_after": [
+    1955.25,
+    2451.38
+  ],
+  "swap_grew": true,
+  "mlx_version": "0.32.4",
+  "process": {
+    "peak_footprint_gb": 13.88,
+    "max_rss_gb": 0.724,
+    "process_wall_s": 22.93
+  },
+  "returncode": 0
+}

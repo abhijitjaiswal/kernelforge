@@ -1,0 +1,59 @@
+{
+  "exp_id": "exp-107-barriers-pre3",
+  "kind": "video_vae",
+  "impl": "barriers",
+  "config": {
+    "latents": "baselines_video/wan21/v1_latents.safetensors",
+    "impl": "barriers",
+    "latent_frames": 3
+  },
+  "latents_shape": [
+    1,
+    16,
+    3,
+    60,
+    104
+  ],
+  "vae_weights_gb": 0.2730475775897503,
+  "decode_s": 21.411713499983307,
+  "peak_mlx_gb": 16.76649647578597,
+  "frames_shape": [
+    12,
+    480,
+    832,
+    3
+  ],
+  "verify": {
+    "runs/exp-107-untiled-pre3": {
+      "identical": true,
+      "psnr_db_min": 999.0,
+      "psnr_db_mean": 999.0,
+      "max_abs_pixel_diff": 0,
+      "flicker_excess_max": 0.0,
+      "flicker_excess_mean": 0.0
+    }
+  },
+  "memtrace": {
+    "peak_footprint_gb": 13.81,
+    "peak_at_s": 12.54,
+    "peak_stage": "decode",
+    "per_stage": {
+      "decode": {
+        "footprint_peak_gb": 13.81,
+        "mlx_active_peak_gb": 16.766
+      }
+    }
+  },
+  "swap_used_mb_before_after": [
+    2136.44,
+    2816.62
+  ],
+  "swap_grew": true,
+  "mlx_version": "0.32.4",
+  "process": {
+    "peak_footprint_gb": 13.833,
+    "max_rss_gb": 0.723,
+    "process_wall_s": 25.54
+  },
+  "returncode": 0
+}

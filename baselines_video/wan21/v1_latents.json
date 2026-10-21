@@ -1,0 +1,1 @@
+{"source": "exp-105-base-latents", "reproduces": "exp-103-base-auto (bit-identical frames)", "config": "832x480, 33->36 frames, 50 steps, CFG 5, seed 42, tiling auto, compile on", "mlx_video_commit": "87db56a"}

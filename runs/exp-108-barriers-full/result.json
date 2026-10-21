@@ -1,0 +1,10 @@
+{
+  "exp_id": "exp-108-barriers-full",
+  "notes": "crashed; see log",
+  "process": {
+    "peak_footprint_gb": 15.906,
+    "max_rss_gb": 0.723,
+    "process_wall_s": 61.19
+  },
+  "returncode": 1
+}
