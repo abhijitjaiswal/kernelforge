@@ -1,11 +1,12 @@
 #!/bin/sh
-# m5-test health log, one line per interval (default 60 s). ALERT lines on: memory free < 20 %, swap growth > 1 GB since start,
+# m5-test health log, one line per interval (default 60 s). ALERT lines on: memory free < 20 %, swap growth > 1 GB within ~5 min,
 # disk free < 25 GB, thermal pressure not Nominal. Light: one top/vm sample + one 0.2 s powermetrics sample per interval.
 INT=${1:-60}
 LOG=$HOME/kernelforge/runs/health/health.log
 mkdir -p "$(dirname "$LOG")"
 swap0=$(sysctl -n vm.swapusage | sed -E 's/.*used = ([0-9.]+)M.*/\1/')
 echo "# start $(date '+%F %T') swap0=${swap0}MB interval=${INT}s" >> "$LOG"
+hist="$swap0 $swap0 $swap0 $swap0 $swap0"   # last 5 swap samples
 while true; do
   t=$(date '+%F %T')
   free=$(memory_pressure | awk -F': ' '/free percentage/{gsub("%","",$2); print $2}')
@@ -19,7 +20,9 @@ while true; do
   echo "$t free=${free}% mem[$pm] swap=${swap}MB disk=${disk}GB thermal=${therm} gpu[${gpu}] top=${topp}" >> "$LOG"
   a=""
   [ "${free:-100}" -lt 20 ] && a="$a mem_free<20%"
-  awk -v s="$swap" -v s0="$swap0" 'BEGIN{exit !(s-s0>1024)}' && a="$a swap+>1GB"
+  old=$(echo $hist | awk '{print $1}')
+  awk -v s="$swap" -v o="$old" 'BEGIN{exit !(s-o>1024)}' && a="$a swap+>1GB/5min"
+  hist="$(echo $hist | cut -d' ' -f2-) $swap"
   [ "${disk:-999}" -lt 25 ] && a="$a disk<25GB"
   [ -n "$therm" ] && [ "$therm" != "Nominal" ] && a="$a thermal=$therm"
   [ -n "$a" ] && echo "$t ALERT$a" >> "$LOG"
