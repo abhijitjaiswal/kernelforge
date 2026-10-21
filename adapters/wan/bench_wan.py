@@ -58,6 +58,7 @@ def main():
     ap.add_argument("--te-stream", action="store_true", help="exact streamed text encoder (adapters/wan/te_stream.py)")
     ap.add_argument("--dit", default="stock", choices=["stock", "blockc", "stream"], help="stock: mlx-video whole-model compile; blockc: per-block compile, resident; stream: per-block compile + streaming (prefetch, lag 1)")
     ap.add_argument("--vae-stream", action="store_true", help="exact streaming decoder v6 (rows 96, direct, barriers)")
+    ap.add_argument("--cache-schedule", default=None, help="combined step+CFG reuse schedule (adapters/wan/step_cache.py), e.g. a2")
     ap.add_argument("--save-noise", action="store_true", help="save the initial latent noise (RNG-parity check)")
     ap.add_argument("--stop-after-denoise", action="store_true", help="save latents and skip the VAE decode")
     ap.add_argument("--swap-abort-gb", type=float, default=8.0, help="watchdog: abort (recording the stage) if swap grows by more than this")
@@ -210,6 +211,12 @@ def main():
                     dit_state["h"].release_all()
                     gc_collect()
                 dit_state["h"].attach()
+            if a.cache_schedule and m is not None:
+                from adapters.wan.step_cache import SCHEDULES, StepCache
+                modes = SCHEDULES[a.cache_schedule](a.steps)
+                print("[cache]", a.cache_schedule, {k: modes.count(k) for k in ("full", "skip", "cond")}, flush=True)
+                dit_state["cache"] = StepCache(m, modes)
+                dit_state["cache"].attach()
             begin("denoise")
             last = time.perf_counter()
             for k, x in enumerate(it):
@@ -286,7 +293,7 @@ def main():
     res = {"exp_id": a.exp, "kind": "video", "model": Path(a.model_dir).name,
            "config": {"prompt_ids": [a.prompt], "width": a.width, "height": a.height, "frames": a.frames, "steps": a.steps,
                       "seed": a.seed, "tiling": a.tiling, "compile": not a.no_compile, "cache_limit_gb": a.cache_limit_gb,
-                      "te_stream": a.te_stream, "dit": a.dit, "vae_stream": a.vae_stream, "stop_after_denoise": a.stop_after_denoise},
+                      "te_stream": a.te_stream, "dit": a.dit, "cache_schedule": a.cache_schedule, "vae_stream": a.vae_stream, "stop_after_denoise": a.stop_after_denoise},
            "error": err, "total_s": {"median": total} if not err else None, "stage_order": order, "stages": stages,
            "weights_gb": weights, "step_s": step_times,
            "step_s_median": sorted(step_times)[len(step_times) // 2] if step_times else None,
