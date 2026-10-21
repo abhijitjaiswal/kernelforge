@@ -82,3 +82,5 @@
 - 2026-10-21 ~12:30 TEST CONDITION CHANGE: user added a fan under m5-test. Mid-run of exp-127 (step ~20; step time 27.7 s -> 25.4 s
   within 4 steps, GPU 720 -> 816 MHz). Timings before 12:30 (no fan) are not directly comparable with later ones; all A/B pairs
   from now on run with the fan on. Memory and bit-identity results are unaffected.
+- 2026-10-21 15:12 cool-down floor between pipeline runs lowered 300 s -> 120 s (user), still followed by wait-for-Nominal.
+  Runs exp-ref-v3 / exp-a2-v2 started after a 300 s floor; exp-a2-v3 onward after 120 s. Every run still starts at Nominal.
