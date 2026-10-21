@@ -313,11 +313,13 @@ def build():
          f"{f1(vt['psnr_db_min'])} dB min / {f1(vt['psnr_db_mean'])} dB mean"],
         ["<b>End to end</b>", f"2 of 3 stages cannot run within 16 GB. With the encoder skipped (frozen embeddings) the rest still peaks at "
          f"{f2(D['base103']['fp'])} GB with swap (exp-103)",
-         f"<b>{f2(c['fp'])} GB</b> footprint peak, <b>{mins(c['s'])}</b>, swap flat (exp-127)",
+         f"<b>{f2(c['fp'])} GB</b> footprint peak, <b>{mins(c['s'])}</b>†, swap flat (exp-127)",
          f"final latents <b>bit-identical</b>; video vs stock's default tiled decode of the same latents: {f1(e2e['psnr_db_min'])} dB min / "
          f"{f1(e2e['psnr_db_mean'])} dB mean, max pixel diff {e2e['max_abs_pixel_diff']} (exp-132)"]],
         [2.6 * cm, 5.0 * cm, 4.2 * cm, 5.2 * cm], zebra=True),
-        P("* Swap-inflated: valid for memory, not for speed (protocol rule R3). These are what stock takes on this machine, not stock's speed.", "small"),
+        P("* Swap-inflated: valid for memory, not for speed (protocol rule R3). These are what stock takes on this machine, not stock's speed. "
+          f"† A fan was placed under the machine partway through this run; with the fan on throughout, the same pipeline takes "
+          f"~{(D['exact131_dit_s'] + c['te_s'] + c['dec_s']) / 60:.1f} min (exp-131 denoise + encode + decode).", "small"),
         Spacer(1, 4),
         P("Two modes, one shipped", "h2"),
         table([["Mode", "Time per clip", "Peak", "Claim"],
@@ -326,7 +328,7 @@ def build():
                 "final latents bit-identical to stock mlx-video; frames identical to stock's exact decode wherever stock can run it"],
                ["Fast (step caching): <b>not shipped</b>", f"{min(x['s'] for x in cc.values()) / 60:.1f}–{max(x['s'] for x in cc.values()) / 60:.1f} min",
                 f"{min(x['fp'] for x in cc.values()):.2f}–{max(x['fp'] for x in cc.values()):.2f} GB",
-                "no configuration passed LPIPS &lt; 0.05 on all three prompts (section 5); curve and reasons recorded"]],
+                "no configuration passed LPIPS &lt; 0.05 on all three prompts (section 4); curve and reasons recorded"]],
               [3.4 * cm, 3.6 * cm, 3.2 * cm, 6.8 * cm]),
         Spacer(1, 6),
         plain("Stock software needs more memory than this laptop has for two of the three steps of making a video, so it either crawls "
@@ -490,6 +492,52 @@ def build():
                     [10.2 * cm, 6.8 * cm]),
               PageBreak()]
 
+    # ---------- 6. patterns added + open items
+    story += [P("6. Patterns added and open items", "h1"),
+              P("Added to the library from this model", "h2"),
+              table([["Entry", "What it says", "Evidence"],
+                     ["<b>Upcast-on-load streaming</b> (pattern variant)", "Stream blocks stored at low precision and upcast each to the "
+                      "compute precision as it loads; with row-gathered embeddings, an fp32 encoder costs about two blocks of memory",
+                      f"umT5 {f2(D['stock_te']['mlx'])} " + ARW + f" {f2(D['te_stream']['mlx'])} GB, bit-identical (exp-101/102)"],
+                     ["<b>Exact 3D streaming decoder</b> (new component)", "Stream latent frames through causal 3D convolutions with per-conv "
+                      "state initialised to the causal padding; build windows and upsampled strips directly; no full-clip tensor ever exists",
+                      f"{f2(D['stock_dec']['mlx'])} " + ARW + f" {f2(D['v6']['mlx'])} GB; frames 1–{ch['prefix_n']} bit-identical (exp-125)"],
+                     ["<b>Kernel-grid-aligned chunking</b> (pattern)", "Pad once and start every strip on the convolution algorithm's tile "
+                      "grid (Winograd: multiples of 24 rows); re-padded strips round differently", "isolated test (exp-114)"],
+                     ["<b>Memory fixes are serial</b> (rule)", "Project a fix against the sorted list of memory components, not its local saving",
+                      "Klein exp-005/006; Wan option 1 (projected ~6 GB, measured 8.2 GB)"],
+                     ["<b>RNG-path pinning</b> (rule)", "A reference must be produced by the same random-number path as the system under test "
+                      "(model constructors draw random numbers); compare saved initial noise before outputs; claim exactness at the "
+                      "step count that ships", "retired reference; exp-129/130/131"],
+                     ["<b>Probe the denoise curve first</b> (rule)", "Change per denoising step is U-shaped; reuse belongs in the calm middle, "
+                      "never in the late rise; measure the curve before designing any caching", "exp-a2-v3, exp-a3d-v2/v3"],
+                     ["<b>Caching × streaming</b> (interaction)", "Whole-step skips do not disturb weight streaming: the prefetched first "
+                      "block waits in memory", f"block-0 stall after a skip ≤ {D['stall']['post_max_ms']:.2f} ms, n = {D['stall']['n_post']} (exp-a2-v2)"],
+                     ["<b>Passive cooling compounds savings</b> (note)", "On a fanless machine skipped work also speeds the remaining work; "
+                      "report the schedule's share separately", "exp-134 vs exp-131"]],
+                    [4.2 * cm, 8.2 * cm, 4.6 * cm], zebra=True),
+              P("Open items", "h2"),
+              table([["Item", "Status and next step"],
+                     ["<b>Upstream report to mlx-video</b> (highest value)", f"mlx-video (87db56a) upcasts the whole umT5-XXL encoder to fp32 at "
+                      f"load ({f2(D['stock_te']['mlx'])} GB MLX, {f2(D['stock_te']['fp'])} GB footprint), so Wan 2.1 1.3B cannot run on a "
+                      f"16 GB Mac without heavy swap. The fix keeps the fp32 arithmetic: upcast per block as it loads plus row-gathered "
+                      f"embeddings, {f2(D['te_stream']['mlx'])} GB, bit-identical (exp-102). Ready to file as an issue with this evidence; "
+                      "not filed (needs the user's go-ahead)."],
+                     ["<b>Real 8 GB Mac test</b> (both models)", "Untested: every 'fits in N GB' figure here and in the Klein report was "
+                      "measured on a 16 GB machine, and mx.set_memory_limit is not a simulation (R2). Wan exact mode peaks at "
+                      f"{f2(c['fp'])} GB, so it is not expected to fit 8 GB as is; Klein (3.5 GB) is. Needs one day on a real 8 GB Mac."],
+                     ["<b>Decoder option 2</b> (spatial halves)", "Deferred. Trigger: the real 8 GB test, or Wan 2.2 5B, needs the decoder "
+                      "under ~6 GB. Halves the ~3.8 GB causal state; band edges must be grid-aligned at every stage; halo recompute "
+                      "may be large."],
+                     ["<b>Better caching signal</b>", "Specified, not started: a perceptual or content-weighted skip signal (e.g. change in the "
+                      "predicted clean latent or a low-resolution decoded preview) or per-prompt calibration, tested on the three prompts "
+                      "plus a held-out fourth, threshold fixed before the held-out run."],
+                     ["<b>Wan 2.2 TI2V 5B</b>", "Not started; its +22.8 GB download was never approved."],
+                     ["<b>Frozen engine fix</b>", "engine.chunked.conv_rows re-pads each strip and is bit-exact only without Winograd; "
+                      "the grid-aligned variant used by the Wan adapter is the candidate fix once the engine unfreezes."]],
+                    [4.2 * cm, 12.8 * cm], zebra=True),
+              PageBreak()]
+
     # ---------- 7. setup + index
     idx = [["Experiment", "What it is", "Footprint peak", "Time", "Swap"]]
     for e, what in (("exp-101-te-stock", "stock text encoder, once (frozen embeddings capture)"), ("exp-102-te-stream", "streamed text encoder"),
@@ -503,7 +551,7 @@ def build():
         r = R(e)
         t = (r.get("total_s") or {}).get("median") or r.get("decode_s") or r.get("encode_s")
         idx.append([e, what, f"{r['process']['peak_footprint_gb']:.2f} GB", f"{t:.0f} s" if t else "–", "grew" if r.get("swap_grew") else "flat"])
-    story += [P("6. Setup and experiment index", "h1"),
+    story += [P("7. Setup and experiment index", "h1"),
               table([["", ""],
                      ["Machine", "MacBook Air Mac17,3 (fanless; a fan was placed under it from ~12:30 on the day), Apple M5, 8-core GPU, 16 GB unified memory"],
                      ["Software", "MLX 0.32.4; mlx-video @ 87db56a (MIT); LPIPS (AlexNet) via torch"],
