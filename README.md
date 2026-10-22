@@ -99,3 +99,8 @@ Code lives on a local Mac; every measurement runs on the M5 test machine over SS
 
 FLUX.2 [klein] 4B (black-forest-labs, Apache-2.0), Wan 2.1 T2V 1.3B (Wan-AI, Apache-2.0), mlx-video (MIT), mflux, MLX. Model
 weights are not included; download them from their official sources.
+
+## License
+
+Code, reports and figures in this repository: [Apache-2.0](LICENSE), copyright 2026 Abhijit Jaiswal. The third-party models
+and software above keep their own licenses.
