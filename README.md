@@ -71,7 +71,7 @@ count and on the same random-number path; denoising change is U-shaped).
 | `reports/` | reports, PDF builders (`build_report.py`, `build_wan_report.py`) and figures |
 | `scripts/` | sync / remote-run / pull helpers and the batch scripts for each phase |
 | `results.jsonl`, `RESULTS.md` | the experiment log |
-| `PROJECT_BRIEF.md`, `NOTES.md` | the brief and running notes |
+| `NOTES.md` | running notes |
 
 **Not included in this repository** (too large; kept locally): raw frame arrays (`frames.npy`), latents and other tensors
 (`*.safetensors`), raw powermetrics dumps (`power.txt`; summaries are in each run's `power.json`), and model weights. The reports and
